@@ -1,6 +1,6 @@
 <template>
 	<view>
-		
+		4asdasd 
 	</view>
 </template>
 

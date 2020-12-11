@@ -1,22 +1,29 @@
 <template>
-	<view class="content">
+	<view class="myFont container">
 		<view class="header">
 			<view class="title">
 				智慧养鸽
 			</view>
 		</view>
 		<scroll-view scroll-y="true" class="tabPage">
-			<home v-if="id=== 1">1</home>
-			<cates v-else-if="id === 2">2</cates>
-			<cart v-else-if="id===3">3</cart>
-			<my v-else-if="id===4">4</my>
+			<home v-if="id=== 1"></home>
+			<cage v-else-if="id === 2"></cage>
+			<wait v-else-if="id === 4"></wait>
+			<my v-else-if="id === 5"></my>
 		</scroll-view>
 		<view class="tabBar">
-			<view class="tab" v-for="(item,index) in tablist" :key='item.id' @click="change(item.id)">
-					<view class="">
-						123
-					</view>
-					{{item.name}}
+			<view class="" @click="change(1)">
+				首页
+			</view>
+			<view class="" @click="change(2)" >
+				鸽笼
+			</view>
+				<image class="scan" src="" mode="" @click="change(3)"></image>
+			<view class="" @click="change(4)">
+				待办
+			</view>
+			<view class="" @click="change(5)">
+				我的
 			</view>
 		</view>
 	</view>
@@ -60,14 +67,14 @@
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
 					}
-				}) : this.code = id
+				}) : this.id = id
 			}
 		}
 	}
 </script>
 
 <style lang="less">
-	.content {
+	.container {
 		background-color: #f4f6fa;
 
 		.header {
@@ -78,6 +85,7 @@
 			left: 0;
 			font-size: 35rpx;
 			background-color: #FFFFFF;
+			z-index: 10;
 			.title{
 				position: absolute;
 				left: 30rpx;
@@ -97,17 +105,18 @@
 			display: flex;
 			align-items: center;
 			justify-content: center;
-			justify-content: space-between;
+			justify-content: space-around;
 			position: fixed;
 			bottom: 0;
 			left: 0;
 			background-color: #fac;
 
-			.tab {
-				text-align: center;
-				display: inline-block;
-				width: 120rpx;
-				// margin: 0 30rpx;
+			.scan {
+				width: 88rpx;
+				height: 88rpx;
+				position: absolute;
+				left: 331rpx;
+				bottom: 22rpx;
 			}
 		}
 	}

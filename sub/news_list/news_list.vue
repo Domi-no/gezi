@@ -1,9 +1,11 @@
 <template>
-	<view class="lContainer">
-		<view class="item">
-			
+	<view class="myFont nl_container">
+		<my-news></my-news>
+		<view class="news_list_bt">
+			已经到底了~.~
 		</view>
 	</view>
+	
 </template>
 
 <script>
@@ -20,12 +22,11 @@
 </script>
 
 <style lang="scss" scoped>
-	.lContainer{
+	.nl_container{
 		padding: 0 30rpx;
-		.item{
-			height: 198rpx;
-			width: 100%;
-			border-bottom: 2rpx solid #e4e5e9;
+		.news_list_bt{
+			margin-top: 49rpx;
+			text-align: center;
 		}
 	}
 
