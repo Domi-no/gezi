@@ -25,7 +25,7 @@
 		</view>
 		<view class="rank">
 			<view class="rank_head">
-				<text>鸽仓排行</text> <text class="cage_sum">鸽仓总数:&nbsp;1250</text>
+				<text class="gcph">鸽仓排行</text> <text class="cage_sum">鸽仓总数:&nbsp;1250</text>
 			</view>
 			<my-ranking class="r_c" ></my-ranking>
 			<view class="h_bt">
@@ -118,6 +118,7 @@
 					font-size: 35rpx;
 					font-weight: 700;
 					color: #151515;
+					font-family: Bold;
 				}
 
 				.more {
@@ -152,6 +153,9 @@
 				display: flex;
 				justify-content: space-between;
 				font-weight: 700;
+				.gcph{
+					font-family: Bold;
+				}
 
 				.cage_sum {
 					font-size: 23rpx;

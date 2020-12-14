@@ -76,7 +76,6 @@
 <style lang="less">
 	.container {
 		background-color: #f4f6fa;
-
 		.header {
 			height: 88rpx;
 			width: 100%;

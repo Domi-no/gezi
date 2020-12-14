@@ -92,6 +92,7 @@
 
 				.p_name {
 					color: #343434;
+					font-family: SimHei;
 				}
 
 				.space {

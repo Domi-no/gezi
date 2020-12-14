@@ -40,6 +40,7 @@
 			.r_left{
 				font-size: 30rpx;
 				color: #216fe8;
+				font-family: Bold;
 			}
 			.r_right{
 				font-size: 24rpx;

@@ -1,19 +1,48 @@
-{	
-	 "easycom": {
-	        "^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-	    },
+{
+	"easycom": {
+		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
 			"style": {
 				"navigationBarTitleText": "",
 				"app-plus": {
-				            "titleNView":false
-				        }
+					"titleNView": false
+				}
 			}
+		}, {
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/cage/cage",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/wait/wait",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "pages/my/my",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+			}
+
 		}
+
 	    ,{
-            "path" : "pages/home/home",
+            "path" : "components/my-cageClassification/my-cageClassification",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",
@@ -21,67 +50,67 @@
             }
             
         }
-        ,{
-            "path" : "pages/cage/cage",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/wait/wait",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/my",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        
     ],
 	"subPackages": [{
 		"root": "sub",
 		"pages": [{
-            "path" : "news_detail/news_detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
+			"path": "news_detail/news_detail",
+			"style": {
+				"navigationBarTitleText": "",
 				"navigationBarTextStyle": "black",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "news_list/news_list",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "公司要闻",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "news_list/news_list",
+			"style": {
+				"navigationBarTitleText": "公司要闻",
 				"navigationBarTextStyle": "black",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "ph_ranking/ph_ranking",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "鸽仓排名",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "ph_ranking/ph_ranking",
+			"style": {
+				"navigationBarTitleText": "鸽仓排名",
 				"navigationBarTextStyle": "black",
-                "enablePullDownRefresh": false
-            }
-            
-        }]
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "production_report/production_report",
+			"style": {
+				"navigationBarTitleText": "生产报表",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false
+			}
+		}, {
+			"path": "production_calendar/production_calendar",
+			"style": {
+				"navigationBarTitleText": "生产日历",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "abnormal_alarm/abnormal_alarm",
+			"style": {
+				"navigationBarTitleText": "异常警报",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false
+			}
+
+		}    ,{
+                    "path" : "production_records/production_records",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "日记录",
+					"navigationBarTextStyle": "black",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 	}],
 	"globalStyle": {
 		// "navigationBarTextStyle": "black",
