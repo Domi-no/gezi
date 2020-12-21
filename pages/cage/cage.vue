@@ -16,7 +16,7 @@
 					<text>2020-12-20</text>
 					<image src="../../static/cage/cage_b_zk.png" mode=""></image>
 				</view>
-				<view class="category_right">
+				<view class="category_right" @click="toPdata">
 					<text>数据详情</text>
 					<image src="../../static/cage/cage_s_zk.png" mode=""></image>
 				</view>
@@ -35,7 +35,7 @@
 						pic: '../../static/cage/jl.png',
 						text: '生产记录'
 					}, {
-						src: '/sub/production_report/production_report',
+						src: '/sub/charts/charts',
 						pic: '../../static/cage/bb.png',
 						text: '生产报表'
 					},
@@ -54,9 +54,13 @@
 		},
 		methods: {
 			toProductionPage(src) {
-				console.log(src)
 				uni.navigateTo({
 					url: src
+				})
+			},
+			toPdata() {
+				uni.navigateTo({
+					url: '../../sub/production_data/production_data'
 				})
 			}
 		}
@@ -104,34 +108,45 @@
 				margin-bottom: 11rpx;
 
 				.category_left {
+					width: 199rpx;
+					display: flex;
+					justify-content: space-between;
 					font-size: 30rpx;
-					line-height: 32rpx;
+					line-height: 25rpx;
 					color: #151515;
 
-					image {
+					text {
+						height: 30rpx;
+					}
 
-						margin-left: 10rpx;
+					image {
+						width: 12rpx;
+						height: 22rpx;
 					}
 				}
 
 				.category_right {
-					font-size: 24rpx;
+					width: 117rpx;
+					display: flex;
+					justify-content: space-between;
 					color: #979797;
 
 					text {
-						margin-right: 10rpx;
+						font-size: 24rpx;
+						line-height: 32rpx;
+					}
+
+					image {
+						padding-top: 5rpx;
+						width: 12rpx;
+						height: 22rpx;
 					}
 				}
 
-				image {
-					position: absolute;
-					top: 7rpx;
-					width: 12rpx;
-					height: 22rpx;
-				}
+
 			}
 
-			
+
 		}
 	}
 </style>

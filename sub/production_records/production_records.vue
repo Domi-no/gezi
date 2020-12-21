@@ -1,5 +1,5 @@
 <template>
-	<view class="recordsContainer">
+	<view class="myFont recordsContainer">
 		<view class="records_top">
 			<view class="records_top_i">
 				<text class="records_top_i_left">仓号</text>
@@ -10,7 +10,7 @@
 			</view>
 			<view class="records_top_i">
 				<text class="records_top_i_left">组号</text>
-				<view class="records_top_i_right">
+				<view class="records_top_i_right" @click="pigeonCageShow">
 					<text class="records_top_i_right_text">233</text>
 					<image src="../../static/report/report_zk.png" mode=""></image>
 				</view>
@@ -20,44 +20,151 @@
 			</view>
 		</view>
 		<view class="records_breedingPigeon">
-			<view class="records_breedingPigeon_title">
-				<view class="">
-					<text class="records_breedingPigeon_title_zg">种鸽</text>
-					<text class="records_breedingPigeon_title_cl">存栏
-					<text class="records_breedingPigeon_title_num">9999</text>只</text>
+			<view class="records_breedingPigeon_item">
+				<view class="records_breedingPigeon_item_left">
+					<image src="" mode=""></image>
+					<view class="records_breedingPigeon_item_left_t">
+						<view class="">
+							<text>种鸽</text><text>需要补足种鸽</text>
+						</view>
+						<view class="">
+							当前存栏64只
+						</view>
+					</view>
 				</view>
-				<text class="records_breedingPigeon_title_careful">注意！需要补足种鸽！</text>
-			</view>
-			<!--  -->
-			<view class="records_breedingPigeon_i">
-				<text class="records_breedingPigeon_i_left">病残淘汰</text>
-				<view class="records_breedingPigeon_i_right">
-					<text class="records_breedingPigeon_i_right_as">一</text>
-					<input type="text" value="" placeholder="数量"/>
-					<text class="records_breedingPigeon_i_right_as">+</text>
-					<text class="records_breedingPigeon_i_right__">只</text>
+				<view class="records_breedingPigeon_item_right">
+					修改
 				</view>
 			</view>
 		</view>
+		<!-- 点击修改传入index 根据index传入对应的数据 -->
+		<view class="records_breedingPigeon_modify">
+			<view class="records_breedingPigeon_modify_head">
+				<view class="records_breedingPigeon_modify_head_top">
+					<view class="records_breedingPigeon_modify_head_top_left">
+						<image src="" mode=""></image>
+						<view>种鸽</view>
+					</view><text class="alarm">需要补足种鸽！</text>
+				</view>
+				<view class="records_breedingPigeon_modify_bt">当前存栏：<text>987</text>只</view>
+			</view>
+		</view>
+		<view class="r_pigeon_add">
+			<view class="add_box">
+				<view class="r_pigeon_add_c">
+				</view>
+				<view class="r_pigeon_add_t">
+					增加
+				</view>
+			</view>
+			<view class="r_pigeon_add_i">
+				<text>新生</text>
+				<view class="r_pigeon_add_i_right">
+					<view class="jianhao">
+						<view class="jian"/>
+					</view>
+					<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_red'" type="number" @blur="onBlur" maxlength="4"/>
+					<view class="jiahao">
+						<view class="shu"></view>
+						<view class="heng"></view>
+					</view>
+					<text>枚</text>
+				</view>
+			</view>
+		</view>
+		<!-- 减少 -->
+		<view class="r_pigeon_add">
+			<view class="add_box">
+				<view class="r_pigeon_reduce_c">
+				</view>
+				<view class="r_pigeon_add_t">
+					减少
+				</view>
+			</view>
+			<view class="r_pigeon_add_i">
+				<text>新生</text>
+				<view class="r_pigeon_add_i_right">
+					<view class="jianhao">
+						<view class="jian"/>
+					</view>
+					<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_red'" type="number" @blur="onBlur" maxlength="4"/>
+					<view class="jiahao">
+						<view class="shu"></view>
+						<view class="heng"></view>
+					</view>
+					<text>枚</text>
+				</view>
+			</view>
+		</view>
+		<!-- 保存按钮 -->
+		<view class="" style="height: 398rpx;">
+			<view class="records_save_btn" @click="saveRecord">
+				保存
+			</view>
+		</view>
+		<!-- pickerView -->
+		<my-pickerView v-show="pCShow" @pigeonCageClose="pigeonCageClose"></my-pickerView>
+		<!-- dialog -->
+		<!-- <my-dialog @closeModify="closeM"></my-dialog> -->
+		<!-- <my-alert-dialog v-show="show" @closeM="closeM"></my-alert-dialog> -->
+		<my-submit-dialog v-show="show" @closeM="closeM"></my-submit-dialog>
 	</view>
 </template>
 
 <script>
 	export default {
+		
 		data() {
 			return {
-
+				show: false,
+				visible: false,
+				selector: [{
+						label: "一"
+					},
+					{
+						label: "二"
+					},
+					{
+						label: "三"
+					}
+				],
+				defaultIndex: [0],
+				inpData:0,
+				pCShow:false
 			};
+		},
+		methods: {
+			// dialog
+			closeM() {
+				this.show = false
+			},
+			onBlur(e){	
+			},
+			saveRecord(){
+				this.show=true
+			},
+			pigeonCageShow(){
+				this.pCShow=true
+			},
+			pigeonCageClose(){
+				this.pCShow=false
+			}
+		},
+		computed:{
+			
 		}
 	}
 </script>
 
-<style lang="scss">
+<style lang="scss" scoped>
 	.recordsContainer {
 		background-color: #f4f6fa;
 		padding-top: 20rpx;
+		font-weight: 500rpx;
+
 		.records_top {
 			background-color: #fff;
+
 			.records_top_i {
 				height: 88rpx;
 				line-height: 80rpx;
@@ -65,18 +172,20 @@
 				display: flex;
 				justify-content: space-between;
 				border-bottom: 2rpx solid #f4f6fa;
-				.records_top_i_left{
+
+				.records_top_i_left {
 					font-size: 30rpx;
 					color: #151515;
-					font-weight: 500rpx;
 				}
+
 				.records_top_i_right {
 					font-size: 28rpx;
-					font-weight: 500;
 					color: #343434;
-					.records_top_i_right_text{
+
+					.records_top_i_right_text {
 						margin-right: 20rpx;
 					}
+
 					image {
 						width: 12rpx;
 						height: 22rpx;
@@ -85,71 +194,236 @@
 			}
 
 		}
-		.records_breedingPigeon{
-			margin-top: 39rpx;
-			.records_breedingPigeon_title{
-				height: 88rpx;
-				line-height: 88rpx;
+
+		.records_breedingPigeon {
+			margin-top: 20rpx;
+
+			.records_breedingPigeon_item {
+				height: 140rpx;
 				background-color: #fff;
 				padding: 0 30rpx;
 				display: flex;
 				justify-content: space-between;
-				.records_breedingPigeon_title_zg{
+				align-items: center;
+
+				.records_breedingPigeon_item_left {
+					width: 338rpx;
+					display: flex;
+					// padding-right: 20rpx;
+					justify-content: space-between;
+
+					image {
+						width: 80rpx;
+						height: 80rpx;
+						background-color: #afc;
+						border-radius: 50%;
+					}
+
+					.records_breedingPigeon_item_left_t {
+						height: 80rpx;
+						display: flex;
+						flex-direction: column;
+						justify-content: space-between;
+
+						text:nth-child(1) {
+							font-size: 36rpx;
+							color: #151515;
+						}
+
+						text:nth-child(2) {
+							font-size: 22rpx;
+							color: #e64329;
+							margin-left: 20rpx;
+						}
+
+						view {
+							margin-top: 8rpx;
+							font-size: 24rpx;
+							color: #676767;
+						}
+					}
+
+				}
+
+				.records_breedingPigeon_item_right {
+					width: 140rpx;
+					height: 60rpx;
+					border: 1rpx solid #377be4;
+					border-radius: 30rpx;
 					font-size: 30rpx;
-					font-weight: 500;
-					color: #151515;
-				}
-				.records_breedingPigeon_title_cl{
-					margin-left: 59rpx;
-					font-size: 28rpx;
-					font-weight: 500;
-					color: #343434;
-					.records_breedingPigeon_title_num{
-						margin: 0 20rpx;
-						color: #377be4;
-						font-family: SimHei;
-						font-weight: 400;
-					}
-				}
-				.records_breedingPigeon_title_careful{
-					font-size: 24rpx;
-					font-weight: 500;
-					color: #e64329;
-				}
-			}
-			.records_breedingPigeon_i{
-				height: 88rpx;
-				line-height: 88rpx;
-				padding: 0 30rpx;
-				font-size: 22rpx;
-				background-color: #fff;
-				display: flex;
-				justify-content: space-between;
-				margin-top: 2rpx;
-				.records_breedingPigeon_i_left{
-					font-size: 30rpx;
-					font-weight: 500;
-					color: #151515;
-				}
-				.records_breedingPigeon_i_right{
-					.records_breedingPigeon_i_right_as{
-						font-size: 28rpx;
-					}
-					input{
-						width: 100rpx;
-						font-size: 28rpx;
-						font-weight: 500;
-						color: #377be4;
-						margin-top: 20rpx;
-						display: inline-block;
-					}
-					.records_breedingPigeon_i_right__{
-						font-size: 28rpx;
-						font-weight: 500;
-						color: #343434;
-					}
+					color: #377be4;
+					text-align: center;
+					line-height: 60rpx;
 				}
 			}
 		}
+
+		.records_breedingPigeon_modify {
+			margin-top: 20rpx;
+			height: 120rpx;
+			padding: 24rpx 30rpx 0;
+			background-color: #fff;
+
+			.records_breedingPigeon_modify_head_top {
+				height: 40rpx;
+				display: flex;
+				justify-content: space-between;
+
+				.records_breedingPigeon_modify_head_top_left {
+					width: 117rpx;
+					display: flex;
+					justify-content: space-between;
+					font-size: 30rpx;
+					color: #151515;
+
+					image {
+						width: 40rpx;
+						height: 40rpx;
+						background-color: #afc;
+					}
+				}
+
+				.alarm {
+					font-size: 24rpx;
+					color: #e64329;
+				}
+
+			}
+
+			.records_breedingPigeon_modify_bt {
+				height: 28rpx;
+				margin: 10rpx 0 0 55rpx;
+				font-size: 24rpx;
+				color: #979797;
+
+				text {
+					font-size: 28rpx;
+					font-weight: 400;
+					color: #151515;
+					margin-right: 10rpx;
+				}
+			}
+
+		}
+
+		.r_pigeon_add {
+			margin-top: 10rpx;
+			background-color: #fff;
+			padding: 27rpx 0 0;
+
+			.add_box {
+				height: 80rpx;
+				width: 110rpx;
+				display: flex;
+				justify-content: space-between;
+				margin-left: 36rpx;
+
+				.r_pigeon_add_c {
+					width: 28rpx;
+					height: 28rpx;
+					border: 8rpx solid #377be4;
+					border-radius: 50%;
+				}
+				.r_pigeon_reduce_c{
+					width: 28rpx;
+					height: 28rpx;
+					border: 8rpx solid #e64329;
+					border-radius: 50%;
+				}
+
+				.r_pigeon_add_t {
+					font-size: 30rpx;
+					color: #377be4;
+					line-height: 28rpx;
+				}
+			}
+			.r_pigeon_add_i{
+				height: 88rpx;
+				display: flex;
+				justify-content: space-between;
+				border-top: 1rpx solid #f4f6fa;
+				padding: 0 30rpx;
+				
+				text:first-child{
+					line-height: 88rpx;
+					font-size: 30rpx;
+					color: #151515;
+				}
+				.r_pigeon_add_i_right{
+					width: 191rpx;
+					display: flex;
+					justify-content: space-between;
+					padding: 25rpx 0;
+					.r_bule{
+						color: #377be4;
+					}
+					.r_red{
+						color: #e64329;
+					}
+					input{
+						width: 80rpx;
+						height: 22rpx;
+						padding-top: 8rpx;
+						text-align: center;
+						line-height: 22rpx;
+					}
+					text{
+						font-size: 28rpx;
+						line-height: 44rpx;
+						color: #343434;
+					}
+					.jiahao {
+						position: relative;
+						width: 22rpx;
+						height: 22rpx;
+					margin-top: 10rpx;
+						.heng {
+							position: absolute;
+							top: 10rpx;
+							left: 0;
+							width: 22rpx;
+							height: 4rpx;
+							background-color: #343434;
+						}
+					
+						.shu {
+							position: absolute;
+							top: 0;
+							left: 10rpx;
+							height: 22rpx;
+							width: 4rpx;
+							background-color: #343434;
+						}
+					
+					}
+					.jianhao{
+						width: 22rpx;
+						height: 22rpx;
+						.jian{
+							width: 22rpx;
+							height: 4rpx;
+							margin-top: 20rpx;
+							background-color: #343434;
+						}
+					}
+				}
+				
+				
+				
+			}
+		}
+		.records_save_btn{
+			width: 670rpx;
+			height: 88rpx;
+			background-color: #377be4;
+			border-radius: 44rpx;
+			margin: 100rpx auto 210rpx;
+			text-align: center;
+			line-height: 88rpx;
+			font-size: 34rpx;
+			color: #fff;
+		}
+
+		
 	}
 </style>

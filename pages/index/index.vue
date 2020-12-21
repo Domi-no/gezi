@@ -6,24 +6,18 @@
 			</view>
 		</view>
 		<scroll-view scroll-y="true" class="tabPage">
-			<home v-if="id=== 1"></home>
-			<cage v-else-if="id === 2"></cage>
-			<wait v-else-if="id === 4"></wait>
-			<my v-else-if="id === 5"></my>
+			<home v-if="id=== 0"></home>
+			<cage v-else-if="id === 1"></cage>
+			<wait v-else-if="id === 3"></wait>
+			<my v-else-if="id === 4"></my>
 		</scroll-view>
 		<view class="tabBar">
-			<view class="" @click="change(1)">
-				首页
-			</view>
-			<view class="" @click="change(2)" >
-				鸽笼
-			</view>
-				<image class="scan" src="" mode="" @click="change(3)"></image>
-			<view class="" @click="change(4)">
-				待办
-			</view>
-			<view class="" @click="change(5)">
-				我的
+			<view class="" v-for="(item,idx) in tabIcon" @click="change(idx)" :key="idx">
+				<view class="">
+					<image v-if="idx===2" class="scan" src="" mode="" @click="change(idx)"></image>
+					<image v-else :src="id===idx?tabIcon[idx].c_icon:tabIcon[idx].icon" mode=""></image>
+					{{item.name}}
+				</view>
 			</view>
 		</view>
 	</view>
@@ -33,25 +27,28 @@
 	export default {
 		data() {
 			return {
-				id: 1,
-				tablist: [{
-						id: 1,
+				id: 0,
+				tabIcon: [{
+						icon: '../../static/home/sy.png',
+						c_icon: '../../static/home/o_sy.png',
 						name: '首页'
 					},
 					{
-						id: 2,
+						icon: '../../static/home/gl.png',
+						c_icon: '../../static/home/0_gl.png',
 						name: '鸽笼'
 					},
 					{
-						id:3,
-						name:''
+					
 					},
 					{
-						id: 4,
+						icon: '../../static/home/db.png',
+						c_icon: '../../static/home/o_db.png',
 						name: '待办'
 					},
 					{
-						id: 5,
+						icon: '../../static/home/wd.png',
+						c_icon: '../../static/home/o_wd.png',
 						name: '我的'
 					}
 				]
@@ -62,20 +59,23 @@
 		},
 		methods: {
 			change(id) {
-				id === 3 ? uni.scanCode({
+				id === 2 ? uni.scanCode({
 					success: function(res) {
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
 					}
 				}) : this.id = id
+				
 			}
-		}
+		},
 	}
 </script>
 
 <style lang="less">
 	.container {
 		background-color: #f4f6fa;
+		font-weight: 500;
+
 		.header {
 			height: 88rpx;
 			width: 100%;
@@ -85,7 +85,8 @@
 			font-size: 35rpx;
 			background-color: #FFFFFF;
 			z-index: 10;
-			.title{
+
+			.title {
 				position: absolute;
 				left: 30rpx;
 				bottom: 1rpx;
@@ -95,7 +96,7 @@
 
 		.tabPage {
 			height: 100vh;
-			padding: 88rpx 0 110rpx 0;
+			padding: 88rpx 0 90rpx 0;
 		}
 
 		.tabBar {
@@ -105,17 +106,35 @@
 			align-items: center;
 			justify-content: center;
 			justify-content: space-around;
+			border-top:1rpx solid #f4f6fa ;
 			position: fixed;
 			bottom: 0;
 			left: 0;
-			background-color: #fac;
+			background-color: #fff;
+
+			view {
+				position: relative;
+				width: 50rpx;
+				height: 72rpx;
+				text-align: center;
+				font-size: 22rpx;
+				line-height: 30rpx;
+
+				image {
+					width: 36rpx;
+					height: 38rpx;
+				}
+			}
 
 			.scan {
 				width: 88rpx;
 				height: 88rpx;
+				border-radius: 50%;
 				position: absolute;
-				left: 331rpx;
-				bottom: 22rpx;
+				left: -19rpx;
+				top: -28rpx;
+				background-color: #acf;
+				z-index: 20;
 			}
 		}
 	}

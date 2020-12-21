@@ -1,7 +1,7 @@
 <template>
-	<u-popup :maskCloseAble="maskCloseAble" mode="bottom" :popup="false" v-model="value" length="auto" :safeAreaInsetBottom="safeAreaInsetBottom" @close="close" :z-index="uZIndex">
-		<view class="u-datetime-picker">
-			<view class="u-picker-header" @touchmove.stop.prevent="">
+	<u-popup class="" :maskCloseAble="maskCloseAble" mode="bottom" :popup="false" v-model="value" length="auto" :safeAreaInsetBottom="safeAreaInsetBottom" @close="close" :z-index="uZIndex">
+		<view class="u-datetime-picker border">
+			<view class="u-picker-header " @touchmove.stop.prevent="">
 				<view class="u-btn-picker u-btn-picker--tips" 
 					:style="{ color: cancelColor }" 
 					hover-class="u-opacity" 
@@ -184,12 +184,12 @@ export default {
 		// "取消"按钮的颜色
 		cancelColor: {
 			type: String,
-			default: '#606266'
+			default: '#377be4'
 		},
 		// "确定"按钮的颜色
 		confirmColor: {
 			type: String,
-			default: '#2979ff'
+			default: '#377be4'
 		},
 		// 默认显示的时间，2025-07-02 || 2025-07-02 13:01:00 || 2025/07/02
 		defaultTime: {
@@ -247,7 +247,7 @@ export default {
 		// 确认按钮的文字
 		confirmText: {
 			type: String,
-			default: '确认'
+			default: '完成'
 		}
 	},
 	data() {
@@ -595,20 +595,27 @@ export default {
 
 <style lang="scss" scoped>
 @import '../../libs/css/style.components.scss';
-
+.border{
+	// border: 10rpx solid #000000;
+	overflow: hidden;
+	border-radius: 20rpx 20rpx 0 0 !important;
+}
 .u-datetime-picker {
+	background-color: #007AFF;
 	position: relative;
 	z-index: 999;
 }
 
 .u-picker-view {
+	
 	height: 100%;
 	box-sizing: border-box;
 }
 
 .u-picker-header {
+
 	width: 100%;
-	height: 90rpx;
+	height: 80rpx;
 	padding: 0 40rpx;
 	@include vue-flex;
 	justify-content: space-between;
@@ -622,7 +629,7 @@ export default {
 .u-picker-header::after {
 	content: '';
 	position: absolute;
-	border-bottom: 1rpx solid #eaeef1;
+	// border-bottom: 1rpx solid #eaeef1;
 	-webkit-transform: scaleY(0.5);
 	transform: scaleY(0.5);
 	bottom: 0;
@@ -636,7 +643,7 @@ export default {
 
 .u-picker-body {
 	width: 100%;
-	height: 500rpx;
+	height: 340rpx;
 	overflow: hidden;
 	background-color: #fff;
 }

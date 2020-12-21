@@ -25,6 +25,10 @@
 		},
 		methods: {
 			
+		},
+		onLoad(option){
+			
+			console.log(option.query)
 		}
 	}
 </script>

@@ -1,5 +1,5 @@
 <template>
-	<view class="news_detail_container">
+	<view class="myFont news_detail_container">
 		<view class="news_detail_title">
 			
 		</view>

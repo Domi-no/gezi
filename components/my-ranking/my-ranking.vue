@@ -1,12 +1,13 @@
 <template>
 	<view>
-		<view class="rank_c" @click="toRanking">
+		<view class="rank_c" @click="toRanking" v-for="(item,idx) in rankingList" :key="idx">
 			<view class="r_top">
 				<view class="w_number">
 					<view class="r_medal">
-						<image :src="r_pic[0]" mode=""></image>
+						<image :src="idx>=3?r_pic[3]:r_pic[idx]" mode=""></image>
+						<text class="r_medal_num">{{idx+1}}</text>
 					</view>
-					<text class="wn_text">鸽仓号50</text>
+					<view class="wn_text">鸽仓号50</view>
 				</view>
 				<view class="personnel">
 					<text class="_personnel">饲养员：</text><text class="p_name space">李大牛</text>
@@ -30,9 +31,15 @@
 
 <script>
 	export default {
+		props:{
+			rankingList:{
+				type:Array,
+				// required:true
+			}
+		},
 		data() {
 			return {
-				r_pic: ['../../static/home/yi.png', '../../static/home/er.png', '../../static/home/san.png']
+				r_pic: ['../../static/home/yi.png', '../../static/home/er.png', '../../static/home/san.png','../../static/home/si.png']
 			};
 		},
 		methods:{
@@ -63,21 +70,39 @@
 			border-bottom: 2rpx solid #e4e5e9;
 
 			.w_number {
+				width:182rpx ;
 				font-size: 28rpx;
+				display: flex;
+				justify-content: space-between;
 				.r_medal{
+					
 					display: inline-block;
 					position: relative;
+					top: 8rpx;
 					image {
-						position: absolute;
-						top: -30rpx;
+						position: relative;
+						top: 0;
 						width: 38rpx;
 						height: 40rpx;
 					}
+					.r_medal_num{
+						width: 38rpx;
+						height: 40rpx;
+						text-align: center;
+						font-size: 24rpx;
+						font-weight: 400;
+						font-family: SimHei;
+						position: absolute;
+						left: 0;
+						top: 0;
+						line-height: 47rpx;
+						color: #fff;
+								
+					}
+					
 				}
-				
-
-				.wn_text {
-					margin-left: 53rpx;
+				.wn_text{
+					line-height: 57rpx;
 				}
 
 			}

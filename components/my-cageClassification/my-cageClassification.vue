@@ -11,7 +11,6 @@
 					<text class="_pigeon_type_top_right_num">9999</text>
 				</view>
 			</view>
-			<!-- -----12.11 home图标  平方字体 字体大小-->
 			<view class="_pigeon_type_bt">
 				<view class="_pigeon_type_bt_item">
 					<view class="_pigeon_type_bt_item_text">
@@ -30,7 +29,7 @@
 				</view>
 				<view class="_pigeon_type_bt_item">
 					<view class="_pigeon_type_bt_item_text">
-						<text>新增</text>
+						<text>专职飞新增</text>
 					</view>
 					<text class="_pigeon_type_bt_item_num">4499</text>
 				</view>
@@ -74,14 +73,14 @@
 					._pigeon_type_top_left_mortality {
 						width: 150rpx;
 						height: 32rpx;
-						background: #e96d59;
-						opacity: 0.2;
+						background-color: rgba(251,226,223,0.7);
 						border-radius: 4rpx;
+						text-align: center;
+						margin-left: 20rpx;
 		
 						text {
-							width: 131rpx;
-							height: 22rpx;
 							font-size: 22rpx;
+							margin: 0 9rpx;
 							color: #e96d59;
 						}
 					}
@@ -110,14 +109,13 @@
 				padding: 30rpx;
 			
 				._pigeon_type_bt_item {
-					// width: 250rpx;
 					height: 52rpx;
 					font-size: 22rpx;
-					margin-right: 139rpx;
+					margin-right: 125rpx;
 					font-weight: 500;
 					color: #979797;
 					._pigeon_type_bt_item_text{
-						width: 110rpx;
+						width: 120rpx;
 						display: inline-block;
 						position: relative;
 						text{

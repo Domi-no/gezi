@@ -1,5 +1,5 @@
 <template>
-	<view class="hContainer">
+	<view class="myFont hContainer">
 		<view class="sw">
 			<view class="wrap">
 				<u-swiper :list="list" indicator-pos="bottomRight" height="300"></u-swiper>
@@ -22,14 +22,15 @@
 				</view>
 			</view>
 			<my-news></my-news>
+			<my-news style="border: 0;"></my-news>
 		</view>
 		<view class="rank">
 			<view class="rank_head">
 				<text class="gcph">鸽仓排行</text> <text class="cage_sum">鸽仓总数:&nbsp;1250</text>
 			</view>
-			<my-ranking class="r_c" ></my-ranking>
+			<my-ranking class="r_c" :rankingList="rankingList"></my-ranking>
 			<view class="h_bt">
-				没有更多了
+				查看所有鸽仓排名
 			</view>
 		</view>
 	</view>
@@ -37,6 +38,7 @@
 
 <script>
 	export default {
+		 
 		data() {
 			return {
 				list: [{
@@ -58,16 +60,18 @@
 				}, {
 					src: '../../static/home/fz.png',
 					text: '鸽病防治'
-				}]
+				}],
+				rankingList:[1,2,3,4,5,6,7]
+				
 			}
 		},
 		methods: {
-			toNewsList(){
+			toNewsList() {
 				uni.navigateTo({
-					url: '/sub/news_list/news_list'
+					url: '/sub/news_list/news_list?query='+this.rankingList
 				})
 			},
-			
+
 		},
 		onShow() {
 			console.log(1)
@@ -122,13 +126,15 @@
 				}
 
 				.more {
+					display: flex;
+					justify-content: space-between;
+					width: 68rpx;
 					padding-bottom: 6rpx;
 					font-size: 23rpx;
 					color: #979797;
-
+					line-height: 23rpx;
 					text {
 						height: 23rpx;
-						margin-right: 10rpx;
 					}
 
 					.zk {
@@ -140,20 +146,22 @@
 				}
 			}
 
-			
+
 		}
 
 		.rank {
 			margin-top: 20rpx;
 			padding: 40rpx 30rpx 0;
 			background-color: #FFFFFF;
+			// min-height: calc(100vh - 1000rpx);
 
 			.rank_head {
 				font-size: 34rpx;
 				display: flex;
 				justify-content: space-between;
 				font-weight: 700;
-				.gcph{
+
+				.gcph {
 					font-family: Bold;
 				}
 
@@ -169,6 +177,8 @@
 		}
 
 		.h_bt {
+			height: 100rpx;
+			line-height: 100rpx;
 			margin-top: 40rpx;
 			text-align: center;
 		}

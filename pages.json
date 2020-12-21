@@ -40,17 +40,7 @@
 			}
 
 		}
-
-	    ,{
-            "path" : "components/my-cageClassification/my-cageClassification",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	],
 	"subPackages": [{
 		"root": "sub",
 		"pages": [{
@@ -100,21 +90,33 @@
 				"enablePullDownRefresh": false
 			}
 
-		}    ,{
-                    "path" : "production_records/production_records",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "日记录",
-					"navigationBarTextStyle": "black",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+		}, {
+			"path": "production_records/production_records",
+			"style": {
+				"navigationBarTitleText": "日记录",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "charts/charts",
+			"style": {
+				"navigationBarTitleText": "生产报表",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "production_data/production_data",
+			"style": {
+				"navigationBarTitleText": "生产数据",
+				"navigationBarTextStyle": "black",
+				"enablePullDownRefresh": false
+			}
+
+		}]
 	}],
 	"globalStyle": {
-		// "navigationBarTextStyle": "black",
-		// "navigationBarTitleText": "鸽子",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
 	}
