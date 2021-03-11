@@ -4,14 +4,20 @@
 			<view class="cpt-mask" @click="$emit('pigeonCageClose')" >
 			</view>
 		</view>
-		<view class="pickerView">
+		<view  class="pickerView" :class="{'pickerShow':pickerShow}">
 			<view class="uni-padding-wrap">
-				<text @click="$emit('pigeonCageClose')">取消</text><text>完成</text>
+				<text @click="$emit('pigeonCageClose')">取消</text><text @click="cancel">完成</text>
 			</view>
 			<picker-view v-if="visible" :indicator-style="indicatorStyle" indicator-class="itemStyle">
 				<picker-view-column>
 					<view class="item" v-for="(item,index) in pNum" :key="index">{{item}}</view>
 				</picker-view-column>
+				<!-- <picker-view-column>
+					<view class="item" v-for="(item,index) in pNum" :key="index">{{item}}</view>
+				</picker-view-column>
+				<picker-view-column>
+					<view class="item" v-for="(item,index) in pNum" :key="index">{{item}}</view>
+				</picker-view-column> -->
 			</picker-view>
 		</view>
 	</view>
@@ -19,6 +25,11 @@
 
 <script>
 	export default {
+		props:{
+			pickerShow:{
+				
+			}
+		},
 		data() {
 		
 			return {
@@ -29,7 +40,12 @@
 			};
 		},
 		methods: {
-			
+			cancel(e){
+				console.log(e,this.pickerShow)
+			}
+		},
+		created() {
+			console.log(this.pickerShow)
 		}
 	}
 </script>
@@ -56,6 +72,9 @@
 		border-radius: 20rpx 20rpx 0 0;
 		background-color: #fff;
 		padding: 0 30rpx;
+		-webkit-transform: translateY(100%);
+		    transform: translateY(100%);
+		transition: all 200ms ease;
 		.uni-padding-wrap{
 			height: 77rpx;
 			display: flex;
@@ -77,10 +96,18 @@
 		/deep/ .itemStyle{
 			height: 80rpx;
 			width: 200rpx;
-			margin-left: 245rpx;
+			// margin-left: 245rpx;
 			border-top: 2rpx solid #377be4;
 			border-bottom: 2rpx solid #377be4;
+			position: relative;
+			left: 50%;
+			transform: translate(-50%,-50%);
 		}
+	}
+	.pickerShow {
+		
+		    -webkit-transform: translateY(0) !important;
+		    transform: translateY(0) !important;
 	}
 	
 </style>

@@ -1,6 +1,6 @@
 <template>
 	<view class="myFont nl_container">
-		<my-news></my-news>
+		<my-news :news="newsList"></my-news>
 		<view class="news_list_bt">
 			已经到底了~.~
 		</view>
@@ -12,11 +12,15 @@
 	export default {
 		data() {
 			return {
-				
+				newsList:[]
 			}
 		},
 		methods: {
 			
+		},
+		onLoad(e){
+			console.log(JSON.parse(e.query))
+			this.newsList =JSON.parse(e.query)
 		}
 	}
 </script>

@@ -7,7 +7,7 @@
 					<text v-if="isHandled" class="Processed">已处理</text>
 					<text v-else class="untreated">未处理!</text>	
 				</view>
-				<!-- 判断数据是否有需补足和死淘  -->
+				<!-- 判断数据是否有需补足和死淘  不同仓库需要上边框-->
 				<view class="alert_content">
 						<view class="a_containe_detail">
 							<view class="a_containe_detail_bc">
@@ -23,10 +23,42 @@
 								<view class="a_containe_detail_st_gz">
 									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
 								</view>	
+								<view class="a_containe_detail_st_gz">
+									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
+								</view>	
+								<view class="a_containe_detail_st_gz">
+									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
+								</view>		
+							</view>
+						</view>
+						<view class="a_containe_detail">
+							<view class="a_containe_detail_bc">
+								<text>种鸽需补充！</text><text>仓号2</text><text>组号</text><text>212</text>
+							</view>
+							<view class="a_containe_detail_st">
+								<view class="a_containe_detail_st_title">
+									<text>死淘异常！</text><text>仓号3</text><text>组号：</text><text>52</text>
+								</view>
+								<view class="a_containe_detail_st_gz">
+									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
+								</view>
+								<view class="a_containe_detail_st_gz">
+									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
+								</view>	
+								<view class="a_containe_detail_st_gz">
+									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
+								</view>	
+								<view class="a_containe_detail_st_gz">
+									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
+								</view>		
 							</view>
 						</view>
 				</view>
+				
 			</view>
+		</view>
+		<view class="InTheEnd">
+			已经到底了~. ~
 		</view>
 	</view>
 </template>
@@ -37,14 +69,14 @@
 			return {
 				// 是否处理
 			isHandled:true
-			};
+			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.alertContainer {
-		height: calc(100vh);
+		min-height: calc(100vh);
 		background-color: #f4f6fa;
 		padding-top: 1rpx;
 		font-weight: 500;
@@ -117,6 +149,13 @@
 					}
 				}
 			}
+		}
+		.InTheEnd{
+			font-size: 24rpx;
+			font-weight: 500;
+			color: #979797;
+			text-align: center;
+			margin-top: 49rpx;
 		}
 	}
 </style>

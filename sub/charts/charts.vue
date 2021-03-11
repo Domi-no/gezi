@@ -29,8 +29,50 @@
 					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts"></canvas>
+					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 				</view>
+			</view>
+			<view class="maskBox">
+				
+			</view>
+		</view>
+		<view class="uchars_box">
+			<view class="qiun-columns">
+				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
+				</view>
+				<view class="qiun-charts">
+					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+				</view>
+			</view>
+			<view class="maskBox">
+				
+			</view>
+		</view>
+		<view class="uchars_box">
+			<view class="qiun-columns">
+				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
+				</view>
+				<view class="qiun-charts">
+					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+				</view>
+			</view>
+			<view class="maskBox">
+				
+			</view>
+		</view>
+		<view class="uchars_box">
+			<view class="qiun-columns">
+				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
+				</view>
+				<view class="qiun-charts">
+					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+				</view>
+			</view>
+			<view class="maskBox">
+				
 			</view>
 		</view>
 	</view>
@@ -57,55 +99,185 @@
 			this.cHeight = uni.upx2px(500);
 			this.getServerData();
 		},
+		// methods: {
+		// 	getServerData() {
+				
+		// 		var Column = {
+		// 			categories: ["6", "7", "8", "9", "10", "11", "12"],
+					
+		// 			series: [{
+		// 				name: '',
+		// 				data: [8200, 4600, 7900, 9900, 4923, 8200, 6500]
+		// 			}]
+		// 		}
+		// 		_self.showColumn("canvasColumn", Column)
+		// 	},
+		// 	showColumn(canvasId, chartData) {
+		// 		canvaColumn = new uCharts({
+		// 			$this: _self,
+		// 			canvasId: canvasId,
+		// 			type: 'column',
+		// 			legend: {show:true},
+		// 			fontSize: 11,
+		// 			background: '#FFFFFF',
+		// 			pixelRatio: _self.pixelRatio,
+		// 			animation: false,
+		// 			categories: chartData.categories,
+		// 			series: chartData.series,
+		// 			xAxis: {
+						
+		// 				disableGrid: true,
+		// 			},
+		// 			yAxis: {
+		// 				disableGrid:false,
+		// 				disabled:true,
+		// 				splitNumber: 5,
+		// 				min: 0,
+		// 				max: 10000,
+		// 			},
+		// 			legend:{
+		// 				show:true,
+						
+		// 			},
+		// 			dataLabel:false,
+		// 			dataPointShape:true,
+		// 			width: _self.cWidth * _self.pixelRatio,
+		// 			height: _self.cHeight * _self.pixelRatio,
+		// 			// extra: {
+		// 			// 	lineStyle: 'straight',
+		// 			// 	column: {
+		// 			// 		type: 'group',
+		// 			// 		width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length
+		// 			// 	}
+		// 			// }
+		// 			extra: {
+		// 			    column: {
+		// 			        // 颜色支持线性渐变
+		// 					width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
+		// 			        color: {
+		// 			            type: 'linear',
+		// 			            colorStops: [{
+		// 			                offset: 0, color: '#377BE4' // 0% 处的颜色
+		// 			            }, {
+		// 			                offset: 1, color: '#ff0000' // 100% 处的颜色
+		// 			            }],
+		// 			            global: false // 缺省为 false
+		// 			        }, 
+		// 			        // 圆角半径，单位px，必须传入数组分别指定 4 个圆角半径
+		// 			        barBorderRadius: [10, 10, 0, 0],
+		// 			        // 半圆边框
+		// 			        barBorderCircle: true,
+		// 			        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
+		// 			        opacityColor:0.7 ,
+		// 			        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
+		// 			        linearColor: 0,
+		// 			        //多series之间的间距
+		// 			        seriesGap:2
+					        
+		// 			    },
+						
+		// 			}
+		// 		});
+				
+		// 	},
+		// 	touchColumn(e){
+		// 		canvaColumn.showToolTip(e, {
+		// 			format: function (item, category) {
+		// 				if(typeof item.data === 'object'){
+		// 					return category + ' ' + item.name + ':' + item.data.value 
+		// 				}else{
+		// 					return category + ' ' + item.name + ':' + item.data 
+		// 				}
+		// 			}
+		// 		});
+		// 	},
+		// }
 		methods: {
-			getServerData() {
-				var Column = {
-					categories: ["6", "7", "8", "9", "10", "11", "12"],
-					series: [{
-						name: '',
-						data: [8200, 4600, 7900, 9900, 4923, 8200, 6500]
-					}]
+					getServerData(){
+						var Column = {
+									categories: ["6", "7", "8", "9", "10", "11", "12"],
+									
+									series: [{
+										name: '',
+										data: [8200, 4600, 7900, 9900, 4923, 8200, 6500]
+									}]
+								}
+								_self.showColumn("canvasColumn", Column)
+					},
+					showColumn(canvasId,chartData){
+						canvaColumn=new uCharts({
+							$this:_self,
+							canvasId: canvasId,
+							type: 'column',
+							legend:{show:true},
+							fontSize:11,
+							background:'#FFFFFF',
+							pixelRatio:_self.pixelRatio,
+							animation: false,
+							categories: chartData.categories,
+							series: chartData.series,
+							xAxis: {
+								disableGrid:true,
+							},
+							yAxis: {
+								//disabled:true
+								splitNumber: 5,
+											min: 0,
+											max: 10000,
+							},
+							dataLabel: false,
+							width: _self.cWidth*_self.pixelRatio,
+							height: _self.cHeight*_self.pixelRatio,
+							extra: {
+								type: 'group',
+								width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length,
+										    column: {
+										        // 颜色支持线性渐变
+												width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
+										        color: {
+										            type: 'linear',
+										            colorStops: [{
+										                offset: 0, color: '#377BE4' // 0% 处的颜色
+										            }, {
+										                offset: 1, color: '#ff0000' // 100% 处的颜色
+										            }],
+										            global: false // 缺省为 false
+										        }, 
+										        // 圆角半径，单位px，必须传入数组分别指定 4 个圆角半径
+										        barBorderRadius: [10, 10, 0, 0],
+										        // 半圆边框
+										        barBorderCircle: true,
+										        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
+										        opacityColor:0.7 ,
+										        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
+										        linearColor: 0,
+										        //多series之间的间距
+										        seriesGap:2
+										        
+										    },
+											
+										}
+						});
+						
+					},
+					touchColumn(e){
+						canvaColumn.showToolTip(e, {
+							format: function (item, category) {
+								if(typeof item.data === 'object'){
+									return category + ' ' + item.name + ':' + item.data.value 
+								}else{
+									return category + ' ' + item.name + ':' + item.data 
+								}
+							}
+						});
+					},
 				}
-				_self.showColumn("canvasColumn", Column)
-			},
-			showColumn(canvasId, chartData) {
-				canvaColumn = new uCharts({
-					$this: _self,
-					canvasId: canvasId,
-					type: 'column',
-					legend: {show:true},
-					fontSize: 11,
-					background: '#FFFFFF',
-					pixelRatio: _self.pixelRatio,
-					animation: false,
-					categories: chartData.categories,
-					series: chartData.series,
-					xAxis: {
-						disableGrid: true,
-					},
-					yAxis: {
-						splitNumber: 5,
-						min: 0,
-						max: 10000,
-					},
-					dataLabel: true,
-					dataPointShape:true,
-					width: _self.cWidth * _self.pixelRatio,
-					height: _self.cHeight * _self.pixelRatio,
-					extra: {
-						lineStyle: 'straight',
-						column: {
-							type: 'group',
-							width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length
-						}
-					}
-				});
-			}
-		}
 	}
 </script>
 <style lang="scss" scoped>
-	
+	.reportContainer{
+		padding-bottom: 96rpx;
+	}
 	page {
 		background: #F2F2F2;
 		width: 750upx;
@@ -177,14 +349,14 @@
 
 	.qiun-charts {
 		width: 750upx;
-		height: 500upx;
-		padding-top: 20rpx;
+		height: 464upx;
+		padding-top: 10rpx;
 		background-color: #FFFFFF;
 	}
 
 	.charts {
 		width: 750upx;
-		height: 500upx;
+		height:460upx;
 		background-color: #FFFFFF;
 	}
 	
@@ -258,7 +430,17 @@
 		}
 		.uchars_box{
 			margin-top: 20rpx;
+			margin-bottom: 30rpx;
+			position: relative;
 		}
+	}
+	.maskBox{
+		width: 100%;
+		height: 40rpx;
+		position: absolute;
+		z-index: 999;
+		background-color: #fff;
+		bottom: -8rpx;
 	}
 	
 </style>

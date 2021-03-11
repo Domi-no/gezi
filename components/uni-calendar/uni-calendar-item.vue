@@ -2,35 +2,36 @@
 	<view class="uni-calendar-item__weeks-box" :class="{
 		'uni-calendar-item--disable':weeks.disable,
 		'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
-		'uni-calendar-item--checked':(calendar.fullDate === weeks.fullDate && !weeks.isDay) ,
+		'uni-calendar-item--checked':(calendar.fullDate === weeks.fullDate ) ,
 		'uni-calendar-item--before-checked':weeks.beforeMultiple,
 		'uni-calendar-item--multiple': weeks.multiple,
 		'uni-calendar-item--after-checked':weeks.afterMultiple,
+		
 		}"
 	 @click="choiceDate(weeks)">
 		<view class="uni-calendar-item__weeks-box-item">
 			<text v-if="selected&&weeks.extraInfo" class="uni-calendar-item__weeks-box-circle"></text>
-			<text class="uni-calendar-item__weeks-box-text" :class="{
+			<view class="uni-calendar-item__weeks-box-text" :class="{
 				'uni-calendar-item--isDay-text': weeks.isDay,
-				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
-				'uni-calendar-item--checked':calendar.fullDate === weeks.fullDate && !weeks.isDay,
+				
+				
 				'uni-calendar-item--before-checked':weeks.beforeMultiple,
 				'uni-calendar-item--multiple': weeks.multiple,
 				'uni-calendar-item--after-checked':weeks.afterMultiple,
 				'uni-calendar-item--disable':weeks.disable,
-				}">{{weeks.date}}</text>
-			<text v-if="!lunar&&!weeks.extraInfo && weeks.isDay" class="uni-calendar-item__weeks-lunar-text" :class="{
+				}">{{weeks.date}}<image v-show="this.isShow" :src="name=== '疫苗' ? picSrc[0] : picSrc[1]" style="width: 22rpx; height: 26rpx;position: absolute;right: 4rpx;top: 4rpx;" mode=""></image></view>
+			<!-- <text v-if="!lunar&&!weeks.extraInfo && weeks.isDay" class="uni-calendar-item__weeks-lunar-text" :class="{
 				'uni-calendar-item--isDay-text':weeks.isDay,
 				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
 				'uni-calendar-item--checked':calendar.fullDate === weeks.fullDate && !weeks.isDay,
 				'uni-calendar-item--before-checked':weeks.beforeMultiple,
 				'uni-calendar-item--multiple': weeks.multiple,
 				'uni-calendar-item--after-checked':weeks.afterMultiple,
-				}">今天</text>
+				}">今天</text> -->
 			<text v-if="lunar&&!weeks.extraInfo" class="uni-calendar-item__weeks-lunar-text" :class="{
 				'uni-calendar-item--isDay-text':weeks.isDay,
-				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
-				'uni-calendar-item--checked':calendar.fullDate === weeks.fullDate && !weeks.isDay,
+				
+				
 				'uni-calendar-item--before-checked':weeks.beforeMultiple,
 				'uni-calendar-item--multiple': weeks.multiple,
 				'uni-calendar-item--after-checked':weeks.afterMultiple,
@@ -39,8 +40,8 @@
 			<text v-if="weeks.extraInfo&&weeks.extraInfo.info" class="uni-calendar-item__weeks-lunar-text" :class="{
 				'uni-calendar-item--extra':weeks.extraInfo.info,
 				'uni-calendar-item--isDay-text':weeks.isDay,
-				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
-				'uni-calendar-item--checked':calendar.fullDate === weeks.fullDate && !weeks.isDay,
+				
+				
 				'uni-calendar-item--before-checked':weeks.beforeMultiple,
 				'uni-calendar-item--multiple': weeks.multiple,
 				'uni-calendar-item--after-checked':weeks.afterMultiple,
@@ -53,6 +54,12 @@
 <script>
 	export default {
 		props: {
+			weeksIndex:{
+				type: Number,
+				default () {
+					return {}
+				}
+			},
 			weeks: {
 				type: Object,
 				default () {
@@ -74,11 +81,39 @@
 			lunar: {
 				type: Boolean,
 				default: false
+			},
+			ymTime:{
+				type: Array,
+				default: () => {
+					return []
+				}
+			},
+			name: {
+				type: String,
+				default: '疫苗'
+			},
+			box:{
+				// type: Number
+				
 			}
 		},
 		methods: {
 			choiceDate(weeks) {
 				this.$emit('change', weeks)
+			}
+		},
+		created() {
+			console.log(this.box,this.name)
+		},
+		computed:{
+			isShow(){
+				return this.ymTime.includes(this.weeks.fullDate)
+				
+			}
+		},
+		data(){
+			return{
+				picSrc:['../../static/daiban/yimiao.png','../../static/daiban/yiliao.png']
 			}
 		}
 	}
@@ -113,8 +148,9 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		width: 100rpx;
-		height: 100rpx;
+		min-width: 80rpx;
+		height: 80rpx;
+		
 	}
 
 	.uni-calendar-item__weeks-box-circle {
@@ -149,11 +185,22 @@
 	}
 
 	.uni-calendar-item--checked {
-		background-color: $uni-color-primary;
-		// border-radius: 50%;
+		background-color: #fff;
+		border-radius: 50%;
 		border: 2rpx solid #377be4;
-		color: #fff;
+		// color: #fff;
 		opacity: 0.8;
+		width: 80rpx;
+		height: 80rpx;
+	}
+	.uni-calendar-itemBox--checked {
+		background-color: #fff;
+		border-radius: 0 !important;
+		border: 2rpx solid #377be4;
+		// color: #fff;
+		opacity: 0.8;
+		width: 80rpx;
+		height: 80rpx;
 	}
 
 	.uni-calendar-item--multiple {

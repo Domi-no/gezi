@@ -1,123 +1,352 @@
 {
 	"easycom": {
-		"^u-(.*)": "@/uview-ui/components/u-$1/u-$1.vue"
-	},
+	        // 下载安装的方式需要前面的"@/"，npm安装的方式无需"@/"
+	        // 下载安装方式
+	        "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	        // npm安装方式
+	        // "^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	    },
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
-			"path": "pages/index/index",
-			"style": {
-				"navigationBarTitleText": "",
-				"app-plus": {
-					"titleNView": false
+					"path": "pages/index/index",
+					"style": {
+						"navigationBarTitleText": "",
+						"app-plus": {
+							"titleNView": false
+						}
+					}
+				}, {
+					"path": "pages/home/home",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+		
+				}, {
+					"path": "pages/cage/cage",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+		
+				}, {
+					"path": "pages/wait/wait",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+		
+				}, {
+					"path": "pages/my/my",
+					"style": {
+						"navigationBarTitleText": "",
+						"enablePullDownRefresh": false
+					}
+		
 				}
-			}
-		}, {
-			"path": "pages/home/home",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
 
-		}, {
-			"path": "pages/cage/cage",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "pages/wait/wait",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "pages/my/my",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
-			}
-
-		}
 	],
-	"subPackages": [{
-		"root": "sub",
-		"pages": [{
-			"path": "news_detail/news_detail",
-			"style": {
-				"navigationBarTitleText": "",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "news_list/news_list",
-			"style": {
-				"navigationBarTitleText": "公司要闻",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "ph_ranking/ph_ranking",
-			"style": {
-				"navigationBarTitleText": "鸽仓排名",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "production_report/production_report",
-			"style": {
-				"navigationBarTitleText": "生产报表",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-		}, {
-			"path": "production_calendar/production_calendar",
-			"style": {
-				"navigationBarTitleText": "生产日历",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "abnormal_alarm/abnormal_alarm",
-			"style": {
-				"navigationBarTitleText": "异常警报",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "production_records/production_records",
-			"style": {
-				"navigationBarTitleText": "日记录",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "charts/charts",
-			"style": {
-				"navigationBarTitleText": "生产报表",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}, {
-			"path": "production_data/production_data",
-			"style": {
-				"navigationBarTitleText": "生产数据",
-				"navigationBarTextStyle": "black",
-				"enablePullDownRefresh": false
-			}
-
-		}]
-	}],
+	
 	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
-	}
+	},
+	"subPackages": [{
+			"root": "sub",
+			"pages": [{
+				"path": "drug_d_s/drug_d_s",
+				"style":{
+					"navigationBarTitleText":"药品出入库",
+					"app-plus":{
+						"titleNView":false
+					}
+				}
+			},{
+				"path": "vaccine_use_feedBack/vaccine_use_feedBack",
+				"style": {
+					"navigationBarTitleText":"新增记录"
+				}
+			},
+			{
+				"path": "vaccine_use_calendar/vaccine_use_calendar",
+				"style": {
+					"navigationBarTitleText":"疫苗使用"
+				}
+			},
+			{
+				"path": "vaccine_use/vaccine_use",
+				"style": {
+					"navigationBarTitleText":"疫苗使用"
+				}
+			},
+			{
+				"path": "t_f_change/t_f_change",
+				"style": {
+					"navigationBarTitleText":"无害化处理"
+				}
+			},
+			{
+				"path": "sterilize_record/sterilize_record",
+				"style": {
+					"navigationBarTitleText":"消杀记录"
+				}
+			},
+			{
+				"path": "set_up/set_up",
+				"style": {
+					"navigationBarTitleText":"设置"
+				}
+			},
+			{
+				"path": "sale/sale",
+				"style": {
+					"navigationBarTitleText":"销售",
+					"app-plus":{
+						"titleNView":false
+					}
+				}
+			},
+			{
+				"path": "receive_record/receive_record",
+				"style": {
+					"navigationBarTitleText":"领取记录"
+				}
+			},
+			{
+				"path": "production_report/production_report",
+				"style": ""
+			},
+			{
+				"path": "production_records/production_records",
+				"style": {
+					"navigationBarTitleText":"日记录"
+				}
+			},
+			{
+				"path": "production_data/production_data",
+				"style": {
+					"navigationBarTitleText":"生产数据"
+				}
+			},
+			{
+				"path": "production_calendar/production_calendar",
+				"style": {
+					"navigationBarTitleText":"生产日历"
+				}
+			},
+			{
+				"path": "harmless_treatment/harmless_treatment",
+				"style": {
+					"navigationBarTitleText":"无害化处理"
+				}
+			},
+			{
+				"path": "productCenter/productCenter",
+				"style": {
+					"navigationBarTitleText":"产品中心"
+				}
+			},
+			{
+				"path": "ph_ranking/ph_ranking",
+				"style": {
+					"navigationBarTitleText":"全部排行"
+				}
+			},
+			{
+				"path": "news_list/news_list",
+				"style": {
+					"navigationBarTitleText":"公司要闻"
+				}
+			},
+			{
+				"path": "news_detail/news_detail"
+				
+			},
+			{
+				"path": "message_detail/message_detail",
+				"style": {
+					"navigationBarTitleText":""
+				}
+			},
+			{
+				"path": "message_center/message_center",
+				"style": {
+					"navigationBarTitleText":"消息中心"
+				}
+			},
+			{
+				"path": "in_out_records/in_out_records",
+				"style": {
+					"navigationBarTitleText":"出入库记录"
+				}
+			},
+			{
+				"path": "foods_warehousing/foods_warehousing",
+				"style": {
+					"navigationBarTitleText":"入库下单"
+				}
+			},
+			{
+				"path": "food_storage_record/food_storage_record",
+				"style": {
+					"navigationBarTitleText":"",
+					"app-plus":{
+						"titleNView":false
+					}
+				}
+			},
+			{
+				"path": "food_in_out_records/food_in_out_records",
+				"style": {
+					"navigationBarTitleText":"出入库记录"
+				}
+			},
+			{
+				"path": "food_delivery/food_delivery",
+				"style": {
+					"navigationBarTitleText":"出库下单"
+				}
+			},
+			{
+				"path": "food_d_s/food_d_s",
+				"style": {
+					"navigationBarTitleText":"",
+					"app-plus":{
+						"titleNView":false
+					}
+				}
+			},
+			{
+				"path": "feed_consumption/feed_consumption",
+				"style": {
+					"navigationBarTitleText":"饲料消耗"
+				}
+			},
+			{
+				"path": "feed_back/feed_back",
+				"style": {
+					"navigationBarTitleText":"意见反馈"
+				}
+			},
+			{
+				"path": "drugs_warehousing/drugs_warehousing",
+				"style": {
+					"navigationBarTitleText":"药品入库"
+				}
+			},
+			{
+				"path": "drug_use_feedBack/drug_use_feedBack",
+				"style": {
+					"navigationBarTitleText":"用药反馈"
+				}
+			},
+			{
+				"path": "drug_use_detail/drug_use_detail",
+				"style": {
+					"navigationBarTitleText":"",
+					"app-plus":{
+						"titleNView":false
+					}
+				}
+			},
+			{
+				"path": "drug_use/drug_use",
+				"style": {
+					"navigationBarTitleText":"药品使用"
+				}
+			},
+			{
+				"path": "drug_storage_record/drug_storage_record",
+				"style": {
+					"navigationBarTitleText":"",
+					"app-plus":{
+						"titleNView":false
+					}
+				}
+			},
+			{
+				"path": "drug_delivery/drug_delivery",
+				"style": {
+					"navigationBarTitleText":"药品出库"
+				}
+			},
+			{
+				"path": "details_of_vaccine_use/details_of_vaccine_use",
+				"style": {
+					"navigationBarTitleText":"",
+					"app-plus":{
+						"titleNView":false
+					}
+				}
+			},
+			{
+				"path": "clock_in_attendance/clock_in_attendance",
+				"style": ""
+			},
+			{
+				"path": "clock_in/clock_in",
+				"style": {
+					"navigationBarTitleText":"考勤打卡"
+				}
+			},
+			{
+				"path": "charts/charts",
+				"style": {
+					"navigationBarTitleText":"生产报表"
+				}
+			},
+			{
+				"path": "change_password/change_password",
+				"style": {
+					"navigationBarTitleText":"修改密码"
+				}
+			},
+			{
+				"path": "cage_sterilize/cage_sterilize",
+				"style": {
+					"navigationBarTitleText":"鸽舍消杀"
+				}
+			},
+			{
+				"path": "ask_for_leave/ask_for_leave",
+				"style": {
+					"navigationBarTitleText":"请假"
+				}
+			},
+			{
+				"path": "all_vaccine_use_record/all_vaccine_use_record",
+				"style": {
+					"navigationBarTitleText":"使用记录"
+				}
+			},
+			{
+				"path": "add_vaccine_use_record/add_vaccine_use_record",
+				"style": {
+					"navigationBarTitleText":"新增记录"
+				}
+			},
+			{
+				"path": "add_sale_record/add_sale_record",
+				"style": {
+					"navigationBarTitleText":"销售"
+				}
+			},
+			{
+				"path": "add_drug_use_record/add_drug_use_record",
+				"style": {
+					"navigationBarTitleText":"新增记录"
+				}
+			},
+			{
+				"path": "abnormal_alarm/abnormal_alarm",
+				"style": {
+					"navigationBarTitleText":"异常警报"
+				}
+			}
+			
+			]
+	
+		}]
 }

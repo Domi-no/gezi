@@ -11,23 +11,46 @@
 				</view>
 			</view>
 			<view class="uni-calendar__header">
-				<view class="uni-calendar__header-btn-box" @click.stop="pre">
+				<view class="" style="display: flex;justify-content:space-between;padding-left: 30rpx;">
+					<view class="" @click.stop="preY" style="margin-right: 17rpx;">
+						<image src="../../static/daiban/rilizuo.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
+					</view>
+					<view class="">
+						{{ (nowDate.year||'')}}
+					</view>
+					<view class="" @click.stop="nextY" style="margin-left: 17rpx;">
+						<image src="../../static/daiban/riliyou.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
+					</view>
+				</view>
+				<view class="" style="display: flex;justify-content:space-between;padding-right: 30rpx;">
+					<view class="" @click.stop="pre" style="margin-right: 17rpx;">
+						<image src="../../static/daiban/rilizuo.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
+					</view>
+					<view class="">
+						{{ (nowDate.month||'') +'月'}}
+					</view>
+					<view class="" @click.stop="next" style="margin-left: 17rpx;">
+						<image src="../../static/daiban/riliyou.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
+					</view>
+				</view>
+				<!-- <view class="uni-calendar__header-btn-box" @click.stop="pre">
 					<view class="uni-calendar__header-btn uni-calendar--left"></view>
 				</view>
 				<picker mode="date" :value="date" fields="month" @change="bindDateChange">
 					<text class="uni-calendar__header-text">{{ (nowDate.year||'') +'年'+( nowDate.month||'') +'月'}}</text>
 				</picker>
+				
 				<view class="uni-calendar__header-btn-box" @click.stop="next">
 					<view class="uni-calendar__header-btn uni-calendar--right"></view>
-				</view>
-				<text class="uni-calendar__backtoday" @click="backtoday">回到今天</text>
+				</view> -->
+				<!-- <text class="uni-calendar__backtoday" @click="backtoday">回到今天</text> -->
 
 			</view>
 			<view class="uni-calendar__box">
 				<view v-if="showMonth" class="uni-calendar__box-bg">
 					<text class="uni-calendar__box-bg-text">{{nowDate.month}}</text>
 				</view>
-				<view class="uni-calendar__weeks">
+				<view class="uni-calendar__weeks" style="padding: 0 30rpx;">
 					<view class="uni-calendar__weeks-day">
 						<text class="uni-calendar__weeks-day-text">日</text>
 					</view>
@@ -50,9 +73,9 @@
 						<text class="uni-calendar__weeks-day-text">六</text>
 					</view>
 				</view>
-				<view class="uni-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex">
+				<view class="uni-calendar__weeks" v-for="(item,weekIndex) in weeks" :key="weekIndex" style="padding: 0 30rpx;">
 					<view class="uni-calendar__weeks-item" v-for="(weeks,weeksIndex) in item" :key="weeksIndex">
-						<calendar-item :weeks="weeks" :calendar="calendar" :selected="selected" :lunar="lunar" @change="choiceDate"></calendar-item>
+						<calendar-item :weeks="weeks" :name="name" :box="box" :calendar="calendar" :selected="selected" :ymTime="ymTime" :weeksIndex="weeksIndex" :lunar="lunar" @change="choiceDate"></calendar-item>
 					</view>
 				</view>
 			</view>
@@ -110,6 +133,10 @@
 				type: String,
 				default: ''
 			},
+			name: {
+				type: String,
+				default: ''
+			},
 			range: {
 				type: Boolean,
 				default: false
@@ -125,6 +152,16 @@
 			clearDate: {
 				type: Boolean,
 				default: true
+			},
+			ymTime:{
+				type: Array,
+				default: () => {
+					return []
+				}
+			},
+			box:{
+				// type: Number,
+				
 			}
 		},
 		data() {
@@ -165,6 +202,7 @@
 			this.cale.setDate(this.date)
 			this.init(this.cale.selectDate.fullDate)
 			// this.setDay
+			console.log(this.weeks)
 		},
 		methods: {
 			// 取消穿透
@@ -293,11 +331,22 @@
 				this.monthSwitch()
 
 			},
+			preY() {
+				const preDate = this.cale.getDate(this.nowDate.fullDate, -12, 'month').fullDate
+				this.setDate(preDate)
+				this.monthSwitch()
+			
+			},
 			/**
 			 * 下个月
 			 */
 			next() {
 				const nextDate = this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate
+				this.setDate(nextDate)
+				this.monthSwitch()
+			},
+			nextY() {
+				const nextDate = this.cale.getDate(this.nowDate.fullDate, +12, 'month').fullDate
 				this.setDate(nextDate)
 				this.monthSwitch()
 			},
@@ -368,12 +417,17 @@
 		display: flex;
 		/* #endif */
 		flex-direction: row;
-		justify-content: center;
-		align-items: center;
-		height: 50px;
+		justify-content: space-between;
+		// align-items: center;
+		height: 90rpx;
+		line-height: 90rpx;
 		// border-bottom-color: $uni-border-color;
 		// border-bottom-style: solid;
 		// border-bottom-width: 1px;
+		image{
+			position: relative;
+			top: -2rpx;
+		}
 	}
 
 	.uni-calendar--fixed-top {
@@ -450,11 +504,16 @@
 		/* #ifndef APP-NVUE */
 		display: flex;
 		/* #endif */
-		flex-direction: row;
+		// flex-direction: row;
+		justify-content: space-around;
+		margin-bottom: 10rpx;
 	}
 
 	.uni-calendar__weeks-item {
-		flex: 1;
+		// flex: 1;
+		width: 80rpx;
+		height: 80rpx;
+		
 	}
 
 	.uni-calendar__weeks-day {
@@ -465,7 +524,7 @@
 		flex-direction: column;
 		justify-content: center;
 		align-items: center;
-		height: 45px;
+		height: 45rpx;
 		// border-bottom-color: #F5F5F5;
 		// border-bottom-style: solid;
 		// border-bottom-width: 1px;

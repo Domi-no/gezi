@@ -10,21 +10,24 @@
 				<image src="../../static/home/zk.png"></image>
 			</view>
 		</view>
-		<view class="" v-for="(item,index) in list" :key="index">
-			<view class="pd_splitLine">
-			</view>
-			<view class="pd_item">
-				<view class="pd_item_title">
-					<text class="pd_item_title_num">仓号2</text>
-					<text class="pd_item_title_syy">饲养员:</text>
-					<text class="pd_item_title_syy_mz">李大牛</text>
-					<text class="pd_item_title_hg">护工:</text>
-					<text class="pd_item_title_syy_mz">张三</text>
-					<text class="pd_item_title_hl">耗料:</text>
-					<text>100公斤</text>
-					<image :src="pd_data?zkicon[0]:zkicon[1]" :class="pd_data?'xzk':'yzk'" @click="exhibitionHandler(index)"></image>
+		<view class="pd_item" v-for="(item,idx) in list" :key="idx">
+		
+			<view class="">
+				<view class="pd_item_title"  @click="exhibitionHandler(idx)">
+					
+					<view class="" style="display: flex">
+						<text class="pd_item_title_num">仓号2</text>
+						<text class="pd_item_title_syy">饲养员:</text>
+						<text class="pd_item_title_syy_mz">李大牛</text>
+						<text class="pd_item_title_hg">护工:</text>
+						<text class="pd_item_title_syy_mz">张三</text>
+						<text class="pd_item_title_hl">耗料:</text>
+						<text>100公斤</text>
+						
+					</view>
+					<image :src="expandItem[idx] ? zkicon[0] : zkicon[1]" :class="expandItem[idx]?'xzk':'yzk'"></image>
 				</view>
-				<view class="" v-show="pd_data">
+				<view class="" v-show="expandItem[idx]" >
 					<view class="pd_item_content" v-for="(item,index) in list" :key="index">
 						<view class="pd_pigeon_title">
 							<view class="pd_pigeon_title_left">
@@ -60,8 +63,13 @@
 						</view>
 					</view>
 					<view class="pd_bt">
-						<text v-if="record">今日未记录&nbsp;＞</text>
-						<button v-else type="default">修改记录</button>
+						<view class="">
+							
+						</view>
+						<view class="change_recordBtn">
+							<text v-if="record">今日未记录&nbsp;＞</text>
+							<view v-else >修改记录</view>
+						</view>
 					</view>
 				</view>
 			</view>
@@ -73,16 +81,26 @@
 	export default {
 		data() {
 			return {
-				pd_data: false,
+				
+				expandItem:[],
 				list: [1, 2, 3,4,5],
-				record:true,
+				record:false,
+				index:'',
 				zkicon:['../../static/report/bt_zk.png','../../static/report/report_zk.png']
 			}
 		},
 		methods: {
-			exhibitionHandler() {
-				this.pd_data = !this.pd_data
-			}
+			exhibitionHandler(idx) {
+				
+				this.expandItem[idx]===true?  this.$set(this.expandItem,idx,false) : this.$set(this.expandItem,idx,true)
+				console.log(this.expandItem)
+				
+			},
+			
+			
+		},
+		computed:{
+			
 		}
 	}
 </script>
@@ -90,15 +108,16 @@
 <style lang="scss" scoped>
 	.pd_container {
 		background-color: #f4f6fa;
-		height: calc(100vh);
+		min-height: calc(100vh);
 		font-weight: 500;
-
+		padding-bottom: 108rpx;
 		.pd_title {
 			height: 88rpx;
 			display: flex;
 			justify-content: space-between;
-			padding: 41rpx 30rpx 0;
+			padding: 0 30rpx 0;
 			background-color: #fff;
+			line-height: 88rpx;
 
 			.pd_title_left {
 				text {
@@ -120,12 +139,15 @@
 				text {
 					font-size: 24rpx;
 					color: #979797;
-					line-height: 22rpx;
+					
 				}
 
 				image {
 					width: 12rpx;
 					height: 22rpx;
+					position: relative;
+					top: 50%;
+					transform: translateY(-50%);
 				}
 			}
 		}
@@ -134,24 +156,27 @@
 			height: 20rpx;
 		}
 		.pd_item {
-			border-radius: 20rpx !important;
+			border-radius: 20rpx;
 			background-color: #fff;
-
+			overflow: hidden;
+			margin-top: 20rpx;
 			.pd_item_title {
 				height: 88rpx;
 				line-height: 88rpx;
 				padding: 0 30rpx;
 				border-bottom: 1rpx solid #f4f6fa;
-
+				display: flex;
+				justify-content: space-between;
 				.pd_item_title_num {
+					width: 145rpx;
 					font-size: 30rpx;
 					color: #151515;
 				}
 
 				.pd_item_title_syy {
-					margin-left: 53rpx;
+					margin-left: 17rpx;
 					font-size: 22rpx;
-					font-family: SimHei;
+				
 					font-weight: 400;
 					color: #979797;
 				}
@@ -162,15 +187,15 @@
 
 				.pd_item_title_hg {
 					font-size: 22rpx;
-					font-family: SimHei;
+				
 					font-weight: 400;
 					color: #979797;
 					margin-left: 19rpx;
 				}
 
 				.pd_item_title_hl {
-					margin-left: 60rpx;
-					font-family: SimHei;
+					margin-left: 10rpx;
+		
 					font-weight: 400;
 					color: #979797;
 				}
@@ -178,16 +203,21 @@
 				.pd_item_title_zl {
 					font-size: 22rpx;
 				}
-
+				image{
+					position: relative;
+					right: 0;
+					top: 50%;
+					transform: translateY(-50%);
+				}
 				.yzk {
 					width: 12rpx;
 					height: 22rpx;
-					margin-left: 64rpx;
+					// margin-left: 64rpx;
 				}
 				.xzk{
 					width: 22rpx;
 					height: 12rpx;
-					margin-left: 49rpx;
+					// margin-left: 49rpx;
 				}
 			}
 
@@ -283,6 +313,10 @@
 			.pd_bt {
 				height: 93rpx;
 				padding: 1rpx 30rpx;
+				// border-radius: 0 0 20rpx 20rpx;
+				overflow: hidden;
+				display: flex;
+				justify-content: space-between;
 				button {
 					float: right;
 					width: 200rpx;
@@ -293,6 +327,18 @@
 					color: #377be4;
 					line-height: 70rpx;
 
+				}
+				.change_recordBtn{
+					width: 200rpx;
+					height: 70rpx;
+					background: #FFFFFF;
+					border: 1rpx solid #377BE4;
+					border-radius: 35rpx;
+					text-align: center;
+					line-height: 70rpx;
+					font-size: 30rpx;
+					font-weight: 500;
+					color: #377BE4;
 				}
 				text{
 					float: right;

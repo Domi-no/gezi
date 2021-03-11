@@ -14,7 +14,9 @@
 		<view class="tabBar">
 			<view class="" v-for="(item,idx) in tabIcon" @click="change(idx)" :key="idx">
 				<view class="">
-					<image v-if="idx===2" class="scan" src="" mode="" @click="change(idx)"></image>
+					<view class="scan" v-if="idx===2" @click="change(idx)">
+						<image  class="scanImg" src="../../static/home/saoma.png" mode="" ></image>
+					</view>
 					<image v-else :src="id===idx?tabIcon[idx].c_icon:tabIcon[idx].icon" mode=""></image>
 					{{item.name}}
 				</view>
@@ -55,7 +57,6 @@
 			}
 		},
 		onLoad() {
-
 		},
 		methods: {
 			change(id) {
@@ -75,7 +76,6 @@
 	.container {
 		background-color: #f4f6fa;
 		font-weight: 500;
-
 		.header {
 			height: 88rpx;
 			width: 100%;
@@ -85,7 +85,6 @@
 			font-size: 35rpx;
 			background-color: #FFFFFF;
 			z-index: 10;
-
 			.title {
 				position: absolute;
 				left: 30rpx;
@@ -93,12 +92,10 @@
 				color: #151515;
 			}
 		}
-
 		.tabPage {
 			height: 100vh;
 			padding: 88rpx 0 90rpx 0;
 		}
-
 		.tabBar {
 			width: 100%;
 			height: 96rpx;
@@ -111,7 +108,6 @@
 			bottom: 0;
 			left: 0;
 			background-color: #fff;
-
 			view {
 				position: relative;
 				width: 50rpx;
@@ -119,13 +115,11 @@
 				text-align: center;
 				font-size: 22rpx;
 				line-height: 30rpx;
-
 				image {
 					width: 36rpx;
 					height: 38rpx;
 				}
 			}
-
 			.scan {
 				width: 88rpx;
 				height: 88rpx;
@@ -133,8 +127,15 @@
 				position: absolute;
 				left: -19rpx;
 				top: -28rpx;
-				background-color: #acf;
+				background-color: #216FE8;
 				z-index: 20;
+				.scanImg{
+					width: 40rpx;
+					height: 40rpx;
+					position: relative;
+					top: 50%;
+					transform: translateY(-50%);
+				}
 			}
 		}
 	}

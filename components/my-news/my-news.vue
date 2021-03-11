@@ -1,12 +1,12 @@
 <template>
 	<view>
-		<view class="_news">
+		<view class="_news" v-for="(item,idx) in news" :key="idx">
 			<view class="news_left">
 				<view class="news_head">
-					安全生产重于泰山
+					{{item.title}}
 				</view>
 				<view class="news_content">
-					和平鸽是和平，友谊，团结，和圣洁的象征。世界很多城市和广场上,都会放那么一两只鸽子
+					{{item.content}}
 				</view>
 				<text class="news_time">2020-12-11</text>
 			</view>
@@ -19,10 +19,20 @@
 
 <script>
 	export default {
+		props:{
+			news:{
+				type:Array,
+				required:true
+			}
+		},
 		data() {
 			return {
 
 			};
+		},
+			
+		created(){
+			console.log(this.news)
 		}
 	}
 </script>
@@ -30,7 +40,7 @@
 <style lang="scss">
 	._news {
 		height: 198rpx;
-		border-bottom: 2rpx solid #e4e5e9;
+		border-top: 2rpx solid #e4e5e9;
 		padding-top: 30rpx;
 		width: 100%;
 		display: flex;
@@ -70,5 +80,8 @@
 
 			}
 		}
+	}
+	._news:first-child{
+		border-top: 0;
 	}
 </style>
