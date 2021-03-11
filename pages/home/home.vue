@@ -32,10 +32,14 @@
 						<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item}}</text>
 					</view>
 				</view> 
-				<text class="cage_sum"><text @click="changeTime(idx)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item}}</text></text>
+				<view class="cage_sum">
+					<view @click="changeTime(idx)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item}}
+						<text class="cage_sum_line" v-show="cRLTime === idx"></text>
+					</view>
+				</view>
 			</view>
 			<my-ranking class="r_c" :rankingList="rankingList"></my-ranking>
-			<view class="h_bt">
+			<view class="h_bt"  @click="toRanking">
 				查看全部排名
 			</view>
 		</view>
@@ -93,7 +97,9 @@
 			toHomeSubPage(idx){
 				switch(idx){
 					case 0 :
-					console.log(0)
+					uni.navigateTo({
+						url: '/sub/help_the_poor/help_the_poor'
+					});
 					break;
 					case 1 :
 					console.log(1)
@@ -123,6 +129,11 @@
 			},
 			containerClick(){
 				this.isShowRLN=false
+			},
+			toRanking(){
+				uni.navigateTo({
+					url: '/sub/ph_ranking/ph_ranking'
+				})
 			}
 		},
 		onShow() {
@@ -250,25 +261,43 @@
 				}
 
 				.cage_sum {
+					position: relative;
+					top: 8rpx;
 					font-size: 24rpx;
 					font-weight: 400;
 					color: #979797;
 					font-weight: 500;
-					text{
-						margin-right: 39rpx;
-						
+					display: flex;
+					text-align: center;
+					view{
+						margin-right: 21rpx;
+						width: 92rpx;
+						height: 43rpx;
 					}
 						
-					text:nth-child(4){
+					view:nth-child(4){
 						margin-right: 0;
+					}
+					.cage_sum_line{
+						display: block;
+						width: 60rpx;
+						height: 6rpx;
+						background: #377BE4;
+						border-radius: 3rpx;
+						
+						position: relative;
+						bottom: -4rpx;
+						margin: 0 auto;
 					}
 				}
 				.rankListClick{
 					display: inline-block;
+					position: relative;
+					top: -6rpx;
 					font-size: 28rpx;
 					color: #343434;
-					border-bottom: 6rpx solid #377BE4;
-					border-radius: 3rpx;
+					// border-bottom: 6rpx solid #377BE4;
+					// border-radius: 3rpx;
 				}
 			}
 

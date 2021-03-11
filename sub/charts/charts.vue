@@ -32,9 +32,7 @@
 					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 				</view>
 			</view>
-			<view class="maskBox">
-				
-			</view>
+			
 		</view>
 		<view class="uchars_box">
 			<view class="qiun-columns">
@@ -45,9 +43,7 @@
 					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 				</view>
 			</view>
-			<view class="maskBox">
-				
-			</view>
+			
 		</view>
 		<view class="uchars_box">
 			<view class="qiun-columns">
@@ -58,9 +54,7 @@
 					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 				</view>
 			</view>
-			<view class="maskBox">
-				
-			</view>
+			
 		</view>
 		<view class="uchars_box">
 			<view class="qiun-columns">
@@ -71,9 +65,7 @@
 					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
 				</view>
 			</view>
-			<view class="maskBox">
-				
-			</view>
+			
 		</view>
 	</view>
 	
@@ -96,7 +88,7 @@
 			console.log(1)
 			_self = this;
 			this.cWidth = uni.upx2px(750);
-			this.cHeight = uni.upx2px(500);
+			this.cHeight = uni.upx2px(370);
 			this.getServerData();
 		},
 		// methods: {
@@ -228,6 +220,7 @@
 							dataLabel: false,
 							width: _self.cWidth*_self.pixelRatio,
 							height: _self.cHeight*_self.pixelRatio,
+							legend:{show:false},
 							extra: {
 								type: 'group',
 								width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length,
@@ -277,12 +270,14 @@
 <style lang="scss" scoped>
 	.reportContainer{
 		padding-bottom: 96rpx;
-	}
-	page {
 		background: #F2F2F2;
-		width: 750upx;
-		overflow-x: hidden;
+		min-height: calc(100vh);
 	}
+	// page {
+	// 	background: #F2F2F2;
+	// 	width: 750upx;
+	// 	overflow-x: hidden;
+	// }
 
 	.qiun-padding {
 		padding: 2%;
@@ -349,14 +344,14 @@
 
 	.qiun-charts {
 		width: 750upx;
-		height: 464upx;
+		height: 380upx;
 		padding-top: 10rpx;
 		background-color: #FFFFFF;
 	}
 
 	.charts {
 		width: 750upx;
-		height:460upx;
+		height:370upx;
 		background-color: #FFFFFF;
 	}
 	
@@ -430,7 +425,7 @@
 		}
 		.uchars_box{
 			margin-top: 20rpx;
-			margin-bottom: 30rpx;
+			
 			position: relative;
 		}
 	}
@@ -440,7 +435,7 @@
 		position: absolute;
 		z-index: 999;
 		background-color: #fff;
-		bottom: -8rpx;
+		bottom: 20rpx;
 	}
 	
 </style>

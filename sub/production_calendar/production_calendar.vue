@@ -289,10 +289,8 @@
 					image{
 						width: 40rpx;
 						height: 40rpx;
-						position: relative;
-						top: 50%;
-						transform: translateY(-50%);
-						margin-right: 12rpx;
+						
+						margin:auto 12rpx auto 0;
 					}
 					._pigeon_type_top_left_zg {
 						font-size: 30rpx;
@@ -309,9 +307,7 @@
 						padding: 0 9rpx;
 						color: #e96d59;
 						font-size: 22rpx;
-						position: relative;
-						top: 50%;
-						transform: translateY(-50%);
+						margin:auto 0 auto 12rpx;
 						line-height: 32rpx;
 						
 					}

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="rank_c" @click="toRanking" v-for="(item,idx) in rankingList" :key="idx">
+		<view class="rank_c" v-for="(item,idx) in rankingList" :key="idx">
 			<view class="r_top">
 				<view class="w_number">
 					<view class="r_medal">
@@ -43,11 +43,7 @@
 			};
 		},
 		methods:{
-			toRanking(){
-				uni.navigateTo({
-					url: '/sub/ph_ranking/ph_ranking'
-				})
-			}
+		
 		}
 	}
 </script>

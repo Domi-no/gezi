@@ -350,6 +350,7 @@
 			border-radius: 20rpx;
 			margin: 30rpx auto 0;
 			._pigeon_type_top {
+				
 				height: 76rpx;
 				border-bottom: 2rpx solid #e4e5e9;
 				display: flex;
@@ -358,14 +359,13 @@
 				font-weight: 500;
 				line-height: 76rpx;
 				._pigeon_type_top_left {
+					
 					display: flex;
 					image{
 						width: 40rpx;
 						height: 40rpx;
-						position: relative;
-						top: 50%;
-						transform: translateY(-50%);
-						margin-right: 12rpx;
+						
+						margin:auto 12rpx auto 0;
 					}
 					._pigeon_type_top_left_zg {
 						font-size: 30rpx;
@@ -382,9 +382,9 @@
 						padding: 0 9rpx;
 						color: #e96d59;
 						font-size: 22rpx;
-						position: relative;
-						top: 50%;
-						transform: translateY(-50%);
+						
+						margin:auto 0 auto 12rpx;
+					
 						line-height: 32rpx;
 						
 					}

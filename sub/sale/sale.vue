@@ -151,7 +151,7 @@
 					canvasId: canvasId,
 					type: 'line',
 					fontSize:11	,
-					legend:{show:true},
+					legend:{show:true,position:'top',float:'right'},
 					dataLabel:false,
 					dataPointShape:true,
 					background:'#FFFFFF',

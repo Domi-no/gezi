@@ -346,7 +346,25 @@
 				}
 			}
 			
-			]
+			    ,{
+                    "path" : "help_the_poor/help_the_poor",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "扶贫成果",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "production_warehouse_change/production_warehouse_change",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 	
 		}]
 }

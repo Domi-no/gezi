@@ -32,7 +32,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="records_breedingPigeon_item_right">
+				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('种鸽')">
 					修改
 				</view>
 			</view>
@@ -50,7 +50,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="records_breedingPigeon_item_right">
+				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('鸽蛋')">
 					修改
 				</view>
 			</view>
@@ -68,7 +68,7 @@
 						</view>
 					</view>
 				</view>
-				<view class="records_breedingPigeon_item_right">
+				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('乳鸽')">
 					修改
 				</view>
 			</view>
@@ -86,78 +86,12 @@
 						</view>
 					</view>
 				</view>
-				<view class="records_breedingPigeon_item_right">
+				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('童鸽')">
 					修改
 				</view>
 			</view>
 		</view>
-		<!-- 点击修改传入index 根据index传入对应的数据 -->
-		<view class="records_breedingPigeon_modify">
-			<view class="records_breedingPigeon_modify_head">
-				<view class="records_breedingPigeon_modify_head_top">
-					<view class="records_breedingPigeon_modify_head_top_left">
-						<image src="../../static/daiban/ht_p.png" mode=""></image>
-						<view>种鸽</view>
-					</view><text class="alarm">需要补足种鸽！</text>
-				</view>
-				<view class="records_breedingPigeon_modify_bt">当前存栏：<text>987</text>只</view>
-			</view>
-		</view>
-		<view class="r_pigeon_add">
-			<view class="add_box">
-				<view class="r_pigeon_add_c">
-				</view>
-				<view class="r_pigeon__t r_pigeon_add_t">
-					增加
-				</view>
-			</view>
-			<view class="r_pigeon_add_i">
-				<text>新生</text>
-				<view class="r_pigeon_add_i_right">
-					<view class="jianhao">
-						<view class="jian"/>
-					</view>
-					<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
-					<view class="jiahao">
-						<view class="shu"></view>
-						<view class="heng"></view>
-					</view>
-					<text>枚</text>
-				</view>
-			</view>
-		</view>
-		<!-- 减少 -->
-		<view class="r_pigeon_add">
-			<view class="add_box">
-				<view class="r_pigeon_reduce_c">
-				</view>
-				<view class="r_pigeon__t r_pigeon_reduce_t">
-					减少
-				</view>
-			</view>
-			<view class="r_pigeon_add_i">
-				<text>新生</text>
-				<view class="r_pigeon_add_i_right">
-					<view class="jianhao">
-						<view class="jian"/>
-					</view>
-					<view class="">
-						<input ref="inp" v-model="inpData" :class="inpData-0?'r_red':'r_red'" type="number" @blur="onBlur" maxlength="4"/>
-					</view>
-					<view class="jiahao">
-						<view class="shu"></view>
-						<view class="heng"></view>
-					</view>
-					<text>枚</text>
-				</view>
-			</view>
-		</view>
-		<!-- 保存按钮 -->
-		<view class="" style="height: 398rpx;">
-			<view class="records_save_btn" @click="saveRecord">
-				保存
-			</view>
-		</view>
+		
 		<!-- pickerView -->
 		<my-pickerView v-show="pCShow" :pickerShow="pCShow" @pigeonCageClose="pigeonCageClose"></my-pickerView>
 		<!-- dialog -->
@@ -186,7 +120,8 @@
 				],
 				defaultIndex: [0],
 				inpData:0,
-				pCShow:false
+				pCShow:false,
+				id:0
 			};
 		},
 		methods: {
@@ -204,7 +139,13 @@
 			},
 			pigeonCageClose(){
 				this.pCShow=false
+			},
+			toChangeRecords(type){
+				uni.navigateTo({
+					url:'/sub/production_warehouse_change/production_warehouse_change?query='+type+'&id='+this.id
+				})
 			}
+			
 		},
 		computed:{
 			
@@ -217,7 +158,7 @@
 		background-color: #f4f6fa;
 		padding-top: 20rpx;
 		font-weight: 500rpx;
-
+		min-height: calc(100vh);
 		.records_top {
 			background-color: #fff;
 
@@ -420,68 +361,52 @@
 					color: #151515;
 				}
 				.r_pigeon_add_i_right{
-					width: 191rpx;
-						height: 22rpx;
+					width: 191rpx;	
 					display: flex;
 					justify-content: space-between;
-					padding: 25rpx 0;
-					view{
-						height: 22rpx;
-					}
+					
 					.r_bule{
 						color: #377be4;
 					}
 					.r_red{
 						color: #e64329;
 					}
-					input{
-						width: 80rpx;
-						max-height: 22rpx;
-						padding-top: 8rpx;
+					.inputBox{
+						height: 26rpx;
+						line-height: 26rpx;
+						margin: auto 12rpx;
 						text-align: center;
-						line-height: 22rpx;
-						position: relative;
-						top: -10rpx;
+					}
+					input{
+						display: block;
+						width: 80rpx;
+						// padding-top: 8rpx;
+						max-height: 26rpx;
+						
+						// line-height: 10rpx;
+						font-size: 28rpx;
+						float: left;
 					}
 					text{
 						font-size: 28rpx;
-						line-height: 44rpx;
+						line-height: 88rpx;
+						margin-left: 14rpx;
 						color: #343434;
 					}
-					.jiahao {
-						position: relative;
+					
+					
+					
+					.jiahao{
 						width: 22rpx;
 						height: 22rpx;
-					margin-top: 10rpx;
-						.heng {
-							position: absolute;
-							top: 10rpx;
-							left: 0;
-							width: 22rpx;
-							height: 4rpx;
-							background-color: #343434;
-						}
-					
-						.shu {
-							position: absolute;
-							top: 0;
-							left: 10rpx;
-							height: 22rpx;
-							width: 4rpx;
-							background-color: #343434;
-						}
-					
+						margin: auto 0;
 					}
 					.jianhao{
 						width: 22rpx;
-						height: 22rpx;
-						.jian{
-							width: 22rpx;
-							height: 4rpx;
-							margin-top: 20rpx;
-							background-color: #343434;
-						}
+						height: 2rpx;
+						margin:auto 0;
 					}
+					
 				}
 				
 				
