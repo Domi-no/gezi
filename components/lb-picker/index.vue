@@ -263,7 +263,7 @@ export default {
     radius: String,
     columnNum: {
       type: Number,
-      default: 5
+      default: 7
     },
     loading: Boolean,
     closeOnClickMask: {

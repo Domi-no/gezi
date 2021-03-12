@@ -12,7 +12,7 @@
 			<view class="">
 				
 			</view>
-			<view style="display: flex;"><text>数据详情</text><image src="../../static/cage/cage_s_zk.png" mode=""></image></view>
+			<view style="display: flex;" @click="toRecordDetailPage"><text>数据详情</text><image src="../../static/cage/cage_s_zk.png" mode=""></image></view>
 		</view>
 		<view class="_pigeon_type">
 			<view class="_pigeon_type_top">
@@ -220,7 +220,12 @@
 				const start = new Date('2019/5/10').getTime();
 				const end = new Date('2019/6/21').getTime();
 				return date.getTime() <= start || date.getTime() >= end;
-			}
+			},
+			toRecordDetailPage(){
+				uni.navigateTo({
+					url: '/sub/production_data/production_data'
+				});
+			},
 		}
 	}
 	

@@ -112,24 +112,27 @@
 				chartData: {
 					categories: ['12.1', '12.5', '12.10', '12.15', '12.20', '12.25','12.31'],
 					series: [{
-						name: '成交量A',
+						name: '销售额(万元)',
 						data: [350, 200, 250, 370, 40, 200,700],
-						color: '#EE577A'
+						color: '#88C932',
+						legendShape:'rect'
 					}, {
-						name: '成交量B',
+						name: '肉鸽销量',
 						data: [700, 400, 650, 1000, 440, 680,100],
-						color:'#88C932'
+						color:'#5273EB',
+						legendShape:'rect'
 					}, {
-						name: '成交量C',
+						name: '鸽蛋销量',
 						data: [1000, 800, 950, 450, 612, 232,400],
-						color:'#5273EB'
+						color:'#EE577A',
+						legendShape:'rect'
 					}]
 				}
 			}
 		},
 		onLoad() {
 			_self = this;
-			this.cWidth=uni.upx2px(650);
+			this.cWidth=uni.upx2px(720);
 			this.cHeight=uni.upx2px(320);
 			this.showLineA("canvasLineA",this.chartData)
 		},
@@ -158,13 +161,14 @@
 					pixelRatio:_self.pixelRatio,
 					categories: chartData.categories,
 					series: chartData.series,
-					animation: true,
+					animation: false,
 					dataPointShape:false,
 					xAxis: {
 						type:'grid',
 						gridColor:'#CCCCCC',
 						gridType:'dash',
-						dashLength:8
+						dashLength:8,
+						
 					},
 					yAxis: {
 						gridType:'solid',
@@ -174,11 +178,13 @@
 						calibration:true,
 						min:0,
 						max:1000,
+						
 						format:(val)=>{return val.toFixed(0)+''}
 					},
 					width: _self.cWidth*_self.pixelRatio,
 					height: _self.cHeight*_self.pixelRatio,
 					extra: {
+						// lineStyle:'straight',
 						line:{
 							type: 'straight'
 						}
@@ -328,7 +334,11 @@
 				border-radius: 10rpx;
 				padding-top: 26rpx;
 				margin-top: 27rpx;
+				padding-bottom: 29rpx;
 				text-align: center;
+				display: flex;
+				flex-direction: column;
+				justify-content: space-between;
 				
 			}
 			text{
@@ -343,7 +353,8 @@
 				font-size: 22rpx;
 				font-weight: 500;
 				color: #979797;
-				margin-top: 20rpx;
+				// margin-top: 20rpx;
+				line-height: 1;
 			}
 		}
 	}
@@ -356,7 +367,7 @@
 	}
 	
 	.charts {
-		width: 650upx;
+		width: 720upx;
 		height: 328upx;
 		background-color: #FFFFFF;
 		margin: 0 auto;

@@ -105,7 +105,9 @@
 					console.log(1)
 					break;
 					case 2 :
-					console.log(2)
+					uni.navigateTo({
+						url: '/sub/prevention_cure/prevention_cure'
+					});
 					break;
 					case 3 :
 					uni.navigateTo({

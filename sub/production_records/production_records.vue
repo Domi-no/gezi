@@ -10,7 +10,7 @@
 			</view>
 			<view class="records_top_i">
 				<text class="records_top_i_left">组号</text>
-				<view class="records_top_i_right" @click="pigeonCageShow">
+				<view class="records_top_i_right" @click="pRWPopup">
 					<text class="records_top_i_right_text">233</text>
 					<image src="../../static/report/report_zk.png" mode=""></image>
 				</view>
@@ -91,19 +91,24 @@
 				</view>
 			</view>
 		</view>
-		
+		<lb-picker ref="pRWarehouseChange" :list="pRWList" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
 		<!-- pickerView -->
-		<my-pickerView v-show="pCShow" :pickerShow="pCShow" @pigeonCageClose="pigeonCageClose"></my-pickerView>
+		<!-- <my-pickerView v-show="pCShow" :pickerShow="pCShow" @pigeonCageClose="pigeonCageClose"></my-pickerView> -->
 		<!-- dialog -->
 		<!-- <my-dialog @closeModify="closeM"></my-dialog> -->
 		<!-- <my-alert-dialog v-show="show" @closeM="closeM"></my-alert-dialog> -->
-		<my-submit-dialog v-show="show" @closeM="closeM"></my-submit-dialog>
+		<!-- <my-submit-dialog v-show="show" @closeM="closeM"></my-submit-dialog> -->
 	</view>
 </template>
 
 <script>
+	import LbPicker from '@/components/lb-picker'
 	export default {
-		
+		components: {
+		     LbPicker
+		   },
 		data() {
 			return {
 				show: false,
@@ -121,7 +126,8 @@
 				defaultIndex: [0],
 				inpData:0,
 				pCShow:false,
-				id:0
+				id:0,
+				pRWList:[1,2,3,4]
 			};
 		},
 		methods: {
@@ -134,8 +140,9 @@
 			saveRecord(){
 				this.show=true
 			},
-			pigeonCageShow(){
-				this.pCShow=true
+			pRWPopup(){
+				this.$refs.pRWarehouseChange.show()
+				
 			},
 			pigeonCageClose(){
 				this.pCShow=false
@@ -144,7 +151,10 @@
 				uni.navigateTo({
 					url:'/sub/production_warehouse_change/production_warehouse_change?query='+type+'&id='+this.id
 				})
-			}
+			},
+			pRWarehouseChange(e){
+				console.log(e.value)
+			},
 			
 		},
 		computed:{

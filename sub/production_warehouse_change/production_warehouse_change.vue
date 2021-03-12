@@ -28,7 +28,11 @@
 						<view class="records_breedingPigeon_modify_head_top_left">
 							<image src="../../static/daiban/ht_p.png" mode=""></image>
 							<view>种鸽</view>
-						</view><text class="alarm">需要补足种鸽！</text>
+						</view>
+						<view class="">
+							<text class="alarm">需要补足种鸽！</text>
+							<text style="font-size: 24rpx;font-weight: 500;color: #343434;">日龄：5天</text>
+						</view>
 					</view>
 					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>987</text>只</view>
 				</view>
@@ -531,6 +535,19 @@
 		</neil-modal>
 		<neil-modal
 		    :show="true" 
+		    @close="closesTipModal" 
+			:cancel-color="'#377BE4'"
+			:align="'center'"
+		    title="当日最多可修改3次记录" 
+		    content=""
+		    @cancel="tipsBtn('cancel')" 
+		    @confirm="tipsBtn('confirm')">
+			<view class="" style="font-size: 28rpx;font-weight: 500;padding-bottom: 42rpx;">
+				今日剩余修改次数<text style="color: #377BE4;margin-left: 25rpx;">3</text>
+			</view>
+		</neil-modal>
+		<neil-modal
+		    :show="false" 
 		    @close="closeWarningModal" 
 			:cancel-color="'#E64329'"
 			:cancel-text="'取消修改'"
@@ -604,7 +621,13 @@
 			},
 			closeWarningModal(){
 				
-			}
+			},
+			tipsBtn(){
+				
+			},
+			closesTipModal(){
+				
+			},
 			
 		},
 		computed:{
@@ -841,6 +864,8 @@
 					line-height: 26rpx;
 					margin: auto 12rpx;
 					text-align: center;
+					position: relative;
+					top: -4rpx;
 				}
 				input{
 					display: block;

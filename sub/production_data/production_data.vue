@@ -1,11 +1,11 @@
 <template>
 	<view class="myFont pd_container">
 		<view class="pd_title">
-			<view class="pd_title_left">
+			<view class="pd_title_left" @click="showPDTimePopup">
 				<text>2020-12-20</text>
 				<image src="../../static/report/report_zk.png"></image>
 			</view>
-			<view class="pd_title_right">
+			<view class="pd_title_right" @click="showPDWarehousePopup">
 				<text>所有仓</text>
 				<image src="../../static/home/zk.png"></image>
 			</view>
@@ -74,11 +74,22 @@
 				</view>
 			</view>
 		</view>
+		
+		<lb-picker ref="pD_time" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='pD_time'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="pDWarehouseChange" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='pDWarehouseChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
 	</view>
 </template>
 
 <script>
+	import LbPicker from '@/components/lb-picker'
 	export default {
+		components: {
+		     LbPicker
+		   },
 		data() {
 			return {
 				
@@ -95,6 +106,18 @@
 				this.expandItem[idx]===true?  this.$set(this.expandItem,idx,false) : this.$set(this.expandItem,idx,true)
 				console.log(this.expandItem)
 				
+			},
+			pD_time(e){
+				console.log(e.value)
+			},
+			pDWarehouseChange(e){
+				console.log(e.value)
+			},
+			showPDTimePopup(){
+				this.$refs.pD_time.show()
+			},
+			showPDWarehousePopup(){
+				this.$refs.pDWarehouseChange.show()
 			},
 			
 			
@@ -145,9 +168,7 @@
 				image {
 					width: 12rpx;
 					height: 22rpx;
-					position: relative;
-					top: 50%;
-					transform: translateY(-50%);
+					margin: auto 0;
 				}
 			}
 		}
@@ -304,8 +325,14 @@
 					}
 
 					.pd_l_mr {
-						margin-right: 120rpx;
+						margin-right: 100rpx;
 					}
+				}
+				.pd_pigeon_bt:nth-child(2){
+					margin-right: 0;
+				}
+				.pd_pigeon_bt:nth-child(4){
+					margin-right: 0;
 				}
 
 			}

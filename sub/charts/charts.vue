@@ -1,7 +1,7 @@
 <template>
 	<view class="myFont reportContainer">
 		<view class="report_head">
-			<view class="report_head_left">
+			<view class="report_head_left" @click="showPRWarehousePopup">
 				<text>所有仓</text>
 				<image src="@/static/report/report_zk.png" mode=""></image>
 			</view>
@@ -11,7 +11,7 @@
 		</view>
 		<view class="report_time">
 			<view class="report_time_left">
-				<view class="start">
+				<view class="start" @click="showStartPRTimePopup">
 					<text>2020-06-30</text><image src="../../static/report/bt_zk.png" mode=""></image>
 				</view>
 				<text class="to">至</text>
@@ -67,21 +67,31 @@
 			</view>
 			
 		</view>
+		<lb-picker ref="startPRTime" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='pRtime'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="pRWarehouseChange" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
 	</view>
 	
 </template>
 <script>
 	import uCharts from '../../js_sdk/u-charts/u-charts/u-charts.js';
+	import LbPicker from '@/components/lb-picker'
 	var _self;
 	var canvaColumn = null;
 	export default {
+		components: {
+		     LbPicker
+		   },
 		data() {
 			return {
 				cWidth: '',
 				cHeight: '',
 				pixelRatio: 1,
 				serverData: '',
-
+				list:[1,2,3,4,5]
 			}
 		},
 		onLoad() {
@@ -185,6 +195,18 @@
 		// 	},
 		// }
 		methods: {
+			pRtime(e){
+				console.log(e.value)
+			},
+			pRWarehouseChange(e){
+				console.log(e.value)
+			},
+			showStartPRTimePopup(){
+				this.$refs.startPRTime.show()
+			},
+			showPRWarehousePopup(){
+				this.$refs.pRWarehouseChange.show()
+			},
 					getServerData(){
 						var Column = {
 									categories: ["6", "7", "8", "9", "10", "11", "12"],
@@ -210,6 +232,7 @@
 							series: chartData.series,
 							xAxis: {
 								disableGrid:true,
+								axisLine:false
 							},
 							yAxis: {
 								//disabled:true
@@ -237,6 +260,7 @@
 										            global: false // 缺省为 false
 										        }, 
 										        // 圆角半径，单位px，必须传入数组分别指定 4 个圆角半径
+												meter:{border:0},
 										        barBorderRadius: [10, 10, 0, 0],
 										        // 半圆边框
 										        barBorderCircle: true,

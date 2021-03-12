@@ -364,6 +364,15 @@
                 }
                 
                 }
+                ,{
+                    "path" : "prevention_cure/prevention_cure",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "鸽病防治",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
 	
 		}]
