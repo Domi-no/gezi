@@ -4,11 +4,11 @@
 			<view class="info_box">
 				<view class="info_left">
 					<view class="info_imageBox">
-						<image src="" mode=""></image>
+						<image :src="userInfo.avatar" mode=""></image>
 					</view>
-					<view class="info_nameBox">
+					<view class="info_nameBox" @click="log">
 						<view class="name">
-							张三风
+							{{userInfo.nick_name}}
 						</view>
 						<view>饲养员</view>
 					</view>
@@ -71,6 +71,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -95,8 +98,18 @@
 				uni.navigateTo({
 					url: '/sub/set_up/set_up'
 				});
+			},
+			log(){
+				console.log(1)
+				console.log(this.userInfo)
 			}
-		}
+		},
+		
+		computed: {
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			})
+		},
 	}
 </script>
 
@@ -122,7 +135,7 @@
 				.info_imageBox{
 					width: 128rpx;
 					height: 128rpx;
-					background-color: #fac;
+					// background-color: #fac;
 					border-radius: 50%;
 					overflow: hidden;
 					image{

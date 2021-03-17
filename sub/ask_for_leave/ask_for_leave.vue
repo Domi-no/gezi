@@ -14,28 +14,28 @@
 				开始时间<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="leaveSTime">
-				<text>{{leaveStartTime}}</text>
+				<text>{{leaveForm.start_time}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
 				结束时间<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox"  @click="leaveETime">
-				<text>{{leaveEndTime}}</text>
+				<text>{{leaveForm.end_time}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
 				时长(天)<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox">
-				<input type="number" @input="dayChange" :value="howlong"  placeholder="请假时长" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><text></text>
+				<input type="number" @input="dayChange" :value="leaveForm.duration"  placeholder="请假时长" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><text></text>
 			</view>
 		</view>
 		<view class="leaveReason">
 			<view class="">
 				请假类型<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
-			<textarea :value="reasonContent"  @input="reasonChange"  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea :value="leaveForm.reason"  @input="reasonChange"  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 		<view :class="{leaveSubmit:true,isSubBg:isSub}" @click="cSubBtn">
 			提交
@@ -46,22 +46,12 @@
 					请假类型
 				</view>
 				<view class="leavePopname">
-					<evan-radio class="radioStyle"  v-model="baseValue" label="年假">年假</evan-radio>
-					<view class="leave_line"></view>
-					<evan-radio class="radioStyle" v-model="baseValue" label="事假">事假</evan-radio>
-					<view class="leave_line"></view>
-					<evan-radio class="radioStyle" v-model="baseValue" label="病假">病假</evan-radio>
-					<view class="leave_line"></view>
-					<evan-radio class="radioStyle" v-model="baseValue" label="调休假">调休假</evan-radio>
-					<view class="leave_line"></view>
-					<evan-radio class="radioStyle" v-model="baseValue" label="产假">产假</evan-radio>
-					<view class="leave_line"></view>
-					<evan-radio class="radioStyle" v-model="baseValue" label="陪产假">陪产假</evan-radio>
-					<view class="leave_line"></view>
-					<evan-radio class="radioStyle" v-model="baseValue" label="婚假">婚假</evan-radio>
-					<view class="leave_line"></view>
-					<evan-radio class="radioStyle" v-model="baseValue" label="其它">其它</evan-radio>
+					<view class="" v-for="(item,idx) in leaveType" :key="idx" @click="leaveTypeChange(item.type_name)">
+						<evan-radio class="radioStyle"  v-model="leaveForm.type_id" :label="item.type_id" >{{item.type_name}}</evan-radio>
+						<view class="leave_line" v-show="idx !== leaveType.length-1"></view>
+					</view>
 				</view>
+			
 			</view>
 		</uni-popup>
 		<w-picker
@@ -95,6 +85,9 @@
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components:{
 		        wPicker
@@ -104,10 +97,16 @@
 				 baseValue:'请选择',
 				 visible:false,
 				 visible2:false,
-				 leaveStartTime:'请选择',
-				 leaveEndTime:'请选择',
-				 reasonContent:'',
-				 howlong:''
+				 startDay:'',
+				 endDay:'',
+				 leaveType:[],
+				 leaveForm:{
+					 type_id:'',
+					 start_time:'请选择',
+					 end_time:'请选择',
+					 duration:'',
+					 reason:''
+				 }
 				 
 			}
 		},
@@ -125,33 +124,80 @@
 			onCancel(){
 				
 			},
-			onConfirm({result}){
-				console.log(result)
+			onConfirm(e){
+				console.log(e)
 				console.log(this.visible,this.visible2)
-				this.visible ? this.leaveStartTime = result : this.leaveEndTime = result
+				// this.visible ? this.startDay = e.obj.day : this.endDay = e.obj.day
+				this.visible ? this.leaveForm.start_time = e.result : this.leaveForm.end_time = e.result
+				
 			},
 			cSubBtn(){
-				console.log(this.isSub)
+				if(this.isSub){
+					this.$http.post('/Work/addLeave.html',{uid:this.userInfo.id,...this.leaveForm})
+					.then((res)=>{
+						console.log(res)
+						
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						})
+						
+						
+					}).catch((err)=>{
+						console.log(err)
+					})
+				}
+				
 			},
 			reasonChange({detail:{value}}){
 				
-				this.reasonContent=value
+				this.leaveForm.reason=value
 			},
 			dayChange({detail:{value}}){
-				this.howlong=value
+				this.leaveForm.duration=value.trim()
+			},
+			getLeaveType(){
+				this.$http.post('/Work/leaveType.html',undefined,{name:this.userInfo.nick_name,password:this.userInfo.upassword,username:this.userInfo.user_name})
+				.then((res)=>{
+					console.log(res)
+					this.leaveType =res.data
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			leaveTypeChange(value){
+				console.log(value)
+				this.baseValue=value
+				
 			}
 		},
 		computed:{
 			isSub(){
-				if(this.baseValue === '请选择' || this.leaveStartTime === '请选择' || !this.howlong|| this.leaveEndTime === '请选择' || !this.reasonContent.trim()){
-					console.log(this.baseValue,this.leaveStartTime,this.howlong,this.leaveEndTime,this.reasonContent)
+				const {type_id,start_time,end_time,duration,reason} = this.leaveForm
+				if(this.baseValue === '请选择' || start_time === '请选择' || !duration|| end_time === '请选择' || !reason.trim()){
+					
 					return false
 				}else{
 					return true
 				}
 				
 				
-			}
+			},
+			day(){
+				return this.startDay && this.endDay ? this.endDay-this.startDay : 0
+			},
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			})
+		},
+		created() {
+			this.getLeaveType()
 		}
 		
 	}

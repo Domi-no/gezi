@@ -1,14 +1,14 @@
 <template>
 	<view class="myFont news_detail_container">
-		<view class="news_detail_title">
-			和平鸽是和平、友谊、团结和圣洁的象征。世界很多城市和广场上，都会建立起和平鸽的雕塑。
+		<view class="news_detail_title" >
+			{{newsDetails.title}}
 		</view>
-		<view class="news_detail_time">2020-12-4</view>
-		<view class="news_detail_content">
-			直到纪元初，鸽子才被当做和平的象征。《旧约·创世纪》记载，上古洪水之后，诺亚从方舟上放出一只鸽子，让它去探明洪水是否退尽，上帝让鸽子衔回橄榄枝，已示洪水退尽，人间尚存希望。诺亚知道洪水已开始退去，平安就要来到。洪水退去后，在世间一切生灵面前呈现了长满绿色树木的山谷和开着鲜花的幽静小道。
+		<view class="news_detail_time">{{newsDetails.creatime}}</view>
+		<view class="news_detail_content" id="news_detail_content" ref="content" v-html="newsDetails.content">
+		
 		</view>
 		<view class="news_detail_image">
-			<image src="" mode=""></image>
+			<image :src="newsDetails.display_img" mode=""></image>
 		</view>
 	</view>
 </template>
@@ -17,11 +17,33 @@
 	export default {
 		data() {
 			return {
-				
+				newsId:'',
+				newsDetails:''
 			}
 		},
 		methods: {
-			
+			getNewsDetails(){
+				this.$http.post('/Rank/newsDetails.html',{newsid:this.newsId})
+				.then((res)=>{
+					console.log(res)
+					this.newsDetails =res.data[0]
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					this.$refs.content.appendChild(res.data[0].content)
+					// document.querySelector('#news_detail_content').innerHTML= res.data[0].content
+					console.log(this.newsDetails)
+				}).catch((err)=>{
+					console.log(err)
+				})
+			}
+		},
+		created() {
+			this.getNewsDetails()
+		},
+		onLoad(e){
+			this.newsId=e.id
 		}
 	}
 </script>

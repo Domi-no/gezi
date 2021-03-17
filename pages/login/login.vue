@@ -5,10 +5,10 @@
 		</view>
 		<view class="accountNumberBox">
 			<view class="phone">
-				<image src="../../static/login/phone.png" mode=""></image><input type="number" value="" @input="phoneNumber" placeholder="请输入手机号码" placeholder-class="placeStyle"/>
+				<image src="../../static/login/phone.png" mode=""></image><input type="number" :value="userInfo.phone" @input="phoneNumber" placeholder="请输入手机号码" placeholder-class="placeStyle"/>
 			</view>
 			<view class="password">
-				<image src="../../static/login/password.png" mode=""></image><input type="text" value="" @input="passWordChange" placeholder="请输入密码" placeholder-class="placeStyle"/>
+				<image src="../../static/login/password.png" mode=""></image><input type="text" :value="userInfo.password" @input="passWordChange" placeholder="请输入密码" placeholder-class="placeStyle"/>
 			</view>
 			<view class="forgetPassword">
 				<text></text>
@@ -28,7 +28,11 @@
 	export default {
 		data() {
 			return {
-				cForget:false
+				cForget:false,
+				userInfo:{
+					phone:'15775772825',
+					password:'a12345678'
+				}
 			}
 		},
 		methods: {
@@ -44,17 +48,59 @@
 			// ^1([358][0-9]|4[579]|66|7[0135678]|9[89])[0-9]{8}$
 			phoneNumber({detail:{value}}){
 				console.log(value)
+				this.userInfo.phone=value
 			},
 			passWordChange({detail:{value}}){
 				console.log(value)
+				this.userInfo.password =value
 			},
 			login(){
-				console.log(this.cForget)
-			}
+				// const res = uni.request({
+				// 	method:'POST',
+				// 	url:'http://192.168.0.134/Login/loginByPwd.html',
+				// 	data:this.userInfo,
+				// 	success: ({data:{data}}) => {
+				// 		this.$store.dispatch('handleUserInfo', data).then(() => {})
+				// 		// uni.navigateTo({
+				// 		// 	url: '/pages/index/index'
+				// 		// });
+				// 	},
+				// 	fail: (err) => {
+				// 		console.log(err)
+				// 		uni.showToast({
+							
+				// 		})
+				// 	}
+					
+				// })
+				// console.log(this.userInfo)
+				this.$http.post('/Login/loginByPwd.html',this.userInfo)
+				.then(({code,message,data})=>{
+					
+					uni.showToast({
+						title: message ||'登录异常',
+						icon: 'none'
+					})
+					console.log(code)
+					if(code == 200){
+						console.log(1111)
+						this.$store.dispatch('handleUserInfo',{...data,uphone:this.userInfo.phone,upassword:this.userInfo.password}).then(() => {})
+						setTimeout(()=>{
+							uni.navigateTo({
+								url: '/pages/index/index'
+							});
+						},1000)
+					}
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+				
+			},
 		},
 		watch:{
 			cForget(){
-				this.cForget ? setTimeout(()=>{this.cForget=false},2000):''
+				this.cForget ? setTimeout(()=>{this.cForget=false},2500):''
 			}
 		}
 	}
@@ -151,7 +197,7 @@
 		color: #FFFFFF;
 		line-height: 36rpx;
 	}
-	.hide {animation:hide 2s linear both;}  
+	.hide {animation:hide 2.5s linear both;}  
 	@keyframes hide {0% {opacity:1;}100% {opacity:0;}}
 }
 

@@ -8,10 +8,10 @@
 				<view class="news_content">
 					{{item.content}}
 				</view>
-				<text class="news_time">2020-12-11</text>
+				<text class="news_time">{{item.creatime}}</text>
 			</view>
 			<view class="news_right">
-				<image src="" mode=""></image>
+				<image :src="item.display_img" mode=""></image>
 			</view>
 		</view>
 	</view>

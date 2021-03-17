@@ -52,5 +52,24 @@
         "setting" : {
             "urlCheck" : true
         }
-    }
+    },
+	"APP" : {
+	    
+	    "devServer" : {
+	        "https" : false,
+	        "port" : 8080,
+	        "disableHostCheck" : true,
+	        "proxy" : {
+	            "/api" : {
+	                "target" : "http://192.168.0.100",
+	                "changeOrigin" : true,
+	                "secure" : false,
+	                "pathRewrite" : {
+	                    "^/api" : ""
+	                }
+	            }
+	        }
+	    }
+	}
+	
 }

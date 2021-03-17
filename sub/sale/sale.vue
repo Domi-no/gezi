@@ -20,7 +20,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="saleCageBox">
+			<view class="saleCageBox" @scroll="touch">
 				<view class="sCItem">
 					<view class="">
 						<image src="../../static/daiban/ht_p.png" mode=""></image><text>种鸽</text>
@@ -44,6 +44,31 @@
 						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
 					</view>
 					<text class="sCCageNum pinkNum">598</text>
+				</view>
+				<view class="sCItem">
+					<view class="">
+						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+					</view>
+					<text class="sCCageNum pinkNum">598</text>
+				</view>
+				<view class="sCItem">
+					<view class="">
+						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+					</view>
+					<text class="sCCageNum pinkNum">598</text>
+				</view>
+				<view class="sCItem">
+					<view class="">
+						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+					</view>
+					<text class="sCCageNum pinkNum">598</text>
+				</view>
+				<view class="lineBox">
+					<view class="" style="position: relative;">
+						<view class="line" id="line" :style="'position: absolute;left:' + leftValue +'%;'">
+							
+						</view>
+					</view>
 				</view>
 			</view>
 			
@@ -106,6 +131,7 @@
 	export default {
 		data() {
 			return {
+				leftValue:0,
 				cWidth:'',
 				cHeight:'',
 				pixelRatio:1,
@@ -198,6 +224,10 @@
 						return category + ' ' + item.name + ':' + item.data 
 					}
 				});
+			},
+			touch(e){
+				console.log(e)
+				this.leftValue >= 55 ? '' :this.leftValue += 1
 			}
 		}
 	}
@@ -251,6 +281,7 @@
 		background: #FFFFFF;
 		// padding: 0 30rpx;
 		border-top: 2rpx solid #F4F6FA;
+		position: relative;
 		.saleNumBox{
 			height: 90rpx;
 			display: flex;
@@ -278,8 +309,28 @@
 		.saleCageBox{
 			height: 180rpx;
 			display: flex;
+			overflow-y: scroll;
+			// position: relative;
+			.lineBox{
+				width: 90rpx;
+				height: 4rpx;
+				background: #E4E5E9;
+				border-radius: 2rpx;
+				position: absolute;
+				bottom: 18rpx;
+				left: 50%;
+				transform: translateX(-50%);
+				.line{
+					width: 40rpx;
+					height: 4rpx;
+					background: #676767;
+					border-radius: 2rpx;
+					position: absolute;
+					
+				}
+			}
 			.sCItem{
-				width: 180rpx;
+				min-width: 180rpx;
 				height: 180rpx;
 				font-size: 28rpx;
 				font-weight: 500;

@@ -150,7 +150,7 @@
 			// 从list数组中读取的图片的属性名
 			name: {
 				type: String,
-				default: 'image'
+				default: 'linkurl'
 			},
 			// 背景颜色
 			bgColor: {

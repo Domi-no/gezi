@@ -1,7 +1,7 @@
 <template>
 	<view class="waitContainer">
 			<view class="swiper">
-				<u-swiper :list="list" indicator-pos="bottomRight" height="300"></u-swiper>
+				<u-swiper :list="list" :name="'image'" indicator-pos="bottomCenter" :indicator="{'background-color':'#A5A5AA'}" height="300"></u-swiper>
 			</view>
 			<view class="" v-for="(i,idx) in waitData" :key="idx">
 				<view class="administration">

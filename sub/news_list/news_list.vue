@@ -1,20 +1,20 @@
 <template>
 	<view class="myFont nl_container">
-		<view class="newsListItem" v-for="(item,idx) in 10" :key="idx">
+		<view class="newsListItem" v-for="(item,idx) in newsList" :key="idx" @click="toNewsDetailPage(item.news_id)">
 			
 			<view class="newsListContentBox">
 				<view class="newsListTitle">
-					安全生产责任重于泰山
+					{{item.title}}
 				</view>
 				<view class="newsListContent">
-					和平鸽是和平、友谊、团结和圣洁的象征。世界很多城市和广场上，都会...
+					{{item.content}}
 				</view>
 				<view class="newsListTime">
-					2020-12-4
+					{{item.creatime}}
 				</view>
 			</view>
 			<view class="newsListImgBox">
-				<image src="" mode=""></image>
+				<image :src="item.display_img" mode=""></image>
 			</view>
 		</view>
 		<view class="news_list_bt">
@@ -32,11 +32,34 @@
 			}
 		},
 		methods: {
-			
+			getListNews(){
+				this.$http.post('/Rank/news.html',{News:'listNews'})
+				.then((res)=>{
+					console.log(res)
+					this.newsList =res.data.data
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			toNewsDetailPage(id){
+				console.log(id)
+				uni.navigateTo({
+					url: '/sub/news_detail/news_detail?id='+id
+				});
+			}
+		},
+		created() {
+			this.getListNews()
 		},
 		onLoad(e){
 			console.log(JSON.parse(e.query))
-			this.newsList =JSON.parse(e.query)
+			// this.newsList =JSON.parse(e.query)
 		}
 	}
 </script>
@@ -61,6 +84,7 @@
 			}
 			.newsListContentBox{
 				width: 417rpx;
+				
 				.newsListTitle{
 					line-height: 1;
 					font-size: 30rpx;
@@ -74,6 +98,12 @@
 					color: #343434;
 					line-height: 36rpx;
 					margin: 4rpx 0;
+					margin-top: 11rpx;
+					font-size: 24rpx;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
 				}
 				.newsListTime{
 					

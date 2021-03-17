@@ -72,10 +72,10 @@
 				
 			</view>
 		</view>
-		<view class="clockBtn">
+		<view class="clockBtn" @click="getLocation">
 			<view class="oClockBtn">
 				<view class="iClockBtn">
-					<view class="">
+					<view class="" >
 						上班打卡
 					</view>
 					<text>09:00:00</text>
@@ -96,8 +96,20 @@
 			}
 		},
 		methods: {
-			
-		}
+			getLocation(){
+				console.log(1)
+				uni.getLocation({
+					success:(res)=> {
+					console.log(res)	
+					},
+					fail:(res)=>{
+						console.log(res)
+					}
+				})
+				
+			}
+		},
+		
 	}
 </script>
 

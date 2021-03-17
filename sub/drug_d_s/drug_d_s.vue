@@ -39,6 +39,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -65,10 +68,11 @@
 				uni.navigateTo({
 					url: '/sub/drugs_warehousing/drugs_warehousing'
 				});
-			}
+			},
 			
 			
-		}
+		},
+		
 	}
 </script>
 

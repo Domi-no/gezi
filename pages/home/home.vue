@@ -2,7 +2,7 @@
 	<view class="myFont hContainer" @click.stop="containerClick">
 		<view class="sw">
 			<view class="wrap">
-				<u-swiper :list="list" indicator-pos="bottomRight" height="300"></u-swiper>
+				<u-swiper :list="homeBannerList" :name="'linkurl'" indicator-pos="bottomRight" height="300"></u-swiper>
 			</view>
 			<view class="column">
 				<view class="c_item" v-for="(item,idx) in c_img" :key="idx" @click="toHomeSubPage(idx)">
@@ -21,7 +21,7 @@
 					<image class="zk" src="../../static/home/zk.png" />
 				</view>
 			</view>
-			<my-news :news="newsArray"></my-news>
+			<my-news :news="homeNewsList"></my-news>
 		</view>
 		<view class="rank">
 			<view class="rank_head">
@@ -58,17 +58,9 @@
 				isShowRLN:false,
 				cRankListNameId:'',
 				rankName:'鸽仓排行',
+				homeNewsList:[],
 				newsArray:[{content:'和平鸽是和平，友谊，团结，和圣洁的象征。世界很多城市和广场上,都会放那么一两只鸽子',title:'安全生产重于泰山'},{content:'和平鸽是和平，友谊，团结，和圣洁的象征。世界很多城市和广场上,都会放那么一两只鸽子',title:'安全生产重于泰山'}],
-				list: [{
-						image: 'https://cdn.uviewui.com/uview/swiper/1.jpg'
-					},
-					{
-						image: 'https://cdn.uviewui.com/uview/swiper/2.jpg'
-					},
-					{
-						image: 'https://cdn.uviewui.com/uview/swiper/3.jpg'
-					}
-				],
+				homeBannerList: [],
 				classification:['日榜','月度榜','季度榜','年度榜'],
 				rankListName:['厂区排行','员工排行','鸽仓排行'],
 				c_img: [{
@@ -136,10 +128,52 @@
 				uni.navigateTo({
 					url: '/sub/ph_ranking/ph_ranking'
 				})
+			},
+			next(){
+				console.log(1)
+				this.$nextTick(function(){
+					console.log('next')
+				
+				})
+			},
+			getHomeNews(){
+				this.$http.post('/Rank/news.html',{News:'homeNews'})
+				.then((res)=>{
+					console.log(res)
+					this.homeNewsList =res.data
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			getHomeBanner(){
+				this.$http.post('/Rank/Banner.html')
+				.then((res)=>{
+					console.log(res)
+					this.homeBannerList =res.data
+					console.log(this.homeBannerList)
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
 			}
 		},
-		onShow() {
-			console.log(1)
+		
+		created() {
+			this.next()
+			this.getHomeNews()
+			this.getHomeBanner()
+			console.log('created')
 		}
 	}
 </script>
