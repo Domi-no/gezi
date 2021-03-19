@@ -31,7 +31,7 @@
 				cForget:false,
 				userInfo:{
 					phone:'15775772825',
-					password:'a12345678'
+					password:'abc123456'
 				}
 			}
 		},

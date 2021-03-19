@@ -1,7 +1,7 @@
 <template>
 	<view class="drugUseFeedBackContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{this.drugUseFeedBackForm.approval}}</text>
 		</view>
 
 		<view class="leaveType">
@@ -9,7 +9,7 @@
 				用药鸽仓<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox" >
-				<text>{{drugUseRecordPigeonBin}}</text>
+				<text>{{this.drugUseFeedBackForm.approval}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 		</view>
@@ -17,7 +17,7 @@
 			<view class="">
 				症状描述<image class="star" :src="starSrc[0]" mode=""></image>
 			</view>
-			<textarea @input="dWremarks"  :value="DURdescriptionOfDisease" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea @input="dWremarks"  :value="symptom" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		<view >
 			<view class="leaveTime">
@@ -25,7 +25,7 @@
 					生病数量<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<text>123</text>
+					<text>{{this.drugUseFeedBackForm.number}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="" >
@@ -33,7 +33,7 @@
 						开始用药时间<image class="star" :src="starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox"  @click="">
-						<text>{{startingTimeOfMedication}}</text>
+						<text>{{this.drugUseFeedBackForm.usage_time}}</text>
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 				</view>
@@ -41,7 +41,7 @@
 					用药天数<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<text>123</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<text>{{this.drugUseFeedBackForm.day}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				
 			</view>
@@ -52,7 +52,7 @@
 					药品名称<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<text>{{nameOfDrug}}</text>
+					<text>{{this.drugUseFeedBackForm.drugs_name}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="">
@@ -60,7 +60,7 @@
 						生产厂家<image class="star" :src="starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox">
-						<text>{{dURManufacturer}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+						<text>{{this.drugUseFeedBackForm.production}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 				</view>
 				<view class="" >
@@ -68,7 +68,7 @@
 						药品批号<image class="star" :src="starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox" >
-						<text>{{drugBatchNumber}}</text>
+						<text>{{this.drugUseFeedBackForm.batch_number}}</text>
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 				</view>
@@ -79,13 +79,13 @@
 					药品用量<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<text>123</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<text>{{this.drugUseFeedBackForm.dosage}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					用药审批人<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<text>123</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<text>{{this.drugUseFeedBackForm.approval}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				
 			</view>
@@ -161,7 +161,24 @@
 				drugDosage:'',
 				dURApprovedBy:'',
 				starSrc:['../../static/daiban/star.png','../../static/daiban/n_s_star.png'],
-				
+				drugUseFeedBackForm:{
+					uid:'',
+					record_id:'',
+					record_time:'',
+					block_id:'',
+					symptom:'',
+					number:'',
+					usage_time:'',
+					day:'',
+					drugs_id:'',
+					approval:'',
+					feedback:'',
+					dosage:'',
+					production:'',
+					drugs_name:'',
+					symptom:''
+					
+				}
 				
 			}
 		},

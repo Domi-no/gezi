@@ -12,45 +12,45 @@
 			</view>
 		</view>
 		<view class="dWTopBox">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{this.time}}</text>
 		</view>
 		<view class="dWTopBox">
-			<text>用药鸽仓</text><text>生产仓23</text>
+			<text>用药鸽仓</text><text>{{this.name}}</text>
 		</view>
 		<view class="leaveReason">
 			<view class="">
 				症状描述
 			</view>
-			<textarea   :disabled="false" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   :disabled="true" placeholder="" :value="drugUseDetailForm.symptom" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 		<view class="" style="margin-top: 20rpx;">
 			<view class="dWTopBox">
-				<text>生病数量</text><text>2020-12-21</text>
+				<text>生病数量</text><text>{{this.drugUseDetailForm.number}}</text>
 			</view>
 			<view class="dWTopBox">
-				<text>开始用药时间</text><text>2020-12-21</text>
+				<text>开始用药时间</text><text>{{this.drugUseDetailForm.usage_time}}</text>
 			</view>
 			<view class="dWTopBox">
-				<text>用药天数</text><text>2020-12-21</text>
-			</view>
-		</view>
-		<view class=""  style="margin-top: 20rpx;">
-			<view class="dWTopBox">
-				<text>药品名称</text><text>2020-12-21</text>
-			</view>
-			<view class="dWTopBox">
-				<text>生产厂家</text><text>2020-12-21</text>
-			</view>
-			<view class="dWTopBox">
-				<text>药品批号</text><text>2020-12-21</text>
+				<text>用药天数</text><text>{{this.drugUseDetailForm.day}}</text>
 			</view>
 		</view>
 		<view class=""  style="margin-top: 20rpx;">
 			<view class="dWTopBox">
-				<text>药品用量</text><text>2020-12-21</text>
+				<text>药品名称</text><text>{{this.drugUseDetailForm.drugs_name}}</text>
 			</view>
 			<view class="dWTopBox">
-				<text>用药审批人</text><text>2020-12-21</text>
+				<text>生产厂家</text><text>{{this.drugUseDetailForm.production}}</text>
+			</view>
+			<view class="dWTopBox">
+				<text>药品批号</text><text>{{this.drugUseDetailForm.batch_number}}</text>
+			</view>
+		</view>
+		<view class=""  style="margin-top: 20rpx;">
+			<view class="dWTopBox">
+				<text>药品用量</text><text>{{this.drugUseDetailForm.dosage}}</text>
+			</view>
+			<view class="dWTopBox">
+				<text>用药审批人</text><text>{{this.drugUseDetailForm.approval}}</text>
 			</view>
 		</view>
 		
@@ -58,7 +58,7 @@
 			<view class="">
 				用药反馈
 			</view>
-			<textarea   :disabled="false" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   :disabled="true" :value="drugUseDetailForm.feedback" placeholder="" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 
 	</view>
@@ -70,19 +70,11 @@
 		 
 		data() {
 			return {
-		
-				drugUseRecordPigeonBin:'请选择',
-				DURdescriptionOfDisease:'',
-				DURNumberOfSick:'',
-				startingTimeOfMedication:'请选择',
-				daysOfMedication:'',
-				nameOfDrug:'请选择',
-				dURManufacturer:'请选择',
-				drugBatchNumber:'请选择',
-				drugDosage:'',
-				dURApprovedBy:'',
+				id:'',
+				time:'',
+				name:'',
 				starSrc:['../../static/daiban/star.png','../../static/daiban/n_s_star.png'],
-				
+				drugUseDetailForm:{}
 				
 			}
 		},
@@ -97,6 +89,28 @@
 				    delta: 1
 				});
 			},
+			getRecordsForm(){
+				this.$http.post('/Work/RecordMe.html', {record_id: this.id,})
+				.then((res) => {
+						console.log(res)
+						this.drugUseDetailForm=res.data[0]
+						console.log(this.drugUseDetailForm)
+					
+				}).catch((err) => {
+					
+				})
+			}
+		},
+		onLoad(e) {
+			console.log(e)
+			let { id, name ,time}=JSON.parse(e.query)
+			console.log(id,name,time)
+			this.id=id
+			this.name=name
+			this.time=time
+		},
+		created() {
+			this.getRecordsForm()
 		}
 		
 	}

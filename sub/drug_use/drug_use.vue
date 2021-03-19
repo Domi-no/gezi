@@ -2,10 +2,10 @@
 	<view class="drug_use_calendar_container">
 		<view>
 			<uni-calendar :insert="true" :lunar="false" :showMonth="false" :ymTime="time" :box="1" :start-date="'2019-3-2'"
-			 :end-date="'2019-5-20'" @change="change" :name="'药用'" />
+			 :end-date="'2019-5-20'" @change="change" @monthChange="monthChange" @yearChange="yearChange" :name="'药用'" />
 		</view>
 		<view class="explain">
-			<image src="../../static/daiban/yimiao.png" mode=""></image>表示当日有疫苗使用
+			<image src="../../static/daiban/yiliao.png" mode=""></image>表示当日有疫苗使用
 		</view>
 		<view class="usageRecordBox">
 			<view class="usageRecordTitle">
@@ -13,63 +13,66 @@
 			</view>
 			<!-- <view class="noRecord">今日没有疫苗使用记录~</view> -->
 			<view class="" style="margin-top: 9rpx;">
-				<view class="usageRecordItem">
-					<view class="usageRecordItemLeft">
-						<image src="../../static/daiban/g_g.png" mode=""></image>
-						<view class="" style="margin-left: 13rpx;">
-							<view class="usageRecordItemName">
-								生产仓12
+				<view class="" v-for="(item,idx) in dayList[0]" :key="idx">
+					<view class="usageRecordItem" v-show="item.type_name=== '生产仓'" >
+						<view class="usageRecordItemLeft">
+							<image src="../../static/daiban/g_g.png" mode=""></image>
+							<view class="" style="margin-left: 13rpx;">
+								<view class="usageRecordItemName">
+									{{item.name}}
+								</view>
+								<text class="usageRecordItemTime">{{item.usage_time}}</text>
 							</view>
-							<text class="usageRecordItemTime">2018-12-11</text>
+						</view>
+						<view class="" style="display: flex;">
+							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage()">
+								{{item.text}}
+							</view>
+							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
+								查看
+							</view>
 						</view>
 					</view>
-					<view class="" style="display: flex;">
-						<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-							{{'反馈'}}
+					<view class="usageRecordItem" v-show="item.type_name=== '育雏仓'" >
+						<view class="usageRecordItemLeft">
+							<image src="../../static/daiban/r_g.png" mode=""></image>
+							<view class="" style="margin-left: 13rpx;">
+								<view class="usageRecordItemName">
+									{{item.name}}
+								</view>
+								<text class="usageRecordItemTime">{{item.usage_time}}</text>
+							</view>
 						</view>
-						<view class="usageRecordItemBtn" @click="toDUDPage()">
-							查看
+						<view class="" style="display: flex;">
+							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage()">
+								{{item.text}}
+							</view>
+							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
+								查看
+							</view>
+						</view>
+					</view>
+					<view class="usageRecordItem" v-show="item.type_name=== '飞鹏管理仓'" >
+						<view class="usageRecordItemLeft">
+							<image src="../../static/daiban/b_g.png" mode=""></image>
+							<view class="" style="margin-left: 13rpx;">
+								<view class="usageRecordItemName">
+									{{item.name}}
+								</view>
+								<text class="usageRecordItemTime">{{item.usage_time}}</text>
+							</view>
+						</view>
+						<view class="" style="display: flex;">
+							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage()">
+								{{item.text}}
+							</view>
+							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
+								查看
+							</view>
 						</view>
 					</view>
 				</view>
-				<view class="usageRecordItem">
-					<view class="usageRecordItemLeft">
-						<image src="../../static/daiban/r_g.png" mode=""></image>
-						<view class="" style="margin-left: 13rpx;">
-							<view class="usageRecordItemName">
-								育雏仓4
-							</view>
-							<text class="usageRecordItemTime">2018-12-11</text>
-						</view>
-					</view>
-					<view class="" style="display: flex;">
-						<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage()">
-							{{'反馈'}}
-						</view>
-						<view class="usageRecordItemBtn">
-							查看
-						</view>
-					</view>
-				</view>
-				<view class="usageRecordItem">
-					<view class="usageRecordItemLeft">
-						<image src="../../static/daiban/b_g.png" mode=""></image>
-						<view class="" style="margin-left: 13rpx;">
-							<view class="usageRecordItemName">
-								飞棚管理仓36
-							</view>
-							<text class="usageRecordItemTime">2018-12-11</text>
-						</view>
-					</view>
-					<view class="" style="display: flex;">
-						<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-							{{'反馈'}}
-						</view>
-						<view class="usageRecordItemBtn">
-							查看
-						</view>
-					</view>
-				</view>
+				
 			</view>
 		</view>
 		<view class="addSterilizeRecord" @click="addSvRecord">
@@ -86,22 +89,55 @@
 	export default {
 		data() {
 			return {
-				time: ["2021-03-01", '2021-03-07'],
+				time: [],
 				drugUseList:'',
+				today:'',
+				dayList:[],
+				icon:['../../static/daiban/g_g.png','../../static/daiban/r_g.png','../../static/daiban/b_g.png'],
+				drugUseForm:{
+					time_y:'',
+					time_m:''
+				}
 			}
 		},
 		methods: {
 			change(e) {
-				console.log(e.fulldate)
+				this.dayList=[]
+				console.log(e)
+				// console.log(this.drugUseList)
+				this.today=e.date
+				Object.keys(this.drugUseList).forEach((value, index)=>{
+					// console.log(value, index,this.drugUseList[value]);
+					
+					if(value == this.today){
+						
+						this.dayList.push(this.drugUseList[value])
+						
+					}
+					// console.log(this.dayList[0])
+				});
+			},
+			monthChange(e){
+				console.log(e)
+				this.drugUseForm.time_m=e
+				this.getDrugUse()
+			},
+			yearChange(e){
+				console.log(e)
+				this.drugUseForm.time_y=e
+				console.log(this.drugUseForm)
+				this.getDrugUse()
 			},
 			addSvRecord() {
 				uni.navigateTo({
 					url: '/sub/add_drug_use_record/add_drug_use_record'
 				});
 			},
-			toDUDPage() {
+			toDUDPage(id,time,name) {
+				let form ={id:id,name:name,time:time}
+				console.log(form)
 				uni.navigateTo({
-					url: '/sub/drug_use_detail/drug_use_detail'
+					url: '/sub/drug_use_detail/drug_use_detail?query=' + JSON.stringify(form)
 				});
 
 			},
@@ -112,32 +148,58 @@
 
 			},
 			getDrugUse() {
-
-				this.$http.post('/Work/Record.html', {
-						uid: this.userInfo.id
-					})
-					.then((res) => {
+			console.log(2)
+				this.$http.post('/Work/Record.html', {uid: this.userInfo.id,...this.drugUseForm})
+				.then((res) => {
 						console.log(res)
+						console.log(1)
 						this.drugUseList=res.data.day
-						console.log(this.drugUseList)
-						// uni.showToast({
-						// 	title: res.message,
-						// 	icon: 'none'
-						// })
+						// this.drugUseList=JSON.parse(JSON.stringify(this.drugUseList))
+						
+						Object.keys(this.drugUseList).forEach((value, index)=>{
+							console.log(value, index,this.drugUseList[value]);
+							
+							this.time.push(this.drugUseList[value][0].usage_time)
+							if(value == this.today){
+								this.dayList=[]
+								this.dayList.push(this.drugUseList[value])
+							}
+							console.log(this.dayList)
+							console.log(this.time)
+						});
 
 
 					}).catch((err) => {
-						console.log(err)
+						
 					})
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.drugUseForm.time_y=Y
+				 console.log(this.today)
+				 console.log(D)
+				 console.log(this.drugUseList)
+				
 			}
 		},
 		computed:{
 			...mapState({
 				userInfo: (state) => state.user.userInfo
-			})
+			}),
+			
 		},
 		created() {
 			this.getDrugUse()
+			console.log(this.newList)
+		this.getToday()
+		},
+		mounted() {
+				
 		}
 		
 	}
@@ -216,7 +278,7 @@
 				}
 
 				.usageRecordItemBtn {
-					width: 120rpx;
+					min-width: 120rpx;
 					height: 48rpx;
 					line-height: 48rpx;
 					background: #FFFFFF;
@@ -229,6 +291,7 @@
 					position: relative;
 					right: 0;
 					bottom: -30rpx;
+					padding: 0 16rpx;
 				}
 			}
 		}

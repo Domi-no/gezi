@@ -20,7 +20,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="saleCageBox" @scroll="touch">
+			<view class="saleCageBox"  @scroll="touchStart" >
 				<view class="sCItem">
 					<view class="">
 						<image src="../../static/daiban/ht_p.png" mode=""></image><text>种鸽</text>
@@ -65,9 +65,10 @@
 				</view>
 				<view class="lineBox">
 					<view class="" style="position: relative;">
-						<view class="line" id="line" :style="'position: absolute;left:' + leftValue +'%;'">
+						<!-- <view class="line" id="line" :style="'position: absolute;left:' + leftValue +'%;'">
 							
-						</view>
+						</view> -->
+						<u-line-progress class="lineBox" :percent="70" :round="false" active-color="#ff9900"></u-line-progress>
 					</view>
 				</view>
 			</view>
@@ -225,9 +226,14 @@
 					}
 				});
 			},
-			touch(e){
-				console.log(e)
+			touchStart(){
+				 // document.getElementsByClassName('.saleCageBox').addEventListener('scroll', function (e ) {  
+				 //      // console.log(scroll);
+				 //    })
 				this.leftValue >= 55 ? '' :this.leftValue += 1
+			},
+			touchEnd(e){
+				console.log(e)
 			}
 		}
 	}
@@ -366,6 +372,10 @@
 			}
 		}
 		
+		
+	}
+	.uni-scroll-view-content{
+		display: flex !important;
 	}
 	.salesVolumeTodayBox{
 		background-color: #fff;

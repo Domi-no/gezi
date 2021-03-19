@@ -7,9 +7,9 @@
 		<view class="news_detail_content" id="news_detail_content" ref="content" v-html="newsDetails.content">
 		
 		</view>
-		<view class="news_detail_image">
+		<!-- <view class="news_detail_image">
 			<image :src="newsDetails.display_img" mode=""></image>
-		</view>
+		</view> -->
 	</view>
 </template>
 

@@ -23,5 +23,11 @@ export const setSession = (type, data) => {
 };
 
 export const removeSession = (type) => {
-	uni.removeStorage(type)
+	
+	uni.removeStorage({
+	    key: type,
+	    success: function (res) {
+	        console.log('success');
+	    }
+	});
 };

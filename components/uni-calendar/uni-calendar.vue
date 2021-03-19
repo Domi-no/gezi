@@ -12,24 +12,24 @@
 			</view>
 			<view class="uni-calendar__header">
 				<view class="" style="display: flex;justify-content:space-between;padding-left: 30rpx;">
-					<view class="" @click.stop="preY" style="margin-right: 17rpx;">
+					<view class="" @click.stop="preY(nowDate.year)" style="margin-right: 17rpx;">
 						<image src="../../static/daiban/rilizuo.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
 					</view>
 					<view class="">
 						{{ (nowDate.year||'')}}
 					</view>
-					<view class="" @click.stop="nextY" style="margin-left: 17rpx;">
+					<view class="" @click.stop="nextY(nowDate.year)" style="margin-left: 17rpx;">
 						<image src="../../static/daiban/riliyou.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
 					</view>
 				</view>
 				<view class="" style="display: flex;justify-content:space-between;padding-right: 30rpx;">
-					<view class="" @click.stop="pre" style="margin-right: 17rpx;">
+					<view class="" @click.stop="pre(nowDate.month)" style="margin-right: 17rpx;">
 						<image src="../../static/daiban/rilizuo.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
 					</view>
 					<view class="">
 						{{ (nowDate.month||'') +'月'}}
 					</view>
-					<view class="" @click.stop="next" style="margin-left: 17rpx;">
+					<view class="" @click.stop="next(nowDate.month)" style="margin-left: 17rpx;">
 						<image src="../../static/daiban/riliyou.png" mode="" style="width: 10rpx;height: 16rpx;"></image>
 					</view>
 				</view>
@@ -325,30 +325,42 @@
 			/**
 			 * 上个月
 			 */
-			pre() {
+			pre(e) {
 				const preDate = this.cale.getDate(this.nowDate.fullDate, -1, 'month').fullDate
 				this.setDate(preDate)
 				this.monthSwitch()
+				if (!this.insert) return
+				this.setEmit('change')
+				 this.$emit('monthChange',this.nowDate.month)
 
 			},
-			preY() {
+			preY(e) {
 				const preDate = this.cale.getDate(this.nowDate.fullDate, -12, 'month').fullDate
 				this.setDate(preDate)
 				this.monthSwitch()
-			
+				if (!this.insert) return
+				this.setEmit('change')
+				// console.log(this.nowDate.year)
+			   this.$emit('yearChange',this.nowDate.year)
 			},
 			/**
 			 * 下个月
 			 */
-			next() {
+			next(e) {
 				const nextDate = this.cale.getDate(this.nowDate.fullDate, +1, 'month').fullDate
 				this.setDate(nextDate)
 				this.monthSwitch()
+				if (!this.insert) return
+				this.setEmit('change')
+				 this.$emit('monthChange',this.nowDate.month)
 			},
-			nextY() {
+			nextY(e) {
 				const nextDate = this.cale.getDate(this.nowDate.fullDate, +12, 'month').fullDate
 				this.setDate(nextDate)
 				this.monthSwitch()
+				if (!this.insert) return
+				this.setEmit('change')
+				this.$emit('yearChange',this.nowDate.year)
 			},
 			/**
 			 * 设置日期

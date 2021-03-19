@@ -15,20 +15,47 @@
 		<view class="setUpTips" v-show="isShowTips">
 			{{tipsValue}}
 		</view>
+		<neil-modal 
+		    :show="show" 
+		    @close="closeModal" 
+		    title="" 
+			:align="'center'"
+		    content="确认退出吗"
+		    @cancel="canCelBtn('cancel')" 
+		    @confirm="signOutBtn('confirm')">
+		</neil-modal>
 	</view>
 </template>
 
 <script>
+	import {
+		removeSession,
+		sessionType
+	} from '@/utils/session';
+	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	export default {
+		  components: {neilModal},
 		data() {
 			return {
 				isShowTips:false,
-				tipsValue:''
+				tipsValue:'',
+				show:false
 			}
 		},
 		methods: {
 			signOut(){
-				console.log(1)
+				this.show=true
+				
+			},
+			signOutBtn(){
+				removeSession(sessionType.USER_INFO)
+				
+				uni.navigateTo({
+					url: '/pages/login/login'
+				});
+			},
+			canCelBtn(){
+				this.show= false
 			},
 			toChangePasswordPage(){
 				uni.navigateTo({
