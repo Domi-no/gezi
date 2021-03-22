@@ -10,6 +10,8 @@
 		    :start-date="'2019-3-2'"
 		    :end-date="'2019-5-20'"
 		    @change="change"
+			@monthChange="monthChange"
+			@yearChange="yearChange"
 			:name="'疫苗'"
 		     />
 		</view>
@@ -22,60 +24,62 @@
 			</view>
 			<!-- <view class="noRecord">今日没有疫苗使用记录~</view> -->
 			<view class="" style="margin-top: 9rpx;">
-				<view class="usageRecordItem">
-					<view class="usageRecordItemLeft">
-						<image src="../../static/daiban/g_g.png" mode=""></image>
-						<view class="" style="margin-left: 13rpx;">
-							<view class="usageRecordItemName">
-								生产仓12
+				<view class="" v-for="(item,idx) in dayList[0]" :key="idx">
+					<view class="usageRecordItem" v-show="item.type_name=== '生产仓'" >
+						<view class="usageRecordItemLeft">
+							<image src="../../static/daiban/g_g.png" mode=""></image>
+							<view class="" style="margin-left: 13rpx;">
+								<view class="usageRecordItemName">
+									{{item.name}}
+								</view>
+								<text class="usageRecordItemTime">{{item.usage_time}}</text>
 							</view>
-							<text class="usageRecordItemTime">2018-12-11</text>
 						</view>
-					</view>
-					<view class="" style="display: flex;">
-						<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-							{{'反馈'}}
-						</view>
-						<view class="usageRecordItemBtn" @click="toVUDPage()">
-							查看
-						</view>
-					</view>
-				</view>
-				<view class="usageRecordItem">
-					<view class="usageRecordItemLeft">
-						<image src="../../static/daiban/r_g.png" mode=""></image>
-						<view class="" style="margin-left: 13rpx;">
-							<view class="usageRecordItemName">
-								生产仓12
+						<view class="" style="display: flex;">
+							<view :class="item.text !== '已反馈' ? 'usageRecordItemBtn' : 'usageRecordItemBtned'" style="margin-right: 40rpx;" @click="toVUFeedBackPage(item)">
+								{{item.text}}
 							</view>
-							<text class="usageRecordItemTime">2018-12-11</text>
-						</view>
-					</view>
-					<view class="" style="display: flex;">
-						<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toVUFeedBackPage()">
-							{{'反馈'}}
-						</view>
-						<view class="usageRecordItemBtn">
-							查看
-						</view>
-					</view>
-				</view>
-				<view class="usageRecordItem">
-					<view class="usageRecordItemLeft">
-						<image src="../../static/daiban/b_g.png" mode=""></image>
-						<view class="" style="margin-left: 13rpx;">
-							<view class="usageRecordItemName">
-								生产仓12
+							<view class="usageRecordItemBtn" @click="toVUDPage(item.vaccin_id,item.usage_time,item.name)">
+								查看
 							</view>
-							<text class="usageRecordItemTime">2018-12-11</text>
 						</view>
 					</view>
-					<view class="" style="display: flex;">
-						<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-							{{'反馈'}}
+					<view class="usageRecordItem" v-show="item.type_name=== '育雏仓'" >
+						<view class="usageRecordItemLeft">
+							<image src="../../static/daiban/r_g.png" mode=""></image>
+							<view class="" style="margin-left: 13rpx;">
+								<view class="usageRecordItemName">
+									{{item.name}}
+								</view>
+								<text class="usageRecordItemTime">{{item.usage_time}}</text>
+							</view>
 						</view>
-						<view class="usageRecordItemBtn">
-							查看
+						<view class="" style="display: flex;">
+							<view :class="item.text !== '已反馈' ? 'usageRecordItemBtn' : 'usageRecordItemBtned'" style="margin-right: 40rpx;" @click="toVUFeedBackPage(item)">
+								{{item.text}}
+							</view>
+							<view class="usageRecordItemBtn" @click="toVUDPage(item.vaccin_id,item.usage_time,item.name)">
+								查看
+							</view>
+						</view>
+					</view>
+					<view class="usageRecordItem" v-show="item.type_name=== '飞鹏管理仓'" >
+						<view class="usageRecordItemLeft">
+							<image src="../../static/daiban/b_g.png" mode=""></image>
+							<view class="" style="margin-left: 13rpx;">
+								<view class="usageRecordItemName">
+									{{item.name}}
+								</view>
+								<text class="usageRecordItemTime">{{item.usage_time}}</text>
+							</view>
+						</view>
+						<view class="" style="display: flex;">
+							<view :class="item.text !== '已反馈' ? 'usageRecordItemBtn' : 'usageRecordItemBtned'" style="margin-right: 40rpx;" @click="toVUFeedBackPage(item)">
+								{{item.text}}
+							</view>
+							<view class="usageRecordItemBtn" @click="toVUDPage(item.vaccin_id,item.usage_time,item.name)">
+								查看
+							</view>
 						</view>
 					</view>
 				</view>
@@ -89,33 +93,118 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				time:["2021-03-01",'2021-03-07']
+				time:[],
+				dataFrom:{
+					usage_y:'',
+					usage_m:''
+				},
+				vaccineUseData:'',
+				vaccineList:'',
+				today:'',
+				dayList:[]
 			}
 		},
 		methods: {
-			  change(e){
-			            console.log(e.fulldate)
-			        },
-					addSvRecord(){
-						uni.navigateTo({
-							url: '/sub/add_vaccine_use_record/add_vaccine_use_record'
+			change(e){
+			      
+			  	this.dayList=[]
+			  	console.log(e)
+			  	// console.log(this.drugUseList)
+			  	this.today=e.date
+			  	Object.keys(this.vaccineUseData).forEach((value, index)=>{
+			  		// console.log(value, index,this.drugUseList[value]);
+			  		
+			  		if(value == this.today){
+			  			
+			  			this.dayList.push(this.vaccineUseData[value])
+			  			
+			  		}
+			  		// console.log(this.dayList[0])
+			  	});
+			  
+			},
+			addSvRecord(){
+			 uni.navigateTo({
+				 url: '/sub/add_vaccine_use_record/add_vaccine_use_record'
+			 });
+			},
+			toVUDPage(id,time,name){
+			 const form ={id:id,name:name,time:time}
+			 console.log(form)
+			 uni.navigateTo({
+				 url: '/sub/details_of_vaccine_use/details_of_vaccine_use?query=' + JSON.stringify(form)
+			 }); 
+			},
+			toVUFeedBackPage(item){
+				console.log(item)
+				if(item.text == '已反馈'){
+					return false
+				}
+			 uni.navigateTo({
+				 url: '/sub/vaccine_use_feedBack/vaccine_use_feedBack'
+			 });
+			 
+			},
+			monthChange(e){
+				console.log(e)
+				this.dataFrom.usage_m=e
+				this.getVYCData()
+			},
+			yearChange(e){
+				console.log(e)
+				this.dataFrom.usage_y=e
+				
+				this.getVYCData()
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 this.dataFrom.usage_m = M < 10?  '0'+ M : M
+				 this.dataFrom.usage_y=Y
+				 console.log(this.today)
+				 console.log(D)
+				
+			},
+			getVYCData(){
+				this.time=[]
+				this.$http.post('/Vaccin/takeNotes.html', {uid: this.userInfo.id,...this.dataFrom})
+				.then((res) => {
+						console.log(res)
+						this.vaccineUseData=res.data.day
+						Object.keys(this.vaccineUseData).forEach((value, index)=>{
+							console.log(value, index,this.vaccineUseData[value]);
+							
+							this.time.push(this.vaccineUseData[value][0].usage_time)
+							if(value == this.today){
+								this.vaccineList=[]
+								this.vaccineList.push(this.vaccineUseData[value])
+							}
+							console.log(this.vaccineList)
+							console.log(this.time)
 						});
-					},
-					toVUDPage(){
-						uni.navigateTo({
-							url: '/sub/details_of_vaccine_use/details_of_vaccine_use'
-						});
+				
+					}).catch((err) => {
 						
-					},
-					toVUFeedBackPage(){
-						uni.navigateTo({
-							url: '/sub/vaccine_use_feedBack/vaccine_use_feedBack'
-						});
-						
-					}
+					})
+			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+		},
+		created() {
+			this.getToday()
+			this.getVYCData()
 		}
 	}
 </script>
@@ -193,6 +282,21 @@
 				text-align: center;
 				font-weight: 500;
 				color: #377BE4;
+				position: relative;
+				right: 0;
+				bottom: -30rpx;
+			}
+			.usageRecordItemBtned{
+				width: 120rpx;
+				height: 48rpx;
+				line-height: 48rpx;
+				background: #FFFFFF;
+				border: 1rpx solid #C4C4C4;
+				border-radius: 24rpx;
+				font-size: 24rpx;
+				text-align: center;
+				font-weight: 500;
+				color: #C4C4C4;
 				position: relative;
 				right: 0;
 				bottom: -30rpx;

@@ -25,7 +25,7 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage()">
+							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name)">
 								{{item.text}}
 							</view>
 							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
@@ -44,7 +44,7 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage()">
+							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name)">
 								{{item.text}}
 							</view>
 							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
@@ -63,7 +63,7 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage()">
+							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name)">
 								{{item.text}}
 							</view>
 							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
@@ -141,9 +141,10 @@
 				});
 
 			},
-			toDUFeedBackPage() {
+			toDUFeedBackPage(id,time,name) {
+				let feedBackForm ={id:id,name:name,time:time}
 				uni.navigateTo({
-					url: '/sub/drug_use_feedBack/drug_use_feedBack'
+					url: '/sub/drug_use_feedBack/drug_use_feedBack?query='+ JSON.stringify(feedBackForm)
 				});
 
 			},

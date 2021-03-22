@@ -1,7 +1,7 @@
 <template>
 	<view class="addNewDrugUseRecordContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{this.dataForm.record_time}}</text>
+			<text>记录时间</text><text>{{this.messageChangeData.time||this.dataForm.record_time}}</text>
 		</view>
 
 		<view class="leaveType">
@@ -9,7 +9,7 @@
 				用药鸽仓<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="choiceWarehouseNumber">
-				<text>{{drugUseRecordPigeonBin}}</text>
+				<text>{{this.messageChangeData.name||drugUseRecordPigeonBin}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 		</view>
@@ -17,7 +17,7 @@
 			<view class="">
 				症状描述<image class="star" :src="starSrc[0]" mode=""></image>
 			</view>
-			<textarea @input="dWremarks"  :value="dataForm.symptom" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea @input="symptomValue"  :value="dataForm.symptom" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		<view >
 			<view class="leaveTime">
@@ -25,7 +25,7 @@
 					生病数量<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="number" @input="dWNum" :value="dataForm.number"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="numberChange" :value="dataForm.number"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="" @click="showDrugUseTime">
@@ -41,7 +41,7 @@
 					用药天数<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="dWPrice"  :value="dataForm.day"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="drugDayChange"  :value="dataForm.day"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				
 			</view>
@@ -81,13 +81,13 @@
 					药品用量<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="" :value="dataForm.dosage"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="dosageChange" :value="dataForm.dosage"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					用药审批人<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="" :value="dataForm.approval"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="approvalChange" :value="dataForm.approval"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				
 			</view>
@@ -97,7 +97,7 @@
 			提交
 		</view>
 		
-		<lb-picker ref="drug_warehouse" mode="multiSelector" :list="warehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='warehouseValue'>
+		<lb-picker ref="drug_warehouse" mode="multiSelector" :props="myProps" :list="warehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='warehouseValue'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
 		<lb-picker ref="drug_time" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='drug_useTime'>
@@ -132,30 +132,12 @@
 				
 				isSub:false,
 				visible:false,
-				warehouseList: [
-				  {
-				    label: '选项1',
-				    value: '1',
-				    children: [
-				      {
-				        label: '选项1-1',
-				        value: '1-1',
-				        
-				      }
-				    ]
-				  },
-				  {
-				    label: '选项2',
-				    value: '2',
-				    children: [
-				      {
-				        label: '选项2-1',
-				        value: '2-1',
-				        
-				      }
-				    ]
-				  }
-				],
+				warehouseList: [],
+				myProps: {
+				     label: 'name',
+				     value: 'id',
+				    
+				   },
 				list: [
 				  {
 				    label: '选项1',
@@ -185,7 +167,7 @@
 				batchNumberData:[],
 				dataForm:{
 					uid:'',
-					record_id:1,
+					record_id:'',
 					record_time:'',
 					block_id:'',
 					symptom:'',
@@ -195,8 +177,12 @@
 					drugs_id:'',
 					approval:'',
 					feedback:'',
+					dosage:''
 					
-				}
+				},
+				allFactoryData:[],
+				messageChangeData:{}
+				
 				
 			}
 		},
@@ -215,6 +201,29 @@
 					// console.log(err)
 				})
 			},
+			getFixBoxData(){
+				this.$http.post('/Grain/fixBlock.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						
+						Object.keys(res.data).forEach((value, index)=>{
+							console.log(value, index,res.data[value]);
+							this.warehouseList.push({name:value,children:res.data[value]})
+						});
+						console.log(this.vaccineHouse)
+					}).catch((err) => {
+						
+					})
+			},
+			getAllFactory(){
+				this.$http.post('/Work/AllFactory.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res.data)
+					this.allFactoryData = res.data
+				}).catch((err)=>{
+					
+				})
+			},
 			getToday(){
 				let Dates = new Date();
 				 let Y = Dates.getFullYear();
@@ -228,30 +237,6 @@
 			reasonChange(){
 			 this.$refs.reason.show()
 			},
-			dWNnit({detail:{value}}){
-				this.unitVlue = value
-			},
-			dWNum({detail:{value}}){
-				this.num = value
-			},
-			dWPrice({detail:{value}}){
-				this.price =value
-			},
-			dWManager({detail:{value}}){
-				this.managerName =value
-			},
-			dWSupplier({detail:{value}}){
-				this.supplierName =value
-			},
-			dWCertifier({detail:{value}}){
-				this.certifierName =value
-			},
-			dWprovider({detail:{value}}){
-				this.providerName =value
-			},
-			dWremarks({detail:{value}}){
-				this.remarks =value
-			},
 			onCancel(){
 				console.log(this)
 			},
@@ -260,7 +245,24 @@
 				
 			},
 			cSubBtn(){
-				
+				this.messageChangeData.record_id? this.dataForm.record_id =this.messageChangeData.record_id:''
+				console.log(this.messageChangeData.record_id)
+				this.dataForm.block_id=this.messageChangeData.block_id
+			},
+			symptomValue({detail:{value}}){
+				this.dataForm.symptom=value
+			},
+			numberChange({detail:{value}}){
+				this.dataForm.number=value
+			},
+			drugDayChange({detail:{value}}){
+				this.dataForm.day=value
+			},
+			dosageChange({detail:{value}}){
+				this.dataForm.dosage=value
+			},
+			approvalChange({detail:{value}}){
+				this.dataForm.approval=value
 			},
 			choiceWarehouseNumber(){
 				this.$refs.drug_warehouse.show()
@@ -279,6 +281,7 @@
 			},
 			warehouseValue(e){
 				console.log(e.item[1].label)
+				this.drugUseRecordPigeonBin = e.item[1].label
 			},
 			drug_useTime(e){
 				console.log(e.value)
@@ -338,14 +341,18 @@
 		},
 		computed:{
 			isdWsub(){
-				let {reasonValue,unitVlue,num,price,managerName,supplierName,certifierName,providerName,remarks}=this
-				if(reasonValue !== '请选择' && unitVlue && num && price && supplierName && certifierName && providerName && remarks ){
+				let {
+					symptom,
+					number,
+					usage_time,
+					day,
+					approval,
+					dosage
+				} = this.dataForm
+				let {drugUseRecordPigeonBin,nameOfDrug,dURManufacturer,drugBatchNumber} =  this
+				if(drugUseRecordPigeonBin !== '请选择' && usage_time !== '请选择' && nameOfDrug !== '请选择' && dURManufacturer !== '请选择' && drugBatchNumber !== '请选择' && dosage && approval && day && number && symptom ){
 					return true
 				}
-			},
-			dWmoney(){
-				let {num,price}=this
-				return num&&price? num*price : 0
 			},
 			...mapState({
 				userInfo: (state) => state.user.userInfo
@@ -355,6 +362,13 @@
 			this.getDrugData()
 			this.dataForm.uid=this.userInfo.id
 			this.getToday()
+			this.getAllFactory()
+			this.getFixBoxData()
+		},
+		onLoad(e) {
+			e.query?this.messageChangeData= JSON.parse(e.query):''
+			// console.log(this.messageChangeData)
+			
 		}
 	}
 </script>

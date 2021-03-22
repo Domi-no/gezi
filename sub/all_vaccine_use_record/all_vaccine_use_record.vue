@@ -1,144 +1,93 @@
 <template>
 	<view class="allVaccineUseRecordContainer">
 		<view class="allVaccineUseRecordTitle">
-			本年疫苗使用记录
+			本{{title}}疫苗使用记录
 		</view>
-		<view class="aVUROptionBox">
+		<view class="aVUROptionBox" v-for="(item,idx) in monthList" :key="idx">
 			<view class="allVaccineUseRecordTime">
-				2018年12月
+				{{year+'年'+item+'月'}}
 			</view>
-			<view class="usageRecordItem">
+			<view class="usageRecordItem" v-for="(i,index) in monthData[idx]" :key="index">
 				<view class="usageRecordItemLeft">
 					<image src="../../static/daiban/g_g.png" mode=""></image>
 					<view class="" style="margin-left: 13rpx;">
 						<view class="usageRecordItemName">
-							生产仓12
+							{{i.name}}
 						</view>
-						<text class="usageRecordItemTime">2018-12-11</text>
+						<text class="usageRecordItemTime">{{i.usage_time}}</text>
 					</view>
 				</view>
 				<view class="" style="display: flex;">
 					<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-						{{'反馈'}}
+						{{i.text}}
 					</view>
 					<view class="usageRecordItemBtn" @click="toVUDPage()">
 						查看
 					</view>
 				</view>
 			</view>
-			<view class="usageRecordItem">
-				<view class="usageRecordItemLeft">
-					<image src="../../static/daiban/g_g.png" mode=""></image>
-					<view class="" style="margin-left: 13rpx;">
-						<view class="usageRecordItemName">
-							生产仓12
-						</view>
-						<text class="usageRecordItemTime">2018-12-11</text>
-					</view>
-				</view>
-				<view class="" style="display: flex;">
-					<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-						{{'反馈'}}
-					</view>
-					<view class="usageRecordItemBtn" @click="toVUDPage()">
-						查看
-					</view>
-				</view>
-			</view>
-			<view class="usageRecordItem">
-				<view class="usageRecordItemLeft">
-					<image src="../../static/daiban/g_g.png" mode=""></image>
-					<view class="" style="margin-left: 13rpx;">
-						<view class="usageRecordItemName">
-							生产仓12
-						</view>
-						<text class="usageRecordItemTime">2018-12-11</text>
-					</view>
-				</view>
-				<view class="" style="display: flex;">
-					<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-						{{'反馈'}}
-					</view>
-					<view class="usageRecordItemBtn" @click="toVUDPage()">
-						查看
-					</view>
-				</view>
-			</view>
+			
 		</view>
-		<view class="aVUROptionBox">
-			<view class="allVaccineUseRecordTime">
-				2018年12月
-			</view>
-			<view class="usageRecordItem">
-				<view class="usageRecordItemLeft">
-					<image src="../../static/daiban/g_g.png" mode=""></image>
-					<view class="" style="margin-left: 13rpx;">
-						<view class="usageRecordItemName">
-							生产仓12
-						</view>
-						<text class="usageRecordItemTime">2018-12-11</text>
-					</view>
-				</view>
-				<view class="" style="display: flex;">
-					<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-						{{'反馈'}}
-					</view>
-					<view class="usageRecordItemBtn" @click="toVUDPage()">
-						查看
-					</view>
-				</view>
-			</view>
-			<view class="usageRecordItem">
-				<view class="usageRecordItemLeft">
-					<image src="../../static/daiban/g_g.png" mode=""></image>
-					<view class="" style="margin-left: 13rpx;">
-						<view class="usageRecordItemName">
-							生产仓12
-						</view>
-						<text class="usageRecordItemTime">2018-12-11</text>
-					</view>
-				</view>
-				<view class="" style="display: flex;">
-					<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-						{{'反馈'}}
-					</view>
-					<view class="usageRecordItemBtn" @click="toVUDPage()">
-						查看
-					</view>
-				</view>
-			</view>
-			<view class="usageRecordItem">
-				<view class="usageRecordItemLeft">
-					<image src="../../static/daiban/g_g.png" mode=""></image>
-					<view class="" style="margin-left: 13rpx;">
-						<view class="usageRecordItemName">
-							生产仓12
-						</view>
-						<text class="usageRecordItemTime">2018-12-11</text>
-					</view>
-				</view>
-				<view class="" style="display: flex;">
-					<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
-						{{'反馈'}}
-					</view>
-					<view class="usageRecordItemBtn" @click="toVUDPage()">
-						查看
-					</view>
-				</view>
-			</view>
-		</view>
+		
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				
+				text:'',
+				year:'',
+				monthList:[],
+				newData:'',
+				monthData:[]
 			}
 		},
 		methods: {
-			
+			getVaccineUseRecord(){
+				this.$http.post('/Vaccin/census.html', {uid: this.userInfo.id,type:0,text:this.text})
+				.then((res) => {
+						console.log(res)
+						Object.keys(res.data).forEach((value, index)=>{
+							console.log(value, index,res.data[value]);
+							this.year=value
+							this.newData=res.data[value]
+						});
+						Object.keys(this.newData).forEach((value, index)=>{
+							console.log(value, index,this.newData[value]);
+							this.monthList.push(value)
+							this.monthData.push(this.newData[value])
+						});
+						console.log(this.year)
+						console.log(this.monthData)
+					}).catch((err) => {
+						
+					})
+			}
+		},
+		onLoad({query}) {
+			console.log(query)
+			this.text=query
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			title(){
+				if(this.text === 'y'){
+					return '年'
+				}else if(this.text=== 's'){
+					return '季'
+				}else if(this.text === 'm'){
+					return '月'
+				}
+			}
+		},
+		created() {
+			this.getVaccineUseRecord()
 		}
 	}
 </script>
@@ -148,6 +97,7 @@
 	min-height: calc(100vh - 88rpx);
 	background-color: #F2F4F9;
 	padding-top: 26rpx;
+	padding-bottom: 64rpx;
 	.allVaccineUseRecordTitle{
 		font-size: 30rpx;
 		font-weight: bold;

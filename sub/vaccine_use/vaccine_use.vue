@@ -1,58 +1,39 @@
 <template>
 	<view class="vaccine_use_container">
 		<view class="vaccine_use_top_box">
-			<text>2020-12-22</text>
+			<text>{{this.today}}</text>
 			<view class="" @click="toCalendarPage()">
 				日历<image src="../../static/daiban/blue_zk.png" mode=""></image>
 			</view>
 		</view>
-		<view class="vaccineUseSecordItem">
+		<view class="vaccineUseSecordItem" v-for="(item,idx) in vaccineUseData" :key="idx">
 			<view class="vU_title">
 				<view class="">
-					<image src="../../static/daiban/nian.png" mode=""></image>本年疫苗使用记录
+					<image :src="picSrc[idx]" mode=""></image>本年疫苗使用记录
 				</view>
-				<text>共计56次</text>
+				<text>共计{{item.num}}次</text>
 			</view>
 			<view class="vU_time">
-				<image src="../../static/daiban/time.png" mode=""></image>2020年1月~12月
+				<image src="../../static/daiban/time.png" mode=""></image>{{item.time}}
 			</view>
 			<view class="vU_view_detailsBtnBox">
 				<view class="">
 					
 				</view>
-				<view class="vU_view_detailsBtn" @click="toAVUDetailsPage()">
+				<view class="vU_view_detailsBtn" @click="toAVUDetailsPage(idx)">
 					查看详情
 				</view>
 			</view>
 		</view>
-		<view class="vaccineUseSecordItem">
+		<!-- <view class="vaccineUseSecordItem">
 			<view class="vU_title">
 				<view class="">
-					<image src="../../static/daiban/yue.png" mode=""></image>本年疫苗使用记录
+					<image src="../../static/daiban/ji.png" mode=""></image>本季疫苗使用记录
 				</view>
-				<text>共计56次</text>
+				<text>共计{{this.vaccineUseData[1].num}}次</text>
 			</view>
 			<view class="vU_time">
-				<image src="../../static/daiban/time.png" mode=""></image>2020年1月~12月
-			</view>
-			<view class="vU_view_detailsBtnBox">
-				<view class="">
-					
-				</view>
-				<view class="vU_view_detailsBtn">
-					查看详情
-				</view>
-			</view>
-		</view>
-		<view class="vaccineUseSecordItem">
-			<view class="vU_title">
-				<view class="">
-					<image src="../../static/daiban/ji.png" mode=""></image>本年疫苗使用记录
-				</view>
-				<text>共计56次</text>
-			</view>
-			<view class="vU_time">
-				<image src="../../static/daiban/time.png" mode=""></image>2020年1月~12月
+				<image src="../../static/daiban/time.png" mode=""></image>{{this.vaccineUseData[1].time}}
 			</view>
 			<view class="vU_view_detailsBtnBox">
 				<view class="">
@@ -63,6 +44,25 @@
 				</view>
 			</view>
 		</view>
+		<view class="vaccineUseSecordItem">
+			<view class="vU_title">
+				<view class="">
+					<image src="../../static/daiban/yue.png" mode=""></image>本月疫苗使用记录
+				</view>
+				<text>共计{{this.vaccineUseData[2].num}}次</text>
+			</view>
+			<view class="vU_time">
+				<image src="../../static/daiban/time.png" mode=""></image>{{this.vaccineUseData[2].time}}
+			</view>
+			<view class="vU_view_detailsBtnBox">
+				<view class="">
+					
+				</view>
+				<view class="vU_view_detailsBtn">
+					查看详情
+				</view>
+			</view>
+		</view> -->
 		<view class="addSterilizeRecord" @click="addSvRecord">
 			<image src="../../static/daiban/jia.png" mode=""></image>
 		</view>
@@ -71,10 +71,16 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				
+				today:'',
+				vaccineUseData:[],
+				picSrc:['../../static/daiban/nian.png','../../static/daiban/ji.png','../../static/daiban/yue.png'],
+				text:''
 			}
 		},
 		methods: {
@@ -83,17 +89,59 @@
 					url: '/sub/add_vaccine_use_record/add_vaccine_use_record'
 				});
 			},
-			toAVUDetailsPage(){
-				
+			toAVUDetailsPage(idx){
+				console.log(idx)
+				switch(idx){
+					case 0 :
+					this.text='y'
+					break;
+					case 1 :
+					this.text='s'
+					break;
+					case 2 :
+					this.text='m'
+					break;
+				}
 				uni.navigateTo({
-					url: '/sub/all_vaccine_use_record/all_vaccine_use_record'
+					url: '/sub/all_vaccine_use_record/all_vaccine_use_record?query=' + this.text
 				});
 			},
 			toCalendarPage(){
 				uni.navigateTo({
 					url: '/sub/vaccine_use_calendar/vaccine_use_calendar'
 				});
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.today=times
+			},
+			getVaccineStatisticsData(){
+				this.$http.post('/Vaccin/census.html', {uid: this.userInfo.id,type:1})
+				.then((res) => {
+						console.log(res)
+						Object.keys(res.data).forEach((value, index)=>{
+							console.log(value, index,res.data[value]);
+							this.vaccineUseData.push({time:value,num:res.data[value]})
+						});
+						console.log(this.vaccineUseData)
+					}).catch((err) => {
+						
+					})
 			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+		},
+		created() {
+			this.getToday()
+			this.getVaccineStatisticsData()
 		}
 	}
 </script>

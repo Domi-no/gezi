@@ -1,112 +1,134 @@
 <template>
 	<view class="drugUseFeedBackContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{this.drugUseFeedBackForm.approval}}</text>
-		</view>
-
-		<view class="leaveType">
-			<view class="">
-				用药鸽仓<image class="star" src="../../static/daiban/star.png" mode=""></image>
+				<text>记录时间</text><text>{{this.messageChangeData.time||this.dataForm.record_time}}</text>
 			</view>
-			<view class="choiceBox" >
-				<text>{{this.drugUseFeedBackForm.approval}}</text>
-				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
-			</view>
-		</view>
-		<view class="leaveReason">
-			<view class="">
-				症状描述<image class="star" :src="starSrc[0]" mode=""></image>
-			</view>
-			<textarea @input="dWremarks"  :value="symptom" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
-			</view>
-		<view >
-			<view class="leaveTime">
-				<view class="typeName">
-					生病数量<image class="star" :src="starSrc[0]" mode=""></image>
+		
+			<view class="leaveType">
+				<view class="">
+					用药鸽仓<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
-				<view class="choiceBox" @click="">
-					<text>{{this.drugUseFeedBackForm.number}}</text>
+				<view class="choiceBox" @click="choiceWarehouseNumber">
+					<text>{{this.messageChangeData.name||drugUseRecordPigeonBin}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
-				<view class="" >
-					<view class="typeName" >
-						开始用药时间<image class="star" :src="starSrc[0]" mode=""></image>
+			</view>
+			<view class="leaveReason">
+				<view class="">
+					症状描述<image class="star" :src="starSrc[0]" mode=""></image>
+				</view>
+				<textarea @input="symptomValue"  :value="dataForm.symptom" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				</view>
+			<view >
+				<view class="leaveTime">
+					<view class="typeName">
+						生病数量<image class="star" :src="starSrc[0]" mode=""></image>
 					</view>
-					<view class="choiceBox"  @click="">
-						<text>{{this.drugUseFeedBackForm.usage_time}}</text>
+					<view class="choiceBox" @click="">
+						<input type="number" @input="numberChange" :value="dataForm.number"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
-				</view>
-				<view class="typeName">
-					用药天数<image class="star" :src="starSrc[0]" mode=""></image>
-				</view>
-				<view class="choiceBox">
-					<text>{{this.drugUseFeedBackForm.day}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
-				</view>
-				
-			</view>
-			
-			
-			<view class="leaveTime">
-				<view class="typeName">
-					药品名称<image class="star" :src="starSrc[0]" mode=""></image>
-				</view>
-				<view class="choiceBox" @click="">
-					<text>{{this.drugUseFeedBackForm.drugs_name}}</text>
-					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
-				</view>
-				<view class="">
+					<view class="" @click="showDrugUseTime">
+						<view class="typeName" >
+							开始用药时间<image class="star" :src="starSrc[0]" mode=""></image>
+						</view>
+						<view class="choiceBox"  @click="">
+							<text>{{this.dataForm.usage_time}}</text>
+							<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+						</view>
+					</view>
 					<view class="typeName">
-						生产厂家<image class="star" :src="starSrc[0]" mode=""></image>
+						用药天数<image class="star" :src="starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox">
-						<text>{{this.drugUseFeedBackForm.production}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+						<input type="number" @input="drugDayChange"  :value="dataForm.day"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					</view>
+					
+				</view>
+				
+				
+				<view class="leaveTime">
+					<view class="" @click="showDrugNamePopup">
+						<view class="typeName">
+							药品名称<image class="star" :src="starSrc[0]" mode=""></image>
+						</view>
+						<view class="choiceBox" @click="">
+							<text>{{nameOfDrug}}</text>
+							<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+						</view>
+					</view>
+					<view class="" @click="showDrugFactoryPopup">
+						<view class="typeName">
+							生产厂家<image class="star" :src="starSrc[0]" mode=""></image>
+						</view>
+						<view class="choiceBox">
+							<text>{{dURManufacturer}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+						</view>
+					</view>
+					<view class="" @click="ShowDrugBatchNumberPopup">
+						<view class="typeName" >
+							药品批号<image class="star" :src="starSrc[0]" mode=""></image>
+						</view>
+						<view class="choiceBox" >
+							<text>{{drugBatchNumber}}</text>
+							<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+						</view>
 					</view>
 				</view>
-				<view class="" >
-					<view class="typeName" >
-						药品批号<image class="star" :src="starSrc[0]" mode=""></image>
+				<view class="leaveTime">
+					
+					<view class="typeName">
+						药品用量<image class="star" :src="starSrc[0]" mode=""></image>
 					</view>
-					<view class="choiceBox" >
-						<text>{{this.drugUseFeedBackForm.batch_number}}</text>
-						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<view class="choiceBox">
+						<input type="number" @input="dosageChange" :value="dataForm.dosage"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
+					<view class="typeName">
+						用药审批人<image class="star" :src="starSrc[0]" mode=""></image>
+					</view>
+					<view class="choiceBox">
+						<input type="number" @input="approvalChange" :value="dataForm.approval"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					</view>
+					
 				</view>
+				
 			</view>
-			<view class="leaveTime">
-				
-				<view class="typeName">
-					药品用量<image class="star" :src="starSrc[0]" mode=""></image>
+			<view class="leaveReason">
+				<view class="">
+					用药反馈<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
-				<view class="choiceBox">
-					<text>{{this.drugUseFeedBackForm.dosage}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				<textarea @input="feedbackValue"  :value="dataForm.feedback" placeholder="请输入反馈" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				</view>
-				<view class="typeName">
-					用药审批人<image class="star" :src="starSrc[0]" mode=""></image>
-				</view>
-				<view class="choiceBox">
-					<text>{{this.drugUseFeedBackForm.approval}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
-				</view>
-				
+			<view :class="{leaveSubmit:true,isSubBg:isdWsub}" @click="cSubBtn">
+				提交
 			</view>
 			
+			<lb-picker ref="drug_warehouse" mode="multiSelector" :list="warehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='warehouseValue'>
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
+			<lb-picker ref="drug_time" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='drug_useTime'>
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
+			<!-- <lb-picker ref="drugBatchNumber" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='drugBatchNumberChange'>
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker> -->
+			<lb-picker ref="drugName" :list="drugNameList" radius="20rpx" confirm-color="#377BE4" @confirm='drugNameChange'>
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
+			<lb-picker ref="drugFactory" :list="drugFactoryData" radius="20rpx" confirm-color="#377BE4" @confirm='drugFactoryChange'>
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
+			<lb-picker ref="drugBatchNumber" :list="batchNumberData" radius="20rpx" confirm-color="#377BE4" @confirm='drugBatchNumberChange'>
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
 		</view>
-		<view class="leaveReason">
-			<view class="">
-				用药反馈<image class="star" :src="starSrc[0]" mode=""></image>
-			</view>
-			<textarea @input="dWremarks"  :value="DURdescriptionOfDisease" placeholder="请输入反馈" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
-			</view>
-		<view :class="{leaveSubmit:true,isSubBg:isdWsub}" @click="cSubBtn">
-			提交
-		</view>
-		
-		
-	</view>
 </template>
 
 <script>
 	import LbPicker from '@/components/lb-picker'
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components: {
 		     LbPicker
@@ -154,61 +176,76 @@
 				DURdescriptionOfDisease:'',
 				DURNumberOfSick:'',
 				startingTimeOfMedication:'请选择',
-				daysOfMedication:'',
+				// daysOfMedication:'',
 				nameOfDrug:'请选择',
 				dURManufacturer:'请选择',
 				drugBatchNumber:'请选择',
-				drugDosage:'',
-				dURApprovedBy:'',
+				// drugDosage:'',
+				// dURApprovedBy:'',
 				starSrc:['../../static/daiban/star.png','../../static/daiban/n_s_star.png'],
-				drugUseFeedBackForm:{
+				drugData:'',
+				drugNameList:[],
+				drugFactoryList:[],
+				drugFactoryData:[],
+				batchNumberList:[],
+				batchNumberData:[],
+				dataForm:{
 					uid:'',
-					record_id:'',
+					record_id:1,
 					record_time:'',
 					block_id:'',
 					symptom:'',
 					number:'',
-					usage_time:'',
+					usage_time:'请选择',
 					day:'',
 					drugs_id:'',
 					approval:'',
 					feedback:'',
-					dosage:'',
-					production:'',
-					drugs_name:'',
-					symptom:''
+					dosage:''
 					
-				}
+				},
+				allFactoryData:[],
+				messageChangeData:{}
+				
 				
 			}
 		},
 		methods: {
+			getDrugData(){
+				this.$http.post('/Work/multiple.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res)
+					this.drugData =res.data
+					Object.keys(this.drugData).forEach((value, index)=>{
+						console.log(value, index,this.drugData[value]);
+						this.drugNameList.push(value)
+						console.log(this.drugNameList)
+					});
+				}).catch((err)=>{
+					// console.log(err)
+				})
+			},
+			getAllFactory(){
+				this.$http.post('/Work/AllFactory.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res.data)
+					this.allFactoryData = res.data
+				}).catch((err)=>{
+					
+				})
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.dataForm.record_time=times
+				
+			},
 			reasonChange(){
 			 this.$refs.reason.show()
-			},
-			dWNnit({detail:{value}}){
-				this.unitVlue = value
-			},
-			dWNum({detail:{value}}){
-				this.num = value
-			},
-			dWPrice({detail:{value}}){
-				this.price =value
-			},
-			dWManager({detail:{value}}){
-				this.managerName =value
-			},
-			dWSupplier({detail:{value}}){
-				this.supplierName =value
-			},
-			dWCertifier({detail:{value}}){
-				this.certifierName =value
-			},
-			dWprovider({detail:{value}}){
-				this.providerName =value
-			},
-			dWremarks({detail:{value}}){
-				this.remarks =value
 			},
 			onCancel(){
 				console.log(this)
@@ -218,7 +255,25 @@
 				
 			},
 			cSubBtn(){
-				
+				this.dataForm.block_id=this.messageChangeData.block_id
+			},
+			feedbackValue({detail:{value}}){
+					this.dataForm.feedback=value
+			},
+			symptomValue({detail:{value}}){
+				this.dataForm.symptom=value
+			},
+			numberChange({detail:{value}}){
+				this.dataForm.number=value
+			},
+			drugDayChange({detail:{value}}){
+				this.dataForm.day=value
+			},
+			dosageChange({detail:{value}}){
+				this.dataForm.dosage=value
+			},
+			approvalChange({detail:{value}}){
+				this.dataForm.approval=value
 			},
 			choiceWarehouseNumber(){
 				this.$refs.drug_warehouse.show()
@@ -229,27 +284,102 @@
 			ShowDrugBatchNumberPopup(){
 				this.$refs.drugBatchNumber.show()
 			},
+			showDrugNamePopup(){
+				this.$refs.drugName.show()
+			},
+			showDrugFactoryPopup(){
+				this.$refs.drugFactory.show()
+			},
 			warehouseValue(e){
 				console.log(e.item[1].label)
+				this.drugUseRecordPigeonBin = e.item[1].label
 			},
 			drug_useTime(e){
-				console.log(e.item[1].label)
+				console.log(e.value)
+				this.dataForm.usage_time=e.value
 			},
 			drugBatchNumberChange(e){
 				console.log(e)
+				this.drugBatchNumber=e.value
+				console.log(this.batchNumberList[0])
+				Object.keys(this.batchNumberList[0]).forEach((value, index)=>{
+					console.log(value, index,this.batchNumberList[0][value]);
+					
+					if(e.value === value){
+						this.dataForm.drugs_id=this.batchNumberList[0][value].drugs_id
+						console.log(this.dataForm.drugs_id)
+					}
+				});
+			},
+			drugNameChange(e){
+				console.log(e)
+				this.nameOfDrug=e.value
+				Object.keys(this.drugData).forEach((value, index)=>{
+					console.log(value, index,this.drugData[value]);
+					
+					if(e.value === value){
+						this.drugFactoryList.push(this.drugData[value])
+						console.log(this.drugFactoryList[0])
+					}
+				});
+				this.drugFactoryData=[]
+				Object.keys(this.drugFactoryList[0]).forEach((value, index)=>{
+					console.log(value, index,this.drugFactoryList[0][value]);
+					
+					this.drugFactoryData.push(value)
+					console.log(this.drugFactoryData)
+				});
+			},
+			drugFactoryChange(e){
+				console.log(e)
+				this.dURManufacturer=e.value
+				Object.keys(this.drugFactoryList[0]).forEach((value, index)=>{
+					console.log(value, index,this.drugFactoryList[0][value]);
+					if(e.value === value){
+						this.batchNumberList.push(this.drugFactoryList[0][value])
+						console.log(this.batchNumberList)
+					}
+				});
+				this.batchNumberData=[]
+				Object.keys(this.batchNumberList[0]).forEach((value, index)=>{
+					console.log(value, index,this.batchNumberList[0][value]);
+					
+					this.batchNumberData.push(value)
+					
+					console.log(this.batchNumberData)
+				});
 			}
 		},
 		computed:{
 			isdWsub(){
-				let {reasonValue,unitVlue,num,price,managerName,supplierName,certifierName,providerName,remarks}=this
-				if(reasonValue !== '请选择' && unitVlue && num && price && supplierName && certifierName && providerName && remarks ){
+				let {
+					symptom,
+					number,
+					usage_time,
+					day,
+					approval,
+					dosage,
+					feedback
+				} = this.dataForm
+				let {drugUseRecordPigeonBin,nameOfDrug,dURManufacturer,drugBatchNumber} =  this
+				if(drugUseRecordPigeonBin !== '请选择' && usage_time !== '请选择' && nameOfDrug !== '请选择' && dURManufacturer !== '请选择' && drugBatchNumber !== '请选择' && dosage && approval && day && number && symptom && feedback){
 					return true
 				}
 			},
-			dWmoney(){
-				let {num,price}=this
-				return num&&price? num*price : 0
-			}
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			})
+		},
+		created() {
+			this.getDrugData()
+			this.dataForm.uid=this.userInfo.id
+			this.getToday()
+			this.getAllFactory()
+		},
+		onLoad(e) {
+			e.query?this.messageChangeData= JSON.parse(e.query):''
+			// console.log(this.messageChangeData)
+			
 		}
 	}
 </script>

@@ -12,10 +12,10 @@
 			</view>
 		</view>
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{this.time}}</text>
+			<text>记录时间</text><text>{{this.messageChangeForm.time}}</text>
 		</view>
 		<view class="dWTopBox">
-			<text>用药鸽仓</text><text>{{this.name}}</text>
+			<text>用药鸽仓</text><text>{{this.messageChangeForm.name}}</text>
 		</view>
 		<view class="leaveReason">
 			<view class="">
@@ -74,14 +74,22 @@
 				time:'',
 				name:'',
 				starSrc:['../../static/daiban/star.png','../../static/daiban/n_s_star.png'],
-				drugUseDetailForm:{}
+				drugUseDetailForm:{},
+				messageChangeForm:{
+					time:'',
+					name:'',
+					block_id:'',
+					record_id:''
+				}
 				
 			}
 		},
 		methods:{
 			toRecordsChangePage(){
+				console.log()
+				const messageForm =JSON.stringify(this.messageChangeForm)
 				uni.navigateTo({
-					url: '/sub/add_drug_use_record/add_drug_use_record'
+					url: '/sub/add_drug_use_record/add_drug_use_record?query=' + messageForm
 				});
 			},
 			goBack(){
@@ -95,7 +103,8 @@
 						console.log(res)
 						this.drugUseDetailForm=res.data[0]
 						console.log(this.drugUseDetailForm)
-					
+						this.messageChangeForm.block_id = res.data[0].block_id
+						this.messageChangeForm.record_id=res.data[0].record_id
 				}).catch((err) => {
 					
 				})
@@ -106,8 +115,8 @@
 			let { id, name ,time}=JSON.parse(e.query)
 			console.log(id,name,time)
 			this.id=id
-			this.name=name
-			this.time=time
+			this.messageChangeForm.name=name
+			this.messageChangeForm.time=time
 		},
 		created() {
 			this.getRecordsForm()

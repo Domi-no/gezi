@@ -14,71 +14,75 @@
 		</view>
 		<view class="" style="margin-top: 20rpx;">
 			<view class="dDTopBox">
-				<text>记录时间</text><text>2020-12-21</text>
+				<text>记录时间</text><text>{{query.time}}</text>
 			</view>
 			<view class="dDTopBox" style="border-bottom: 0;">
-				<text>仓号</text><text>生产仓23</text>
+				<text>仓号</text><text>{{query.name}}</text>
 			</view>
 		</view>
 		<view class="" style="margin-top: 20rpx;">
 			<view class="dDTopBox">
-				<text>疫苗名称</text><text>疫苗一号</text>
+				<text>疫苗名称</text><text>{{vaccineDetailData.drugs_name}}</text>
 			</view>
 			<view class="dDTopBox">
-				<text>使用原因</text><text>生病</text>
+				<text>使用原因</text><text>{{vaccineDetailData.symptom}}</text>
 			</view>
 			<view class="dDTopBox">
-				<text>生产厂家</text><text>3号厂家</text>
+				<text>生产厂家</text><text>{{vaccineDetailData.production}}</text>
 			</view>
 			<view class="dDTopBox">
-				<text>生产日期</text><text>2020-12-12</text>
+				<text>生产日期</text><text>{{vaccineDetailData.producedate}}</text>
 			</view>
 			<view class="dDTopBox" style="border-bottom: 0;">
-				<text>批号</text><text>321321</text>
+				<text>批号</text><text>{{vaccineDetailData.batch_number}}</text>
 			</view>
 		</view>
 		<view class="" style="margin-top: 20rpx;">
 			<view class="dDTopBox">
-				<text>用苗时间</text><text>2020-12-21</text>
+				<text>用苗时间</text><text>{{vaccineDetailData.usage_time}}</text>
 			</view>
 			<view class="dDTopBox" style="border-bottom: 0;">
-				<text>接种数量</text><text>56</text>
+				<text>接种数量</text><text>{{vaccineDetailData.number}}</text>
 			</view>
 		</view>
 		<view class="" style="margin-top: 20rpx;">
 			<view class="dDTopBox">
-				<text>免疫方法</text><text>方法一</text>
+				<text>免疫方法</text><text>{{vaccineDetailData.method}}</text>
 			</view>
 			<view class="dDTopBox">
-				<text>免疫计量</text><text>12</text>
+				<text>免疫计量</text><text>{{vaccineDetailData.dosage}}</text>
 			</view>
 			<view class="dDTopBox">
-				<text>免疫人员</text><text>王五</text>
+				<text>免疫人员</text><text>{{vaccineDetailData.personnel}}</text>
 			</view>
 			<view class="dDTopBox">
-				<text>饲养员</text><text>王五</text>
+				<text>饲养员</text><text>{{vaccineDetailData.breeder}}</text>
 			</view>
 			<view class="dDTopBox">
-				<text>免疫工作负责人</text><text>王五</text>
+				<text>免疫工作负责人</text><text>{{vaccineDetailData.approval}}</text>
 			</view>
 			<view class="dDTopBox" style="border-bottom: 0;">
-				<text>接种单位负责人</text><text>王五</text>
+				<text>接种单位负责人</text><text>{{vaccineDetailData.charge}}</text>
 			</view>
 		</view>
 		<view class="leaveReason">
 			<view class="">
 				备注
 			</view>
-			<textarea   :disabled="false" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   :disabled="false" :value="vaccineDetailData.feedback" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				
+				query:'',
+				vaccineDetailData:''
 			}
 		},
 		methods: {
@@ -87,6 +91,35 @@
 				    delta: 1
 				});
 			},
+			getVaccineUseDetail(){
+				console.log(this.query)
+				this.$http.post('/Vaccin/RecordMe.html', {uid: this.userInfo.id,vaccin_id:this.query.id})
+				.then((res) => {
+						console.log(res)
+						this.vaccineDetailData=res.data[0]
+				
+					}).catch((err) => {
+						
+					})
+			},
+			toRecordsPage(){
+				uni.navigateTo({
+					url: '/sub/add_vaccine_use_record/add_vaccine_use_record?id=' + this.query.id
+				});
+			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getVaccineUseDetail()
+		},
+		onLoad({query}) {
+			console.log(JSON.parse(query))
+			this.query=JSON.parse(query)
 		}
 	}
 </script>
