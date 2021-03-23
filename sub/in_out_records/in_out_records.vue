@@ -3,13 +3,13 @@
 		<view class="topBox">
 			<text>交易类型</text>
 			<view class="transactionType">
-				<view :class="currentId === 1 ? 'currentItem' : ''" @click="currentChange(1)">
+				<view :class="currentId === 0 ? 'currentItem' : ''" @click="currentChange(0)">
 					全部
 				</view>
 				<view :class="currentId === 2 ? 'currentItem' : ''" @click="currentChange(2)">
 					出库
 				</view>
-				<view :class="currentId === 3 ? 'currentItem' : ''" @click="currentChange(3)">
+				<view :class="currentId === 1 ? 'currentItem' : ''" @click="currentChange(1)">
 					入库
 				</view>
 			</view>
@@ -20,28 +20,28 @@
 				2020-12<image src="../../static/daiban/btm_zk.png" mode=""></image>
 			</view>
 		</view>
-		<view class="i_o_records_Box">
-			<view class="i_o_records_Item">
+		<view class="i_o_records_Box" >
+			<view class="i_o_records_Item" v-for="(item,idx) in inOutRecordsList" :key="idx">
 				<view class="sterilizeHead">
 					<view class="warehouse">
-						生产仓23
+						{{item.drugs_name}}
 					</view>
-					<view class="name">
-						外销
+					<view :class="item.out_reason === '入库' ? 'outName' : 'name'">
+						{{item.out_reason}}
 					</view>
 				</view>
 				<view class="sterilizeDetail">
 					<view class="">
-						<text>出库数量</text><text>5000</text>
+						<text>出库数量</text><text>{{item.number}}</text>
 					</view>
 					<view class="">
-						<text>合计金额</text><text>￥12,500</text>
+						<text>合计金额</text><text>￥{{item.price}}</text>
 					</view>
 					<view class="">
-						<text>批准人</text><text>张三</text>
+						<text>批准人</text><text>{{item.approved}}</text>
 					</view>
 					<view class="">
-						<text>出库时间</text><text>2020-12-20</text>
+						<text>出库时间</text><text>{{item.creatime}}</text>
 					</view>
 				</view>
 			</view>
@@ -50,16 +50,41 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				currentId:1
+				currentId:0,
+				inOutRecordsList:[]
 			}
 		},
 		methods: {
 			currentChange(id){
 				this.currentId=id
+				this.getInOutRecordsData()
+			},
+			getInOutRecordsData(){
+				this.inOutRecordsList=[]
+				this.$http.post('/Vaccin/beLaidUp.html', {uid: this.userInfo.id,type:this.currentId})
+				.then((res) => {
+						console.log(res)
+						this.inOutRecordsList = res.data
+						console.log(this.inOutRecordsList)
+					}).catch((err) => {
+						
+					})
 			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getInOutRecordsData()
 		}
 	}
 </script>
@@ -68,6 +93,7 @@
 	.i_o_records_container{
 		min-height: calc(100vh - 88rpx);
 		background-color: #F4F6FA;
+		padding-bottom: 30rpx;
 		.topBox{
 			width: 100%;
 			height: 88rpx;
@@ -146,6 +172,11 @@
 						font-size: 24rpx;
 						font-weight: 500;
 						color: #E64329;
+					}
+					.outName{
+						font-size: 24rpx;
+						font-weight: 500;
+						color: #377BE4;
 					}
 				}
 				.sterilizeDetail{

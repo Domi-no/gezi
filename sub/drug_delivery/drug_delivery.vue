@@ -1,18 +1,38 @@
 <template>
 	<view class="drugDeliveryContainer">
 		<view class="dDTopBox">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{queryData.time}}</text>
 		</view>
 		<view class="dDTopBox">
-			<text>药品名称</text><text>药品一号</text>
+			<text>药品名称</text><text>{{queryData.drugs_name}}</text>
 		</view>
 		<view class="leaveType">
 			<view class="">
 				出库原因<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
-			<view class="choiceBox" @click="reasonChange">
-				<text>{{reasonValue}}</text>
+			<view class="choiceBox" @click="out_reasonShow">
+				<text>{{outFormData.out_reason}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+			</view>
+		</view>
+		<view :class="{notSelected:whetherSelect}" @click="dShowTips">
+			<view class="manager" >
+				<view class="">
+					生产厂家<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
+				</view>
+				<view class="choiceBox">
+					<input type="number" @input="productionChange" :value="outFormData.production" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				</view>
+			</view>
+			<view class="manager" style="border: 0;">
+				<view class="">
+					生产批号<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
+				</view>
+				<view class="choiceBox">
+					<input type="number" @input="batch_numberChange" :value="outFormData.batch_number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				</view>
 			</view>
 		</view>
 		<view :class="{notSelected:whetherSelect}">
@@ -21,32 +41,32 @@
 					单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="" @input="dDNnit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="unitChange" :value="outFormData.unit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					数量<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="dDNum" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="numberChange" :value="outFormData.number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					单价<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="dDPrice"  :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="unit_priceChange" :value="outFormData.unit_price" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="dDCentreBox">
-				<text>{{this.isFactory?"合计金额":"成交金额"}}</text><text>{{this.dDmoney}}元</text>
+				<text>{{this.isFactory?"合计金额":"成交金额"}}</text><text>{{this.price}}元</text>
 			</view>
 			<view class="manager" v-show="!isFactory">
 				<view class="">
 					经手人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="dDManager" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="approvedChange" :value="outFormData.approved" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
@@ -55,28 +75,28 @@
 					供货单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="" @input="dDSupplier"  :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="supplierChange"  :value="outFormData.supplier" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					批准人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="dDCertifier" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="approvedChange" :value="outFormData.approved" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					供货人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="dDprovider" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="suppmanChange" :value="outFormData.suppman" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="leaveReason">
 				<view class="">
 					备注<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="dDremarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="remarksChange" :value="outFormData.remarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		</view>
 		<view :class="{leaveSubmit:true,isSubBg:isDDsub}" @click="cSubBtn">
@@ -92,7 +112,7 @@
 			default-type="name"
 			:default-props="defaultProps"
 		     :options="reasonOptions"
-		     @confirm="onConfirm($event,'selector')"
+		     @confirm="out_reasonChange"
 		     @cancel="onCancel"
 		     ref="reason" 
 		    ></w-picker>
@@ -101,6 +121,9 @@
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components:{
 		        wPicker
@@ -110,60 +133,98 @@
 				defaultProps:{"label":"name","value":"id"},
 				isSub:false,
 				visible:false,
-				reasonOptions:[{name:'本厂使用',id:1},{name:'外销',id:2}],
+				reasonOptions:[],
 				reasonValue:'请选择',
 				starSrc:['../../static/daiban/star.png','../../static/daiban/n_s_star.png'],
 				whetherSelect:true,
 				unitVlue:'',
 				num:'',
-				price:'',
+				
 				managerName:'',
 				supplierName:'',
 				certifierName:'',
 				providerName:'',
 				remarks:'',
-				dIsShowTips:false
+				
+				queryData:'',
+				// ---
+				
+				dIsShowTips:false,
+				outFormData:{
+					out_reason:'请选择',
+					production:'',
+					batch_number:'',
+					unit:'',
+					number:'',
+					unit_price:'',
+					supplier:'',
+					approved:'',
+					suppman:'',
+					remarks:''
+				}
 			}
 		},
 		methods: {
-			reasonChange(){
-			 this.$refs.reason.show()
+			out_reasonShow(e){
+				this.$refs.reason.show()
+				
+			 console.log(e)
 			},
-			dDNnit({detail:{value}}){
-				this.unitVlue = value
+			out_reasonChange(e){
+				
+				console.log(e)
+				this.outFormData.out_reason=e.result
+				this.whetherSelect=false
+				
 			},
-			dDNum({detail:{value}}){
-				this.num = value
+			
+			unitChange({detail:{value}}){
+				this.outFormData.unit = value
 			},
-			dDPrice({detail:{value}}){
-				this.price =value
+			numberChange({detail:{value}}){
+				this.outFormData.number = value
 			},
-			dDManager({detail:{value}}){
-				this.managerName =value
+			unit_priceChange({detail:{value}}){
+				this.outFormData.unit_price =value
 			},
-			dDSupplier({detail:{value}}){
-				this.supplierName =value
+			productionChange({detail:{value}}){
+				this.outFormData.production =value
 			},
-			dDCertifier({detail:{value}}){
-				this.certifierName =value
+			supplierChange({detail:{value}}){
+				this.outFormData.supplier =value
 			},
-			dDprovider({detail:{value}}){
-				this.providerName =value
+			batch_numberChange({detail:{value}}){
+				this.outFormData.batch_number =value
 			},
-			dDremarks({detail:{value}}){
-				this.remarks =value
+			approvedChange({detail:{value}}){
+				this.outFormData.approved =value
+			},
+			suppmanChange({detail:{value}}){
+				this.outFormData.suppman =value
+			},
+			remarksChange({detail:{value}}){
+				this.outFormData.remarks=value
 			},
 			onCancel(){
 				console.log(this)
 			},
-			onConfirm(e){
-				this.reasonValue=e.result
-				this.whetherSelect=false
-			},
+			
 			cSubBtn(){
-				
+				if(!this.isDDsub){
+					return false
+				}
+				this.$http.post('/Vaccin/Delivery.html',{type:2,uid:this.userInfo.id,record_time:this.queryData.time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
+				.then((res) => {
+						console.log(res)
+						
+					}).catch((err) => {
+						
+					})
 			},
 			dShowTips(){
+				if(this.outFormData.out_reason !== '请选择'){
+					return false
+				}
 				if(this.dIsShowTips){
 					return false
 				}else{
@@ -173,22 +234,47 @@
 					},1500)
 				}
 				
+			},
+			getDrugDeliveryReasonData(){
+				this.$http.post('/Vaccin/cause.html')
+				.then((res) => {
+						console.log(res)
+						res.data.forEach((item,index)=>{
+							console.log(item)
+							this.reasonOptions.push({name:item,id:index})
+						})
+						console.log(this.reasonOptions)
+					}).catch((err) => {
+						
+					})
 			}
 		},
 		computed:{
 			isFactory(){
-				return this.reasonValue === '本厂使用'||this.reasonValue === '请选择' ? true : false
+				return this.outFormData.out_reason === '本厂使用' || this.outFormData.out_reason === '请选择' ? true : false
 			},
+			
 			isDDsub(){
-				let {reasonValue,unitVlue,num,price,managerName,supplierName,certifierName,providerName,remarks}=this
-				if(reasonValue === '本厂使用' && unitVlue && num && price && supplierName && certifierName && providerName && remarks || reasonValue === '外销' && unitVlue && num && price && managerName && remarks){
+				let {out_reason,production,batch_number,unit,unit_price,number,supplier,approved,suppman}=this.outFormData
+				if(out_reason === '本厂使用' && production && batch_number && unit && unit_price && number && this.price && supplier && approved && suppman || out_reason === '外销' &&  production && batch_number && unit && unit_price && number && this.price && approved){
 					return true
 				}
 			},
-			dDmoney(){
-				let {num,price}=this
-				return num&&price? num*price : 0
-			}
+			price(){
+				const {number,unit_price}=this.outFormData
+				return number&&unit_price? number * unit_price : 0
+			},
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+		},
+		
+		created() {
+			this.getDrugDeliveryReasonData()
+		},
+		onLoad({query}) {
+			this.queryData= JSON.parse(query)
+			console.log(query)
 		}
 	}
 </script>

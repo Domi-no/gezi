@@ -39,7 +39,7 @@
 							<view :class="item.text !== '已反馈' ? 'usageRecordItemBtn' : 'usageRecordItemBtned'" style="margin-right: 40rpx;" @click="toVUFeedBackPage(item)">
 								{{item.text}}
 							</view>
-							<view class="usageRecordItemBtn" @click="toVUDPage(item.vaccin_id,item.usage_time,item.name)">
+							<view class="usageRecordItemBtn" @click="toVUDPage(item)">
 								查看
 							</view>
 						</view>
@@ -58,7 +58,7 @@
 							<view :class="item.text !== '已反馈' ? 'usageRecordItemBtn' : 'usageRecordItemBtned'" style="margin-right: 40rpx;" @click="toVUFeedBackPage(item)">
 								{{item.text}}
 							</view>
-							<view class="usageRecordItemBtn" @click="toVUDPage(item.vaccin_id,item.usage_time,item.name)">
+							<view class="usageRecordItemBtn" @click="toVUDPage(item)">
 								查看
 							</view>
 						</view>
@@ -77,7 +77,7 @@
 							<view :class="item.text !== '已反馈' ? 'usageRecordItemBtn' : 'usageRecordItemBtned'" style="margin-right: 40rpx;" @click="toVUFeedBackPage(item)">
 								{{item.text}}
 							</view>
-							<view class="usageRecordItemBtn" @click="toVUDPage(item.vaccin_id,item.usage_time,item.name)">
+							<view class="usageRecordItemBtn" @click="toVUDPage(item)">
 								查看
 							</view>
 						</view>
@@ -112,9 +112,9 @@
 		},
 		methods: {
 			change(e){
-			      
+			     
 			  	this.dayList=[]
-			  	console.log(e)
+			  	console.log(this.time)
 			  	// console.log(this.drugUseList)
 			  	this.today=e.date
 			  	Object.keys(this.vaccineUseData).forEach((value, index)=>{
@@ -125,7 +125,7 @@
 			  			this.dayList.push(this.vaccineUseData[value])
 			  			
 			  		}
-			  		// console.log(this.dayList[0])
+			  		console.log(this.dayList)
 			  	});
 			  
 			},
@@ -134,21 +134,20 @@
 				 url: '/sub/add_vaccine_use_record/add_vaccine_use_record'
 			 });
 			},
-			toVUDPage(id,time,name){
-			 const form ={id:id,name:name,time:time}
-			 console.log(form)
+			toVUDPage(i){
+			 
+			
 			 uni.navigateTo({
-				 url: '/sub/details_of_vaccine_use/details_of_vaccine_use?query=' + JSON.stringify(form)
+				 url: '/sub/details_of_vaccine_use/details_of_vaccine_use?query=' + JSON.stringify(i)
 			 }); 
 			},
-			toVUFeedBackPage(item){
-				console.log(item)
-				if(item.text == '已反馈'){
-					return false
-				}
-			 uni.navigateTo({
-				 url: '/sub/vaccine_use_feedBack/vaccine_use_feedBack'
-			 });
+			toVUFeedBackPage(i){
+			if(i.text === '已反馈'){
+				return false
+			}
+			uni.navigateTo({
+				url: '/sub/add_vaccine_use_record/add_vaccine_use_record?query=' + JSON.stringify(i)
+			});
 			 
 			},
 			monthChange(e){
@@ -170,28 +169,44 @@
 				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
 				 this.dataFrom.usage_m = M < 10?  '0'+ M : M
 				 this.dataFrom.usage_y=Y
+				 this.today=D
 				 console.log(this.today)
 				 console.log(D)
 				
 			},
 			getVYCData(){
 				this.time=[]
+				this.dayList=[]
+				this.vaccineUseData=''
+				console.log(this.dayList)
 				this.$http.post('/Vaccin/takeNotes.html', {uid: this.userInfo.id,...this.dataFrom})
 				.then((res) => {
 						console.log(res)
 						this.vaccineUseData=res.data.day
 						Object.keys(this.vaccineUseData).forEach((value, index)=>{
-							console.log(value, index,this.vaccineUseData[value]);
+							console.log(value, index,this.vaccineUseData[value],this.today);
 							
 							this.time.push(this.vaccineUseData[value][0].usage_time)
 							if(value == this.today){
-								this.vaccineList=[]
-								this.vaccineList.push(this.vaccineUseData[value])
+								this.dayList=[]
+								this.dayList.push(this.vaccineUseData[value])
 							}
-							console.log(this.vaccineList)
-							console.log(this.time)
+							
 						});
-				
+						// console.log(this.vaccineList)
+						// Object.keys(this.vaccineUseData).forEach((value, index)=>{
+						// 	console.log(value, index,this.drugUseList[value]);
+							
+						// 	if(value == this.today){
+								
+						// 		this.dayList.push(this.vaccineUseData[value])
+								
+						// 	}
+							
+						// });
+						
+						console.log(this.time)
+						console.log(this.dayList)
 					}).catch((err) => {
 						
 					})
@@ -205,6 +220,7 @@
 		created() {
 			this.getToday()
 			this.getVYCData()
+			
 		}
 	}
 </script>

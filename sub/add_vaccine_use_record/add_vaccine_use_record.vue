@@ -1,7 +1,7 @@
 <template>
 	<view class="addNewVaccineUseRecordContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{today}}</text>
+			<text>记录时间</text><text>{{queryData.usage_time||today}}</text>
 		</view>
 		
 		<view class="leaveType">
@@ -111,6 +111,12 @@
 				</view>
 				<textarea   @input="remarksChange" :value="remarks" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
+			<view class="leaveReason" v-show="isFeedBack === '反馈'">
+				<view class="">
+					反馈<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
+				</view>
+				<textarea   @input="feedBackChange" :value="feedback" placeholder="请输入反馈" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			</view>
 		</view>
 		<view :class="{leaveSubmit:true,isSubBg:isdWsub}" @click="cSubBtn">
 			提交
@@ -196,7 +202,10 @@
 				personnel:'',
 				approval:'',
 				breeder:'',
-				charge:''
+				charge:'',
+				isFeedBack:'',
+				feedback:'',
+				queryData:''
 			}
 		},
 		methods: {
@@ -240,8 +249,8 @@
 				if(!this.isdWsub){
 					return false
 				}
-				const {drugs_id,vaccineHouseId,today,charge,breeder,approval,remarks,personnel,vaccineMeterage,method,vaccineNumber,vaccineUseReason,vaccineUseTime}=this
-				this.$http.post('/Vaccin/upRecord.html', {uid: this.userInfo.id,record_time:today,block_id:vaccineHouseId,symptom:vaccineUseReason,number:vaccineNumber,usage_time:vaccineUseTime,approval,charge,remarks,personnel,breeder,method,drugs_id,approval,dosage:vaccineMeterage})
+				const {drugs_id,vaccineHouseId,today,charge,breeder,approval,remarks,personnel,vaccineMeterage,method,vaccineNumber,vaccineUseReason,vaccineUseTime,queryData,feedback}=this
+				this.$http.post('/Vaccin/upRecord.html', {uid: this.userInfo.id,record_time:today,block_id:vaccineHouseId,symptom:vaccineUseReason,number:vaccineNumber,usage_time:vaccineUseTime,approval,charge,remarks,personnel,breeder,method,drugs_id,approval,dosage:vaccineMeterage,vaccin_id:queryData.vaccin_id,feedback})
 				.then((res) => {
 						console.log(res)
 						
@@ -412,6 +421,9 @@
 			},
 			remarksChange({detail:{value}}){
 				this.remarks=value
+			},
+			feedBackChange({detail:{value}}){
+				this.feedback=value
 			}
 		},
 		computed:{
@@ -434,6 +446,11 @@
 			this.getToday()
 			this.getFixBoxData()
 			this.getVaccineData()
+		},
+		onLoad({query}) {
+			this.queryData = JSON.parse(query)
+			JSON.parse(query).text? this.isFeedBack = JSON.parse(query).text : ''
+			console.log(this.query)
 		}
 	}
 </script>

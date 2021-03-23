@@ -25,7 +25,7 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name)">
+							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name,item.text)">
 								{{item.text}}
 							</view>
 							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
@@ -44,7 +44,7 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name)">
+							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name,item.text)">
 								{{item.text}}
 							</view>
 							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
@@ -63,7 +63,7 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view class="usageRecordItemBtn" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name)">
+							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name,item.text)">
 								{{item.text}}
 							</view>
 							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
@@ -141,7 +141,10 @@
 				});
 
 			},
-			toDUFeedBackPage(id,time,name) {
+			toDUFeedBackPage(id,time,name,text) {
+				if(text === '已反馈'){
+					return false
+				}
 				let feedBackForm ={id:id,name:name,time:time}
 				uni.navigateTo({
 					url: '/sub/drug_use_feedBack/drug_use_feedBack?query='+ JSON.stringify(feedBackForm)
@@ -197,7 +200,7 @@
 		created() {
 			this.getDrugUse()
 			console.log(this.newList)
-		this.getToday()
+			this.getToday()
 		},
 		mounted() {
 				
@@ -289,6 +292,22 @@
 					text-align: center;
 					font-weight: 500;
 					color: #377BE4;
+					position: relative;
+					right: 0;
+					bottom: -30rpx;
+					padding: 0 16rpx;
+				}
+				.usageRecordItemBtned{
+					min-width: 120rpx;
+					height: 48rpx;
+					line-height: 48rpx;
+					background: #FFFFFF;
+					border: 1rpx solid #C4C4C4;
+					border-radius: 24rpx;
+					font-size: 24rpx;
+					text-align: center;
+					font-weight: 500;
+					color: #C4C4C4;
 					position: relative;
 					right: 0;
 					bottom: -30rpx;

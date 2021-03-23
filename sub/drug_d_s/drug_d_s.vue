@@ -11,24 +11,24 @@
 				<text @click="toRecordsPage">出入库记录</text>
 			</view>
 		</view>
-		<view class="drug_d_s_Box">
+		<view class="drug_d_s_Box" v-for="(item,index) in drugDSdataList" :key="index">
 			<view class="drug_d_s_item">
 				<view class="drug_d_s_item_imaBox">
 					<image src="" mode=""></image>
 				</view>
 				<view class="drug_d_s_rightBox">
 					<view class="drug_d_s_item_title">
-						<text>药品一号</text><text class="stock">库存：2000盒</text>
+						<text>{{item.drugs_name}}</text><text class="stock">库存：{{item.number}}{{item.unit_price}}</text>
 					</view>
 					<view class="drug_d_s_item_time">
-						更新时间：2020-12-20
+						更新时间：{{item.time}}
 					</view>
 					<view class="drug_d_s_item_buttonBox">
 						
-						<view class="warehousingBtn" @click="toDrugWarehousing()">
+						<view class="warehousingBtn" @click="toDrugWarehousing(item)">
 							入库
 						</view>
-						<view class="deliveryBtn" @click="toDrugDelivery()">
+						<view class="deliveryBtn" @click="toDrugDelivery(item)">
 							出库
 						</view>
 					</view>
@@ -45,7 +45,7 @@
 	export default {
 		data() {
 			return {
-				
+				drugDSdataList:[]
 			}
 		},
 		methods: {
@@ -59,19 +59,37 @@
 					url: '/sub/in_out_records/in_out_records'
 				});
 			},
-			toDrugDelivery(){
+			toDrugDelivery(i){
 				uni.navigateTo({
-					url: '/sub/drug_delivery/drug_delivery'
+					url: '/sub/drug_delivery/drug_delivery?query='+ JSON.stringify(i)
 				});
 			},
-			toDrugWarehousing(){
+			toDrugWarehousing(i){
 				uni.navigateTo({
-					url: '/sub/drugs_warehousing/drugs_warehousing'
+					url: '/sub/drugs_warehousing/drugs_warehousing?query=' + JSON.stringify(i)
 				});
 			},
+			getDrugDSdata(){
+				this.$http.post('/Vaccin/stockList.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						this.drugDSdataList=res.data
+					}).catch((err) => {
+						
+					})
+			}
 			
 			
 		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getDrugDSdata()
+		}
 		
 	}
 </script>
@@ -81,6 +99,7 @@
 			min-height: calc(100vh);
 			background-color: #F4F6FA;
 			padding-top: 88rpx;
+			padding-bottom: 30rpx;
 		.navigationBar{
 			position: fixed;
 			top: 0;

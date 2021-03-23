@@ -18,10 +18,10 @@
 					</view>
 				</view>
 				<view class="" style="display: flex;">
-					<view class="usageRecordItemBtn" style="margin-right: 40rpx;">
+					<view :class="i.text=== '已反馈' ? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toAddVaccinePage(i)">
 						{{i.text}}
 					</view>
-					<view class="usageRecordItemBtn" @click="toVUDPage()">
+					<view class="usageRecordItemBtn" @click="toVUDPage(i)">
 						查看
 					</view>
 				</view>
@@ -66,6 +66,20 @@
 					}).catch((err) => {
 						
 					})
+			},
+			toAddVaccinePage(i){
+				if(i.text === '已反馈'){
+					return false
+				}
+				uni.navigateTo({
+					url: '/sub/add_vaccine_use_record/add_vaccine_use_record?query=' + JSON.stringify(i)
+				});
+				
+			},
+			toVUDPage(i){
+				uni.navigateTo({
+								 url: '/sub/details_of_vaccine_use/details_of_vaccine_use?query=' + JSON.stringify(i)
+				}); 
 			}
 		},
 		onLoad({query}) {
@@ -151,6 +165,21 @@
 				text-align: center;
 				font-weight: 500;
 				color: #377BE4;
+				position: relative;
+				right: 0;
+				bottom: -30rpx;
+			}
+			.usageRecordItemBtned{
+				width: 120rpx;
+				height: 48rpx;
+				line-height: 48rpx;
+				background: #FFFFFF;
+				border: 1rpx solid #C4C4C4;
+				border-radius: 24rpx;
+				font-size: 24rpx;
+				text-align: center;
+				font-weight: 500;
+				color: #C4C4C4;
 				position: relative;
 				right: 0;
 				bottom: -30rpx;

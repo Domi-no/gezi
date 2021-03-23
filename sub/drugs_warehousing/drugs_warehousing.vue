@@ -1,87 +1,93 @@
 <template>
 	<view class="drugWarehousingContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{queryData.time}}</text>
 		</view>
 		<view class="dWTopBox">
-			<text>药品名称</text><text>药品一号</text>
+			<text>药品名称</text><text>{{queryData.drugs_name}}</text>
 		</view>
-		<view class="leaveType">
-			<view class="">
-				生产厂家<image class="star" src="../../static/daiban/star.png" mode=""></image>
+		
+		<view :class="{notSelected:whetherSelect}" @click="">
+			<view class="manager" >
+				<view class="">
+					生产厂家<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
+				</view>
+				<view class="choiceBox">
+					<input type="number" @input="productionChange" :value="outFormData.production" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				</view>
 			</view>
-			<view class="choiceBox" @click="reasonChange">
-				<text>{{reasonValue}}</text>
-				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
-			</view>
-		</view>
-		<view class="leaveType">
-			<view class="">
-				生产批号<image class="star" src="../../static/daiban/star.png" mode=""></image>
-			</view>
-			<view class="choiceBox" @click="reasonChange">
-				<text>{{reasonValue}}</text>
-				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+			<view class="manager" style="border: 0;">
+				<view class="">
+					生产批号<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
+				</view>
+				<view class="choiceBox">
+					<input type="number" @input="batch_numberChange" :value="outFormData.batch_number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				</view>
 			</view>
 		</view>
 		<view :class="{notSelected:whetherSelect}">
-			<view class="leaveTime">
+			<view class="leaveTime" @click="">
 				<view class="typeName">
 					单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="" @input="dWNnit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="unitChange" :value="outFormData.unit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					数量<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="dWNum" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="numberChange" :value="outFormData.number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					单价<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="dWPrice"  :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="unit_priceChange" :value="outFormData.unit_price" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="dWCentreBox">
-				<text>合计金额</text><text>{{this.dWmoney}}元</text>
+				<text>{{"合计金额"}}</text><text>{{this.price}}元</text>
 			</view>
 			
-			<view class="leaveTime">
+			<view class="leaveTime" v-show="isFactory" @click="dShowTips">
 				<view class="typeName">
 					供货单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="" @input="dWSupplier"  :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="supplierChange"  :value="outFormData.supplier" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					批准人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="dWCertifier" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="approvedChange" :value="outFormData.approved" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					接货人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="dWprovider" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="receiverChange" :value="outFormData.receiver" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="leaveReason">
 				<view class="">
 					备注<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="dWremarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="remarksChange" :value="outFormData.remarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		</view>
-		<view :class="{leaveSubmit:true,isSubBg:isdWsub}" @click="cSubBtn">
+		<view :class="{leaveSubmit:true,isSubBg:isDDsub}" @click="cSubBtn">
 			提交
+		</view>
+		<view class="setUpTips" v-show="dIsShowTips">
+			请先选择出库原因
 		</view>
 		<w-picker
 		     :visible.sync="visible"
@@ -90,7 +96,7 @@
 			default-type="name"
 			:default-props="defaultProps"
 		     :options="reasonOptions"
-		     @confirm="onConfirm($event,'selector')"
+		     @confirm="out_reasonChange"
 		     @cancel="onCancel"
 		     ref="reason" 
 		    ></w-picker>
@@ -99,6 +105,9 @@
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components:{
 		        wPicker
@@ -108,71 +117,153 @@
 				defaultProps:{"label":"name","value":"id"},
 				isSub:false,
 				visible:false,
-				reasonOptions:[{name:'本厂使用',id:1},{name:'外销',id:2}],
+				reasonOptions:[],
 				reasonValue:'请选择',
 				starSrc:['../../static/daiban/star.png','../../static/daiban/n_s_star.png'],
 				whetherSelect:false,
 				unitVlue:'',
 				num:'',
-				price:'',
+				
 				managerName:'',
 				supplierName:'',
 				certifierName:'',
 				providerName:'',
 				remarks:'',
 				
+				queryData:'',
+				// ---
+				
+				dIsShowTips:false,
+				outFormData:{
+					out_reason:'请选择',
+					production:'',
+					batch_number:'',
+					unit:'',
+					number:'',
+					unit_price:'',
+					supplier:'',
+					approved:'',
+					receiver:'',
+					remarks:''
+				}
 			}
 		},
 		methods: {
-			reasonChange(){
-			 this.$refs.reason.show()
+			out_reasonShow(e){
+				this.$refs.reason.show()
+				
+			 console.log(e)
 			},
-			dWNnit({detail:{value}}){
-				this.unitVlue = value
+			out_reasonChange(e){
+				
+				console.log(e)
+				this.outFormData.out_reason=e.result
+				// this.whetherSelect=false
+				
 			},
-			dWNum({detail:{value}}){
-				this.num = value
+			
+			unitChange({detail:{value}}){
+				this.outFormData.unit = value
 			},
-			dWPrice({detail:{value}}){
-				this.price =value
+			numberChange({detail:{value}}){
+				this.outFormData.number = value
 			},
-			dWManager({detail:{value}}){
-				this.managerName =value
+			unit_priceChange({detail:{value}}){
+				this.outFormData.unit_price =value
 			},
-			dWSupplier({detail:{value}}){
-				this.supplierName =value
+			productionChange({detail:{value}}){
+				this.outFormData.production =value
 			},
-			dWCertifier({detail:{value}}){
-				this.certifierName =value
+			supplierChange({detail:{value}}){
+				this.outFormData.supplier =value
 			},
-			dWprovider({detail:{value}}){
-				this.providerName =value
+			batch_numberChange({detail:{value}}){
+				this.outFormData.batch_number =value
 			},
-			dWremarks({detail:{value}}){
-				this.remarks =value
+			approvedChange({detail:{value}}){
+				this.outFormData.approved =value
+			},
+			receiverChange({detail:{value}}){
+				this.outFormData.receiver =value
+			},
+			remarksChange({detail:{value}}){
+				this.outFormData.remarks=value
 			},
 			onCancel(){
 				console.log(this)
 			},
-			onConfirm(e){
-				this.reasonValue=e.result
+			
+			cSubBtn(){
+				if(!this.isDDsub){
+					return false
+				}
+				this.$http.post('/Vaccin/Delivery.html',{type:1,uid:this.userInfo.id,record_time:this.queryData.time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title: '提交成功',
+								icon: 'none'
+							})
+						}
+					}).catch((err) => {
+						
+					})
+			},
+			dShowTips(){
+				if(this.outFormData.out_reason !== '请选择'){
+					return false
+				}
+				if(this.dIsShowTips){
+					return false
+				}else{
+					this.reasonValue === '请选择' ? this.dIsShowTips =true : ''
+					setTimeout(()=>{
+						this.dIsShowTips =false
+					},1500)
+				}
 				
 			},
-			cSubBtn(){
-				
+			getDrugDeliveryReasonData(){
+				this.$http.post('/Vaccin/cause.html')
+				.then((res) => {
+						console.log(res)
+						res.data.forEach((item,index)=>{
+							console.log(item)
+							this.reasonOptions.push({name:item,id:index})
+						})
+						console.log(this.reasonOptions)
+					}).catch((err) => {
+						
+					})
 			}
 		},
 		computed:{
-			isdWsub(){
-				let {reasonValue,unitVlue,num,price,managerName,supplierName,certifierName,providerName,remarks}=this
-				if(reasonValue !== '请选择' && unitVlue && num && price && supplierName && certifierName && providerName && remarks ){
+			isFactory(){
+				return this.outFormData.out_reason === '本厂使用' || this.outFormData.out_reason === '请选择' ? true : false
+			},
+			
+			isDDsub(){
+				let {production,batch_number,unit,unit_price,number,supplier,approved,receiver}=this.outFormData
+				if(production && batch_number && unit && unit_price && number && this.price && supplier && approved && receiver ){
 					return true
 				}
 			},
-			dWmoney(){
-				let {num,price}=this
-				return num&&price? num*price : 0
-			}
+			price(){
+				const {number,unit_price}=this.outFormData
+				return number&&unit_price? number * unit_price : 0
+			},
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+		},
+		
+		created() {
+			this.getDrugDeliveryReasonData()
+		},
+		onLoad({query}) {
+			this.queryData= JSON.parse(query)
+			console.log(query)
 		}
 	}
 </script>

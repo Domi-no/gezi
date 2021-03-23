@@ -14,10 +14,10 @@
 		</view>
 		<view class="" style="margin-top: 20rpx;">
 			<view class="dDTopBox">
-				<text>记录时间</text><text>{{query.time}}</text>
+				<text>记录时间</text><text>{{query.usage_time}}</text>
 			</view>
 			<view class="dDTopBox" style="border-bottom: 0;">
-				<text>仓号</text><text>{{query.name}}</text>
+				<text>仓号</text><text>{{query.type_name}}</text>
 			</view>
 		</view>
 		<view class="" style="margin-top: 20rpx;">
@@ -93,7 +93,7 @@
 			},
 			getVaccineUseDetail(){
 				console.log(this.query)
-				this.$http.post('/Vaccin/RecordMe.html', {uid: this.userInfo.id,vaccin_id:this.query.id})
+				this.$http.post('/Vaccin/RecordMe.html', {uid: this.userInfo.id,vaccin_id:this.query.vaccin_id})
 				.then((res) => {
 						console.log(res)
 						this.vaccineDetailData=res.data[0]
@@ -103,8 +103,9 @@
 					})
 			},
 			toRecordsPage(){
+				console.log(this.query)
 				uni.navigateTo({
-					url: '/sub/add_vaccine_use_record/add_vaccine_use_record?id=' + this.query.id
+					url: '/sub/add_vaccine_use_record/add_vaccine_use_record?query=' + JSON.stringify(this.query)
 				});
 			}
 		},
@@ -119,7 +120,8 @@
 		},
 		onLoad({query}) {
 			console.log(JSON.parse(query))
-			this.query=JSON.parse(query)
+			this.query=JSON.parse(query),
+			this.query.text="查看"
 		}
 	}
 </script>
