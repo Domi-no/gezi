@@ -15,8 +15,8 @@
 			<view class=""style="padding: 0 30rpx;">
 				<view class="saleNumBox">
 					<text>可销售数量</text>
-					<view class="">
-						生产仓 <image src="../../static/my/zk.png" mode=""></image>
+					<view class="" @click="warehousePopupShow">
+						{{block_type}} <image src="../../static/my/zk.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -80,18 +80,18 @@
 					今日销售
 				</view>
 				<view class="" style="display: flex;justify-content: space-between;">
-					<view class="s_v_t_typeBox">
-						<text class="s_v_t_num">99,864</text>
-						<text class="s_v_t_type">销售额(￥)</text>
+					<view class="s_v_t_typeBox" v-for="(item,idx) in todaySaleData" :key="idx">
+						<text class="s_v_t_num">{{item.number}}</text>
+						<text class="s_v_t_type">{{item.goods_name}}({{item.unit}})</text>
 					</view>
-					<view class="s_v_t_typeBox">
+					<!-- <view class="s_v_t_typeBox">
 						<text class="s_v_t_num">99,864</text>
 						<text class="s_v_t_type">肉鸽销量(kg)</text>
 					</view>
 					<view class="s_v_t_typeBox">
 						<text class="s_v_t_num">99,864</text>
 						<text class="s_v_t_type">鸽蛋销量(￥)</text>
-					</view>
+					</view> -->
 				</view>
 			</view>
 		</view>
@@ -101,18 +101,18 @@
 					本月销售
 				</view>
 				<view class="" style="display: flex;justify-content: space-between;">
-					<view class="s_v_t_typeBox">
-						<text class="s_v_t_num">99,864</text>
-						<text class="s_v_t_type">销售额(￥)</text>
+					<view class="s_v_t_typeBox" v-for="(item,idx) in monthSaleData" :key="idx">
+						<text class="s_v_t_num">{{item.number}}</text>
+						<text class="s_v_t_type">{{item.goods_name}}({{item.unit}})</text>
 					</view>
-					<view class="s_v_t_typeBox">
+					<!-- <view class="s_v_t_typeBox">
 						<text class="s_v_t_num">99,864</text>
 						<text class="s_v_t_type">肉鸽销量(￥)</text>
 					</view>
 					<view class="s_v_t_typeBox">
 						<text class="s_v_t_num">99,864</text>
 						<text class="s_v_t_type">鸽蛋销量(￥)</text>
-					</view>
+					</view> -->
 				</view>
 			</view>
 		</view>
@@ -122,6 +122,9 @@
 					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
 				</view>
 		</view>
+		<lb-picker ref="warehouse" :props="myProps" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
 	</view>
 </template>
 
@@ -129,7 +132,14 @@
 	import uCharts from '../../js_sdk/u-charts/u-charts/u-charts.js';
 		var _self;
 		var canvaLineA=null;
+		import LbPicker from '@/components/lb-picker';
+		import {
+			mapState
+		} from 'vuex'
 	export default {
+		components: {
+		     LbPicker
+		   },
 		data() {
 			return {
 				leftValue:0,
@@ -137,31 +147,40 @@
 				cHeight:'',
 				pixelRatio:1,
 				chartData: {
-					categories: ['12.1', '12.5', '12.10', '12.15', '12.20', '12.25','12.31'],
+					categories: [],
 					series: [{
-						name: '销售额(万元)',
-						data: [350, 200, 250, 370, 40, 200,700],
+						name: '销售额',
+						data: [],
 						color: '#88C932',
 						legendShape:'rect'
 					}, {
 						name: '肉鸽销量',
-						data: [700, 400, 650, 1000, 440, 680,100],
+						data: [],
 						color:'#5273EB',
 						legendShape:'rect'
 					}, {
 						name: '鸽蛋销量',
-						data: [1000, 800, 950, 450, 612, 232,400],
+						data: [],
 						color:'#EE577A',
 						legendShape:'rect'
 					}]
-				}
+				},
+				list:[],
+				myProps:{
+					 label: 'type_name',
+					 value: 'block_type',
+				},
+				block_type:'生产仓',
+				preSaleData:'',
+				todaySaleData:'',
+				monthSaleData:'',
 			}
 		},
 		onLoad() {
 			_self = this;
 			this.cWidth=uni.upx2px(720);
 			this.cHeight=uni.upx2px(320);
-			this.showLineA("canvasLineA",this.chartData)
+			
 		},
 		methods: {
 			goBack(){
@@ -170,8 +189,9 @@
 				})
 			},
 			toRecordsPage(){
+				
 				uni.navigateTo({
-					url:'/sub/add_sale_record/add_sale_record'
+					url:'/sub/add_sale_record/add_sale_record?list='+JSON.stringify(this.list)
 				});
 			},
 			
@@ -203,8 +223,7 @@
 						dashLength:8,
 						splitNumber:5,
 						calibration:true,
-						min:0,
-						max:1000,
+						
 						
 						format:(val)=>{return val.toFixed(0)+''}
 					},
@@ -234,7 +253,67 @@
 			},
 			touchEnd(e){
 				console.log(e)
+			},
+			getPreSaleData(){
+				const {block_type} = this
+				this.$http.post('/Sale/preSale.html', {uid: this.userInfo.id,block_type})
+				.then((res) => {
+						console.log(res)
+						this.preSaleData=res.data
+					}).catch((err) => {
+						
+				})
+			},
+			getTypeBlockData(){
+				
+				this.$http.post('/Grain/typeBlock.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+					this.list=res.data
+					}).catch((err) => {
+						
+				})
+			},
+			getSalesData(){
+				
+				this.$http.post('/Sale/SalesData.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						console.log(res.data.canvas)
+						this.todaySaleData=res.data['今日销售']
+						this.monthSaleData=res.data['本月销售']						
+						Object.keys(res.data.canvas).forEach((value, index)=>{
+							console.log(value, index,res.data.canvas[value]);
+							this.chartData.categories.push(value)
+							this.chartData.series[0].data.push(res.data.canvas[value][0].number)
+							this.chartData.series[1].data.push(res.data.canvas[value][1].number)
+							this.chartData.series[2].data.push(res.data.canvas[value][2].number)    
+						});
+						console.log(this.chartData)
+						this.showLineA("canvasLineA",this.chartData)
+					}).catch((err) => {
+						
+				})
+			},
+			typeNameChange(e){
+				console.log(e)
+				this.block_type=e.item.type_name
+				this.getPreSaleData()
+			},
+			warehousePopupShow(){
+				this.$refs.warehouse.show()
 			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getTypeBlockData()
+			this.getPreSaleData()
+			this.getSalesData()
 		}
 	}
 </script>

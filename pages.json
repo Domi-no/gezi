@@ -357,33 +357,45 @@
 				}
 			}
 			
-			    ,{
-                    "path" : "help_the_poor/help_the_poor",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "扶贫成果",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
-                    "path" : "production_warehouse_change/production_warehouse_change",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-                ,{
-                    "path" : "prevention_cure/prevention_cure",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "鸽病防治",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
+			   ,{
+                   "path" : "help_the_poor/help_the_poor",
+                   "style" :                                                                                    
+               {
+                   "navigationBarTitleText": "扶贫成果",
+                   "enablePullDownRefresh": false
+               }
+               
+               }
+               ,{
+                   "path" : "production_warehouse_change/production_warehouse_change",
+                   "style" :                                                                                    
+               {
+                   "navigationBarTitleText": "",
+                   "enablePullDownRefresh": false
+               }
+               
+               }
+               ,{
+                   "path" : "prevention_cure/prevention_cure",
+                   "style" :                                                                                    
+               {
+                   "navigationBarTitleText": "鸽病防治",
+                   "enablePullDownRefresh": false
+               }
+               
+               }
+               ,{
+                   "path" : "in_out_records_detail/in_out_records_detail",
+                   "style" :                                                                                    
+               {
+                   "navigationBarTitleText": "",
+                   "app-plus":{
+                   	"titleNView":false
+                   }
+				   
+               }
+               
+               }
             ]
 	
 		}]

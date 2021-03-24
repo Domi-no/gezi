@@ -4,7 +4,7 @@
 			<view class=""style="padding: 0 30rpx;">
 				<view class="saleNumBox">
 					<text>可销售数量</text>
-					<view class="">
+					<view class="" @click="warehousePopupShow">
 						生产仓 <image src="../../static/my/zk.png" mode=""></image>
 					</view>
 				</view>
@@ -38,7 +38,7 @@
 			
 		</view>
 		<view class="fWTopBox" style="margin-top: 20rpx;">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{saleForm.record_time}}</text>
 		</view>
 		<view>
 			<view class="leaveTime">
@@ -46,27 +46,27 @@
 					单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="" @input="fWNnit" :value="unitVlue" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="unitChange" :value="saleForm.unit"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					货物名称<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<view class="choiceBox"  @click="">
-					<input type="number" @input="fWNum" :value="num" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<view class="choiceBox"  @click="goodsNamePopupShow">
+					<text>{{saleForm.goods_name}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					规格<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<view class="choiceBox">
-					<input type="number" @input="fWPrice" :value="price" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				<view class="choiceBox" @click="specsPopupShow">
+					<text>{{saleForm.specs}}</text><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					数量<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="fWPrice" :value="price" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="numberChange" :value="saleForm.number"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 
@@ -74,7 +74,7 @@
 				<view class="">
 					备注<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="fWremarks" :value="remarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="remarksChange" :value="saleForm.remarks"  placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		</view>
 		<view class="leaveTime" style="margin-top: 20rpx;">
@@ -82,21 +82,21 @@
 				单价<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="">
-				<input type="" @input="fWSupplier"  :value="supplierName" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<input type="" @input="unit_priceChange"  :value="saleForm.unit_price"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
 				客户<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 			</view>
 			<view class="choiceBox"  @click="">
-				<input type="number" @input="fWCertifier" :value="certifierName" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<input type="number" @input="customerChange" :value="saleForm.customer"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
 				收款方式<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 			</view>
-			<view class="choiceBox"  @click="">
-				<input type="number" @input="fWCertifier" :value="certifierName" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<view class="choiceBox"  @click="payMethodPopupShow">
+				<text>{{saleForm.pay_method}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			
@@ -118,14 +118,31 @@
 		     @cancel="onCancel"
 		     ref="reason" 
 		    ></w-picker>
+		<lb-picker ref="warehouse" :props="myProps" :list="warehouseList" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="goodsName"  :list="goodsNameList" radius="20rpx" confirm-color="#377BE4" @confirm='goodsNameChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="payMethod"  :list="payMethodList" radius="20rpx" confirm-color="#377BE4" @confirm='payMethodChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="specs"  :list="specsList" radius="20rpx" confirm-color="#377BE4" @confirm='specsChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
 	</view>
 </template>
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
+	import LbPicker from '@/components/lb-picker';
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components:{
-		        wPicker
+		        wPicker,
+				LbPicker
 		},
 		data() {
 			return {
@@ -133,50 +150,113 @@
 				isSub:false,
 				visible:false,
 				reasonOptions:[{name:'本厂使用',id:1},{name:'外销',id:2}],
-				reasonValue:'请选择',
 				starSrc:['../../static/daiban/star.png','../../static/daiban/n_s_star.png'],
 				whetherSelect:false,
-				unitVlue:'',
-				num:'',
-				price:'',
-				managerName:'',
-				supplierName:'',
-				certifierName:'',
-				providerName:'',
-				remarks:'',
+				myProps:{
+					 label: 'type_name',
+					 value: 'block_type',
+				},
+				
+				warehouseList:[],
+				goodsNameList:[],
+				payMethodList:[],
+				specsList:[],
+				block_type:'生产仓',
+				saleForm:{
+					record_time:'',
+					goods_name:'请选择',
+					specs:'请选择',
+					unit:'',
+					unit_price:'',
+					number:'',
+					price:'',
+					customer:'',
+					pay_method:'请选择',
+					remarks:''
+				}
 				
 			}
 		},
 		methods: {
-			reasonChange(){
-			 this.$refs.reason.show()
+			warehousePopupShow(){
+			 this.$refs.warehouse.show()
 			},
-			fWNnit({detail:{value}}){
-				 setTimeout(() => {
-				       this.unitVlue = value.trim()
-				    }, 0)
-				
+			typeNameChange(e){
+				this.block_type=e.item.type_name
+				this.getPreSaleData()
+				console.log(e)
 			},
-			fWNum({detail:{value}}){
-				this.num = value.trim()
+			goodsNamePopupShow(){
+				 this.$refs.goodsName.show()
 			},
-			fWPrice({detail:{value}}){
-				this.price =value.trim()
+			goodsNameChange(e){
+				console.log(e)
+				this.saleForm.goods_name=e.value
 			},
-			fWManager({detail:{value}}){
-				this.managerName =value.trim()
+			payMethodPopupShow(){
+				 this.$refs.payMethod.show()
 			},
-			fWSupplier({detail:{value}}){
-				this.supplierName =value.trim()
+			payMethodChange(e){
+				console.log(e)
+				this.saleForm.pay_method=e.value
 			},
-			fWCertifier({detail:{value}}){
-				this.certifierName =value.trim()
+			specsPopupShow(){
+				 this.$refs.specs.show()
 			},
-			fWprovider({detail:{value}}){
-				this.providerName =value.trim()
+			specsChange(e){
+				console.log(e)
+				this.saleForm.specs=e.value
 			},
-			fWremarks({detail:{value}}){
-				this.remarks =value.trim()
+			unitChange({detail:{value}}){
+				this.saleForm.unit=value
+			},
+			numberChange({detail:{value}}){
+				this.saleForm.number=value
+			},
+			remarksChange({detail:{value}}){
+				this.saleForm.remarks=value
+			},
+			unit_priceChange({detail:{value}}){
+				this.saleForm.unit_price=value
+			},
+			customerChange({detail:{value}}){
+				this.saleForm.customer=value
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.saleForm.record_time=times	
+			},
+			getPreSaleData(){
+				const {block_type} = this
+				const uid =this.userInfo.id
+				this.$http.post('/Sale/preSale.html', {uid,block_type})
+				.then((res) => {
+						console.log(res)
+						this.preSaleData=res.data
+					}).catch((err) => {
+						
+				})
+			},
+			getSaleNameData(){
+				const uid =this.userInfo.id
+				this.$http.post('/Sale/SaleName.html',{uid})
+				.then(({data:{goodsName,payMethod,specs}}) => {
+						// goodsName.forEach((item,i)=>{
+						// 	console.log(item)
+						// 	this.goodsNameList.push({label:item,value:i})
+						// })
+						this.goodsNameList = goodsName
+						this.payMethodList = payMethod
+						this.specsList = specs
+						console.log(this.goodsNameList)
+					}).catch((err) => {
+						
+				})
 			},
 			onCancel(){
 				console.log(this)
@@ -186,21 +266,50 @@
 				
 			},
 			cSubBtn(){
-				
+				if(!this.isfWsub){
+					return false
+				}
+				const uid =this.userInfo.id
+				this.$http.post('/Sale/sale.html',{uid,...this.saleForm,price:this.fWmoney})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title: '提交成功',
+								icon: 'none'
+							})
+						}
+					}).catch((err) => {
+						
+				})
 			}
 		},
 		computed:{
 			isfWsub(){
-				let {reasonValue,unitVlue,num,price,supplierName,certifierName,remarks}=this
-				if( unitVlue && num && price && supplierName && certifierName && remarks ){
+				
+				const {record_time,goods_name,specs,unit,unit_price,number,customer,pay_method,remarks}=this.saleForm
+				if( goods_name !== '请选择' && specs !== '请选择' && pay_method !== '请选择' && record_time && unit && unit_price && number && this.fWmoney && customer && remarks ){
 					return true
 				}
 			},
 			fWmoney(){
-				let {num,price}=this
-				return num&&price? num*price : 0
-			}
+				let {number,unit_price}=this.saleForm
+				return number&&unit_price? number*unit_price : 0
+			},
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+		},
+		created() {
+			this.getToday()
+			this.getPreSaleData()
+			this.getSaleNameData()
+		},
+		onLoad({list}) {
+			console.log(list)
+			this.warehouseList=JSON.parse(list)
 		}
+		
 	}
 </script>
 
