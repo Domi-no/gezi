@@ -1,10 +1,10 @@
 <template>
 	<view class="tFContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{tfDataForm.record_time}}</text>
 		</view>
 		<view class="dWTopBox">
-			<text>种类</text><text>{{this.type}}</text>
+			<text>种类</text><text>{{tfDataForm.death}}</text>
 		</view>
 			
 		<view class="leaveTime">
@@ -12,14 +12,14 @@
 				死亡数量<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="">
-				<input type="" @input="deaths"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<input type="" @input="deathChange"  :value="tfDataForm.death_number" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
 				已处理<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox"  @click="">
-				<input type="number" @input="processed"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<input type="number" @input="handle_numberChange" :value="tfDataForm.handle_number"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			
@@ -28,10 +28,10 @@
 			<view class="">
 				备注
 			</view>
-			<textarea   @input="dWremarks"  placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   @input="submit_remarksChange" :value="tfDataForm.submit_remarks"  placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 	
-		<view :class="{leaveSubmit:true,isSubBg:isdWsub}" @click="cSubBtn">
+		<view :class="{leaveSubmit:true,isSubBg:isSub}" @click="cSubBtn">
 			提交
 		</view>
 		
@@ -39,41 +39,87 @@
 </template>
 
 <script>
-
+import {
+		mapState
+	} from 'vuex'
 	export default {
 		
 		data() {
 			return {
-				deathsNum:'',
-				processedNum:'',
-				remarks:'',
+				tfDataForm:{
+					
+				},
 				isdWsub:false,
-				type:''
+				dataName:'',
+				record_time:'',
 				
 			}
 		},
 		methods: {
-			deaths({detail:{value}}){
-				this.deathsNum=value.trim()
+			deathChange({detail:{value}}){
+				this.tfDataForm.death_number=parseInt(value.trim())
 			},
-			processed({detail:{value}}){
-				this.processedNum=value.trim()
+			handle_numberChange({detail:{value}}){
+				this.tfDataForm.handle_number=parseInt(value.trim())
+				this.tfDataForm.handle_number > this.tfDataForm.death_numbe ?  this.tfDataForm.handle_number = this.tfDataForm.death_numbe : this.tfDataForm.handle_number
 			},
-			dWremarks({detail:{value}}){
-				this.remarks =value
+			submit_remarksChange({detail:{value}}){
+				this.tfDataForm.submit_remarks =value
 			},
-			
 			
 			cSubBtn(){
+				let pages = getCurrentPages();
+				let prevPage = pages[ pages.length - 2 ];
+				switch(this.tfDataForm.death){
+					case '种鸽' :
+					prevPage.$vm.breedingPigeonData= this.tfDataForm;
+					break;
+					case '臭蛋' :
+					prevPage.$vm.badEggData= this.tfDataForm;
+					break;
+					case '乳鸽' :
+					prevPage.$vm.squabData= this.tfDataForm;
+					break;
+					case '童鸽' :
+					prevPage.$vm.childPigeonData= this.tfDataForm;
+					break;
+					case '青年鸽' :
+					prevPage.$vm.youngPigeonData= this.tfDataForm;
+					break;
+				}
+				console.log(this.tfDataForm)
+				this.$http.post('/Sale/defusing.html', {uid: this.userInfo.id,...this.tfDataForm})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							// uni.showToast({
+							// 	title:'提交成功',
+							// 	icon: 'none'
+							// })
+							uni.navigateBack({
+							    delta: 1
+							});
+						}
+						
+					}).catch((err) => {
+						
+				})
 				
+			
 			}
 		},
 		computed:{
-			
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			isSub(){
+				return this.tfDataForm.death_number && this.tfDataForm.handle_number && this.tfDataForm.submit_remarks ? true : false
+			}
 			
 		},
 		onLoad({query}) {
-			this.type=query
+			
+			this.tfDataForm=JSON.parse(query)
 		}
 	}
 </script>

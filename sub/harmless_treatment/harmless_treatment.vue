@@ -1,103 +1,106 @@
 <template>
 	<view class="harmlessTreatmentContainer">
-		<view class="hTTopBox">
-			<text>时间</text><view>2020-12-25<image src="../../static/daiban/b_zk.png" mode=""></image></view>
+		<view class="hTTopBox" @click="hTTimePopupShow">
+			<text>时间</text><view>{{record_time}}<image src="../../static/daiban/b_zk.png" mode=""></image></view>
 		</view>
 		<view class="" style="margin-top: 20rpx;">
-			<view class="hTItem" @click="toTFInputPage('种鸽')">
+			<view class="hTItem" @click="toTFInputPage(breedingPigeonData)">
 				<view class="ht_left_box">
 					<view class="ht_left_Img">
 						<image src="../../static/daiban/ht_p.png" mode=""></image>
 					</view>
 					<view class="ht_left_detail">
 						<view class="ht_left_detail_top">
-							<text class="ht_num">种鸽死亡：0</text><text class="isHandle">未处理</text>
+							<text class="ht_num">种鸽死亡：{{breedingPigeonData.death_number}}</text>
+							<text :class="{isHandle:breedingPigeonData.handle_number}">{{breedingPigeonData.handle_number?'已处理：'+breedingPigeonData.handle_number:'未处理'}}</text>
 						</view>
-						<text class="hTRemarks">备注：</text>
+						<text class="hTRemarks">备注：{{breedingPigeonData.submit_remarks}}</text>
 					</view>
 				</view>
 				
 				<image class="ht_zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
-			<view class="hTItem" @click="toTFInputPage('臭蛋')">
+			<view class="hTItem" @click="toTFInputPage(badEggData)">
 				<view class="ht_left_box">
 					<view class="ht_left_Img">
 						<image src="../../static/daiban/ht_b.png" mode=""></image>
 					</view>
 					<view class="ht_left_detail">
 						<view class="ht_left_detail_top">
-							<text class="ht_num">臭蛋数量：0</text><text class="isHandle">未处理</text>
+							<text class="ht_num">臭蛋数量：{{badEggData.death_number}}</text><text :class="{isHandle:badEggData.handle_number}">{{badEggData.handle_number?'已处理：'+badEggData.handle_number:'未处理'}}</text>
 						</view>
-						<text class="hTRemarks">备注：</text>
+						<text class="hTRemarks">备注：{{badEggData.submit_remarks}}</text>
 					</view>
 				</view>
 				
 				<image class="ht_zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
-			<view class="hTItem" @click="toTFInputPage('乳鸽')">
+			<view class="hTItem" @click="toTFInputPage(squabData)">
 				<view class="ht_left_box">
 					<view class="ht_left_Img">
 						<image src="../../static/daiban/ht_g.png" mode=""></image>
 					</view>
 					<view class="ht_left_detail">
 						<view class="ht_left_detail_top">
-							<text class="ht_num">乳鸽死亡：0</text><text class="isHandle">未处理</text>
+							<text class="ht_num">乳鸽死亡：{{squabData.death_number}}</text><text :class="{isHandle:squabData.handle_number}">{{squabData.handle_number?'已处理：'+squabData.handle_number:'未处理'}}</text>
 						</view>
-						<text class="hTRemarks">备注：</text>
+						<text class="hTRemarks">备注：{{squabData.submit_remarks}}</text>
 					</view>
 				</view>
 				
 				<image class="ht_zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
-			<view class="hTItem" @click="toTFInputPage('童鸽')">
+			<view class="hTItem" @click="toTFInputPage(childPigeonData)">
 				<view class="ht_left_box">
 					<view class="ht_left_Img">
 						<image src="../../static/daiban/ht_o.png" mode=""></image>
 					</view>
 					<view class="ht_left_detail">
 						<view class="ht_left_detail_top">
-							<text class="ht_num">童鸽死亡：0</text><text class="isHandle">未处理</text>
+							<text class="ht_num">童鸽死亡：{{childPigeonData.death_number}}</text><text :class="{isHandle:childPigeonData.handle_number}">{{childPigeonData.handle_number?'已处理：'+childPigeonData.handle_number:'未处理'}}</text>
 						</view>
-						<text class="hTRemarks">备注：</text>
+						<text class="hTRemarks">备注：{{childPigeonData.submit_remarks}}</text>
 					</view>
 				</view>
 				
 				<image class="ht_zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
-			<view class="hTItem" @click="toTFInputPage('青年鸽')">
+			<view class="hTItem" @click="toTFInputPage(youngPigeonData)">
 				<view class="ht_left_box">
 					<view class="ht_left_Img">
 						<image src="../../static/daiban/b_g.png" mode=""></image>
 					</view>
 					<view class="ht_left_detail">
 						<view class="ht_left_detail_top">
-							<text class="ht_num">青年鸽死亡：0</text><text class="isHandle">未处理</text>
+							<text class="ht_num">青年鸽死亡：{{youngPigeonData.death_number}}</text><text :class="{isHandle:youngPigeonData.handle_number}">{{youngPigeonData.handle_number?'已处理：'+youngPigeonData.handle_number:'未处理'}}</text>
 						</view>
-						<text class="hTRemarks">备注：</text>
+						<text class="hTRemarks">备注：{{youngPigeonData.submit_remarks}}</text>
 					</view>
 				</view>
 				
 				<image class="ht_zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 		</view>
-		<view class="handlerBox" v-show="false">
-			<view class="toExamineBox">
+		<view class="handlerBox" v-if="harmlessTreatmentData.power == 0">
+			<view class="toExamineBox" v-show="this.harmlessTreatmentData.submit !== '提交'">
 				<view class="leaveReason">
 					<view class="">
-						审核结果：<text style="color: #E64329;">未通过</text><text style="color: #1D8A27;">通过</text><text style="color: #377BE4;">审核中</text>
+						审核结果：<text style="color: #E64329;" v-show="harmlessTreatmentData.text === '未通过'">未通过</text>
+						<text style="color: #1D8A27;" v-show="harmlessTreatmentData.text === '通过'">通过</text>
+						<text style="color: #377BE4;" v-show="harmlessTreatmentData.text === '审核中'">审核中</text>
 					</view>
-					<textarea   @input="dWremarks"  placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<textarea   @input="dWremarks"  :value="harmlessTreatmentData.examine_remarks" disable="true" placeholder="" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				</view>
 			</view>
-			<view class="htSubmit">
-				提交
+			<view :class="{htSubmit:true,inReview:this.harmlessTreatmentData.text==='审核中'}">
+				{{this.harmlessTreatmentData.submit}}
 			</view>
 		</view>
-		<view class="leaveReason">
+		<view class="leaveReason" v-else-if="harmlessTreatmentData.power == 1">
 			<view class="">
 				审核结果
 			</view>
-			<textarea   @input="dWremarks"  placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   @input="dWremarks"  placeholder="如果审核不通过，请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			<view class="examineBtnBox">
 				<view class="refuseBtn">
 					拒绝
@@ -107,22 +110,106 @@
 				</view>
 			</view>
 		</view>
+		<lb-picker ref="hTTime" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='record_timeChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
 	</view>
 </template>
 
 <script>
+	import LbPicker from '@/components/lb-picker';
+	import {
+		mapState
+	} from 'vuex'
 	export default {
+		components:{
+			LbPicker
+		},
 		data() {
 			return {
-				
+				record_time:'',
+				harmlessTreatmentData:{},
+				breedingPigeonData:'',
+				badEggData:'',
+				squabData:'',
+				childPigeonData:'',
+				youngPigeonData:'',
 			}
 		},
 		methods: {
-			toTFInputPage(name){
+			hTTimePopupShow(){
+			this.$refs.hTTime.show()
+			},
+			toTFInputPage(data){
+				data.record_time = this.record_time
 				uni.navigateTo({
-					url:'/sub/t_f_change/t_f_change?query='+name
+					url:'/sub/t_f_change/t_f_change?query='+JSON.stringify(data)
 				});
 			},
+			record_timeChange(e){
+				this.record_time=e.value
+				this.getdefusingData()
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.record_time=times
+			},
+			getdefusingData(){
+				const { record_time }=this
+				this.$http.post('/Sale/defusingRecord.html', {uid: this.userInfo.id,record_time})
+				.then((res) => {
+						console.log(res)
+						this.harmlessTreatmentData=res.data
+						Object.keys(res.data).forEach((value, index)=>{
+							console.log(value, index,res.data[value]);
+							console.log(res.data[value].death)
+							switch(res.data[value].death){
+								case '种鸽' :
+								this.breedingPigeonData=res.data[value]
+								console.log(1)
+								break;
+								case '臭蛋' :
+								this.badEggData=res.data[value]
+								console.log(2)
+								break;
+								case '乳鸽' :
+								this.squabData=res.data[value]
+								console.log(3)
+								break;
+								case '童鸽' :
+								this.childPigeonData=res.data[value]
+								console.log(4)
+								break;
+								case '青年鸽' :
+								this.youngPigeonData=res.data[value]
+								console.log(5)
+								break;
+							}
+						});
+						
+						console.log(this.harmlessTreatmentData)
+					}).catch((err) => {
+						
+				})
+			},
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		onLoad({query}) {
+			query?console.log(JSON.parse(query)):''
+		},
+		created() {
+			this.getToday()
+			this.getdefusingData()
 		}
 	}
 </script>
@@ -175,7 +262,7 @@
 			}
 		}
 		.ht_left_detail{
-			width: 284rpx;
+			width: 358rpx;
 			font-size: 24rpx;
 			font-weight: 500;
 			color: #979797;
@@ -187,6 +274,13 @@
 				font-weight: 500;
 				.ht_num{
 					color: #151515;
+				}
+				.isHandle{
+					color: #377BE4;
+				}
+				text:nth-child(2){
+					width: 145rpx;
+					text-align: left;
 				}
 				
 			}
@@ -217,6 +311,10 @@
 		font-size: 34rpx;
 		font-weight: 500;
 		color: #FFFFFF;
+	}
+	.inReview{
+		background-color: #D1D2D3;
+		color: #fff;
 	}
 	.handlerBox{
 		padding-bottom: 46rpx;

@@ -20,55 +20,58 @@
 					</view>
 				</view>
 			</view>
-			<view class="saleCageBox"  @scroll="touchStart" >
-				<view class="sCItem">
-					<view class="">
-						<image src="../../static/daiban/ht_p.png" mode=""></image><text>种鸽</text>
+			<view class="" style="position: relative;">
+				<scroll-view class="saleCageBox"  scroll-x="true" @scroll="touchStart" ref="scrollBox" >
+					<view class="sCItem">
+						<view class="">
+							<image src="../../static/daiban/ht_p.png" mode=""></image><text>种鸽</text>
+						</view>
+						<text class="sCCageNum pinkNum">598</text>
 					</view>
-					<text class="sCCageNum pinkNum">598</text>
-				</view>
-				<view class="sCItem">
-					<view class="">
-						<image src="../../static/daiban/ht_b.png" mode=""></image><text>鸽蛋</text>
+					<view class="sCItem">
+						<view class="">
+							<image src="../../static/daiban/ht_b.png" mode=""></image><text>鸽蛋</text>
+						</view>
+						<text class="sCCageNum pinkNum">25,468</text>
 					</view>
-					<text class="sCCageNum pinkNum">25,468</text>
-				</view>
-				<view class="sCItem">
-					<view class="">
-						<image src="../../static/daiban/ht_g.png" mode=""></image><text>乳鸽</text>
+					<view class="sCItem">
+						<view class="">
+							<image src="../../static/daiban/ht_g.png" mode=""></image><text>乳鸽</text>
+						</view>
+						<text class="sCCageNum pinkNum">598</text>
 					</view>
-					<text class="sCCageNum pinkNum">598</text>
-				</view>
-				<view class="sCItem">
-					<view class="">
-						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+					<view class="sCItem">
+						<view class="">
+							<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+						</view>
+						<text class="sCCageNum pinkNum">598</text>
 					</view>
-					<text class="sCCageNum pinkNum">598</text>
-				</view>
-				<view class="sCItem">
-					<view class="">
-						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+					<view class="sCItem">
+						<view class="">
+							<image src="../../static/daiban/ht_qng.png" mode=""></image><text>青年鸽</text>
+						</view>
+						<text class="sCCageNum pinkNum">598</text>
 					</view>
-					<text class="sCCageNum pinkNum">598</text>
-				</view>
-				<view class="sCItem">
-					<view class="">
-						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+					<view class="sCItem">
+						<view class="">
+							<image src="../../static/daiban/ht_fb.png" mode=""></image><text>粪便</text>
+						</view>
+						<text class="sCCageNum pinkNum">598</text>
 					</view>
-					<text class="sCCageNum pinkNum">598</text>
-				</view>
-				<view class="sCItem">
-					<view class="">
-						<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+					<view class="sCItem">
+						<view class="">
+							<image src="../../static/daiban/ht_fl.png" mode=""></image><text>废料</text>
+						</view>
+						<text class="sCCageNum pinkNum">598</text>
 					</view>
-					<text class="sCCageNum pinkNum">598</text>
-				</view>
+					
+				</scroll-view>
 				<view class="lineBox">
 					<view class="" style="position: relative;">
-						<!-- <view class="line" id="line" :style="'position: absolute;left:' + leftValue +'%;'">
+						<view class="line" id="line" :style="'position: absolute;left:' + leftValue +'%;'">
 							
-						</view> -->
-						<u-line-progress class="lineBox" :percent="70" :round="false" active-color="#ff9900"></u-line-progress>
+						</view>
+						
 					</view>
 				</view>
 			</view>
@@ -245,11 +248,11 @@
 					}
 				});
 			},
-			touchStart(){
-				 // document.getElementsByClassName('.saleCageBox').addEventListener('scroll', function (e ) {  
-				 //      // console.log(scroll);
-				 //    })
-				this.leftValue >= 55 ? '' :this.leftValue += 1
+			touchStart(e){
+				
+				 console.log()
+				this.leftValue = e.detail.scrollLeft * 0.24
+				
 			},
 			touchEnd(e){
 				console.log(e)
@@ -394,33 +397,19 @@
 		.saleCageBox{
 			height: 180rpx;
 			display: flex;
-			overflow-y: scroll;
+			// overflow-y: scroll;
 			// position: relative;
-			.lineBox{
-				width: 90rpx;
-				height: 4rpx;
-				background: #E4E5E9;
-				border-radius: 2rpx;
-				position: absolute;
-				bottom: 18rpx;
-				left: 50%;
-				transform: translateX(-50%);
-				.line{
-					width: 40rpx;
-					height: 4rpx;
-					background: #676767;
-					border-radius: 2rpx;
-					position: absolute;
-					
-				}
-			}
+			overflow: hidden;
+			flex-wrap: nowrap;
+			
+			
 			.sCItem{
-				min-width: 180rpx;
+				width: 180rpx;
 				height: 180rpx;
 				font-size: 28rpx;
 				font-weight: 500;
 				color: #151515;
-				
+				display: inline-block;
 				text-align: center;
 				view{
 					padding: 30rpx 0 0 30rpx;
@@ -450,6 +439,28 @@
 				}
 			}
 		}
+		.lineBox{
+			width: 90rpx;
+			height: 4rpx;
+			background: #E4E5E9;
+			border-radius: 2rpx;
+			position: absolute;
+			bottom: 18rpx;
+			left: 50%;
+			transform: translateX(-50%);
+			.line{
+				width: 40rpx;
+				height: 4rpx;
+				background: #676767;
+				border-radius: 2rpx;
+				position: absolute;
+				
+			}
+		}
+		scroll-view{
+			
+				white-space: nowrap;
+			}
 		
 		
 	}
