@@ -122,7 +122,7 @@
 		<view class="qiun-columns">
 				
 				<view class="qiun-charts" >
-					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA"></canvas>
+					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA" @touchmove="moveLineA"  @touchend="touchEndLineA"></canvas>
 				</view>
 		</view>
 		<lb-picker ref="warehouse" :props="myProps" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
@@ -213,12 +213,15 @@
 					series: chartData.series,
 					animation: false,
 					dataPointShape:false,
+					enableScroll:true,
 					xAxis: {
 						type:'grid',
 						gridColor:'#CCCCCC',
 						gridType:'dash',
 						dashLength:8,
-						
+						itemCount:5,
+						// scrollShow:true,
+						// scrollAlign:'left',
 					},
 					yAxis: {
 						gridType:'solid',
@@ -242,11 +245,12 @@
 				
 			},
 			touchLineA(e) {
-				canvaLineA.showToolTip(e, {
-					format: function (item, category) {
-						return category + ' ' + item.name + ':' + item.data 
-					}
-				});
+				// canvaLineA.showToolTip(e, {
+				// 	format: function (item, category) {
+				// 		return category + ' ' + item.name + ':' + item.data 
+				// 	}
+				// });
+				canvaLineA.scrollStart(e);
 			},
 			touchStart(e){
 				
@@ -254,6 +258,18 @@
 				this.leftValue = e.detail.scrollLeft * 0.24
 				
 			},
+			moveLineA(e) {
+							canvaLineA.scroll(e);
+						},
+						touchEndLineA(e) {
+							canvaLineA.scrollEnd(e);
+							//下面是toolTip事件，如果滚动后不需要显示，可不填写
+							canvaLineA.showToolTip(e, {
+								format: function (item, category) {
+									return category + ' ' + item.name + ':' + item.data 
+								}
+							});
+						},
 			touchEnd(e){
 				console.log(e)
 			},
