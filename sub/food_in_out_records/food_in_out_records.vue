@@ -3,13 +3,13 @@
 		<view class="topBox">
 			<text>交易类型</text>
 			<view class="transactionType">
-				<view :class="currentId === 1 ? 'currentItem' : ''" @click="currentChange(1)">
+				<view :class="currentId === 0 ? 'currentItem' : ''" @click="currentChange(0)">
 					全部
 				</view>
 				<view :class="currentId === 2 ? 'currentItem' : ''" @click="currentChange(2)">
 					出库
 				</view>
-				<view :class="currentId === 3 ? 'currentItem' : ''" @click="currentChange(3)">
+				<view :class="currentId === 1 ? 'currentItem' : ''" @click="currentChange(1)">
 					入库
 				</view>
 			</view>
@@ -21,27 +21,27 @@
 			</view>
 		</view>
 		<view class="i_o_records_Box">
-			<view class="i_o_records_Item">
+			<view class="i_o_records_Item" v-for="(i,idx) in deliveryList" :key="idx" @click="toDetailPage(i)">
 				<view class="sterilizeHead">
 					<view class="warehouse">
-						小麦一号
+						{{i.grain_name}}
 					</view>
-					<view class="name">
-						外销
+					<view :class="{name:true,inName:i.type==='入库'}">
+						{{i.type}}
 					</view>
 				</view>
 				<view class="sterilizeDetail">
 					<view class="">
-						<text>出库数量</text><text>5000</text>
+						<text>出库数量</text><text>{{i.number}}</text>
 					</view>
 					<view class="">
-						<text>合计金额</text><text>￥12,500</text>
+						<text>合计金额</text><text>￥{{i.price}}</text>
 					</view>
 					<view class="">
-						<text>批准人</text><text>张三</text>
+						<text>批准人</text><text>{{i.examiner}}</text>
 					</view>
 					<view class="">
-						<text>出库时间</text><text>2020-12-20</text>
+						<text>出库时间</text><text>{{i.creatime}}</text>
 					</view>
 				</view>
 			</view>
@@ -50,16 +50,59 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				currentId:1
+				currentId:0,
+				deliveryList:[]
 			}
 		},
 		methods: {
 			currentChange(id){
 				this.currentId=id
+				this.getDeliveryData()
+			},
+			getDeliveryData(){
+				this.$http.post('/Grain/Delivery.html', {uid: this.userInfo.id,type:this.currentId})
+				.then((res) => {
+						console.log(res)
+						this.deliveryList=res.data
+						// if(res.code == 200){
+						// 	uni.showToast({
+						// 		title:'提交成功',
+						// 		icon: 'none'
+						// 	})
+						// 	this.isExamine=false
+						// }else{
+						// 	uni.showToast({
+						// 		title:'提交失败',
+						// 		icon: 'none'
+						// 	})
+						// }
+					}).catch((err) => {
+						
+				})
+			},
+			toDetailPage(i){
+				console.log(i)
+				if(i.type === '入库'){
+					uni.navigateTo({
+						url: '/sub/food_in_detail_record/food_in_detail_record?query='+ JSON.stringify(i)
+					});
+				}
 			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getDeliveryData()
 		}
 	}
 </script>
@@ -68,6 +111,7 @@
 	.food_i_o_records_container{
 		min-height: calc(100vh - 88rpx);
 		background-color: #F4F6FA;
+		padding-bottom: 30rpx;
 		.topBox{
 			width: 100%;
 			height: 88rpx;
@@ -146,6 +190,9 @@
 						font-size: 24rpx;
 						font-weight: 500;
 						color: #E64329;
+					}
+					.inName{
+						color: #377BE4;
 					}
 				}
 				.sterilizeDetail{

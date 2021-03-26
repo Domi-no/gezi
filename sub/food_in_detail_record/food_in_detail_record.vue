@@ -1,5 +1,5 @@
 <template>
-	<view class="in_out_record_detailContainer">
+	<view class="food_in_detailContainer">
 		<view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
@@ -13,48 +13,41 @@
 		</view>
 		<view class="in_out_record_detailOutBox">
 			<view class="">
-				<text>记录时间</text><text>{{recordsDetailData.record_time}}</text>
+				<text>记录时间</text><text>{{recordDetail.record_time}}</text>
 			</view>
 			<view class="">
-				<text>药品名称</text><text>{{recordsDetailData.drugs_name}}</text>
+				<text>物品名称</text><text>{{recordDetail.grain_name}}</text>
+			</view>
+			
+		</view>
+		<view class="in_out_record_detailOutBox">
+			<view class="">
+				<text>单位</text><text>{{recordDetail.unit}}</text>
 			</view>
 			<view class="">
-				<text>生产厂家</text><text>{{recordsDetailData.production}}</text>
+				<text>数量</text><text>{{recordDetail.number}}</text>
 			</view>
 			<view class="">
-				<text>生产批号</text><text>{{recordsDetailData.batch_number}}</text>
+				<text>单价</text><text>{{recordDetail.unit_price}}</text>
+			</view>
+			<view class="">
+				<text>合计金额</text><text>{{recordDetail.price}}</text>
 			</view>
 		</view>
 		<view class="in_out_record_detailOutBox">
 			<view class="">
-				<text>单位</text><text>{{recordsDetailData.unit}}</text>
+				<text>供货单位</text><text>{{recordDetail.supplier}}</text>
 			</view>
 			<view class="">
-				<text>数量</text><text>{{recordsDetailData.number}}</text>
+				<text>检验人</text><text>{{recordDetail.examiner}}</text>
 			</view>
-			<view class="">
-				<text>单价</text><text>{{recordsDetailData.unit_price}}</text>
-			</view>
-			<view class="">
-				<text>合计金额</text><text>{{recordsDetailData.price	}}</text>
-			</view>
-		</view>
-		<view class="in_out_record_detailOutBox">
-			<view class="">
-				<text>供货单位</text><text>{{recordsDetailData.supplier}}</text>
-			</view>
-			<view class="">
-				<text>批准人</text><text>{{recordsDetailData.approved}}</text>
-			</view>
-			<view class="">
-				<text>接货人</text><text>{{recordsDetailData.receiver}}</text>
-			</view>
+			
 		</view>
 		<view class="leaveReason">
 			<view class="">
 				备注
 			</view>
-			<textarea   @input="" :value="recordsDetailData.remarks" disabled="true"  placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   @input="" :value="recordDetail.remarks" disabled="true" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 	</view>
 </template>
@@ -63,8 +56,9 @@
 	export default {
 		data() {
 			return {
+				id:'',
 				queryData:'',
-				recordsDetailData:'',
+				recordDetail:'',
 			}
 		},
 		methods: {
@@ -75,16 +69,26 @@
 			},
 			toRecordsPage(){
 				uni.navigateTo({
-					url:'../drugs_warehousing/drugs_warehousing?query='+JSON.stringify(this.queryData)
-				})
+					url: '/sub/foods_warehousing/foods_warehousing?query='+ JSON.stringify(this.queryData)
+				});
 			},
 			getIntoData(){
-				console.log(this.queryData)
-				this.$http.post('/Vaccin/getInto.html', {log_id: this.queryData.log_id})
+				this.$http.post('/Grain/getInto.html', {grain_id: this.queryData.grain_id})
 				.then((res) => {
 						console.log(res)
-					this.recordsDetailData=res.data
+						this.recordDetail=res.data
+						// if(res.code == 200){
+						// 	uni.showToast({
+						// 		title:'提交成功',
+						// 		icon: 'none'
+						// 	})
 						
+						// }else{
+						// 	uni.showToast({
+						// 		title:'提交失败',
+						// 		icon: 'none'
+						// 	})
+						// }
 					}).catch((err) => {
 						
 				})
@@ -96,12 +100,11 @@
 		created() {
 			this.getIntoData()
 		}
-		
 	}
 </script>
 
 <style lang="scss" scoped>
-	.in_out_record_detailContainer{
+	.food_in_detailContainer{
 		background-color: #F4F6FA;
 		min-height: calc(100vh);
 		padding-top: 88rpx;

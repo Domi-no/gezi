@@ -1,10 +1,10 @@
 <template>
 	<view class="foofWarehousingContainer">
 		<view class="fWTopBox">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{queryData.time||queryData.creatime}}</text>
 		</view>
 		<view class="fWTopBox">
-			<text>物品名称</text><text>小麦</text>
+			<text>物品名称</text><text>{{queryData.grain_name}}</text>
 		</view>
 		
 		<view :class="{notSelected:whetherSelect}">
@@ -13,25 +13,25 @@
 					单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="" @input="fWNnit" :value="unitVlue" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="unitChange" :value="fWdataForm.unit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					数量<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="fWNum" :value="num" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="numberChange" :value="fWdataForm.number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					单价<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="fWPrice" :value="price" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="unit_priceChange" :value="fWdataForm.unit_price" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="fWCentreBox">
-				<text>合计金额</text><text>{{this.fWmoney}}元</text>
+				<text>合计金额</text><text>{{fWmoney}}元</text>
 			</view>
 			
 			<view class="leaveTime">
@@ -39,14 +39,14 @@
 					供货单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="" @input="fWSupplier"  :value="supplierName" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="supplierChange"  :value="fWdataForm.supplier" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					检验人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="fWCertifier" :value="certifierName" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="number" @input="examinerChange" :value="fWdataForm.examiner" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				
@@ -55,7 +55,7 @@
 				<view class="">
 					备注<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="fWremarks" :value="remarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="remarksChange" :value="fWdataForm.remarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		</view>
 		<view :class="{leaveSubmit:true,isSubBg:isfWsub}" @click="cSubBtn">
@@ -77,6 +77,9 @@
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components:{
 		        wPicker
@@ -98,36 +101,45 @@
 				certifierName:'',
 				providerName:'',
 				remarks:'',
-				
+				// ---
+				queryData:'',
+				fWdataForm:{
+					type:1,
+					unit:'',
+					unit_price:'',
+					number:'',
+					supplier:'',
+					examiner:'',
+					remarks:'',
+					reason:'',
+					return_time:'',
+					borrowing:'',
+					manager:'',
+					
+				}
 			}
 		},
 		methods: {
 			reasonChange(){
 			 this.$refs.reason.show()
 			},
-			fWNnit({detail:{value}}){
-				this.unitVlue = value.trim()
+			unitChange({detail:{value}}){
+				this.fWdataForm.unit = parseInt(value.trim())
 			},
-			fWNum({detail:{value}}){
-				this.num = value.trim()
+			numberChange({detail:{value}}){
+				this.fWdataForm.number = parseInt(value.trim())
 			},
-			fWPrice({detail:{value}}){
-				this.price =value.trim()
+			unit_priceChange({detail:{value}}){
+				this.fWdataForm.unit_price = parseInt(value.trim())
 			},
-			fWManager({detail:{value}}){
-				this.managerName =value.trim()
+			supplierChange({detail:{value}}){
+				this.fWdataForm.supplier = parseInt(value.trim())
 			},
-			fWSupplier({detail:{value}}){
-				this.supplierName =value.trim()
+			examinerChange({detail:{value}}){
+				this.fWdataForm.examiner = parseInt(value.trim())
 			},
-			fWCertifier({detail:{value}}){
-				this.certifierName =value.trim()
-			},
-			fWprovider({detail:{value}}){
-				this.providerName =value.trim()
-			},
-			fWremarks({detail:{value}}){
-				this.remarks =value.trim()
+			remarksChange({detail:{value}}){
+				this.fWdataForm.remarks = parseInt(value.trim())
 			},
 			onCancel(){
 				console.log(this)
@@ -137,20 +149,50 @@
 				
 			},
 			cSubBtn(){
+				if(!this.isfWsub){
+					return false
+				}
+				const {time:record_time,grain_name}=this.queryData
 				
+				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time,grain_name,price:this.fWmoney,...this.fWdataForm})
+				.then((res) => {
+						console.log(res)
+					
+						if(res.code == 200){
+							uni.showToast({
+								title:'提交成功',
+								icon: 'none'
+							})
+						
+						}else{
+							uni.showToast({
+								title:'提交失败',
+								icon: 'none'
+							})
+						}
+					}).catch((err) => {
+						
+				})
 			}
 		},
 		computed:{
 			isfWsub(){
-				let {reasonValue,unitVlue,num,price,supplierName,certifierName,remarks}=this
-				if( unitVlue && num && price && supplierName && certifierName && remarks ){
+				let {unit,unit_price,number,supplier,examiner,remarks}=this.fWdataForm
+				if( unit && unit_price && number && supplier && examiner && remarks ){
 					return true
 				}
 			},
 			fWmoney(){
-				let {num,price}=this
-				return num&&price? num*price : 0
-			}
+				let {number,unit_price}=this.fWdataForm
+				return number&&unit_price? number*unit_price : 0
+			},
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+		},
+		onLoad({query}) {
+			console.log(JSON.parse(query))
+			this.queryData=JSON.parse(query)
 		}
 	}
 </script>

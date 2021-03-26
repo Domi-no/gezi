@@ -1,7 +1,7 @@
 <template>
 	<view class="drugWarehousingContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{queryData.time}}</text>
+			<text>记录时间</text><text>{{queryData.time||queryData.creatime}}</text>
 		</view>
 		<view class="dWTopBox">
 			<text>药品名称</text><text>{{queryData.drugs_name}}</text>

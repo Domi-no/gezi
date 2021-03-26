@@ -21,7 +21,7 @@
 			</view>
 		</view>
 		<view class="i_o_records_Box" >
-			<view class="i_o_records_Item" v-for="(item,idx) in inOutRecordsList" :key="idx">
+			<view class="i_o_records_Item" v-for="(item,idx) in inOutRecordsList" :key="idx" @click="toDetailPage(item)">
 				<view class="sterilizeHead">
 					<view class="warehouse">
 						{{item.drugs_name}}
@@ -75,6 +75,13 @@
 					}).catch((err) => {
 						
 					})
+			},
+			toDetailPage(i){
+				if(i.out_reason==='入库'){
+					uni.navigateTo({
+						url:'../in_out_records_detail/in_out_records_detail?query='+JSON.stringify(i)
+					})
+				}
 			}
 		},
 		computed:{

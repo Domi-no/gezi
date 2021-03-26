@@ -89,26 +89,30 @@
 						<text style="color: #1D8A27;" v-show="harmlessTreatmentData.text === '通过'">通过</text>
 						<text style="color: #377BE4;" v-show="harmlessTreatmentData.text === '审核中'">审核中</text>
 					</view>
-					<textarea   @input="dWremarks"  :value="harmlessTreatmentData.examine_remarks" disable="true" placeholder="" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<textarea     :value="harmlessTreatmentData.examine_remarks" disabled="true"  placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				</view>
 			</view>
-			<view :class="{htSubmit:true,inReview:this.harmlessTreatmentData.text==='审核中'}">
+			<view :class="{htSubmit:true,inReview:this.harmlessTreatmentData.text==='审核中'}" @click="submitForReview">
 				{{this.harmlessTreatmentData.submit}}
 			</view>
 		</view>
-		<view class="leaveReason" v-else-if="harmlessTreatmentData.power == 1">
-			<view class="">
-				审核结果
-			</view>
-			<textarea   @input="dWremarks"  placeholder="如果审核不通过，请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
-			<view class="examineBtnBox">
-				<view class="refuseBtn">
-					拒绝
+		<view class="" v-else-if="harmlessTreatmentData.power == 1 && harmlessTreatmentData.text === '审核中'">
+		<view class="leaveReason" v-show="isExamine" >
+			
+				<view class="">
+					审核结果
 				</view>
-				<view class="adoptBtn">
-					通过
+				<textarea   @input="examine_remarksChange"  :value="examine_remarks" placeholder="如果审核不通过，请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<view class="examineBtnBox">
+					<view class="refuseBtn" @click="findingOfAuditChange(3)">
+						拒绝
+					</view>
+					<view class="adoptBtn" @click="findingOfAuditChange(2)">
+						通过
+					</view>
 				</view>
-			</view>
+			
+		</view>
 		</view>
 		<lb-picker ref="hTTime" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='record_timeChange'>
 					 <view slot="confirm-text" >完成</view>
@@ -134,6 +138,9 @@
 				squabData:'',
 				childPigeonData:'',
 				youngPigeonData:'',
+				type:'',
+				examine_remarks:'',
+				isExamine:true
 			}
 		},
 		methods: {
@@ -148,6 +155,37 @@
 			},
 			record_timeChange(e){
 				this.record_time=e.value
+				this.getdefusingData()
+			},
+			examine_remarksChange({detail:{value}}){
+			
+				this.examine_remarks=value
+			},
+			dWremarks({detail:{value}}){
+				this.harmlessTreatmentData.examine_remarks=value
+			},
+			submitForReview(){
+				const {record_time}=this
+				if(this.harmlessTreatmentData.submit === '提交'||this.harmlessTreatmentData.submit === '再次提交'){
+					this.$http.post('/Sale/issue.html', {uid: this.userInfo.id,record_time})
+					.then((res) => {
+							console.log(res)
+							if(res.code == 200){
+								uni.showToast({
+									title:'提交成功',
+									icon: 'none'
+								})
+								this.isExamine=false
+							}else{
+								uni.showToast({
+									title:'提交失败',
+									icon: 'none'
+								})
+							}
+						}).catch((err) => {
+							
+					})
+				}
 				this.getdefusingData()
 			},
 			getToday(){
@@ -197,6 +235,37 @@
 						
 				})
 			},
+			findingOfAuditChange(type){
+				this.type=type
+				const {examine_remarks}=this
+				if(type === 3 && !examine_remarks){
+					uni.showToast({
+						title:'请输入备注',
+						icon: 'none'
+					})
+					this.type= ''
+					return false
+				}
+				this.$http.post('/Sale/adopt.html', {uid: this.userInfo.id,type,examine_remarks})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title:'审核成功',
+								icon: 'none'
+							})
+							this.isExamine=false
+						}else{
+							uni.showToast({
+								title:'审核失败',
+								icon: 'none'
+							})
+						}
+					}).catch((err) => {
+						
+				})
+				this.getdefusingData()
+			}
 		},
 		computed:{
 			...mapState({

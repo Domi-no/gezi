@@ -2,38 +2,38 @@
 	<view class="sterilizeRecordcontainer">
 		<view class="sterilizeBox">
 			<view class="sterilizeOption">
-				<text>消杀时间</text><text>2020-12-21</text>
+				<text>消杀时间</text><text>{{sRdataForm.record_time}}</text>
 			</view>
-			<view class="sterilizeOption" @click="choiceWarehouseNumber">
+			<view class="sterilizeOption" @click="choiceSRBoxNumber">
 				<view class="">
 					仓号<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
 				<view class="choice">
-					请选择<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					{{block_value||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="sterilizeOption">
+			<view class="sterilizeOption" @click="choiceMode">
 				<view class="">
 					消杀方式<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
 				<view class="choice">
-					请选择<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					{{sRdataForm.mode||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="sterilizeOption" @click="choiceDrugs">
+			<view class="sterilizeOption" @click="choiceDrugPopup">
 				<view class="">
 					选择药品<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
 				<view class="choice">
-					请选择<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					{{drugName||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="sterilizeOption">
 				<view class="">
 					药品用量<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
-				<view class="choice">
-					请输入<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				<view class="choice choiceInput">
+					<input type="number" :value="sRdataForm.number"  @input="numberChange" placeholder="请输入" placeholder-class="placeH" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="sterilizeOption">
@@ -41,7 +41,7 @@
 					饲养员
 				</view>
 				<view class="">
-					张三
+					{{username}}
 				</view>
 			</view>
 		</view>
@@ -49,15 +49,21 @@
 			<view class="">
 				备注
 			</view>
-			<textarea value=""  @input=""  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea value=""  @input="remarksChange" :value="sRdataForm.remarks" placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
-		<view class="submitSterilizeRecord">
+		<view :class="{submitSterilizeRecord:true,isSub:isSRsub}" @click="srSubmit">
 			提交
 		</view>
 		 <lb-picker ref="warehouse" mode="multiSelector" :list="warehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='warehouseValue'>
 			 <view slot="confirm-text" >完成</view>
 		 </lb-picker>
-		 <lb-picker ref="drugs" :list="list" radius="20rpx" confirm-color="#377BE4">
+		 <lb-picker ref="mode" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm="modeChange">
+		 			 <view slot="confirm-text" >完成</view>
+		 </lb-picker>
+		 <lb-picker ref="sRbox" mode="multiSelector" :props="myProps" :list="sRWarehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='sRBoxValue'>
+		 			 <view slot="confirm-text" >完成</view>
+		 </lb-picker>
+		 <lb-picker ref="drugName" :list="drugList" :props="drugProps" radius="20rpx" confirm-color="#377BE4" @confirm="drugValue">
 		 			 <view slot="confirm-text" >完成</view>
 		 </lb-picker>
 	</view>
@@ -65,6 +71,9 @@
 
 <script>
 	import LbPicker from '@/components/lb-picker'
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		 components: {
 		      LbPicker
@@ -72,14 +81,7 @@
 		data() {
 			return {
 				list: [
-				  {
-				    label: '选项1',
-				    value: '1'
-				  },
-				  {
-				    label: '选项2',
-				    value: '2'
-				  }
+				  
 				],
 				warehouseList: [
 				  {
@@ -104,19 +106,146 @@
 				      }
 				    ]
 				  }
-				]
+				],
+				
+				sRWarehouseList:[],
+				drugList:[],
+				myProps: {
+				     label: 'name',
+				     value: 'id',
+				},
+				drugProps:{
+					label: 'drugs_name',
+					value: 'drugs_id',
+				},
+				block_value:'',
+				
+				drugName:'',
+				
+				username:'',
+				sRdataForm:{
+					record_time:'',
+					block_id:'',
+					mode:'',
+					drugs_id:'',
+					number:'',
+					remarks:'',
+				}
 			}
 		},
 		methods: {
 			choiceWarehouseNumber(){
-				this.$refs.warehouse.show()
+				this.$refs.sRbox.show()
 			},
-			choiceDrugs(){
-				this.$refs.drugs.show()
+			choiceMode(){
+				this.$refs.mode.show()
+			},
+			choiceSRBoxNumber(){
+				this.$refs.sRbox.show()
+			},
+			choiceDrugPopup(){
+				this.$refs.drugName.show()
+			},
+			modeChange(e){
+				console.log(e)
+				this.sRdataForm.mode=e.value
 			},
 			warehouseValue(e){
 				console.log(e.item[1].label)
+				this.sRdataForm
+			},
+			sRBoxValue(e){
+				console.log(e.item[1])
+				this.sRdataForm.block_id=e.item[1].id
+				this.block_value = e.item[1].name
+			},
+			drugValue(e){
+				console.log(e)
+				this.drugName=e.item.drugs_name
+				this.sRdataForm.drugs_id=e.item.drugs_id
+			},
+			numberChange({detail:{value}}){
+				this.sRdataForm.number=value
+			},
+			remarksChange({detail:{value}}){
+				this.sRdataForm.remarks=value
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.sRdataForm.record_time=times
+			},
+			getModeAll(){
+				const {record_time}=this
+				this.$http.post('/Sale/modeAll.html', {uid: this.userInfo.id,record_time})
+				.then(({data}) => {
+						console.log(data)
+						this.list=data.mode
+						this.username=data.username
+					}).catch((err) => {
+						
+				})
+			},
+			getFixBoxData(){
+				this.$http.post('/Grain/fixBlock.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						
+						Object.keys(res.data).forEach((value, index)=>{
+							console.log(value, index,res.data[value]);
+							this.sRWarehouseList.push({name:value,children:res.data[value]})
+						});
+						console.log(this.sRWarehouseList)
+					}).catch((err) => {
+						
+					})
+			},
+			getDrugsName(){
+				
+				this.$http.post('/Work/drugsName.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						this.drugList=res.data
+					
+					}).catch((err) => {
+						
+					})
+			},
+			srSubmit(){
+				if(!this.isSRsub){
+					return false
+				}
+				this.$http.post('/Sale/disinfectAdd.html', {uid: this.userInfo.id,...this.sRdataForm})
+				.then((res) => {
+						console.log(res)
+					}).catch((err) => {
+						
+					})
 			}
+			
+			
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			isSRsub(){
+				
+				const {record_time,block_id,mode,drugs_id,number,remarks}=this.sRdataForm
+				
+				return record_time&&block_id&&mode&&drugs_id&&number&&remarks ? true :false
+			}
+			
+		},
+		created() {
+			this.getToday()
+			this.getModeAll()
+			this.getFixBoxData()
+			this.getDrugsName()
 		}
 	}
 </script>
@@ -142,6 +271,26 @@
 			border-bottom: 1rpx solid #F4F6FA;
 			padding: 0 30rpx;
 			.choice{
+				font-size: 28rpx;
+				font-weight: 500;
+				color: #979797;
+				
+			}
+			.choiceInput{
+				display: flex;
+				line-height: 88rpx;
+				input{
+					width: 83rpx;
+					margin: auto 16rpx auto 0;
+					font-size: 28rpx;
+					font-weight: 500;
+					color: #979797;
+				}
+				image{
+					margin: auto 0;
+				}
+			}
+			.placeH{
 				font-size: 28rpx;
 				font-weight: 500;
 				color: #979797;
@@ -183,6 +332,10 @@
 		font-size: 34rpx;
 		font-weight: 500;
 		color: #FFFFFF;
+	}
+	.isSub{
+		background-color: #377BE4;
+		color: #fff;
 	}
 	.star{
 		width: 12rpx;

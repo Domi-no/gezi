@@ -1,66 +1,22 @@
 <template>
 	<view class="drugDeliveryContainer">
 		<view class="fDTopBox">
-			<text>记录时间</text><text>2020-12-21</text>
+			<text>记录时间</text><text>{{queryData.time}}</text>
 		</view>
 		<view class="fDTopBox">
-			<text>物品名称</text><text>小麦</text>
+			<text>物品名称</text><text>{{queryData.grain_name}}</text>
 		</view>
 		<view class="leaveType">
 			<view class="">
 				出库原因<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="reasonChange">
-				<text>{{reasonValue}}</text>
+				<text>{{fDdataForm.reason||'请选择'}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 		</view>
 		<view :class="{notSelected:whetherSelect}">
-			<view class="" style="margin-top: 20rpx;" v-show="isFactory" @click="fDShowTips">
-				<view class="fDCentreBox">
-					<text>玉米</text>
-					<view class="" style="display: flex;">
-						<input type="number" :value="corn" @input="fDCorn" placeholder="请输入" :disabled="whetherSelect" placeholder-style="font-size:26rpx"/><text>公斤</text>
-					</view>
-				</view>
-				<view class="fDCentreBox">
-					<text>豌豆</text>
-					<view class="" style="display: flex;">
-						<input type="number" :value="peas" @input="fDPeas" placeholder="请输入" :disabled="whetherSelect" placeholder-style="font-size:26rpx"/><text>公斤</text>
-					</view>
-				</view>
-				
-				<view class="fDCentreBox">
-					<text>高粱</text>
-					<view class="" style="display: flex;">
-						<input type="number" :value="sorghum" @input="fDSorghum" placeholder="请输入" :disabled="whetherSelect" placeholder-style="font-size:26rpx"/><text>公斤</text>
-					</view>
-				</view>
-				<view class="fDCentreBox">
-					<text>小麦</text>
-					<view class="" style="display: flex;">
-						<input type="number" :value="wheat" @input="fDWheat" placeholder="请输入" :disabled="whetherSelect" placeholder-style="font-size:26rpx"/><text>公斤</text>
-					</view>
-				</view>
-				<view class="fDCentreBox">
-					<text>保健砂</text>
-					<view class="" style="display: flex;">
-						<input type="number" :value="healthCareSand" @input="fDHealthCareSand" placeholder="请输入" :disabled="whetherSelect" placeholder-style="font-size:26rpx"/><text>公斤</text>
-					</view>
-				</view>
-				<view class="fDCentreBox">
-					<text>配方原粮</text>
-					<view class="" style="display: flex;">
-						<input type="number" :value="formula" @input="fDFormula" placeholder="请输入" :disabled="whetherSelect" placeholder-style="font-size:26rpx"/><text>公斤</text>
-					</view>
-				</view>
-				<view class="fDCentreBox">
-					<text>颗粒饲料</text>
-					<view class="" style="display: flex;">
-						<input type="number" :value="forage" @input="fDForage" placeholder="请输入" :disabled="whetherSelect" placeholder-style="font-size:26rpx"/><text>公斤</text>
-					</view>
-				</view>
-			</view>
+			
 			<!--  -->
 				<view class="" v-show="isOutsideFactory">
 					<view class="leaveTime">
@@ -68,21 +24,21 @@
 							单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 						</view>
 						<view class="choiceBox" @click="">
-							<input type="" @input="fDNnit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+							<input type="" @input="unitChange" :value="fDdataForm.unit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 							<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 						</view>
 						<view class="typeName">
 							数量<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 						</view>
 						<view class="choiceBox"  @click="">
-							<input type="number" @input="fDNum" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+							<input type="number" @input="numberChange"  :value="fDdataForm.number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 							<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 						</view>
 						<view class="typeName">
 							单价<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 						</view>
 						<view class="choiceBox">
-							<input type="number" @input="fDPrice"  :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+							<input type="number" @input="unit_priceChange" :value="fDdataForm.unit_price"  :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 						</view>
 					</view>
 					<view class="fDCentreBox">
@@ -93,7 +49,7 @@
 							经手人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 						</view>
 						<view class="choiceBox">
-							<input type="" @input="fDManager" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+							<input type="" @input="managerChange" :value="fDdataForm.manager" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 							<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 						</view>
 					</view>
@@ -103,14 +59,14 @@
 						使用地点<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox" @click="">
-						<input type="" @input="fDPlace"  :value="place" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="supplierChange"  :value="fDdataForm.supplier" :disabled="fDdataForm.reason" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					<view class="typeName">
 						批准人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox"  @click="">
-						<input type="" @input="fDBCCertifier" :value="bCCertifier" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="examinerChange" :value="fDdataForm.examiner" :disabled="fDdataForm.reason"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					
@@ -121,28 +77,28 @@
 					</view>
 					
 					<view class="choiceBox" @click="">
-						<input type="" @input="fDreturnTime" :value="returnTime" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="return_timeChange" :value="fDdataForm.return_time" :disabled="whetherSelect" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					<view class="typeName">
 						借用单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox"  @click="">
-						<input type="" @input="fDborrowingNnit" :value="borrowingNnit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="borrowingChange" :value="fDdataForm.borrowing" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					<view class="typeName">
 						经手人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox"  @click="">
-						<input type="" @input="fDbManager" :value="bManager" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="managerChange" :value="fDdataForm.manager" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					<view class="typeName">
 						审批人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox"  @click="">
-						<input type="" @input="fDbApprover" :value="bApprover" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="examinerChange" :value="fDdataForm.examiner" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					
@@ -152,7 +108,7 @@
 				<view class="">
 					备注<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="fDremarks" :disabled="whetherSelect" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="remarksChange" :value="fDdataForm.remarks" :disabled="fDdataForm.reason" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		</view>
 		<view :class="{leaveSubmit:true,isSubBg:isfDsub}" @click="cSubBtn">
@@ -177,6 +133,9 @@
 
 <script>
 	import wPicker from "@/components/w-picker/w-picker.vue";
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components:{
 		        wPicker
@@ -214,76 +173,62 @@
 				isOutsideFactory:false,
 				isBorrow:false,
 				isFactory:true,
-				fIsShowTips:false
+				fIsShowTips:false,
+				
+				// ----
+				queryData:'',
+				fDdataForm:{
+					type:2,
+					unit:'',
+					unit_price:'',
+					number:'',
+					price:'',
+					supplier:'',
+					examiner:'',
+					remarks:'',
+					reason:'',
+					return_time:'',
+					borrowing:'',
+					manager:'',
+					
+				},
 			}
 		},
 		methods: {
 			reasonChange(){
 			 this.$refs.reason.show()
 			},
-			fDNnit({detail:{value}}){
-				this.unitVlue = value.trim()
+			unitChange({detail:{value}}){
+				this.fDdataForm.unit = parseInt(value.trim())
 			},
-			fDNum({detail:{value}}){
-				this.num = value.trim()
+			numberChange({detail:{value}}){
+				this.fDdataForm.number = parseInt(value.trim())
 			},
-			fDPrice({detail:{value}}){
-				this.price = value.trim()
+			unit_priceChange({detail:{value}}){
+				this.fDdataForm.unit_price = parseInt(value.trim())
 			},
-			fDManager({detail:{value}}){
-				this.managerName = value.trim()
+			supplierChange({detail:{value}}){
+				this.fDdataForm.supplier = parseInt(value.trim())
 			},
-			fDSupplier({detail:{value}}){
-				this.supplierName = value.trim()
+			examinerChange({detail:{value}}){
+				this.fDdataForm.examiner = parseInt(value.trim())
 			},
-			fDCertifier({detail:{value}}){
-				this.certifierName = value.trim()
+			remarksChange({detail:{value}}){
+				this.fDdataForm.remarks = parseInt(value.trim())
 			},
-			fDprovider({detail:{value}}){
-				this.providerName = value.trim()
+			// 
+			managerChange({detail:{value}}){
+				this.fDdataForm.manager = parseInt(value.trim())
 			},
-			fDremarks({detail:{value}}){
-				this.remarks = value.trim()
+			borrowingChange({detail:{value}}){
+				this.fDdataForm.borrowing = parseInt(value.trim())
 			},
-			fDCorn({detail:{value}}){
-				this.corn = value.trim()
-			},
-			fDPeas({detail:{value}}){
-				this.peas = value.trim()
-			},
-			fDSorghum({detail:{value}}){
-				this.sorghum = value.trim()
-			},
-			fDWheat({detail:{value}}){
-				this.wheat = value.trim()
-			},
-			fDHealthCareSand({detail:{value}}){
-				this.healthCareSand = value.trim()
-			},
-			fDFormula({detail:{value}}){
-				this.formula = value.trim()
-			},
-			fDForage({detail:{value}}){
-				this.forage = value.trim()
-			},
-			fDPlace({detail:{value}}){
-				this.place = value.trim()
-			},
-			fDBCCertifier({detail:{value}}){
-				this.bCCertifier = value.trim()
+			return_timeChange({detail:{value}}){
+				this.fDdataForm.return_time = parseInt(value.trim())
 			},
 			
-			fDreturnTime({detail:{value}}){
-				this.returnTime = value.trim()
-			},
-			fDborrowingNnit({detail:{value}}){
-				this.borrowingNnit = value.trim()
-			},
-			fDbManager({detail:{value}}){
-				this.bManager = value.trim()
-			},
-			fDbApprover({detail:{value}}){
-				this.bApprover = value.trim()
+			placeChange({detail:{value}}){
+				this.fDdataForm.place = parseInt(value.trim())
 			},
 			onCancel(){
 				console.log(this)
@@ -306,33 +251,57 @@
 					break;
 				}
 				
-				this.reasonValue = result
+				this.fDdataForm.reason = result
 				this.whetherSelect = false
 				
 				
 			},
 			cSubBtn(){
-				
+				if(!this.isfDsub){
+					return false
+				}
+				const {time:record_time,grain_name}=this.queryData
+				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time,grain_name,price:this.fWmoney,...this.fWdataForm})
+				.then((res) => {
+						console.log(res)
+					
+						if(res.code == 200){
+							uni.showToast({
+								title:'提交成功',
+								icon: 'none'
+							})
+						
+						}else{
+							uni.showToast({
+								title:'提交失败',
+								icon: 'none'
+							})
+						}
+					}).catch((err) => {
+						
+				})
 			},
 			fDShowTips(){
-				if(this.fIsShowTips){
-					return false
-				}else{
-					this.reasonValue === '请选择' ? this.fIsShowTips =true : ''
-					setTimeout(()=>{
-						this.fIsShowTips =false
-					},1500)
+				
+				if(!this.fDdataForm.reason){
+					uni.showToast({
+						title:'请先选择出库原因',
+						icon: 'none'
+					})
 				}
 				
 			}
 			
 		},
 		computed:{
-			
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
 			
 			isfDsub(){
-				let {corn,peas,sorghum,wheat,healthCareSand,formula,forage,place,bCCertifier,returnTime,borrowingNnit,bManager,bApprover,reasonValue,unitVlue,num,price,managerName,supplierName,certifierName,providerName,remarks}=this
-				if(reasonValue === '本厂使用' && corn && peas && sorghum && wheat && healthCareSand && formula && forage && place && bCCertifier && remarks || reasonValue === '外销' && unitVlue && num && price && managerName && remarks ||reasonValue === '外厂借用' && returnTime && borrowingNnit && bManager && bApprover && remarks){
+				
+				let {unit,unit_price,number,price,supplier,remarks,examiner,reason,return_time,borrowing,manager}=this.fDdataForm
+				if(reason === '本厂使用' && examiner && remarks && supplier || reason === '外销' && unit && number && unit_price && manager && remarks ||reason === '外厂借用' && return_time && borrowing && manager && examiner && remarks){
 					return true
 				}
 			},
@@ -340,6 +309,9 @@
 				let {num,price}=this
 				return num&&price? num*price : 0
 			}
+		},
+		onLoad({query}) {
+			this.queryData=JSON.parse(query)
 		}
 	}
 </script>

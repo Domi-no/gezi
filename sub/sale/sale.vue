@@ -8,7 +8,7 @@
 				销售
 			</view>
 			<view class="nBright" >
-				<text @click="toRecordsPage">出入库记录</text>
+				<image @click="toRecordsPage" src="../../static/daiban/jiahao.png" mode=""></image>
 			</view>
 		</view>
 		<view class="saleTopBox">
@@ -362,7 +362,15 @@
 			font-weight: 500;
 			color: #377BE4;
 			text-align:right;
-			line-height: 88rpx;
+			// line-height: 88rpx;
+			
+			image{
+				width: 40rpx;
+				height: 40rpx;
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+			}
 		}
 	}
 	.saleTopBox{

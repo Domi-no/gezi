@@ -12,23 +12,23 @@
 			</view>
 		</view>
 		<view class="food_d_s_Box">
-			<view class="food_d_s_item">
+			<view class="food_d_s_item" v-for="(i,idx) in grainNameList" :key="idx">
 				<view class="food_d_s_item_imaBox">
 					<image src="" mode=""></image>
 				</view>
 				<view class="food_d_s_rightBox">
 					<view class="food_d_s_item_title">
-						<text>药品一号</text><text class="stock">库存：2000盒</text>
+						<text>{{i.grain_name}}</text><text class="stock">库存：{{i.number+i.unit_price}}</text>
 					</view>
 					<view class="food_d_s_item_time">
-						更新时间：2020-12-20
+						更新时间：{{i.time}}
 					</view>
 					<view class="food_d_s_item_buttonBox">
 						
-						<view class="warehousingBtn" @click="tofoodWarehousing()">
+						<view class="warehousingBtn" @click="tofoodWarehousing(i)">
 							入库
 						</view>
-						<view class="deliveryBtn" @click="tofoodDelivery()">
+						<view class="deliveryBtn" @click="tofoodDelivery(i)">
 							出库
 						</view>
 					</view>
@@ -39,10 +39,13 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				
+				grainNameList:[],
 			}
 		},
 		methods: {
@@ -56,18 +59,49 @@
 					url: '/sub/food_in_out_records/food_in_out_records'
 				});
 			},
-			tofoodDelivery(){
+			tofoodDelivery(i){
 				uni.navigateTo({
-					url: '/sub/food_delivery/food_delivery'
+					url: '/sub/food_delivery/food_delivery?query='+JSON.stringify(i)
 				});
 			},
-			tofoodWarehousing(){
+			tofoodWarehousing(i){
 				uni.navigateTo({
-					url: '/sub/foods_warehousing/foods_warehousing'
+					url: '/sub/foods_warehousing/foods_warehousing?query='+JSON.stringify(i)
 				});
+			},
+			getGrainNameData(){
+				this.$http.post('/Grain/grainName.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						this.grainNameList=res.data
+						// if(res.code == 200){
+						// 	uni.showToast({
+						// 		title:'审核成功',
+						// 		icon: 'none'
+						// 	})
+						// 	this.isExamine=false
+						// }else{
+						// 	uni.showToast({
+						// 		title:'审核失败',
+						// 		icon: 'none'
+						// 	})
+						// }
+					}).catch((err) => {
+						
+				})
 			}
 			
 			
+			
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getGrainNameData()
 		}
 	}
 </script>
