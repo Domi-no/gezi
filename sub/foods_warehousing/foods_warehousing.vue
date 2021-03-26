@@ -111,10 +111,10 @@
 					supplier:'',
 					examiner:'',
 					remarks:'',
-					reason:'',
-					return_time:'',
-					borrowing:'',
-					manager:'',
+					// reason:'',
+					// return_time:'',
+					// borrowing:'',
+					// manager:'',
 					
 				}
 			}
@@ -152,9 +152,9 @@
 				if(!this.isfWsub){
 					return false
 				}
-				const {time:record_time,grain_name}=this.queryData
+				const {grain_name}=this.queryData
 				
-				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time,grain_name,price:this.fWmoney,...this.fWdataForm})
+				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time:this.queryData.creatime||this.queryData.time,grain_name,price:this.fWmoney,...this.fWdataForm})
 				.then((res) => {
 						console.log(res)
 					
@@ -166,7 +166,7 @@
 						
 						}else{
 							uni.showToast({
-								title:'提交失败',
+								title:res.message,
 								icon: 'none'
 							})
 						}

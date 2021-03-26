@@ -1,7 +1,7 @@
 <template>
 	<view class="drugWarehousingContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{queryData.time||queryData.creatime}}</text>
+			<text>记录时间</text><text>{{queryData.time||queryData.record_time}}</text>
 		</view>
 		<view class="dWTopBox">
 			<text>药品名称</text><text>{{queryData.drugs_name}}</text>
@@ -54,7 +54,7 @@
 				<text>{{"合计金额"}}</text><text>{{this.price}}元</text>
 			</view>
 			
-			<view class="leaveTime" v-show="isFactory" @click="dShowTips">
+			<view class="leaveTime"  @click="dShowTips">
 				<view class="typeName">
 					供货单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
@@ -135,7 +135,6 @@
 				
 				dIsShowTips:false,
 				outFormData:{
-					out_reason:'请选择',
 					production:'',
 					batch_number:'',
 					unit:'',
@@ -197,12 +196,17 @@
 				if(!this.isDDsub){
 					return false
 				}
-				this.$http.post('/Vaccin/Delivery.html',{type:1,uid:this.userInfo.id,record_time:this.queryData.time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
+				this.$http.post('/Vaccin/Delivery.html',{type:1,uid:this.userInfo.id,log_id:this.queryData.log_id,record_time:this.queryData.time||this.queryData.record_time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
 				.then((res) => {
 						console.log(res)
 						if(res.code == 200){
 							uni.showToast({
 								title: '提交成功',
+								icon: 'none'
+							})
+						}else{
+							uni.showToast({
+								title: res.message,
 								icon: 'none'
 							})
 						}
@@ -263,7 +267,7 @@
 		},
 		onLoad({query}) {
 			this.queryData= JSON.parse(query)
-			console.log(query)
+			console.log(JSON.parse(query))
 		}
 	}
 </script>

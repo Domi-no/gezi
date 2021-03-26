@@ -74,8 +74,9 @@
 				});
 			},
 			toRecordsPage(){
+				console.log(this.recordsDetailData)
 				uni.navigateTo({
-					url:'../drugs_warehousing/drugs_warehousing?query='+JSON.stringify(this.queryData)
+					url:'../drugs_warehousing/drugs_warehousing?query='+JSON.stringify(this.recordsDetailData)
 				})
 			},
 			getIntoData(){
@@ -84,7 +85,7 @@
 				.then((res) => {
 						console.log(res)
 					this.recordsDetailData=res.data
-						
+						this.recordsDetailData.log_id=this.queryData.log_id
 					}).catch((err) => {
 						
 				})
@@ -92,6 +93,7 @@
 		},
 		onLoad({query}) {
 			this.queryData=JSON.parse(query)
+			
 		},
 		created() {
 			this.getIntoData()
