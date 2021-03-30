@@ -1,116 +1,31 @@
 <template>
 	<view class="myFont alertContainer">
 		<view class="">
-			<view class="alert_item">
+			<view class="alert_item" v-for="(item,index) in alarmList" :key="index">
 				<view class="alert_item_title">
-					<text class="alert_time">2020-12-20</text>
+					<text class="alert_time">{{item.time}}</text>
 					<text v-if="isHandled" class="Processed">已处理</text>
 					<text v-else class="untreated">未处理!</text>	
 				</view>
 				<!-- 判断数据是否有需补足和死淘  不同仓库需要上边框-->
 				<view class="alert_content">
-						<view class="a_containe_detail">
-							<view class="a_containe_detail_bc">
-								<text>种鸽需补充！</text><text>仓号2</text><text>组号</text><text>212</text>
-							</view>
-							<view class="a_containe_detail_st">
-								<view class="a_containe_detail_st_title">
-									<text>死淘异常！</text><text>仓号3</text><text>组号：</text><text>52</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>		
-							</view>
+					<view class="a_containe_detail" v-for="(i,idx) in item.data[0].chData" :key="idx">
+						<view class="a_containe_detail_bc" v-if="i['鸽蛋需补足']">
+							<text>种鸽需补充！</text><text>{{i['鸽蛋需补足'].block_name}}</text><text>鸽笼编号：</text><text>{{i['鸽蛋需补足'].name}}</text>
 						</view>
-						<view class="a_containe_detail">
-							<view class="a_containe_detail_bc">
-								<text>种鸽需补充！</text><text>仓号2</text><text>组号</text><text>212</text>
+						<view class="a_containe_detail_st" v-if="i['死淘异常']">
+							<view class="a_containe_detail_st_title">
+								<text>死淘异常！</text><text>仓号3</text><text>组号：</text><text>52</text>
 							</view>
-							<view class="a_containe_detail_st">
-								<view class="a_containe_detail_st_title">
-									<text>死淘异常！</text><text>仓号3</text><text>组号：</text><text>52</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>		
+							<view class="a_containe_detail_st_gz" v-for="(ite,inde) in i.glData['死淘异常']" :key="ite">
+								<text>种鸽需补充！</text><text>{{ite.alias}}</text><text>死淘率{{ite.ratio}}</text><text>{{ite.death}}只</text>
 							</view>
+							
 						</view>
+					</view>
 				</view>
-				
 			</view>
-			<view class="alert_item">
-				<view class="alert_item_title">
-					<text class="alert_time">2020-12-20</text>
-					<text v-if="isHandled" class="Processed">已处理</text>
-					<text v-else class="untreated">未处理!</text>	
-				</view>
-				<!-- 判断数据是否有需补足和死淘  不同仓库需要上边框-->
-				<view class="alert_content">
-						<view class="a_containe_detail">
-							<view class="a_containe_detail_bc">
-								<text>种鸽需补充！</text><text>仓号2</text><text>组号</text><text>212</text>
-							</view>
-							<view class="a_containe_detail_st">
-								<view class="a_containe_detail_st_title">
-									<text>死淘异常！</text><text>仓号3</text><text>组号：</text><text>52</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>		
-							</view>
-						</view>
-						<view class="a_containe_detail">
-							<view class="a_containe_detail_bc">
-								<text>种鸽需补充！</text><text>仓号2</text><text>组号</text><text>212</text>
-							</view>
-							<view class="a_containe_detail_st">
-								<view class="a_containe_detail_st_title">
-									<text>死淘异常！</text><text>仓号3</text><text>组号：</text><text>52</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>	
-								<view class="a_containe_detail_st_gz">
-									<text>种鸽需补充！</text><text>种鸽</text><text>死淘率6%</text><text>20只</text>
-								</view>		
-							</view>
-						</view>
-				</view>
-				
-			</view>
+			
 		</view>
 		<view class="InTheEnd">
 			已经到底了~. ~
@@ -119,12 +34,53 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
 				// 是否处理
-			isHandled:true
+			isHandled:true,
+			alarmList:[]
 			}
+		},
+		methods:{
+			
+			gitCallPoliceList(){
+				this.$http.post('/CageData/callPolice.html', {uid: this.userInfo.id})
+				.then((res) => {
+					Object.keys(res.data).forEach((value, index)=>{
+			
+						this.alarmList.push({time:value,data:[]})
+						
+						Object.keys(res.data[value]).forEach((val, ind)=>{
+			
+							this.alarmList[index].data=[]
+							this.alarmList[index].data.push({chName:val,chData:[]})
+			
+							Object.keys(res.data[value][val]).forEach((valu, inde)=>{
+								this.alarmList[index].data[ind].chData.push({glName:valu,glData:res.data[value][val][valu]})
+								
+							});
+						});
+					});
+					
+					console.log(this.alarmList)
+					
+				}).catch((err) => {
+						
+				})
+			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.gitCallPoliceList()
 		}
 	}
 </script>

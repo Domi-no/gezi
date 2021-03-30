@@ -1,6 +1,6 @@
 <template>
 	<view class="myFont productionCalendarContainer">
-		<uni-calendar :insert="true" :start-date="'2019-3-2'" :end-date="'2019-5-20'" @change="change" :showMonth="false"></uni-calendar>
+		<uni-calendar :insert="true" :start-date="'2019-3-2'" :end-date="'2019-5-20'" @change="change" @monthChange="monthChange" @yearChange="yearChange" :showMonth="false"></uni-calendar>
 		<!-- ei-calendar -->
 		<!-- <view class="page">
 			date: {{date}}
@@ -14,181 +14,190 @@
 			</view>
 			<view style="display: flex;" @click="toRecordDetailPage"><text>数据详情</text><image src="../../static/cage/cage_s_zk.png" mode=""></image></view>
 		</view>
-		<view class="_pigeon_type">
-			<view class="_pigeon_type_top">
-				<view class="_pigeon_type_top_left">
-					<image src="../../static/daiban/ht_p.png" mode=""></image>
-					<view class="_pigeon_type_top_left_zg">种鸽</view>
-					<view class="_pigeon_type_top_left_mortality">死亡率：0.5%</view>
-				</view>
-				<view class="_pigeon_type_top_right">
-					<text class="_pigeon_type_top_right_save">存栏</text>
-					<text class="_pigeon_type_top_right_num">9999</text>
-				</view>
-			</view>
-			<view class="_pigeon_type_bt">
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>残疾</text>
-					</view><text class="_pigeon_type_bt_item_num">98</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>转出</text>
-					</view><text class="_pigeon_type_bt_item_num">7878</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>死亡</text>
-					</view><text class="_pigeon_type_bt_item_num">112</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>新增</text>
+		<view class="" v-for="(i,idx) in calendarList" :key="idx">
+			<view class="_pigeon_type" v-if="i.alias === '种鸽'" >
+				<view class="_pigeon_type_top">
+					<view class="_pigeon_type_top_left">
+						<view class="">
+							<!-- 种鸽 -->
+							<image src="../../static/daiban/ht_p.png" mode="" ></image>
+							
+						</view>
+						<view class="_pigeon_type_top_left_zg">{{i.alias}}</view>
+						<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
 					</view>
-					<text class="_pigeon_type_bt_item_num">4499</text>
-				</view>
-			</view>
-		</view>
-		<view class="_pigeon_type">
-			<view class="_pigeon_type_top">
-				<view class="_pigeon_type_top_left">
-					<image src="../../static/daiban/ht_b.png" mode=""></image>
-					<view class="_pigeon_type_top_left_zg">鸽蛋</view>
-					<view class="_pigeon_type_top_left_mortality">死亡率：0.5%</view>
-				</view>
-				<view class="_pigeon_type_top_right">
-					<text class="_pigeon_type_top_right_save">存栏</text>
-					<text class="_pigeon_type_top_right_num">9999</text>
-				</view>
-			</view>
-			<view class="_pigeon_type_bt">
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>破损</text>
-					</view><text class="_pigeon_type_bt_item_num">98</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>入库</text>
-					</view><text class="_pigeon_type_bt_item_num">7878</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>臭蛋</text>
-					</view><text class="_pigeon_type_bt_item_num">112</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>转入孵化机</text>
+					<view class="_pigeon_type_top_right">
+						<text class="_pigeon_type_top_right_save">存栏</text>
+						<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
 					</view>
-					<text class="_pigeon_type_bt_item_num">4499</text>
 				</view>
-			</view>
-		</view>
-		<view class="_pigeon_type">
-			<view class="_pigeon_type_top">
-				<view class="_pigeon_type_top_left">
-					<image src="../../static/daiban/ht_g.png" mode=""></image>
-					<view class="_pigeon_type_top_left_zg">乳鸽</view>
-					<view class="_pigeon_type_top_left_mortality">死亡率：0.5%</view>
-				</view>
-				<view class="_pigeon_type_top_right">
-					<text class="_pigeon_type_top_right_save">存栏</text>
-					<text class="_pigeon_type_top_right_num">9999</text>
-				</view>
-			</view>
-			<view class="_pigeon_type_bt">
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>残疾</text>
-					</view><text class="_pigeon_type_bt_item_num">98</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>出售</text>
-					</view><text class="_pigeon_type_bt_item_num">7878</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>死亡</text>
-					</view><text class="_pigeon_type_bt_item_num">112</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>孵化机转入</text>
+				<view class="_pigeon_type_bt">
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>残疾</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.disease}}</text>
 					</view>
-					<text class="_pigeon_type_bt_item_num">4499</text>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>转出</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.shift_to}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>死亡</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.death}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>新增</text>
+						</view>
+						<text class="_pigeon_type_bt_item_num">{{i.added_wit}}</text>
+					</view>
 				</view>
 			</view>
-		</view>
-		<view class="_pigeon_type">
-			<view class="_pigeon_type_top">
-				<view class="_pigeon_type_top_left">
-					<image src="../../static/daiban/ht_o.png" mode=""></image>
-					<view class="_pigeon_type_top_left_zg">童鸽</view>
-					<view class="_pigeon_type_top_left_mortality">死亡率：0.5%</view>
+			<view class="_pigeon_type"  v-if="i.alias === '鸽蛋'">
+				<view class="_pigeon_type_top">
+					<view class="_pigeon_type_top_left">
+						<image src="../../static/daiban/ht_b.png" mode=""></image>
+						<view class="_pigeon_type_top_left_zg">鸽蛋</view>
+						<view class="_pigeon_type_top_left_mortality">破损率：{{i.pct}}</view>
+					</view>
+					<view class="_pigeon_type_top_right">
+						<text class="_pigeon_type_top_right_save">存栏</text>
+						<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
+					</view>
 				</view>
-				<view class="_pigeon_type_top_right">
-					<text class="_pigeon_type_top_right_save">存栏</text>
-					<text class="_pigeon_type_top_right_num">9999</text>
-				</view>
-			</view>
-			<view class="_pigeon_type_bt">
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>残疾</text>
-					</view><text class="_pigeon_type_bt_item_num">98</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>转至飞棚</text>
-					</view><text class="_pigeon_type_bt_item_num">7878</text>
-				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>死亡</text>
-					</view><text class="_pigeon_type_bt_item_num">112</text>
-				</view>
-				
-			</view>
-		</view>
-		
-		<view class="_pigeon_type">
-			<view class="_pigeon_type_top">
-				<view class="_pigeon_type_top_left">
-					<image src="../../static/daiban/b_g.png" mode=""></image>
-					<view class="_pigeon_type_top_left_zg">青年鸽</view>
-					<view class="_pigeon_type_top_left_mortality">死亡率：0.5%</view>
-				</view>
-				<view class="_pigeon_type_top_right">
-					<text class="_pigeon_type_top_right_save">存栏</text>
-					<text class="_pigeon_type_top_right_num">9999</text>
+				<view class="_pigeon_type_bt">
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>破损</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.disease}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>入库</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.getout}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>臭蛋</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.death}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>转入孵化机</text>
+						</view>
+						<text class="_pigeon_type_bt_item_num">{{i.shift_to}}</text>
+					</view>
 				</view>
 			</view>
-			<view class="_pigeon_type_bt">
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>残疾</text>
-					</view><text class="_pigeon_type_bt_item_num">98</text>
+			<view class="_pigeon_type"  v-if="i.alias === '乳鸽'">
+				<view class="_pigeon_type_top">
+					<view class="_pigeon_type_top_left">
+						<image src="../../static/daiban/ht_g.png" mode=""></image>
+						<view class="_pigeon_type_top_left_zg">乳鸽</view>
+						<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
+					</view>
+					<view class="_pigeon_type_top_right">
+						<text class="_pigeon_type_top_right_save">存栏</text>
+						<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
+					</view>
 				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text">
-						<text>转至飞棚</text>
-					</view><text class="_pigeon_type_bt_item_num">7878</text>
+				<view class="_pigeon_type_bt">
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>残疾</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.disease}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>出售</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.getout}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>死亡</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.death}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>孵化机转入</text>
+						</view>
+						<text class="_pigeon_type_bt_item_num">{{i.shift_to}}</text>
+					</view>
 				</view>
-				<view class="_pigeon_type_bt_item">
-					<view class="_pigeon_type_bt_item_text leftBox">
-						<text>死亡</text>
-					</view><text class="_pigeon_type_bt_item_num">112</text>
+			</view>
+			<view class="_pigeon_type" v-if="i.alias === '童鸽'">
+				<view class="_pigeon_type_top">
+					<view class="_pigeon_type_top_left">
+						<image src="../../static/daiban/ht_o.png" mode=""></image>
+						<view class="_pigeon_type_top_left_zg">童鸽</view>
+						<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
+					</view>
+					<view class="_pigeon_type_top_right">
+						<text class="_pigeon_type_top_right_save">存栏</text>
+						<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
+					</view>
 				</view>
-				
+				<view class="_pigeon_type_bt">
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>残疾</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.disease}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>转至飞棚</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.shift_to}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>死亡</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.death}}</text>
+					</view>
+					
+				</view>
+			</view>
+			
+			<view class="_pigeon_type" v-if="i.alias === '青年鸽'">
+				<view class="_pigeon_type_top">
+					<view class="_pigeon_type_top_left">
+						<image src="../../static/daiban/b_g.png" mode=""></image>
+						<view class="_pigeon_type_top_left_zg">青年鸽</view>
+						<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
+					</view>
+					<view class="_pigeon_type_top_right">
+						<text class="_pigeon_type_top_right_save">存栏</text>
+						<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
+					</view>
+				</view>
+				<view class="_pigeon_type_bt">
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>残疾</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.disease}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text">
+							<text>转至飞棚</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.shift_to}}</text>
+					</view>
+					<view class="_pigeon_type_bt_item">
+						<view class="_pigeon_type_bt_item_text leftBox">
+							<text>死亡</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.death}}</text>
+					</view>
+					
+				</view>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	import EiCalendar from '@/components/ei-calendar/ei-calendar';
 	export default {
 
@@ -209,12 +218,25 @@
 							text: '×'
 						}
 					]
-				}]
+				}],
+				today:'',
+				calendarList:[],
 			}
 		},
 		methods: {
 			change(e) {
 				console.log(e);
+				this.today=e.fulldate
+				this.getCalendarData()
+			},
+			monthChange(e){
+				console.log(e)
+				
+			},
+			yearChange(e){
+				console.log(e)
+				
+				
 			},
 			disabledDate(date) {
 				const start = new Date('2019/5/10').getTime();
@@ -226,6 +248,35 @@
 					url: '/sub/production_data/production_data'
 				});
 			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				this.today=times
+					
+			},
+			getCalendarData(){
+				this.$http.post('/CageData/calendar.html',{uid:this.userInfo.id,time:this.today})
+				.then((res)=>{
+					console.log(res)
+					this.calendarList=res.data
+				}).catch((err)=>{
+					console.log(err)
+				})
+			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getToday()
+			this.getCalendarData()
 		}
 	}
 	

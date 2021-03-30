@@ -146,7 +146,18 @@
 					// 	icon: 'none'
 					// })
 					
-					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			getHomeSale(){
+				this.$http.post('/Rank/home.html')
+				.then((res)=>{
+					console.log(res)
+				this.homeBannerList =res.data.banner
+					this.homeNewsList =res.data.news
+					this.homeSaleList=res.data.sale
+					console.log(res.data.sale)
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -171,9 +182,11 @@
 		
 		created() {
 			this.next()
-			this.getHomeNews()
-			this.getHomeBanner()
+			this.getHomeSale()
+			// this.getHomeNews()
+			// this.getHomeBanner()
 			console.log('created')
+			
 		}
 	}
 </script>

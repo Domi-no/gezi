@@ -1,17 +1,17 @@
 <template>
 	<view class="myFont recordsContainer">
 		<view class="records_top">
-			<view class="records_top_i">
+			<view class="records_top_i"  @click="pRWPopup">
 				<text class="records_top_i_left">仓号</text>
 				<view class="records_top_i_right">
-					<text class="records_top_i_right_text">仓号1</text>
+					<text class="records_top_i_right_text">{{groupNumber}}</text>
 					<image src="../../static/report/report_zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="records_top_i">
+			<view class="records_top_i" @click="gelongShow">
 				<text class="records_top_i_left">组号</text>
-				<view class="records_top_i_right" @click="pRWPopup">
-					<text class="records_top_i_right_text">233</text>
+				<view class="records_top_i_right">
+					<text class="records_top_i_right_text">{{warehouseNumber}}</text>
 					<image src="../../static/report/report_zk.png" mode=""></image>
 				</view>
 			</view>
@@ -19,79 +19,85 @@
 				<text class="records_top_i_left">日期</text><text class="records_top_i_right">2020-12-02</text>
 			</view>
 		</view>
-		<view class="records_breedingPigeon">
-			<view class="records_breedingPigeon_item">
-				<view class="records_breedingPigeon_item_left">
-					<image src="../../static/daiban/ht_p.png" mode=""></image>
-					<view class="records_breedingPigeon_item_left_t">
-						<view class="">
-							<text>种鸽</text><text>需要补足种鸽</text>
-						</view>
-						<view class="">
-							当前存栏64只
+		<view class="" >
+			<view class="records_breedingPigeon">
+				<view class="records_breedingPigeon_item">
+					<view class="records_breedingPigeon_item_left">
+						<image src="../../static/daiban/ht_p.png" mode=""></image>
+						<view class="records_breedingPigeon_item_left_t">
+							<view class="">
+								<text>种鸽</text><text>需要补足种鸽</text>
+							</view>
+							<!-- {{recordsData['种鸽'].num}} -->
+							<view class="">
+								当前存栏只
+							</view>
 						</view>
 					</view>
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('种鸽')">
+						修改
+					</view>
 				</view>
-				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('种鸽')">
-					修改
+			</view>
+			<view class="records_breedingPigeon">
+				<view class="records_breedingPigeon_item">
+					<view class="records_breedingPigeon_item_left">
+						<image src="../../static/daiban/ht_b.png" mode=""></image>
+						<view class="records_breedingPigeon_item_left_t">
+							<view class="">
+								<text>鸽蛋</text><text>需要补足种鸽</text>
+							</view>
+							<view class="">
+								当前存栏64只
+							</view>
+						</view>
+					</view>
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('鸽蛋')">
+						修改
+					</view>
+				</view>
+			</view>
+			<view class="records_breedingPigeon">
+				<view class="records_breedingPigeon_item">
+					<view class="records_breedingPigeon_item_left">
+						<image src="../../static/daiban/ht_g.png" mode=""></image>
+						<view class="records_breedingPigeon_item_left_t">
+							<view class="">
+								<text>乳鸽</text><text>需要补足种鸽</text>
+							</view>
+							<view class="">
+								当前存栏64只
+							</view>
+						</view>
+					</view>
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('乳鸽')">
+						修改
+					</view>
+				</view>
+			</view>
+			<view class="records_breedingPigeon">
+				<view class="records_breedingPigeon_item">
+					<view class="records_breedingPigeon_item_left">
+						<image src="../../static/daiban/ht_o.png" mode=""></image>
+						<view class="records_breedingPigeon_item_left_t">
+							<view class="">
+								<text>童鸽</text><text>需要补足种鸽</text>
+							</view>
+							<view class="">
+								当前存栏64只
+							</view>
+						</view>
+					</view>
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('童鸽')">
+						修改
+					</view>
 				</view>
 			</view>
 		</view>
-		<view class="records_breedingPigeon">
-			<view class="records_breedingPigeon_item">
-				<view class="records_breedingPigeon_item_left">
-					<image src="../../static/daiban/ht_b.png" mode=""></image>
-					<view class="records_breedingPigeon_item_left_t">
-						<view class="">
-							<text>鸽蛋</text><text>需要补足种鸽</text>
-						</view>
-						<view class="">
-							当前存栏64只
-						</view>
-					</view>
-				</view>
-				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('鸽蛋')">
-					修改
-				</view>
-			</view>
-		</view>
-		<view class="records_breedingPigeon">
-			<view class="records_breedingPigeon_item">
-				<view class="records_breedingPigeon_item_left">
-					<image src="../../static/daiban/ht_g.png" mode=""></image>
-					<view class="records_breedingPigeon_item_left_t">
-						<view class="">
-							<text>乳鸽</text><text>需要补足种鸽</text>
-						</view>
-						<view class="">
-							当前存栏64只
-						</view>
-					</view>
-				</view>
-				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('乳鸽')">
-					修改
-				</view>
-			</view>
-		</view>
-		<view class="records_breedingPigeon">
-			<view class="records_breedingPigeon_item">
-				<view class="records_breedingPigeon_item_left">
-					<image src="../../static/daiban/ht_o.png" mode=""></image>
-					<view class="records_breedingPigeon_item_left_t">
-						<view class="">
-							<text>童鸽</text><text>需要补足种鸽</text>
-						</view>
-						<view class="">
-							当前存栏64只
-						</view>
-					</view>
-				</view>
-				<view class="records_breedingPigeon_item_right" @click="toChangeRecords('童鸽')">
-					修改
-				</view>
-			</view>
-		</view>
-		<lb-picker ref="pRWarehouseChange" :list="pRWList" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
+		<lb-picker ref="pRWarehouseChange"   :list="list"  :props="myProps" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="gelong" :list="gelongList" radius="20rpx" :props="myProps" confirm-color="#377BE4" @confirm='gelongChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
 		<!-- pickerView -->
@@ -105,6 +111,9 @@
 
 <script>
 	import LbPicker from '@/components/lb-picker'
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components: {
 		     LbPicker
@@ -127,7 +136,18 @@
 				inpData:0,
 				pCShow:false,
 				id:0,
-				pRWList:[1,2,3,4]
+				pRWList:[1,2,3,4],
+				list:[],
+				myProps: {
+				     label: 'name',
+				     value: 'cage_id',
+				   },
+				groupNumber:'请选择',
+				warehouseNumber:'请选择',
+				cage_id:'',
+				gelongList:[],
+				recordsData:{},
+				
 			};
 		},
 		methods: {
@@ -144,6 +164,9 @@
 				this.$refs.pRWarehouseChange.show()
 				
 			},
+			gelongShow(){
+				this.$refs.gelong.show()
+			},
 			pigeonCageClose(){
 				this.pCShow=false
 			},
@@ -152,12 +175,63 @@
 					url:'/sub/production_warehouse_change/production_warehouse_change?query='+type+'&id='+this.id
 				})
 			},
-			pRWarehouseChange(e){
-				console.log(e.value)
+			gelongChange(e){
+				console.log(e)
+				this.warehouseNumber=e.item.name
+				this.cage_id=e.item.cage_id
+				if(this.cage_id){
+					this.getRecordData()
+				}
+				
 			},
+			pRWarehouseChange(e){
+				console.log(e)
+				this.groupNumber=e.item.name
+				this.gelongList=e.item.children
+			},
+			getJournalData(){
+				this.$http.post('/CageData/Journal.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res)
+					Object.keys(res.data).forEach((value, index)=>{
+						console.log(value, index,res.data[value]);
+						this.list.push({name:value,children:[]})
+						Object.keys(res.data[value]).forEach((valu, inde)=>{
+							console.log(valu, inde,res.data[value][valu])
+							// this.list.push({name:value,children:res.data[value]})
+						this.list[index].children.push({name:valu,cage_id:res.data[value][valu].cage_id})
+							// this.warehouseList.push({name:value,children:res.data[value]})
+						});
+		
+						// this.warehouseList.push({name:value,children:res.data[value]})
+					});
+					// this.list=res.data
+					console.log(this.list)
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			getRecordData(){
+				const {cage_id,userInfo:{id:uid}} = this
+				this.$http.post('/CageData/record.html',{uid,cage_id})
+				.then((res)=>{
+					console.log(res)
+					
+					this.recordsData=res.data
+					console.log(this.recordsData)
+				}).catch((err)=>{
+					console.log(err)
+				})
+			}
 			
 		},
 		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),	
+		},
+		created() {
+			this.getJournalData()
 			
 		}
 	}

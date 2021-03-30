@@ -6,7 +6,7 @@
 					{{item.title}}
 				</view>
 				<view class="news_content">
-					{{item.content}}
+					{{item.text}}
 				</view>
 				<text class="news_time">{{item.creatime}}</text>
 			</view>

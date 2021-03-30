@@ -229,6 +229,26 @@
 						dashLength:8,
 						splitNumber:5,
 						calibration:true,
+						  "disabled": false,
+						        "disableGrid": false,
+						data: [
+						        {
+						            position: "left",
+						            disabled: false,
+						            axisLine: false,
+						            // axisLineColor: "#CCCCCC",
+						            // calibration: false,
+						            // fontColor: "#666666",
+						            // fontSize: 13,
+						            // textAlign: "right",
+						            // title: "",
+						            // titleFontSize: 13,
+						            // titleFontColor: "#666666",
+						            // min: null,
+						            // max: null,
+						            // format: ""
+						        }
+						    ],
 						
 						
 						format:(val)=>{return val.toFixed(0)+''}

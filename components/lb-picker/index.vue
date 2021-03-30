@@ -39,6 +39,11 @@
         <slot name="header-top"></slot>
 
         <view class="lb-picker-header-actions">
+			<!--  -->
+			<view 
+			  v-if="$slots['action-zyj']">
+			  <slot  name="action-zyj"></slot>
+			</view>	
           <!-- 取消 -->
           <view class="lb-picker-action lb-picker-action-cancel"
             @tap.stop="handleCancel">
@@ -49,7 +54,7 @@
               class="lb-picker-action-cancel-text"
               :style="{ color: cancelColor }">{{ cancelText }}</text>
           </view>
-
+		
           <!-- 中间 -->
           <view class="lb-picker-action lb-picker-center"
             v-if="$slots['action-center']">
@@ -327,6 +332,10 @@ export default {
       type: Boolean,
       default: true
     },
+	zyj: {
+	  type: Boolean,
+	  default: false
+	},
     chConfig: Object,
     filter: Function
   },
@@ -376,6 +385,9 @@ export default {
       }, 300)
     },
     handleCancel () {
+		if(this.zyj){
+			return false
+		}
       this.$emit('cancel', this.picker)
       if (this.canHide && !this.inline) {
         this.hide()
@@ -502,4 +514,5 @@ export default {
 .uni-picker-view-indicator{
 	height: 80rpx !important;
 }
+
 </style>

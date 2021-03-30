@@ -2,7 +2,7 @@
 	<view class="myFont reportContainer">
 		<view class="report_head">
 			<view class="report_head_left" @click="showPRWarehousePopup">
-				<text>所有仓</text>
+				<text>{{blockName}}</text>
 				<image src="@/static/report/report_zk.png" mode=""></image>
 			</view>
 			<view class="report_head_right">
@@ -12,24 +12,42 @@
 		<view class="report_time">
 			<view class="report_time_left">
 				<view class="start" @click="showStartPRTimePopup">
-					<text>2020-06-30</text><image src="../../static/report/bt_zk.png" mode=""></image>
+					<text>{{sta_time}}</text><image src="../../static/report/bt_zk.png" mode=""></image>
 				</view>
 				<text class="to">至</text>
-				<view class="end">
-					<text>2020-12-30</text><image src="../../static/report/bt_zk.png" mode=""></image>
+				<view class="end" @click="showEndPRTimePopup">
+					<text>{{end_time}}</text><image src="../../static/report/bt_zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="report_time_right">
+			<view class="report_time_right" @click="getReportData">
 				查询
 			</view>
 		</view>
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
+					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{gdColumn.sum}}枚</text><text>平均：{{gdColumn.all}}枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
 					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<view class="timeClass">
+						{{currentName}}
+					</view>
+				</view>
+				
+			</view>
+			
+		</view>
+		<view class="uchars_box">
+			<view class="qiun-columns">
+				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum}}只</text><text>平均：{{rgColumn.sum}}只</text></text></view>
+				</view>
+				<view class="qiun-charts">
+					<canvas canvas-id="rgcanvasColumn" id="rgcanvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<view class="timeClass">
+						{{currentName}}
+					</view>
 				</view>
 			</view>
 			
@@ -37,40 +55,51 @@
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
+					<view class="qiun-title-dot-light">童鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{tgColumn.sum}}只</text><text>平均：{{tgColumn.sum}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<canvas canvas-id="tgcanvasColumn" id="tgcanvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<view class="timeClass">
+						{{currentName}}
+					</view>
 				</view>
 			</view>
 			
 		</view>
+		
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
+					<view class="qiun-title-dot-light">死淘量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{stColumn.sum}}只</text><text>平均：{{stColumn.all}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<canvas canvas-id="stcanvasColumn" id="stcanvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<view class="timeClass">
+						{{currentName}}
+					</view>
 				</view>
 			</view>
 			
 		</view>
-		<view class="uchars_box">
-			<view class="qiun-columns">
-				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：9899枚</text><text>平均：1489枚</text></text></view>
-				</view>
-				<view class="qiun-charts">
-					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
-				</view>
-			</view>
-			
-		</view>
-		<lb-picker ref="startPRTime" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='pRtime'>
+		<lb-picker ref="startPRTime" mode="dateSelector"    :value="sta_time" :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='pRtime'>
+					
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
-		<lb-picker ref="pRWarehouseChange" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
+		<lb-picker ref="endPRTime" mode="dateSelector" :zyj="true" :cancel-text="''" :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='pEtime'>
+			<view slot="action-zyj" class="zyj">
+				<view :class="{zyjB:currentId === 'week'}" @click="currentTime('week','周')">
+				周
+				</view>
+				<view :class="{zyjB:currentId === 'month'}" @click="currentTime('month','月')">
+				月
+				</view>
+				<view :class="{zyjB:currentId === 'season'}" @click="currentTime('season','季')">
+				季
+				</view>
+			</view>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="pRWarehouseChange" :list="list" :props="myProps" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
 	</view>
@@ -81,6 +110,9 @@
 	import LbPicker from '@/components/lb-picker'
 	var _self;
 	var canvaColumn = null;
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		components: {
 		     LbPicker
@@ -91,204 +123,224 @@
 				cHeight: '',
 				pixelRatio: 1,
 				serverData: '',
-				list:[1,2,3,4,5]
+				list:[],
+				block_id:0,
+				end_time:'',
+				sta_time:'',
+				gdColumn:{},
+				rgColumn:{
+		
+				},
+				tgColumn:{	
+					
+				},
+				stColumn:{
+					
+				},
+				myProps: {
+					label: 'name',
+					value: 'id'
+				},
+				blockName:'所有仓',
+				currentId:'month',
+				currentName:'月'
 			}
 		},
 		onLoad() {
 			console.log(1)
 			_self = this;
-			this.cWidth = uni.upx2px(750);
+			this.cWidth = uni.upx2px(700);
 			this.cHeight = uni.upx2px(370);
-			this.getServerData();
 		},
-		// methods: {
-		// 	getServerData() {
-				
-		// 		var Column = {
-		// 			categories: ["6", "7", "8", "9", "10", "11", "12"],
-					
-		// 			series: [{
-		// 				name: '',
-		// 				data: [8200, 4600, 7900, 9900, 4923, 8200, 6500]
-		// 			}]
-		// 		}
-		// 		_self.showColumn("canvasColumn", Column)
-		// 	},
-		// 	showColumn(canvasId, chartData) {
-		// 		canvaColumn = new uCharts({
-		// 			$this: _self,
-		// 			canvasId: canvasId,
-		// 			type: 'column',
-		// 			legend: {show:true},
-		// 			fontSize: 11,
-		// 			background: '#FFFFFF',
-		// 			pixelRatio: _self.pixelRatio,
-		// 			animation: false,
-		// 			categories: chartData.categories,
-		// 			series: chartData.series,
-		// 			xAxis: {
-						
-		// 				disableGrid: true,
-		// 			},
-		// 			yAxis: {
-		// 				disableGrid:false,
-		// 				disabled:true,
-		// 				splitNumber: 5,
-		// 				min: 0,
-		// 				max: 10000,
-		// 			},
-		// 			legend:{
-		// 				show:true,
-						
-		// 			},
-		// 			dataLabel:false,
-		// 			dataPointShape:true,
-		// 			width: _self.cWidth * _self.pixelRatio,
-		// 			height: _self.cHeight * _self.pixelRatio,
-		// 			// extra: {
-		// 			// 	lineStyle: 'straight',
-		// 			// 	column: {
-		// 			// 		type: 'group',
-		// 			// 		width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length
-		// 			// 	}
-		// 			// }
-		// 			extra: {
-		// 			    column: {
-		// 			        // 颜色支持线性渐变
-		// 					width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
-		// 			        color: {
-		// 			            type: 'linear',
-		// 			            colorStops: [{
-		// 			                offset: 0, color: '#377BE4' // 0% 处的颜色
-		// 			            }, {
-		// 			                offset: 1, color: '#ff0000' // 100% 处的颜色
-		// 			            }],
-		// 			            global: false // 缺省为 false
-		// 			        }, 
-		// 			        // 圆角半径，单位px，必须传入数组分别指定 4 个圆角半径
-		// 			        barBorderRadius: [10, 10, 0, 0],
-		// 			        // 半圆边框
-		// 			        barBorderCircle: true,
-		// 			        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
-		// 			        opacityColor:0.7 ,
-		// 			        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
-		// 			        linearColor: 0,
-		// 			        //多series之间的间距
-		// 			        seriesGap:2
-					        
-		// 			    },
-						
-		// 			}
-		// 		});
-				
-		// 	},
-		// 	touchColumn(e){
-		// 		canvaColumn.showToolTip(e, {
-		// 			format: function (item, category) {
-		// 				if(typeof item.data === 'object'){
-		// 					return category + ' ' + item.name + ':' + item.data.value 
-		// 				}else{
-		// 					return category + ' ' + item.name + ':' + item.data 
-		// 				}
-		// 			}
-		// 		});
-		// 	},
-		// }
+		
 		methods: {
+			currentTime(id,name){
+				this.currentId=id
+				this.currentName=name
+			},
 			pRtime(e){
 				console.log(e.value)
+				this.sta_time=e.value
+			},
+			pEtime(e){
+				console.log(e.value)
+				this.end_time=e.value
 			},
 			pRWarehouseChange(e){
-				console.log(e.value)
+				console.log(e)
+				this.blockName=e.item.name
+				this.block_id=e.item.id
 			},
 			showStartPRTimePopup(){
 				this.$refs.startPRTime.show()
 			},
+			showEndPRTimePopup(){
+				this.$refs.endPRTime.show()
+			},
 			showPRWarehousePopup(){
 				this.$refs.pRWarehouseChange.show()
 			},
-					getServerData(){
-						var Column = {
-									categories: ["6", "7", "8", "9", "10", "11", "12"],
-									
-									series: [{
-										name: '',
-										data: [8200, 4600, 7900, 9900, 4923, 8200, 6500]
-									}]
-								}
-								_self.showColumn("canvasColumn", Column)
+			
+			showColumn(canvasId,chartData){
+				canvaColumn=new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'column',
+					legend:{show:true},
+					fontSize:11,
+					background:'#FFFFFF',
+					pixelRatio:_self.pixelRatio,
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					xAxis: {
+						disableGrid:true,
+						axisLine:false
 					},
-					showColumn(canvasId,chartData){
-						canvaColumn=new uCharts({
-							$this:_self,
-							canvasId: canvasId,
-							type: 'column',
-							legend:{show:true},
-							fontSize:11,
-							background:'#FFFFFF',
-							pixelRatio:_self.pixelRatio,
-							animation: false,
-							categories: chartData.categories,
-							series: chartData.series,
-							xAxis: {
-								disableGrid:true,
-								axisLine:false
-							},
-							yAxis: {
-								//disabled:true
-								splitNumber: 5,
-											min: 0,
-											max: 10000,
-							},
-							dataLabel: false,
-							width: _self.cWidth*_self.pixelRatio,
-							height: _self.cHeight*_self.pixelRatio,
-							legend:{show:false},
-							extra: {
-								type: 'group',
-								width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length,
-										    column: {
-										        // 颜色支持线性渐变
-												width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
-										        color: {
-										            type: 'linear',
-										            colorStops: [{
-										                offset: 0, color: '#377BE4' // 0% 处的颜色
-										            }, {
-										                offset: 1, color: '#ff0000' // 100% 处的颜色
-										            }],
-										            global: false // 缺省为 false
-										        }, 
-										        // 圆角半径，单位px，必须传入数组分别指定 4 个圆角半径
-												meter:{border:0},
-										        barBorderRadius: [10, 10, 0, 0],
-										        // 半圆边框
-										        barBorderCircle: true,
-										        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
-										        opacityColor:0.7 ,
-										        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
-										        linearColor: 0,
-										        //多series之间的间距
-										        seriesGap:2
-										        
-										    },
-											
-										}
-						});
+					yAxis: {
+						//disabled:true
+						splitNumber: 5,
 						
 					},
-					touchColumn(e){
-						canvaColumn.showToolTip(e, {
-							format: function (item, category) {
-								if(typeof item.data === 'object'){
-									return category + ' ' + item.name + ':' + item.data.value 
-								}else{
-									return category + ' ' + item.name + ':' + item.data 
-								}
-							}
-						});
-					},
-				}
+					
+					dataLabel: false,
+					width: _self.cWidth*_self.pixelRatio,
+					height: _self.cHeight*_self.pixelRatio,
+					legend:{show:false},
+					extra: {
+						type: 'group',
+						width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length,
+					    column: {
+					        // 颜色支持线性渐变
+							width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
+					        color: {
+					            type: 'linear',
+					            colorStops: [{
+					                offset: 0, color: '#377BE4' // 0% 处的颜色
+					            }, {
+					                offset: 1, color: '#ff0000' // 100% 处的颜色
+					            }],
+					            global: false // 缺省为 false
+					        }, 
+					        barBorderCircle: true,
+					        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
+					        opacityColor:0.7 ,
+					        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
+					        linearColor: 0,
+					        //多series之间的间距
+					        seriesGap:2,
+					    },
+						markLine: {
+						            type: "solid",
+						            dashLength: 4,
+						            data: []
+						        }
+						
+						}
+				});
+				
+			},
+			touchColumn(e){
+				
+				
+				canvaColumn.showToolTip(e, {
+					format: function (item, category) {
+						if(typeof item.data === 'object'){
+							return category + ' ' + item.name + ':' + item.data.value 
+						}else{
+							return category + ' ' + item.name + ':' + item.data 
+						}
+					}
+				});
+			},
+			
+			getReportData(){
+				const {block_id,sta_time,end_time,currentId:time_type}=this
+				this.$http.post('/CageData/report.html',{uid:this.userInfo.id,block_id,sta_time,end_time,time_type})
+				.then((res)=>{
+					console.log(res)
+					this.gdColumn={
+					all:res.data['鸽蛋'].all,
+					sum:res.data['鸽蛋'].sum,
+					categories: res.data['鸽蛋'].lat,
+					series:[{
+						name: '',
+						data: res.data['鸽蛋'].lng,
+					}]}
+					this.rgColumn={
+					all:res.data['乳鸽'].all,
+					sum:res.data['乳鸽'].sum,
+					categories: res.data['乳鸽'].lat,
+					series:[{
+						name: '',
+						data: res.data['乳鸽'].lng,
+					}]}
+					this.tgColumn={
+					all:res.data['童鸽'].all,
+					sum:res.data['童鸽'].sum,
+					categories: res.data['童鸽'].lat,
+					series:[{
+						name: '',
+						data: res.data['童鸽'].lng,
+					}]}
+					this.stColumn={
+					all:res.data['死淘'].all,
+					sum:res.data['死淘'].sum,
+					categories: res.data['死淘'].lat,
+					series:[{
+						name: '',
+						data: res.data['死淘'].lng,
+					}]}
+					_self.showColumn("canvasColumn", this.gdColumn)
+					_self.showColumn("rgcanvasColumn", this.rgColumn)
+					_self.showColumn("tgcanvasColumn", this.tgColumn)
+					_self.showColumn("stcanvasColumn", this.stColumn)
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				  let staM = 0
+				  let staY = 0
+				  if(M > 6){
+					staM = M - 6
+				  }else{
+					staM=  M + 12 - 6 
+					staY = Y -1
+				  }
+				  console.log(staM)
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				  let sTimes = staY + (staM < 10 ? "-0" : "-") + staM + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.end_time=times
+				 this.sta_time=sTimes
+					
+			},
+			getAllBlock(){
+				this.$http.post('/CageData/AllBlock.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res)
+					this.list=res.data
+				}).catch((err)=>{
+					console.log(err)
+				})
+			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			this.getToday()
+			this.getReportData()
+			this.getAllBlock()
+		}
 	}
 </script>
 <style lang="scss" scoped>
@@ -296,6 +348,25 @@
 		padding-bottom: 96rpx;
 		background: #F2F2F2;
 		min-height: calc(100vh);
+		.zyj{
+			width: 305rpx;
+			display: flex;
+			justify-content: space-between;
+			padding: 20rpx 40rpx 0;
+			view{
+				width: 40rpx;
+				height: 60rpx;
+				line-height: 60rpx;
+				text-align: center;
+				font-size: 30rpx;
+				font-weight: 500;
+				color: #151515;
+				
+			}
+		}
+		.zyjB{
+			border-bottom: 4rpx solid #377BE4;
+		}
 	}
 	// page {
 	// 	background: #F2F2F2;
@@ -367,16 +438,25 @@
 	}
 
 	.qiun-charts {
-		width: 750upx;
+		width: 700upx;
 		height: 380upx;
 		padding-top: 10rpx;
 		background-color: #FFFFFF;
+		display: flex;
 	}
-
+	.timeClass{
+		position: absolute;
+		bottom: 24rpx;
+		right: 30rpx;
+		font-size: 22rpx;
+		font-weight: 500;
+		color: #343434;
+	}
 	.charts {
-		width: 750upx;
+		width: 700upx;
 		height:370upx;
 		background-color: #FFFFFF;
+		
 	}
 	
 	.reportContainer {
@@ -449,7 +529,7 @@
 		}
 		.uchars_box{
 			margin-top: 20rpx;
-			
+			background-color: #fff;
 			position: relative;
 		}
 	}

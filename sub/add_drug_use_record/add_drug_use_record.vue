@@ -103,9 +103,7 @@
 		<lb-picker ref="drug_time" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='drug_useTime'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
-		<!-- <lb-picker ref="drugBatchNumber" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='drugBatchNumberChange'>
-					 <view slot="confirm-text" >完成</view>
-		</lb-picker> -->
+		
 		<lb-picker ref="drugName" :list="drugNameList" radius="20rpx" confirm-color="#377BE4" @confirm='drugNameChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
@@ -136,7 +134,6 @@
 				myProps: {
 				     label: 'name',
 				     value: 'id',
-				    
 				   },
 				list: [
 				  {
@@ -210,7 +207,7 @@
 							console.log(value, index,res.data[value]);
 							this.warehouseList.push({name:value,children:res.data[value]})
 						});
-						console.log(this.vaccineHouse)
+						console.log(this.warehouseList)
 					}).catch((err) => {
 						
 					})
