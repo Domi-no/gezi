@@ -9,32 +9,31 @@
 				</view>
 			</view>
 			<view class="records_top_i" @click="gelongShow">
-				<text class="records_top_i_left">组号</text>
+				<text class="records_top_i_left">鸽笼编号</text>
 				<view class="records_top_i_right">
 					<text class="records_top_i_right_text">{{warehouseNumber}}</text>
 					<image src="../../static/report/report_zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="records_top_i">
-				<text class="records_top_i_left">日期</text><text class="records_top_i_right">2020-12-02</text>
+				<text class="records_top_i_left">日期</text><text class="records_top_i_right">{{time}}</text>
 			</view>
 		</view>
-		<view class="" >
+		<view class="" v-if=" warehouseNumber!=='请选择' ">
 			<view class="records_breedingPigeon">
 				<view class="records_breedingPigeon_item">
 					<view class="records_breedingPigeon_item_left">
 						<image src="../../static/daiban/ht_p.png" mode=""></image>
 						<view class="records_breedingPigeon_item_left_t">
 							<view class="">
-								<text>种鸽</text><text>需要补足种鸽</text>
+								<text>种鸽</text><text>{{recordsData['种鸽'].text}}</text>
 							</view>
-							<!-- {{recordsData['种鸽'].num}} -->
 							<view class="">
-								当前存栏只
+								当前存栏{{recordsData['种鸽'].num}}只
 							</view>
 						</view>
 					</view>
-					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('种鸽')">
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('种鸽',recordsData['种鸽'])">
 						修改
 					</view>
 				</view>
@@ -45,14 +44,14 @@
 						<image src="../../static/daiban/ht_b.png" mode=""></image>
 						<view class="records_breedingPigeon_item_left_t">
 							<view class="">
-								<text>鸽蛋</text><text>需要补足种鸽</text>
+								<text>鸽蛋</text><text>{{recordsData['童鸽'].text}}</text>
 							</view>
 							<view class="">
-								当前存栏64只
+								当前存栏{{recordsData['鸽蛋'].num}}只
 							</view>
 						</view>
 					</view>
-					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('鸽蛋')">
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('鸽蛋',recordsData['鸽蛋'])">
 						修改
 					</view>
 				</view>
@@ -63,14 +62,14 @@
 						<image src="../../static/daiban/ht_g.png" mode=""></image>
 						<view class="records_breedingPigeon_item_left_t">
 							<view class="">
-								<text>乳鸽</text><text>需要补足种鸽</text>
+								<text>乳鸽</text><text>{{recordsData['童鸽'].text}}</text>
 							</view>
 							<view class="">
-								当前存栏64只
+								当前存栏{{recordsData['乳鸽'].num}}只
 							</view>
 						</view>
 					</view>
-					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('乳鸽')">
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('乳鸽',recordsData['乳鸽'])">
 						修改
 					</view>
 				</view>
@@ -81,14 +80,14 @@
 						<image src="../../static/daiban/ht_o.png" mode=""></image>
 						<view class="records_breedingPigeon_item_left_t">
 							<view class="">
-								<text>童鸽</text><text>需要补足种鸽</text>
+								<text>童鸽</text><text>{{recordsData['童鸽'].text}}</text>
 							</view>
 							<view class="">
-								当前存栏64只
+								当前存栏{{recordsData['童鸽'].num}}只
 							</view>
 						</view>
 					</view>
-					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('童鸽')">
+					<view class="records_breedingPigeon_item_right" @click="toChangeRecords('童鸽',recordsData['童鸽'])">
 						修改
 					</view>
 				</view>
@@ -147,6 +146,8 @@
 				cage_id:'',
 				gelongList:[],
 				recordsData:{},
+				isShow:false,
+				time:'',
 				
 			};
 		},
@@ -170,9 +171,19 @@
 			pigeonCageClose(){
 				this.pCShow=false
 			},
-			toChangeRecords(type){
+			toChangeRecords(type,data){
+				console.log(data)
+				const {cage_id,groupNumber,warehouseNumber,time}=this
+				const queryData = {
+					name:type,
+					groupNumber,
+					warehouseNumber,
+					cage_id,
+					time,
+					...data
+				}
 				uni.navigateTo({
-					url:'/sub/production_warehouse_change/production_warehouse_change?query='+type+'&id='+this.id
+					url:'/sub/production_warehouse_change/production_warehouse_change?query='+JSON.stringify(queryData)
 				})
 			},
 			gelongChange(e){
@@ -218,11 +229,22 @@
 					console.log(res)
 					
 					this.recordsData=res.data
+					this.isShow=true
 					console.log(this.recordsData)
 				}).catch((err)=>{
 					console.log(err)
 				})
-			}
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				this.time=times
+					
+			},
 			
 		},
 		computed:{
@@ -232,7 +254,8 @@
 		},
 		created() {
 			this.getJournalData()
-			
+			this.getRecordData()
+			this.getToday()
 		}
 	}
 </script>
@@ -288,7 +311,7 @@
 				align-items: center;
 
 				.records_breedingPigeon_item_left {
-					width: 338rpx;
+					width: 352rpx;
 					display: flex;
 					// padding-right: 20rpx;
 					justify-content: space-between;
@@ -305,7 +328,7 @@
 						display: flex;
 						flex-direction: column;
 						justify-content: space-between;
-
+						width: 234rpx;
 						text:nth-child(1) {
 							font-size: 36rpx;
 							color: #151515;
@@ -316,7 +339,9 @@
 							color: #e64329;
 							margin-left: 20rpx;
 						}
-
+						view:nth-first{
+							width: 234rpx;
+						}
 						view {
 							// margin-top: 8rpx;
 							font-size: 24rpx;

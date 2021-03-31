@@ -4,24 +4,24 @@
 			<view class="records_top_i">
 				<text class="records_top_i_left">仓号</text>
 				<view class="records_top_i_right">
-					<text class="records_top_i_right_text">仓号1</text>
+					<text class="records_top_i_right_text">{{queryData.groupNumber}}</text>
 					<!-- <image src="../../static/report/report_zk.png" mode=""></image> -->
 				</view>
 			</view>
 			<view class="records_top_i">
 				<text class="records_top_i_left">鸽笼编号</text>
 				<view class="records_top_i_right" @click="pigeonCageShow">
-					<text class="records_top_i_right_text">233</text>
+					<text class="records_top_i_right_text">{{queryData.warehouseNumber}}</text>
 					<!-- <image src="../../static/report/report_zk.png" mode=""></image> -->
 				</view>
 			</view>
 			<view class="records_top_i">
-				<text class="records_top_i_left">日期</text><text class="records_top_i_right">2020-12-02</text>
+				<text class="records_top_i_left">日期</text><text class="records_top_i_right">{{queryData.time}}</text>
 			</view>
 		</view>
 		
 		<!-- 种鸽 -->
-		<view v-show="type === '种鸽'" class="">
+		<view v-if="queryData.name === '种鸽'" class="">
 			<view class="records_breedingPigeon_modify">
 				<view class="records_breedingPigeon_modify_head">
 					<view class="records_breedingPigeon_modify_head_top">
@@ -30,11 +30,11 @@
 							<view>种鸽</view>
 						</view>
 						<view class="">
-							<text class="alarm">需要补足种鸽！</text>
-							<text style="font-size: 24rpx;font-weight: 500;color: #343434;">日龄：5天</text>
+							<text class="alarm">{{queryData.text}}</text>
+							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
 						</view>
 					</view>
-					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>987</text>只</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
 				</view>
 			</view>
 			<view class="r_pigeon_add">
@@ -158,16 +158,21 @@
 			</view>
 		</view>
 		<!-- 鸽蛋 -->
-		<view v-show="type === '鸽蛋'" class="">
+		<view v-if="queryData.name === '鸽蛋'" class="">
 			<view class="records_breedingPigeon_modify">
 				<view class="records_breedingPigeon_modify_head">
 					<view class="records_breedingPigeon_modify_head_top">
 						<view class="records_breedingPigeon_modify_head_top_left">
 							<image src="../../static/daiban/ht_b.png" mode=""></image>
 							<view>鸽蛋</view>
-						</view><text class="alarm">需要补足种鸽！</text>
+						</view>
+						<!-- <text class="alarm">需要补足种鸽！</text> -->
+						<view class="">
+							<text class="alarm">{{queryData.text}}</text>
+							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+						</view>
 					</view>
-					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>987</text>只</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
 				</view>
 			</view>
 			<view class="r_pigeon_add">
@@ -281,16 +286,20 @@
 			</view>
 		</view>
 		<!-- 乳鸽 -->
-		<view v-show="type === '乳鸽'" class="">
+		<view v-if="queryData.name === '乳鸽'" class="">
 			<view class="records_breedingPigeon_modify">
 				<view class="records_breedingPigeon_modify_head">
 					<view class="records_breedingPigeon_modify_head_top">
 						<view class="records_breedingPigeon_modify_head_top_left">
 							<image src="../../static/daiban/ht_g.png" mode=""></image>
 							<view>乳鸽</view>
-						</view><text class="alarm">需要补足种鸽！</text>
+						</view>
+						<view class="">
+							<text class="alarm">{{queryData.text}}</text>
+							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+						</view>
 					</view>
-					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>987</text>只</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
 				</view>
 			</view>
 			<view class="r_pigeon_add">
@@ -405,16 +414,20 @@
 			</view>
 		</view>
 		<!-- 童鸽 -->
-		<view v-show="type === '童鸽'" class="">
+		<view v-if="queryData.name === '童鸽'" class="">
 			<view class="records_breedingPigeon_modify">
 				<view class="records_breedingPigeon_modify_head">
 					<view class="records_breedingPigeon_modify_head_top">
 						<view class="records_breedingPigeon_modify_head_top_left">
 							<image src="../../static/daiban/ht_o.png" mode=""></image>
 							<view>童鸽</view>
-						</view><text class="alarm">需要补足种鸽！</text>
+						</view>
+						<view class="">
+							<text class="alarm">{{queryData.text}}</text>
+							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+						</view>
 					</view>
-					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>987</text>只</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
 				</view>
 			</view>
 			<view class="r_pigeon_add">
@@ -517,6 +530,239 @@
 				
 			</view>
 		</view>
+		<!-- 育雏仓 -->
+		<view v-if="queryData.name === '育雏仓'" class="">
+			<view class="records_breedingPigeon_modify">
+				<view class="records_breedingPigeon_modify_head">
+					<view class="records_breedingPigeon_modify_head_top">
+						<view class="records_breedingPigeon_modify_head_top_left">
+							<image src="../../static/daiban/ht_o.png" mode=""></image>
+							<view>育雏仓</view>
+						</view>
+						<view class="">
+							<text class="alarm">{{queryData.text}}</text>
+							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+						</view>
+					</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
+				</view>
+			</view>
+			<view class="r_pigeon_add">
+				<view class="add_box">
+					<view class="r_pigeon_add_c">
+					</view>
+					<view class="r_pigeon__t r_pigeon_add_t">
+						增加
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>生产仓转入</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				
+				
+			</view>
+			<!-- 减少 -->
+			<view class="r_pigeon_add">
+				<view class="add_box">
+					<view class="r_pigeon_reduce_c">
+					</view>
+					<view class="r_pigeon__t r_pigeon_reduce_t">
+						减少
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>病残淘汰</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				
+				<view class="r_pigeon_add_i">
+					<text>屠宰</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>死亡</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>销售</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>转入飞棚</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				
+			</view>
+		</view>
+		<!-- 飞鹏仓 -->
+		<view v-if="queryData.name === '飞鹏仓'" class="">
+			<view class="records_breedingPigeon_modify">
+				<view class="records_breedingPigeon_modify_head">
+					<view class="records_breedingPigeon_modify_head_top">
+						<view class="records_breedingPigeon_modify_head_top_left">
+							<image src="../../static/daiban/ht_o.png" mode=""></image>
+							<view>飞鹏仓</view>
+						</view>
+						<view class="">
+							<text class="alarm">{{queryData.text}}</text>
+							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+						</view>
+					</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
+				</view>
+			</view>
+			<view class="r_pigeon_add">
+				<view class="add_box">
+					<view class="r_pigeon_add_c">
+					</view>
+					<view class="r_pigeon__t r_pigeon_add_t">
+						增加
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>育雏仓转入</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>转仓</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>生产仓转入</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+			</view>
+			<!-- 减少 -->
+			<view class="r_pigeon_add">
+				<view class="add_box">
+					<view class="r_pigeon_reduce_c">
+					</view>
+					<view class="r_pigeon__t r_pigeon_reduce_t">
+						减少
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>病残淘汰</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>屠宰</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>死亡</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>销售</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
+					<text>补入种鸽</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<view class="inputBox">
+							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<text>只</text>
+					</view>
+				</view>
+				
+			</view>
+		</view>
 		<!-- 保存按钮 -->
 		<view class="" style="height: 398rpx;">
 			<view class="records_save_btn" @click="saveRecord">
@@ -543,7 +789,7 @@
 		    @cancel="tipsBtn('cancel')" 
 		    @confirm="tipsBtn('confirm')">
 			<view class="" style="font-size: 28rpx;font-weight: 500;padding-bottom: 42rpx;">
-				今日剩余修改次数<text style="color: #377BE4;margin-left: 25rpx;">3</text>
+				今日剩余修改次数<text style="color: #377BE4;margin-left: 25rpx;">{{changeNumber}}</text>
 			</view>
 		</neil-modal>
 		<neil-modal
@@ -576,7 +822,9 @@
 
 <script>
 	import neilModal from '@/components/neil-modal/neil-modal.vue';
-	
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		 components: {neilModal},
 		data() {
@@ -596,7 +844,28 @@
 				defaultIndex: [0],
 				inpData:0,
 				pCShow:false,
-				type:'',
+				// 
+				queryData:{},
+				changeNumber:null,
+				dataForm:{
+					cage_id:null,
+					time:null,
+					dove_type:null,
+					added_wit:null,
+					conesting:null,
+					brood:null,
+					hatch:null,
+					breeding:null,
+					added_out:null,
+					replenish:null,
+					massacre:null,
+					death:null,
+					disease:null,
+					disease_sell:null,
+					dead_eggs:null,
+					sell:null,
+					shift_to:null,
+				}
 			};
 		},
 		methods: {
@@ -628,14 +897,34 @@
 			closesTipModal(){
 				
 			},
+			getFrequencyData(){
+				this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res)
+					this.changeNumber=res.data.frequency
+				}).catch((err)=>{
+					console.log(err)
+				})
+			}
 			
 		},
 		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
 			
 		},
-		onLoad(e) {
-			console.log(e)
-			this.type =e.query
+		created() {
+			this.getFrequencyData()
+
+		},
+		onLoad({query}) {
+			this.queryData = JSON.parse(query)
+			this.dataForm.cage_id=this.queryData.cage_id
+			this.dataForm.time=this.queryData.time
+			this.dataForm.uid=this.userInfo.id
+			this.dataForm.dove_type=this.queryData.name
+			console.log(query)
 		}
 	}
 </script>

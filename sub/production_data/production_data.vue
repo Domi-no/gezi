@@ -48,7 +48,7 @@
 								</view><text class="pd_pigeon_bt_state_num">{{i.disease}}</text>
 							</view>
 							<view class="pd_pigeon_bt_state pd_r_mr">
-								<view class="pd_pigeon_bt_state_text">
+								<view class="pd_pigeon_bt_state_text longText">
 									<text v-if="i.alias === '种鸽'">转出</text><text v-if="i.alias === '鸽蛋'">入库</text><text v-if="i.alias === '乳鸽'">出售</text><text v-if="i.alias === '童鸽'">转至飞棚</text>
 								</view>
 								<text class="pd_pigeon_bt_state_num">{{i.alias === '童鸽' ? i.shift_to : i.getout}}</text>
@@ -59,7 +59,7 @@
 								</view><text class="pd_pigeon_bt_state_num">{{i.death}}</text>
 							</view>
 							<view class="pd_pigeon_bt_state pd_r_mr" v-if="i.alias !== '童鸽'">
-								<view class="pd_pigeon_bt_state_text">
+								<view class="pd_pigeon_bt_state_text longText">
 									<text v-if="i.alias === '种鸽'">新增</text><text v-if="i.alias === '鸽蛋'">转入孵化机</text><text v-if="i.alias === '乳鸽'">孵化机转入</text>
 								</view>
 								<text class="pd_pigeon_bt_state_num">{{ i.alias === '种鸽' ? i.added_wit : i.shift_to}}</text>
@@ -344,7 +344,7 @@
 						.pd_pigeon_title_right_num {
 							font-size: 30rpx;
 							font-weight: 400;
-							color: #343434;
+							color: #377BE4;
 						}
 					}
 				}
@@ -352,44 +352,37 @@
 				.pd_pigeon_bt {
 					display: flex;
 					flex-wrap: wrap;
-					justify-content: space-between;
-
+					padding: 0 36rpx 0 11rpx;
 					.pd_pigeon_bt_state {
-						height: 44rpx;
+						width: 284rpx;
 						font-size: 22rpx;
 						color: #979797;
-
+						display: flex;
+						height: 51rpx;
+						line-height: 51rpx;
 						.pd_pigeon_bt_state_text {
-							width: 110rpx;
-							display: inline-block;
-							position: relative;
-
-							text {
-								position: absolute;
-								top: -26rpx;
-								right: 0;
-							}
-
-							.text_m {
-								margin-right: 55rpx;
-							}
+							min-width: 47rpx;
+						
 						}
-
+						.longText{
+							width: 121rpx;
+							text-align: right;
+						}
 						.pd_pigeon_bt_state_num {
 							font-size: 30rpx;
 							font-weight: 400;
 							color: #343434;
-							font-family: SimHei;
-							margin-left: 19rpx;
+							margin-left: 15rpx;
+							
 						}
 					}
 
 					.pd_r_mr {
-						margin-right: 200rpx;
+						
 					}
 
 					.pd_l_mr {
-						margin-right: 100rpx;
+						
 					}
 				}
 				.pd_pigeon_bt:nth-child(2){
@@ -402,7 +395,7 @@
 			}
 
 			.pd_bt {
-				height: 93rpx;
+				height: 99rpx;
 				padding: 1rpx 30rpx;
 				// border-radius: 0 0 20rpx 20rpx;
 				overflow: hidden;
@@ -430,6 +423,7 @@
 					font-size: 30rpx;
 					font-weight: 500;
 					color: #377BE4;
+					margin-top: 6rpx;
 				}
 				text{
 					float: right;

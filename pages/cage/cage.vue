@@ -25,11 +25,9 @@
 				<view class="_pigeon_type" v-if="i.alias === '种鸽'" >
 					<view class="_pigeon_type_top">
 						<view class="_pigeon_type_top_left">
-							<view class="">
 								<!-- 种鸽 -->
 								<image src="../../static/daiban/ht_p.png" mode="" ></image>
 								
-							</view>
 							<view class="_pigeon_type_top_left_zg">{{i.alias}}</view>
 							<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
 						</view>
@@ -198,7 +196,7 @@
 					</view>
 				</view>
 			</view>
-			<view class="" v-if="!calendarList" style="text-align: center;margin-top: 200rpx;">
+			<view class="" v-if="!calendarList.length" style="text-align: center;margin-top: 200rpx;">
 				暂无今日数据
 			</view>
 		</view>
@@ -280,10 +278,11 @@
 				
 			},
 			getCalendarData(){
-				this.$http.post('/CageData/calendar.html',{uid:this.userInfo.id,time:this.today})
+				this.$http.post('/CageData/calendar.html',{uid:this.userInfo.id,time:this.time})
 				.then((res)=>{
-					console.log(res)
+					
 					this.calendarList=res.data
+					console.log(this.calendarList)
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -405,22 +404,26 @@
 			border-radius: 20rpx;
 			margin: 30rpx auto 0;
 			._pigeon_type_top {
-				
+				position: relative;
 				height: 76rpx;
 				border-bottom: 2rpx solid #e4e5e9;
 				display: flex;
 				justify-content: space-between;
-				padding: 0rpx 30rpx 0;
+				padding-left: 20rpx;
+				padding-right: 30rpx;
 				font-weight: 500;
 				line-height: 76rpx;
 				._pigeon_type_top_left {
-					
+					height: 76rpx;
 					display: flex;
+					position: relative;
 					image{
 						width: 40rpx;
 						height: 40rpx;
-						
-						margin:auto 12rpx auto 0;
+						margin-right: 12rpx;
+						position: relative;
+						top: 50%;
+						transform: translateY(-50%);
 					}
 					._pigeon_type_top_left_zg {
 						font-size: 30rpx;
@@ -456,7 +459,7 @@
 					._pigeon_type_top_right_num {
 						font-size: 30rpx;
 						color: #343434;
-						font-weight: 300;
+						font-weight: 400;
 					}
 				}
 		
@@ -464,35 +467,27 @@
 			._pigeon_type_bt {
 				display: flex;
 				flex-wrap: wrap;
-				justify-content: space-between;
-				padding: 30rpx;
+				// justify-content: space-between;
 			
 				._pigeon_type_bt_item {
-					height: 52rpx;
+					height: 66rpx;
 					font-size: 22rpx;
-					margin-right: 125rpx;
 					font-weight: 500;
 					color: #979797;
+					line-height: 66rpx;
+					display: flex;
 					._pigeon_type_bt_item_text{
-						width: 120rpx;
-						display: inline-block;
-						position: relative;
-						text{
-							position: absolute;
-							top:-26rpx;
-							right: 0;
-						}
+						width: 115rpx;
+						text-align: right;
 					}
 					._pigeon_type_bt_item_num {
 						font-size: 30rpx;
 						font-weight: 400;
 						color: #343434;
-						font-family: SimHei;
-						margin-left: 19rpx;
+						width: 200rpx;
+						margin-left: 12rpx;
 					}
-					.leftBox{
-						width: 100rpx !important;
-					}
+					
 				}
 			}
 		

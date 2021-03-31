@@ -8,19 +8,18 @@
 					<text v-else class="untreated">未处理!</text>	
 				</view>
 				<!-- 判断数据是否有需补足和死淘  不同仓库需要上边框-->
-				<view class="alert_content">
-					<view class="a_containe_detail" v-for="(i,idx) in item.data[0].chData" :key="idx">
-						<view class="a_containe_detail_bc" v-if="i['鸽蛋需补足']">
-							<text>种鸽需补充！</text><text>{{i['鸽蛋需补足'].block_name}}</text><text>鸽笼编号：</text><text>{{i['鸽蛋需补足'].name}}</text>
+				<view class="alert_content" v-for="(i,idx) in item.data" :key="idx">
+					<view class="a_containe_detail" v-for="(ite,inde) in i.chData" :key="inde">
+						<view class="a_containe_detail_bc" >
+							<text>种鸽需补充</text><text>{{i.chName}}</text><text>鸽笼编号：{{ite.glData['鸽蛋需补足'].name}}</text><text></text>
 						</view>
-						<view class="a_containe_detail_st" v-if="i['死淘异常']">
-							<view class="a_containe_detail_st_title">
-								<text>死淘异常！</text><text>仓号3</text><text>组号：</text><text>52</text>
+						<view class="a_containe_detail_st">
+							<view class="a_containe_detail_st_title" v-if="ite.glData['死淘异常']">
+								<text>死淘异常</text><text>{{i.chName}}</text><text>鸽笼编号：</text><text>{{ite.glName}}</text>
 							</view>
-							<view class="a_containe_detail_st_gz" v-for="(ite,inde) in i.glData['死淘异常']" :key="ite">
-								<text>种鸽需补充！</text><text>{{ite.alias}}</text><text>死淘率{{ite.ratio}}</text><text>{{ite.death}}只</text>
+							<view class="a_containe_detail_st_gz" v-for="(it,ind) in ite.glData['死淘异常']" :key="ind">
+								<text>种鸽需补充</text><text>{{it.alias}}</text><text>死淘率{{it.ratio}}</text><text>{{it.death}}只</text>
 							</view>
-							
 						</view>
 					</view>
 				</view>
@@ -125,37 +124,42 @@
 					.a_containe_detail_bc{
 						height: 84rpx;
 						line-height: 84rpx;
+						display: flex;
 						color: #343434;
 						text:first-child{
 							color: #e64329;
 						}
 						text:nth-child(2){
-							margin: 0 60rpx;
+							min-width: 154rpx;
+							margin: 0 0 0 60rpx;
 						}
 					}
 					.a_containe_detail_st{
 						.a_containe_detail_st_title{
 							height: 57rpx;
 							color: #343434;
+							display: flex;
 							text:first-child{
 								color: #e64329;
 								margin-right: 28rpx;
 							}
 							text:nth-child(2){
-								margin: 0 60rpx;
+								min-width: 154rpx;
+								margin: 0 0 0 60rpx;
 							}
 						}
 						.a_containe_detail_st_gz{
 							height: 56rpx;
+							display: flex;
 							text:first-child{
 								visibility:hidden;
 							}
 							text:nth-child(2){
-								margin: 0 63rpx;
+								min-width: 154rpx;
+								margin: 0 0 0 60rpx;
 							}
 							text:nth-child(3){
-								margin-left: 12rpx;
-								margin-right: 60rpx;
+								min-width: 225rpx;
 							}
 						}
 					}
