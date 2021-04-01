@@ -50,17 +50,20 @@
 				this.$http.post('/CageData/callPolice.html', {uid: this.userInfo.id})
 				.then((res) => {
 					Object.keys(res.data).forEach((value, index)=>{
-			
+			console.log(1)
 						this.alarmList.push({time:value,data:[]})
 						
 						Object.keys(res.data[value]).forEach((val, ind)=>{
-			
-							this.alarmList[index].data=[]
+			console.log(2)
+							// this.alarmList[index].data=[]
 							this.alarmList[index].data.push({chName:val,chData:[]})
 			
 							Object.keys(res.data[value][val]).forEach((valu, inde)=>{
+								console.log(res.data[value][val][valu])
+								console.log(valu)
 								this.alarmList[index].data[ind].chData.push({glName:valu,glData:res.data[value][val][valu]})
-								
+							console.log(3)	
+							console.log(this.alarmList)
 							});
 						});
 					});

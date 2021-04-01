@@ -1,7 +1,7 @@
 <template >
 	<view class="productionWarehouseChangeContainer">
-		<view class="records_top">
-			<view class="records_top_i">
+		<view class="records_top" v-if="queryData.name !== '育雏仓'&& queryData.name !== '飞棚'" >
+			<view class="records_top_i" >
 				<text class="records_top_i_left">仓号</text>
 				<view class="records_top_i_right">
 					<text class="records_top_i_right_text">{{queryData.groupNumber}}</text>
@@ -17,6 +17,25 @@
 			</view>
 			<view class="records_top_i">
 				<text class="records_top_i_left">日期</text><text class="records_top_i_right">{{queryData.time}}</text>
+			</view>
+		</view>
+		<view class="records_top" v-else>
+			<view class="records_top_i" @click="otherWNPopupShow">
+				<text class="records_top_i_left">仓号</text>
+				<view class="records_top_i_right">
+					<text class="records_top_i_right_text">{{queryData.groupNumber}}</text>
+					<image src="../../static/report/report_zk.png" mode=""></image>
+				</view>
+			</view>
+			<view class="records_top_i" v-if="queryData.name !== '飞棚'" @click="otherNumberPopupShow">
+				<text class="records_top_i_left">鸽笼编号</text>
+				<view class="records_top_i_right" @click="pigeonCageShow">
+					<text class="records_top_i_right_text">{{queryData.warehouseNumber}}</text>
+					<image src="../../static/report/report_zk.png" mode=""></image>
+				</view>
+			</view>
+			<view class="records_top_i">
+				<text class="records_top_i_left">日期</text><text class="records_top_i_right">{{dataForm.time}}</text>
 			</view>
 		</view>
 		
@@ -48,44 +67,44 @@
 				<view class="r_pigeon_add_i">
 					<text>新增(外购)</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('added_out','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.added_out" @input="added_outChange" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'added_out')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('added_out','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>新增(自繁)</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('added_wit','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.added_wit" @input="added_witChange" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'added_wit')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('added_wit','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>补仓</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('replenish','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.replenish" @input="replenishChange" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'replenish')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('replenish','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>并窝</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('conesting','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.conesting"  @input="conestingChange" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'conesting')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('conesting','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -102,55 +121,55 @@
 				<view class="r_pigeon_add_i">
 					<text>病残淘汰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease" @input="diseaseChange" class="r_red" type="number" @blur="onBlur($event,'disease')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>病残销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease_sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease_sell" @input="disease_sellChange" class="r_red" type="number" @blur="onBlur($event,'disease_sell')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease_sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>屠宰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('massacre','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.massacre" @input="massacreChange" class="r_red" type="number" @blur="onBlur($event,'massacre')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('massacre','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>死亡</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('death','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.death" @input="deathChange" class="r_red" type="number" @blur="onBlur($event,'death')"/>
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('death','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.sell" @input="sellChange" class="r_red" type="number" @blur="onBlur($event,'sell')"/>
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -186,22 +205,22 @@
 				<view class="r_pigeon_add_i">
 					<text>新生</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('added_wit','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.added_wit" @input="added_witChange" class="r_bule" type="number" @blur="onBlur($event,'added_wit')"/>
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('added_wit','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>拼窝</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('conesting','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.conesting" @input="conestingChange"  class="r_bule" type="number" @blur="onBlur($event,'conesting')"/>
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('conesting','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
@@ -219,66 +238,66 @@
 				<view class="r_pigeon_add_i">
 					<text>破损</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('massacre','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.massacre" @input="massacreChange"  class="r_red" type="number" @blur="onBlur($event,'massacre')"/>
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('massacre','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>臭蛋</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('death','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.death" @input="deathChange"  class="r_red" type="number" @blur="onBlur($event,'death')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('death','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>残次蛋</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease" @input="diseaseChange"  class="r_red" type="number" @blur="onBlur($event,'disease')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>无精蛋</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease_sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease_sell" @input="disease_sellChange"  class="r_red" type="number" @blur="onBlur($event,'disease_sell')"/>
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease_sell','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>死精蛋</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('dead_eggs','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.dead_eggs" @input="dead_eggsChange"  class="r_red" type="number" @blur="onBlur($event,'dead_eggs')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('dead_eggs','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>转入孵化机</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('shift_to','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.shift_to" @input="shift_toChange"  class="r_red" type="number" @blur="onBlur($event,'shift_to')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('shift_to','add')"></image>
 						<text>枚</text>
 					</view>
 				</view>
@@ -313,33 +332,33 @@
 				<view class="r_pigeon_add_i">
 					<text>出雏</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('brood','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.brood" @input="broodChange"  :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'brood')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('brood','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>并窝</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('conesting','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.conesting" @input="conestingChange"  :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'conesting')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('conesting','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
-					<text>转入孵化机</text>
+					<text>孵化机转入</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('hatch','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.hatch" @input="hatchChange"  :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'hatch')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('hatch','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -357,55 +376,55 @@
 				<view class="r_pigeon_add_i">
 					<text>病残淘汰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease" @input="diseaseChange"  class="r_red" type="number" @blur="onBlur($event,'disease')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>病残销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease_sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease_sell" @input="disease_sellChange"  class="r_red" type="number" @blur="onBlur($event,'disease_sell')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease_sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>屠宰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('massacre','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.massacre" @input="massacreChange"  class="r_red" type="number" @blur="onBlur($event,'massacre')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('massacre','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>死亡</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('death','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.death" @input="deathChange"  class="r_red" type="number" @blur="onBlur($event,'death')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('death','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.sell" @input="sellChange"  class="r_red" type="number" @blur="onBlur($event,'sell')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -441,11 +460,11 @@
 				<view class="r_pigeon_add_i">
 					<text>选育</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('breeding','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.breeding" @input="breedingChange"  :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'breeding')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('breeding','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -464,66 +483,66 @@
 				<view class="r_pigeon_add_i">
 					<text>病残淘汰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease" @input="diseaseChange"  class="r_red" type="number" @blur="onBlur($event,'disease')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>病残销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease_sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease_sell" @input="disease_sellChange"  class="r_red" type="number" @blur="onBlur($event,'disease_sell')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease_sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>屠宰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('massacre','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.massacre" @input="massacreChange"  class="r_red" type="number" @blur="onBlur($event,'massacre')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('massacre','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>死亡</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('death','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.death" @input="deathChange"  class="r_red" type="number" @blur="onBlur($event,'death')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('death','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.sell" @input="sellChange"  class="r_red" type="number" @blur="onBlur($event,'sell')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>转入育雏室</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('shift_to','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.shift_to" @input="shift_toChange"  class="r_red" type="number" @blur="onBlur($event,'shift_to')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('shift_to','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -544,7 +563,7 @@
 							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
 						</view>
 					</view>
-					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num||0}}</text>只</view>
 				</view>
 			</view>
 			<view class="r_pigeon_add">
@@ -558,11 +577,11 @@
 				<view class="r_pigeon_add_i">
 					<text>生产仓转入</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('hatch','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.hatch" @input="hatchChange"  :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'hatch')"/>
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('hatch','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -581,11 +600,11 @@
 				<view class="r_pigeon_add_i">
 					<text>病残淘汰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease" @input="diseaseChange" class="r_red" type="number" @blur="onBlur($event,'disease')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -593,44 +612,44 @@
 				<view class="r_pigeon_add_i">
 					<text>屠宰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('massacre','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.massacre" @input="massacreChange" class="r_red" type="number" @blur="onBlur($event,'massacre')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('massacre','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>死亡</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('death','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.death" @input="deathChange" class="r_red" type="number" @blur="onBlur($event,'death')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('death','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.sell" @input="sellChange" class="r_red" type="number" @blur="onBlur($event,'sell')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>转入飞棚</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('shift_to','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.shift_to" @input="shift_toChange" class="r_red" type="number" @blur="onBlur($event,'shift_to')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('shift_to','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -638,20 +657,20 @@
 			</view>
 		</view>
 		<!-- 飞鹏仓 -->
-		<view v-if="queryData.name === '飞鹏仓'" class="">
+		<view v-if="queryData.name === '飞棚'" class="">
 			<view class="records_breedingPigeon_modify">
 				<view class="records_breedingPigeon_modify_head">
 					<view class="records_breedingPigeon_modify_head_top">
 						<view class="records_breedingPigeon_modify_head_top_left">
-							<image src="../../static/daiban/ht_o.png" mode=""></image>
-							<view>飞鹏仓</view>
+							<image src="../../static/daiban/ht_qng.png" mode=""></image>
+							<view>飞棚管理仓</view>
 						</view>
 						<view class="">
 							<text class="alarm">{{queryData.text}}</text>
 							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
 						</view>
 					</view>
-					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
+					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num||0}}</text>只</view>
 				</view>
 			</view>
 			<view class="r_pigeon_add">
@@ -665,33 +684,33 @@
 				<view class="r_pigeon_add_i">
 					<text>育雏仓转入</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('brood','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.brood" @input="broodChange" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'brood')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('brood','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>转仓</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('replenish','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.replenish" @input="replenishChange" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'replenish')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('replenish','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>生产仓转入</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('hatch','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.hatch" @input="hatchChange" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur($event,'hatch')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('hatch','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -708,55 +727,55 @@
 				<view class="r_pigeon_add_i">
 					<text>病残淘汰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('disease','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.disease" @input="diseaseChange" class="r_red" type="number" @blur="onBlur($event,'disease')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('disease','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>屠宰</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('massacre','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.massacre" @input="massacreChange" class="r_red" type="number" @blur="onBlur($event,'massacre')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('massacre','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>死亡</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('death','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.death" @input="deathChange" class="r_red" type="number" @blur="onBlur($event,'death')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('death','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>销售</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('sell','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.sell" @input="sellChange" class="r_red" type="number" @blur="onBlur($event,'sell')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('sell','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
 					<text>补入种鸽</text>
 					<view class="r_pigeon_add_i_right">
-						<image class="jianhao" src="../../static/cage/jian.png" mode=""></image>
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('shift_to','reduce')"></image>
 						<view class="inputBox">
-							<input ref="inp" v-model="inpData" :class="inpData-0?'r_bule':'r_bule'" type="number" @blur="onBlur" maxlength="4"/>
+							<input ref="inp" :value="dataForm.shift_to" @input="shift_toChange" class="r_red" type="number" @blur="onBlur($event,'shift_to')" />
 						</view>
-						<image class="jiahao" src="../../static/cage/jia.png" mode=""></image>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('shift_to','add')"></image>
 						<text>只</text>
 					</view>
 				</view>
@@ -776,7 +795,7 @@
 			:align="'center'"
 		    title="" 
 		    content="确定提交日记录？"
-		    @cancel="saveBtn('cancel')" 
+		    @cancel="cancelBtn('cancel')" 
 		    @confirm="saveBtn('confirm')">
 		</neil-modal>
 		<neil-modal
@@ -793,14 +812,14 @@
 			</view>
 		</neil-modal>
 		<neil-modal
-		    :show="false" 
+		    :show="alarShow" 
 		    @close="closeWarningModal" 
 			:cancel-color="'#E64329'"
 			:cancel-text="'取消修改'"
 			:confirm-text="'好的'"
 		    title="异常警报" 
 		    content=""
-		    @cancel="warningBtn('cancel')" 
+		    @cancel="warningCBtn('cancel')" 
 		    @confirm="warningBtn('confirm')">
 			<view class="" style="padding-bottom: 50rpx;">
 				<view class="warningBox" style="display:felx;">
@@ -817,16 +836,23 @@
 				</view>
 			</view>
 		</neil-modal>
+		<lb-picker ref="pRWarehouse"   :list="nurtureData"  :props="myProps" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		<lb-picker ref="gelongbianhao" :list="otherGelongList" radius="20rpx" :props="myProps" confirm-color="#377BE4" @confirm='gelongChange'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
 	</view>
 </template>
 
 <script>
+	import LbPicker from '@/components/lb-picker'
 	import neilModal from '@/components/neil-modal/neil-modal.vue';
 	import {
 		mapState
 	} from 'vuex'
 	export default {
-		 components: {neilModal},
+		 components: {neilModal,LbPicker},
 		data() {
 			return {
 				saveModalShow: false,
@@ -845,36 +871,55 @@
 				inpData:0,
 				pCShow:false,
 				// 
-				queryData:{},
+				queryData:{
+					groupNumber:'请选择',
+					warehouseNumber:'请选择',
+					
+				},
 				changeNumber:null,
 				dataForm:{
 					cage_id:null,
 					time:null,
 					dove_type:null,
-					added_wit:null,
-					conesting:null,
-					brood:null,
-					hatch:null,
-					breeding:null,
-					added_out:null,
-					replenish:null,
-					massacre:null,
-					death:null,
-					disease:null,
-					disease_sell:null,
-					dead_eggs:null,
-					sell:null,
-					shift_to:null,
-				}
+					added_wit:0,
+					conesting:0,
+					brood:0,
+					hatch:0,
+					breeding:0,
+					added_out:0,
+					replenish:0,
+					massacre:0,
+					death:0,
+					disease:0,
+					disease_sell:0,
+					dead_eggs:0,
+					sell:0,
+					shift_to:0,
+				},
+				nurtureData:[],
+				feipengData:[],
+				myProps: {
+				     label: 'name',
+				     value: 'cage_id',
+					 id:'survival'
+				},
+				otherlist:[],
+				otherGelongList:[],
+				subAlarmData:[],
+				alarShow:false
+				
 			};
 		},
 		methods: {
 			// dialog
 			
-			onBlur(e){	
+			onBlur({detail:{value}},data){	
+				console.log(value,data)
+				value === '' ? this.dataForm[data] = 0 :''
 			},
 			saveRecord(){
 				this.saveModalShow=true
+				
 			},
 			pigeonCageShow(){
 				this.pCShow=true
@@ -884,6 +929,62 @@
 			},
 			saveBtn(e){
 				console.log(e)
+				if(!this.dataForm.cage_id && this.queryData.name == "飞棚"){
+					uni.showToast({
+						title: '请选择仓号',
+						icon: 'none'
+					})
+					return false 
+				}else if(!this.dataForm.cage_id && this.queryData.name == "育雏仓"){
+					uni.showToast({
+						title: '请选择鸽笼编号',
+						icon: 'none'
+					})
+					return false 
+				}
+				
+				this.$http.post('/CageData/DiaryAdd.html',{...this.dataForm})
+				.then((res)=>{
+					console.log(res)
+					if(res.data.type === 1){
+						console.log(JSON.stringify(res.data.data))
+						Object.keys(res.data.data).forEach((value, index)=>{
+							this.subAlarmData.push({time:value,data:[]})
+							
+							Object.keys(res.data.data[value]).forEach((val, ind)=>{
+										
+								this.subAlarmData[index].data=[]
+								this.subAlarmData[index].data.push({chName:val,chData:[]})
+										
+								Object.keys(res.data.data[value][val]).forEach((valu, inde)=>{
+									this.subAlarmData[index].data[ind].chData.push({glName:valu,glData:res.data.data[value][val][valu]})
+									
+								});
+							});
+						});
+						this.alarShow=true
+					}
+					if(res.code != 200){
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						})
+					}
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			cancelBtn(e){
+				console.log(e)
+			},
+			numberChange(data,methods){
+				if(methods === 'reduce'){
+					this.dataForm[data] <= 0 ? 0 : this.dataForm[data]--
+				}else if(methods === 'add'){
+					this.dataForm[data]++
+				}
+				
+				console.log(data,methods)
 			},
 			closeSaveModal(e){
 				this.saveModalShow=false
@@ -897,11 +998,139 @@
 			closesTipModal(){
 				
 			},
+			// 
+			warningBtn(){
+				this.alarShow=false
+			},
+			warningCBtn(){
+				this.alarShow=false
+			},
+			pRWarehouseChange(e){
+				
+				this.queryData.groupNumber=e.item.name
+				this.otherGelongList=e.item.children
+				if(this.queryData.name==='飞棚'){
+					console.log(1)
+					this.queryData.num=e.item.children[0].num
+					this.queryData.text=e.item.children[0].text
+					this.queryData.ageday=e.item.children[0].ageday
+					this.dataForm.cage_id=e.item.children[0].cage_id
+				}
+				console.log(e)
+			},
+			gelongChange(e){
+				console.log(e.item)
+				this.dataForm.cage_id=e.item.cage_id
+				this.queryData.warehouseNumber=e.item.name
+				this.queryData.num=e.item.num
+				this.queryData.text=e.item.text
+				this.queryData.ageday=e.item.ageday
+			},
+			otherWNPopupShow(){
+				this.$refs.pRWarehouse.show()
+			},
+			otherNumberPopupShow(){
+				this.$refs.gelongbianhao.show()
+			},
+			shift_toChange({detail:{value}}){
+				this.dataForm.shift_to=parseInt(value.trim())
+			},
+			sellChange({detail:{value}}){
+				this.dataForm.sell=parseInt(value.trim())
+			},
+			dead_eggsChange({detail:{value}}){
+				this.dataForm.dead_eggs=parseInt(value.trim())
+			},
+			disease_sellChange({detail:{value}}){
+				this.dataForm.disease_sell=parseInt(value.trim())
+			},
+			diseaseChange({detail:{value}}){
+				this.dataForm.disease=parseInt(value.trim())
+			},
+			deathChange({detail:{value}}){
+				this.dataForm.death=parseInt(value.trim())
+			},
+			massacreChange({detail:{value}}){
+				this.dataForm.massacre=parseInt(value.trim())
+			},
+			replenishChange({detail:{value}}){
+				this.dataForm.replenish=parseInt(value.trim())
+			},
+			added_outChange({detail:{value}}){
+				this.dataForm.added_out=parseInt(value.trim())
+			},
+			breedingChange({detail:{value}}){
+				this.dataForm.breeding=parseInt(value.trim())
+			},
+			hatchChange({detail:{value}}){
+				this.dataForm.hatch=parseInt(value.trim())
+			},
+			broodChange({detail:{value}}){
+				this.dataForm.brood=parseInt(value.trim())
+			},
+			conestingChange({detail:{value}}){
+				this.dataForm.conesting=parseInt(value.trim())
+			},
+			added_witChange({detail:{value}}){
+				this.dataForm.added_wit=parseInt(value.trim())
+			},
 			getFrequencyData(){
 				this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
 					this.changeNumber=res.data.frequency
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				this.dataForm.time=times
+					
+			},
+			getNurtureData(){
+				this.$http.post('/CageData/nurture.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res)
+					Object.keys(res.data).forEach((value, index)=>{
+						console.log(value, index,res.data[value]);
+						this.nurtureData.push({name:value,children:[]})
+						Object.keys(res.data[value]).forEach((valu, inde)=>{
+							console.log(valu, inde,res.data[value][valu])
+							// this.list.push({name:value,children:res.data[value]})
+						this.nurtureData[index].children.push({name:valu,cage_id:res.data[value][valu].cage_id,num:res.data[value][valu].survival,ageday:res.data[value][valu].ageday,text:res.data[value][valu].text})
+							// this.warehouseList.push({name:value,children:res.data[value]})
+						});
+							
+						// this.warehouseList.push({name:value,children:res.data[value]})
+					});
+					console.log(this.nurtureData)
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			getFeipengData(){
+				this.$http.post('/CageData/Feipeng.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res)
+					Object.keys(res.data).forEach((value, index)=>{
+						console.log(value, index,res.data[value]);
+						this.nurtureData.push({name:value,children:[]})
+						Object.keys(res.data[value]).forEach((valu, inde)=>{
+							console.log(valu, inde,res.data[value][valu])
+							// this.list.push({name:value,children:res.data[value]})
+						this.nurtureData[index].children.push({name:valu,cage_id:res.data[value][valu].cage_id,num:res.data[value][valu].survival,ageday:res.data[value][valu].ageday,text:res.data[value][valu].text})
+							// this.warehouseList.push({name:value,children:res.data[value]})
+						});
+							
+						// this.warehouseList.push({name:value,children:res.data[value]})
+					});
+					console.log(this.nurtureData)
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -916,15 +1145,31 @@
 		},
 		created() {
 			this.getFrequencyData()
-
+			this.getToday()
+			if(this.queryData.name==='飞棚'){
+			
+				this.getFeipengData()
+				
+			}else if(this.queryData.name ==='育雏仓'){
+					this.getNurtureData()
+					
+			}
 		},
 		onLoad({query}) {
-			this.queryData = JSON.parse(query)
-			this.dataForm.cage_id=this.queryData.cage_id
-			this.dataForm.time=this.queryData.time
-			this.dataForm.uid=this.userInfo.id
-			this.dataForm.dove_type=this.queryData.name
-			console.log(query)
+			
+			if(query&&JSON.parse(query).cage_id){
+				console.log(1)
+				this.queryData = JSON.parse(query)
+				this.dataForm.cage_id=this.queryData.cage_id
+				this.dataForm.uid=6
+				this.dataForm.dove_type=this.queryData.name
+				console.log(query)
+			}else{
+				this.queryData.name=JSON.parse(query)
+				this.queryData.name === '飞棚'? this.dataForm.dove_type='青年鸽' :''
+				this.queryData.name === '育雏仓'? this.dataForm.dove_type='童鸽' :''
+				console.log(this.queryData.name)
+			}
 		}
 	}
 </script>
@@ -1044,7 +1289,7 @@
 			justify-content: space-between;
 	
 			.records_breedingPigeon_modify_head_top_left {
-				width: 117rpx;
+				min-width: 117rpx;
 				display: flex;
 				justify-content: space-between;
 				font-size: 30rpx;
@@ -1054,6 +1299,7 @@
 					width: 40rpx;
 					height: 40rpx;
 					// background-color: #afc;
+					margin-right: 16rpx;
 				}
 			}
 	

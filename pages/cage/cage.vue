@@ -81,7 +81,7 @@
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text">
 								<text>入库</text>
-							</view><text class="_pigeon_type_bt_item_num">{{i.getout}}</text>
+							</view><text class="_pigeon_type_bt_item_num">{{i.added_wit}}</text>
 						</view>
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text leftBox">
@@ -117,7 +117,7 @@
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text">
 								<text>出售</text>
-							</view><text class="_pigeon_type_bt_item_num">{{i.getout}}</text>
+							</view><text class="_pigeon_type_bt_item_num">{{i.sell}}</text>
 						</view>
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text leftBox">
@@ -231,12 +231,12 @@
 						text: '生产仓管理'
 					},
 					{
-						url: '/sub/production_records/production_records',
+						url: '/sub/production_warehouse_change/production_warehouse_change?query='+JSON.stringify('育雏仓'),
 						pic: '../../static/cage/yccgl.png',
 						text: '育雏仓管理'
 					},
 					{
-						url: '/sub/production_records/production_records',
+						url: '/sub/production_warehouse_change/production_warehouse_change?query='+JSON.stringify('飞棚'),
 						pic: '../../static/cage/fpcgl.png',
 						text: '飞棚仓管理'
 					}

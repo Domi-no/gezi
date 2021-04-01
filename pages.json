@@ -370,7 +370,7 @@
                    "path" : "production_warehouse_change/production_warehouse_change",
                    "style" :                                                                                    
                {
-                   "navigationBarTitleText": "",
+                   "navigationBarTitleText": "日记录",
                    "enablePullDownRefresh": false
                }
                

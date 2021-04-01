@@ -76,7 +76,7 @@
 					<view class="_pigeon_type_bt_item">
 						<view class="_pigeon_type_bt_item_text">
 							<text>入库</text>
-						</view><text class="_pigeon_type_bt_item_num">{{i.getout}}</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.added_wit}}</text>
 					</view>
 					<view class="_pigeon_type_bt_item">
 						<view class="_pigeon_type_bt_item_text leftBox">
@@ -112,7 +112,7 @@
 					<view class="_pigeon_type_bt_item">
 						<view class="_pigeon_type_bt_item_text">
 							<text>出售</text>
-						</view><text class="_pigeon_type_bt_item_num">{{i.getout}}</text>
+						</view><text class="_pigeon_type_bt_item_num">{{i.sell}}</text>
 					</view>
 					<view class="_pigeon_type_bt_item">
 						<view class="_pigeon_type_bt_item_text leftBox">
