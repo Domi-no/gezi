@@ -815,24 +815,27 @@
 		    :show="alarShow" 
 		    @close="closeWarningModal" 
 			:cancel-color="'#E64329'"
-			:cancel-text="'取消修改'"
+			:cancel-text="'修改记录'"
 			:confirm-text="'好的'"
 		    title="异常警报" 
 		    content=""
 		    @cancel="warningCBtn('cancel')" 
 		    @confirm="warningBtn('confirm')">
-			<view class="" style="padding-bottom: 50rpx;">
-				<view class="warningBox" style="display:felx;">
-					<text style="width:168rpx;display: inline-block;color: #E64329;">种鸽需补足</text><text>生产仓122</text><text style="margin-left: 29rpx;" >编号：212</text>
-				</view>
-				<view class="warningBox" style="display: flex;margin-top: 10rpx;">
-					<text style="width: 168rpx;display: inline-block;color: #E64329;">死淘异常</text><text >生产仓122</text><text style="margin-left: 29rpx;">编号：212</text>
-				</view>
-				<view class="warningBox" style="text-align: right;margin-top: 5rpx;">
-					<text style="margin-right: 99rpx;">种鸽</text><text style="margin-right: 49rpx;">死淘率6%</text><text>20只</text>
-				</view>
-				<view class="warningBox" style="text-align: right;margin-top: 5rpx;">
-					<text style="margin-right: 99rpx;">种鸽</text><text style="margin-right: 49rpx;">死淘率6%</text><text>20只</text>
+			<view class="" style="padding-bottom: 50rpx;"  >
+				<view class="" v-if="subAlarmData[0]">
+					<view class="warningBox" style="" v-if="subAlarmData[0].data[0].chData[0].glData['鸽蛋需补足']">
+						<text style="width:148rpx;color: #E64329;">种鸽需补足</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="" >编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+					</view>
+					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['死淘异常']">
+					<view class="warningBox" style="flex;margin-top: 10rpx;">
+						<text style="width: 148rpx;color: #E64329;">死淘异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+					</view>
+					
+						<view class="warningBox" style="margin-top: 5rpx;" v-for="(item,index) in subAlarmData[0].data[0].chData[0].glData['死淘异常']" :key="index">
+							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{item.alias}}</text><text style="">{{'死淘率'+item.ratio}}</text><text style="margin-left: 20rpx;">{{item.death}}只</text>
+						</view>
+					</view>
+
 				</view>
 			</view>
 		</neil-modal>
@@ -943,7 +946,7 @@
 					return false 
 				}
 				
-				this.$http.post('/CageData/DiaryAdd.html',{...this.dataForm})
+				this.$http.post('/CageData/DiaryAdd.html',{uid:this.userInfo.id,...this.dataForm})
 				.then((res)=>{
 					console.log(res)
 					if(res.data.type === 1){
@@ -953,7 +956,7 @@
 							
 							Object.keys(res.data.data[value]).forEach((val, ind)=>{
 										
-								this.subAlarmData[index].data=[]
+								// this.subAlarmData[index].data=[]
 								this.subAlarmData[index].data.push({chName:val,chData:[]})
 										
 								Object.keys(res.data.data[value][val]).forEach((valu, inde)=>{
@@ -963,6 +966,7 @@
 							});
 						});
 						this.alarShow=true
+						console.log(this.subAlarmData[0])
 					}
 					if(res.code != 200){
 						uni.showToast({
@@ -1001,6 +1005,9 @@
 			// 
 			warningBtn(){
 				this.alarShow=false
+				uni.navigateBack({
+				    delta: 1
+				});
 			},
 			warningCBtn(){
 				this.alarShow=false
@@ -1161,7 +1168,7 @@
 				console.log(1)
 				this.queryData = JSON.parse(query)
 				this.dataForm.cage_id=this.queryData.cage_id
-				this.dataForm.uid=6
+				this.dataForm.uid=this.userInfo.id
 				this.dataForm.dove_type=this.queryData.name
 				console.log(query)
 			}else{
@@ -1452,6 +1459,7 @@
 	.warningBox{
 		padding: 0 30rpx;
 		font-size: 24rpx !important;
+		display: flex;
 	}
 	
 	

@@ -17,6 +17,15 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
+	
+	let isSub =''
+	let src =[]
+	let fSrc=''
+	let optionData=''
+	let imglength =0
 export default {
 	data() {
 		return {
@@ -31,7 +40,7 @@ export default {
 		// 服务器url
 		url: {
 			type: String,
-			default: 'https://a3.dns06.net.cn/app/index.php?i=2&c=entry&a=wxapp&do=Upload_qiniu_b&m=jzwx_a'
+			default: ''
 		},
 		// 上传样式宽高
 		upload_img_wh: {
@@ -69,30 +78,40 @@ export default {
 		header: {
 			type: Object,
 			default: () => {
-				return {};
+				return {
+					
+				};
 			}
 		}
 	},
 	async created() {
+		console.log(6)
 		let _self = this;
+		console.log(this.upload_before_list)
+		console.log(this.upload_cache_list)
 		setTimeout(() => {
 			this.upload_before_list = this.upload_before_list.concat(this.upimg_preview);
 			this.upload_len = this.upload_before_list.length;
+			
 			this.upimg_preview.map(item => {
 				// step2.这里修改服务器返回字段 ！！！
 				this.upload_cache_list.push(item.path);
 			});
 			this.emit();
 		}, this.upimg_delaytime);
+		
 	},
 	methods: {
 		upImage(paths,header) {
+			console.log(5)
 			let _self = this;
+			console.log(paths)
 			const promises = paths.map(function(path) {
+				console.log(path)
 				return promisify(upload)({
 					url: _self.url,
 					path: path,
-					name: 'file',
+					name: 'file[]',
 					extra: header,
 					_self: _self
 				});
@@ -107,12 +126,14 @@ export default {
 					uni.hideLoading();
 					_self.upload_cache_list.push(...data);
 					_self.emit();
+					console.log(data)
 				})
 				.catch(function(res) {
 					uni.hideLoading();
 				});
 		},
 		chooseImage() {
+			console.log(1)
 			let _self = this;
 			uni.chooseImage({
 				count: _self.upload_count - _self.upload_before_list.length,
@@ -120,28 +141,40 @@ export default {
 				sourceType: ['album', 'camera'],
 				success: function(res) {
 					for (let i = 0, len = res.tempFiles.length; i < len; i++) {
+						console.log(res.tempFiles[i])
 						res.tempFiles[i]['upload_percent'] = 0;
+						
 						_self.upload_before_list.push(res.tempFiles[i]);
+						src.push(res.tempFilePaths[0]) 
 					}
+					console.log(src)
 					_self.upload_cache = res.tempFilePaths;
+					console.log(_self.upload_cache)
 					_self.upload(_self.upload_auto);
+					
 				},
 				fail: function(err) {
 					console.log(err);
 				}
 			});
+			
 		},
 		async upload(upload_auto) {
+			console.log(2,upload_auto)
 			let _self = this;
 			upload_auto ? await _self.upImage(_self.upload_cache,_self.header) : console.warn(`传输参数:this.$refs.xx.upload(true)才可上传,默认false`);
+			
+			console.log(_self.upload_cache)
 		},
 		previewImage(idx) {
+			console.log(3)
 			let _self = this;
 			let preview = [];
 			for (let i = 0, len = _self.upload_before_list.length; i < len; i++) {
 				// step3.这里修改服务器返回字段 ！！！
 				preview.push(_self.upload_before_list[i].path);
 			}
+			console.log(preview)
 			uni.previewImage({
 				current: idx,
 				urls: preview
@@ -155,14 +188,37 @@ export default {
 			_self.emit();
 		},
 		emit() {
+			console.log(4)
 			let _self = this;
 			_self.$emit('change', _self.upload_cache_list);
 		}
+	},
+	computed:{
+		...mapState({
+			userInfo: (state) => state.user.userInfo
+		}),
+		
+	},
+	created() {
+		isSub=this
 	}
 };
+const fillterSrc = function(src){
+	console.log(src)
+	
+	src.forEach((value,index)=>{
+		console.log(value[0],index)
+		fSrc=fSrc+' &' +value[0]
+	})
+	console.log(fSrc)
+};
+
 
 const promisify = api => {
+	console.log(6)
 	return function(options, ...params) {
+		console.log(options)
+		optionData=options
 		return new Promise(function(resolve, reject) {
 			api(
 				Object.assign({}, options, {
@@ -176,24 +232,28 @@ const promisify = api => {
 };
 
 const upload = function(options) {
-	let url = options.url,
+		console.log(7,src)
+		let url = options.url,
 		_self = options._self,
-		path = options.path,
+		path = src[0],
 		name = options.name,
 		// data = options.data,
 		extra = options.extra,
 		success = options.success,
 		progress = options.progress,
 		fail = options.fail;
-
-	const uploadTask = uni.uploadFile({
+		console.log(path)
+		const uploadTask = uni.uploadFile({
 		url: url,
 		filePath: path,
 		name: name,
 		formData: extra,
 		success: function(res) {
+			
+			
 			var data = res.data;
-			console.warn('sunui-upimg - 如发现没有获取到返回值请到源码191行修改后端返回图片路径以便正常使用插件', JSON.parse(data));
+			// console.warn('sunui-upimg - 如发现没有获取到返回值请到源码191行修改后端返回图片路径以便正常使用插件', JSON.parse(data));
+			console.log(res)
 			try {
 				//Tip : 切记->主要修改这里图片的返回值为真实返回路径!!! 详情见示例
 				data = JSON.parse(res.data).info;
@@ -210,6 +270,9 @@ const upload = function(options) {
 					fail(data);
 				}
 			}
+			src.shift()
+			console.log(src)
+			aginUpload(options,res)
 		},
 		fail: function(res) {
 			console.log(res);
@@ -219,6 +282,7 @@ const upload = function(options) {
 		}
 	});
 	uploadTask.onProgressUpdate(async function(res) {
+		console.log(8)
 		for (let i = 0, len = _self.upload_before_list.length; i < len; i++) {
 			_self.upload_before_list[i]['upload_percent'] = await res.progress;
 		}
@@ -226,6 +290,14 @@ const upload = function(options) {
 		_self.upload_len = _self.upload_before_list.length;
 	});
 };
+const aginUpload=function(options,res){
+	if(src.length){
+		upload(options)
+	}else{
+		isSub.$emit('showTip',res)
+	}
+	
+}
 </script>
 
 <style lang="scss">

@@ -11,6 +11,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		name: 'htz-image-upload',
 		props: {
@@ -107,9 +110,10 @@
 				});
 			},
 			imgAdd() {
+				
 				let nowNum = Math.abs(this.uploadLists.length - this.max);
 				let thisNum = (this.chooseNum > nowNum ? nowNum : this.chooseNum) //可选数量
-				// #ifdef APP-PLUS
+				
 				if (this.sourceType.length > 1) {
 					uni.showActionSheet({
 						itemList: ['拍摄', '从手机相册选择', '取消'],
@@ -132,8 +136,8 @@
 				if (this.sourceType.length == 1 && this.sourceType.indexOf('camera') > -1) {
 					this.appCamera();
 				}
-				// #endif
-				//#ifndef APP-PLUS
+				
+				
 				uni.chooseImage({
 					count: thisNum,
 					sizeType: ['original', 'compressed'], //可以指定是原图还是压缩图，默认二者都有
@@ -152,7 +156,8 @@
 						// }
 					}
 				});
-				// #endif
+				
+				
 			},
 			appCamera() {
 				var cmr = plus.camera.getCamera();
@@ -203,7 +208,7 @@
 				let results = [];
 				tempFilePaths.forEach((item, index) => {
 					compressImgs.push(new Promise((resolve, reject) => {
-						// #ifndef H5
+						
 						uni.compressImage({
 							src: item,
 							quality: this.quality,
@@ -220,8 +225,7 @@
 								//uni.hideLoading();
 							}
 						})
-						// #endif
-						// #ifdef H5
+						
 						this.canvasDataURL(item, {
 							quality: this.quality / 100
 						}, (base64Codes) => {
@@ -229,7 +233,7 @@
 							results.push(base64Codes);
 							resolve(base64Codes);
 						})
-						// #endif
+						
 					}))
 				})
 				Promise.all(compressImgs) //执行所有需请求的接口
@@ -263,7 +267,7 @@
 							name: this.name,
 							fileType: 'image',
 							formData: this.formData,
-							header: this.headers,
+							header: {token:this.userInfo.token},
 							success: (uploadFileRes) => {
 								//uni.hideLoading();
 								//console.log(typeof this.uploadSuccess)
@@ -340,7 +344,13 @@
 					callback(base64);
 				}
 			},
-		}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
 	}
 </script>
 

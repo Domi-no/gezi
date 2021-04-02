@@ -1,56 +1,143 @@
 <template>
 	<view class="feedBackContainer">
-		<view class="feedBackTime">
-			<text>反馈时间</text><text>2020-12-21</text>
+		<view class="feedBackTime" @click="addImage">
+			<text>反馈时间</text><text>{{formData.feedback_time}}</text>
 		</view>
 		<view class="feedBackContent">
 			<view class="problemDescription">
 				问题/意见描述 <image class="starImg" src="../../static/my/star.png" mode=""></image>
 			</view>
-			<textarea :value="question" @input="inputQuestion" placeholder="请输入问题/意见描述" placeholder-style="tPStyle" />
+			<textarea :value="formData.describe" @input="inputQuestion" placeholder="请输入问题/意见描述" placeholder-style="tPStyle" />
 		</view>
 		<view class="feedBackPic">
 			<view class="feedBackPicTitle">
 				反馈截图
 			</view>
 			<view class="feedBackPicContainer">
-				<!-- <view class="feedBackPicBox" @click="uploadPictures" v-for="">
-					<image class="cancelPic" src="../../static/my/close.png" mode=""></image>
-					<view class="heng"></view>
-					<view class="shu"></view>
-				</view> -->
-				<sunui-upimg @change="getImageInfo" :upload_auto="auto" ref="upimg"></sunui-upimg>
+				
+				<sunui-upimg @change="getImageInfo" :upload_count="8" :url="'http://192.168.0.134/CageData/addImg.html'"  @showTip="showTip" :header="formData" :upload_auto="false" ref="upimg"></sunui-upimg>
 			</view>
+			<!-- <easy-upload
+			   :dataList="dataList"
+			      :uploadUrl="'http://192.168.0.134/CageData/addImg.html'" 
+			      deleteUrl='http://localhost:3000/upload' 
+			      :types="types"
+				  :uploadCount="4"
+			      @successImage="successImage" 
+				:formData="formData"
+			   >132</easy-upload> -->
 		</view>		
-		<view :class="{feedBackSubmit:true,submitBg:question}">
+		
+		<view :class="{feedBackSubmit:true,submitBg:formData.describe}" @click="fbSubmit">
 			提交
 		</view>
-	</view>
+		
+	</view>	
 </template>
 
 <script>
+	
+	 import easyUpload from '@/components/easy-upload/easy-upload.vue';
+	import {
+		mapState
+	} from 'vuex'
+	
 	var _self;
 		import sunUiUpimg from '@/components/sunui-upimg/sunui-upimg.vue';
 	export default {
-		components: {
-		           'sunui-upimg': sunUiUpimg
-		        },
+		components:{
+			easyUpload,
+			sunuiUpimg:sunUiUpimg,
+			
+		},
 		data(){
 			return {
 				auto: false,
-				question:''
+				question:'',
+				time:'',
+				formData:{
+					feedback_time:'',
+					describe:'',
+					uid:''
+					
+				},
+				 dataList: [],
+				types: 'image',
+					src1: '', // 提交到后台的图片信息
+						src: '', // 用来在前端展示的图片，如上面图片中显示的一样
+						isSub:false,
+				
+				            
+				
 			}
 		},
 		
 		methods: {
 			inputQuestion(e){
-				this.question = e.detail.value
+				this.formData.describe = e.detail.value.trim()
 				
 			},
+			successImage(e){
+				console.log(e)
+			},
 			getImageInfo(e) {
-				// 上传图片或者删除图片返回信息
+				
 				console.log('返回图片信息：',e);
-			}
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				this.formData.feedback_time=times
+				
+			},
+			
+			fbSubmit(){
+				if(!this.formData.describe){
+					uni.showToast({
+						title: '请填写反馈内容',
+						icon: 'none'
+					})
+					return false
+				}
+				console.log(1)
+				
+				console.log(this.isSub)
+				this.$refs.upimg.upload(true)
+			},
+			showTip(res){
+				console.log(JSON.parse(res.data))
+				if(JSON.parse(res.data).code == 200){
+					uni.showToast({
+						title: '反馈成功',
+						icon: 'none'
+					})
+					setTimeout(()=>{
+						uni.navigateBack({
+						    delta: 1
+						});
+					},1000)
+				}
+				
+			},
+			
+			
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+			
+		},
+		created() {
+			this.getToday()	
+			this.formData.uid=this.userInfo.id
+			console.log(this.formData)
+			
 		}
 	}
 </script>
