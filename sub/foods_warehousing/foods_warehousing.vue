@@ -46,7 +46,7 @@
 					检验人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="examinerChange" :value="fWdataForm.examiner" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="examinerChange" :value="fWdataForm.examiner" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				
@@ -133,13 +133,13 @@
 				this.fWdataForm.unit_price = parseInt(value.trim())
 			},
 			supplierChange({detail:{value}}){
-				this.fWdataForm.supplier = parseInt(value.trim())
+				this.fWdataForm.supplier = value.trim()
 			},
 			examinerChange({detail:{value}}){
-				this.fWdataForm.examiner = parseInt(value.trim())
+				this.fWdataForm.examiner = value.trim()
 			},
 			remarksChange({detail:{value}}){
-				this.fWdataForm.remarks = parseInt(value.trim())
+				this.fWdataForm.remarks = value.trim()
 			},
 			onCancel(){
 				console.log(this)

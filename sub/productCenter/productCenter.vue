@@ -1,27 +1,17 @@
 <template>
 	<view class="productCenterContainer">
-		<view class="productItem">
+		<view class="productItem" v-for="(i,idx) in productCenterList" :key="idx" @click="toProductCenterDetail(i.news_id)">
 			<view class="productItemTitle">
-				原生态鸽子蛋
+				{{i.title}}
 			</view>
 			<view class="productItemText">
-				鸽子蛋怎么吃？中医药学认为，鸽蛋味甘、咸，性平，具有补肝肾、益精气、丰肌肤诸功效。鸽蛋"久患虚赢者，食之有益。"
+				{{i.text}}
 			</view>
 			<image class="img" src="" mode="">
 				
 			</image>
 		</view>
-		<view class="productItem">
-			<view class="productItemTitle">
-				原生态鸽子蛋
-			</view>
-			<view class="productItemText">
-				鸽子蛋怎么吃？中医药学认为，鸽蛋味甘、咸，性平，具有补肝肾、益精气、丰肌肤诸功效。鸽蛋"久患虚赢者，食之有益。"
-			</view>
-			<image class="img" src="" mode="">
-				
-			</image>
-		</view>
+		
 	</view>
 </template>
 
@@ -29,11 +19,40 @@
 	export default {
 		data() {
 			return {
-				
+				productCenterList:[],
+				dataForm:{
+					type:5,
+					News_num:10,
+					page:1
+				},
 			}
 		},
 		methods: {
-			
+			getProductCenterData(){
+				this.$http.post('/Rank/helpPpoor.html',{...this.dataForm})
+				.then((res)=>{
+					console.log(res)
+					this.productCenterList=res.data.data
+					
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			toProductCenterDetail(id){
+				console.log(id)
+				uni.navigateTo({
+					url: '/sub/news_detail/news_detail?id='+id
+				});
+			}
+		},
+		created() {
+			this.getProductCenterData()
 		}
 	}
 </script>
@@ -56,6 +75,9 @@
 			 font-size: 34rpx;
 			 font-weight: bold;
 			 color: #151515;
+			 overflow: hidden;
+			 text-overflow: ellipsis;
+			 white-space: nowrap;
 		 }
 		 .productItemText{
 			 font-size: 28rpx;
@@ -63,6 +85,10 @@
 			 color: #343434;
 			 line-height: 42rpx;
 			 margin-top: 32rpx;
+			 display: -webkit-box;
+			 -webkit-box-orient: vertical;
+			 -webkit-line-clamp: 3;
+			 overflow: hidden;
 		 }
 	 }
 	 .img{

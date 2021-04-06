@@ -270,6 +270,7 @@
 				// 		return category + ' ' + item.name + ':' + item.data 
 				// 	}
 				// });
+				console.log(e)
 				canvaLineA.scrollStart(e);
 			},
 			touchStart(e){

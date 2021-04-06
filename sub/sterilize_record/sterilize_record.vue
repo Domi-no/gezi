@@ -74,6 +74,7 @@
 	import {
 		mapState
 	} from 'vuex'
+	
 	export default {
 		 components: {
 		      LbPicker
@@ -165,7 +166,7 @@
 				this.sRdataForm.drugs_id=e.item.drugs_id
 			},
 			numberChange({detail:{value}}){
-				this.sRdataForm.number=value
+				this.sRdataForm.number=parseInt(value.trim())
 			},
 			remarksChange({detail:{value}}){
 				this.sRdataForm.remarks=value
@@ -222,6 +223,23 @@
 				this.$http.post('/Sale/disinfectAdd.html', {uid: this.userInfo.id,...this.sRdataForm})
 				.then((res) => {
 						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title: '提交成功',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}else{
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+						}
+						
 					}).catch((err) => {
 						
 					})
@@ -229,6 +247,7 @@
 			
 			
 		},
+		
 		computed:{
 			...mapState({
 				userInfo: (state) => state.user.userInfo
@@ -246,6 +265,9 @@
 			this.getModeAll()
 			this.getFixBoxData()
 			this.getDrugsName()
+		},
+		onUnload() {
+			
 		}
 	}
 </script>
@@ -285,6 +307,7 @@
 					font-size: 28rpx;
 					font-weight: 500;
 					color: #979797;
+					text-align: center;
 				}
 				image{
 					margin: auto 0;

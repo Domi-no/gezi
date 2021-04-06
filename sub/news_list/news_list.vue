@@ -17,9 +17,10 @@
 				<image :src="item.display_img" mode=""></image>
 			</view>
 		</view>
-		<view class="news_list_bt">
-			已经到底了~.~
+		<view v-show="isLoadMore">
+		      <uni-load-more :status="loadStatus" ></uni-load-more>
 		</view>
+		
 	</view>
 	
 </template>
@@ -28,7 +29,9 @@
 	export default {
 		data() {
 			return {
-				newsList:[]
+				newsList:[],
+				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
+				isLoadMore:false,  //是否加载中
 			}
 		},
 		methods: {
@@ -36,11 +39,21 @@
 				this.$http.post('/Rank/news.html',{News:'listNews'})
 				.then((res)=>{
 					console.log(res)
-					this.newsList =res.data.data
-					// uni.showToast({
-					// 	title: 'message',
-					// 	icon: 'none'
-					// })
+					this.newsList.push(...res.data.data)
+					if(res.data.data){
+						if(res.data.total <= this.newsList.length){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+							
+						      this.isLoadMore=true                                        
+						      this.loadStatus='已经到底了~. ~'
+						}else{
+						      this.isLoadMore=false
+							  console.log(2)
+						}
+					}else{
+						 this.isLoadMore=true
+						 // this.loadStatus='已经到底了~. ~'
+					}
+					
 					
 					
 				}).catch((err)=>{
@@ -54,11 +67,18 @@
 				});
 			}
 		},
+		onReachBottom(){  //上拉触底函数
+		          if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
+		                this.isLoadMore=true
+		                this.saleData.page+=1
+		                this.getSaleData()
+		          }
+		},
 		created() {
 			this.getListNews()
 		},
 		onLoad(e){
-			console.log(JSON.parse(e.query))
+			// console.log(JSON.parse(e.query))
 			// this.newsList =JSON.parse(e.query)
 		}
 	}
@@ -90,6 +110,9 @@
 					font-size: 30rpx;
 					font-weight: bold;
 					color: #343434;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				.newsListContent{
 					

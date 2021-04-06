@@ -2,38 +2,38 @@
 	<view class="sterilizeRecordcontainer">
 		<view class="sterilizeBox">
 			<view class="sterilizeOption">
-				<text>领取时间</text><text>2020-12-21</text>
+				<text>领取时间</text><text>{{dataForm.date}}</text>
 			</view>
-			<view class="sterilizeOption" @click="choiceWarehouseNumber">
+			<view class="sterilizeOption" >
 				<view class="">
 					发放人<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
-				<view class="choice">
-					请选择<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				<view class="choice choiceInput">
+					<input type="text" :value="dataForm.issuer" @input="issuerChange" placeholder="请输入" placeholder-style="color:#979797" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="sterilizeOption">
+			<view class="sterilizeOption" @click="choiceWarehouseNumber">
 				<view class="">
 					仓号<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
 				<view class="choice">
-					请选择<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					{{block_value||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="sterilizeOption" @click="choiceDrugs">
+			<view class="sterilizeOption" >
 				<view class="">
 					重量<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
-				<view class="choice">
-					请选择<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				<view class="choice choiceInput">
+					<input type="number" :value="dataForm.number" @input="issuerChange" placeholder="请输入" placeholder-style="color:#979797"/><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="sterilizeOption">
+			<view class="sterilizeOption" @click="choiceFoods">
 				<view class="">
 					饲料名称<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
 				<view class="choice">
-					请输入<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					{{foodName||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			
@@ -43,15 +43,15 @@
 			<view class="">
 				备注
 			</view>
-			<textarea value=""  @input=""  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea :value="dataForm.remarks"  @input="remarksChange"  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
-		<view class="submitSterilizeRecord">
+		<view class="submitSterilizeRecord" @click="rRSub">
 			提交
 		</view>
-		 <lb-picker ref="warehouse" mode="multiSelector" :list="warehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='warehouseValue'>
-			 <view slot="confirm-text" >完成</view>
-		 </lb-picker>
-		 <lb-picker ref="drugs" :list="list" radius="20rpx" confirm-color="#377BE4">
+		<lb-picker ref="sRbox" mode="multiSelector" :props="myProps" :list="sRWarehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='sRBoxValue'>
+					 <view slot="confirm-text" >完成</view>
+		</lb-picker>
+		 <lb-picker ref="food" :list="list" radius="20rpx" :props="myPropsB" confirm-color="#377BE4"  @confirm='foodValue'>
 		 			 <view slot="confirm-text" >完成</view>
 		 </lb-picker>
 	</view>
@@ -59,6 +59,9 @@
 
 <script>
 	import LbPicker from '@/components/lb-picker'
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		 components: {
 		      LbPicker
@@ -66,51 +69,110 @@
 		data() {
 			return {
 				list: [
-				  {
-				    label: '选项1',
-				    value: '1'
-				  },
-				  {
-				    label: '选项2',
-				    value: '2'
-				  }
+				  
 				],
-				warehouseList: [
-				  {
-				    label: '选项1',
-				    value: '1',
-				    children: [
-				      {
-				        label: '选项1-1',
-				        value: '1-1',
-				        
-				      }
-				    ]
-				  },
-				  {
-				    label: '选项2',
-				    value: '2',
-				    children: [
-				      {
-				        label: '选项2-1',
-				        value: '2-1',
-				        
-				      }
-				    ]
-				  }
-				]
+				myProps: {
+				     label: 'name',
+				     value: 'id',
+				},
+				myPropsB:{
+					label: 'grain_name',
+					value: 'grain_id',
+				},
+				sRWarehouseList:[],
+				dataForm:{
+					block_id:'',
+					grain_id:'',
+					issuer:'',
+					number:'',
+					remarks:'',
+					date:'',
+				},
+				block_value:'',
+				foodName:'',
 			}
 		},
 		methods: {
 			choiceWarehouseNumber(){
-				this.$refs.warehouse.show()
+				this.$refs.sRbox.show()
 			},
-			choiceDrugs(){
-				this.$refs.drugs.show()
+			choiceFoods(){
+				this.$refs.food.show()
+			},
+			issuerChange({detail:{value}}){
+				console.log(value)
+				this.dataForm.issuer=value.trim()
+			},
+			numberChange({detail:{value}}){
+				console.log(value)
+				this.dataForm.number=parseInt(value.trim())
+			},
+			remarksChange({detail:{value}}){
+				console.log(value)
+				this.dataForm.remarks=value.trim()
 			},
 			warehouseValue(e){
 				console.log(e.item[1].label)
+				this.dataForm.block_id=e.item[1].label.id
+				this.block_value=e.item[1].label.name
+			},
+			foodValue(e){
+				console.log(e.item)
+				this.foodName=e.item.grain_name
+				this.dataForm.grain_id=e.item.grain_id
+			},
+			getFixBoxData(){
+				this.$http.post('/Grain/fixBlock.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						
+						Object.keys(res.data).forEach((value, index)=>{
+							console.log(value, index,res.data[value]);
+							this.sRWarehouseList.push({name:value,children:res.data[value]})
+						});
+						console.log(this.sRWarehouseList)
+					}).catch((err) => {
+						
+					})
+			},
+			getAllFoods(){
+				this.$http.post('/Grain/grainName.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+						this.list=res.data
+						
+					}).catch((err) => {
+						
+					})
+			},
+			sRBoxValue(e){
+				console.log(e.item[1])
+				this.dataForm.block_id=e.item[1].id
+				this.block_value = e.item[1].name
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.dataForm.date=times
+			},
+			rRSub(){
+				
 			}
+		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			})
+			
+		},
+		created() {
+			this.getFixBoxData()
+			this.getAllFoods()
+			this.getToday()
 		}
 	}
 </script>
@@ -190,5 +252,20 @@
 		height: 22rpx;
 		margin-left: 17rpx;
 	}
+	.choiceInput{
+				display: flex;
+				line-height: 88rpx;
+				input{
+					width: 83rpx;
+					margin: auto 16rpx auto 0;
+					font-size: 28rpx;
+					font-weight: 500;
+					color: #979797;
+					text-align: center;
+				}
+				image{
+					margin: auto 0;
+				}
+			}
 }
 </style>

@@ -408,6 +408,24 @@
                 }
                 
                 }
+                ,{
+                    "path" : "pigeon_skill/pigeon_skill",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "养鸽技术",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+                ,{
+                    "path" : "scan_code/scan_code",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "日记录",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
             ]
 	
 		}]

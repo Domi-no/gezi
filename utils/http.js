@@ -15,9 +15,9 @@ methods.forEach(method => {
 			let userInfo = getSession(sessionType.USER_INFO)
 			console.log(userInfo);
 			let {
-				// title = "请稍后..",
-				// 	showLoading = true,
-				// 	showErrorToast = true,
+				title = "请稍后..",
+					showLoading = true,
+					showErrorToast = true,
 					headers = {
 						"content-type": "application/x-www-form-urlencoded",
 						token: userInfo.token
@@ -26,11 +26,11 @@ methods.forEach(method => {
 			} = extra;
 
 			// 显示全屏loading
-			// showLoading &&
-			// 	uni.showLoading({
-			// 		title,
-			// 		mask: true
-			// 	});
+			showLoading &&
+				uni.showLoading({
+					title,
+					mask: true
+				});
 
 			// 开始发送请求
 			uni.request({
@@ -55,15 +55,15 @@ methods.forEach(method => {
 						// 未登录/重新登录/Token过期
 						if (code == 402) {
 							// toast("未登录或已过期");
-							// store.dispatch("SET_USER_INFO", "");
-							// uni.setStorageSync("timUserSign", "");
+							store.dispatch("SET_USER_INFO", "");
+							uni.setStorageSync("timUserSign", "");
 							 return uni.navigateTo({
-								url: "/pages/user/login"
+								url: "/pages/login/login"
 							});
 						}
 						resolve(res.data);
 					} else {
-						// toast("请求失败，请重试", "error");
+						toast("请求失败，请重试", "error");
 						reject(err);
 					}
 				});

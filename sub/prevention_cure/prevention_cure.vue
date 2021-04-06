@@ -1,18 +1,18 @@
 <template>
 	<view class="preventionCureContainer">
-		<view class="preventionCureItem" v-for="(item,idx) in 10" :key="idx">
+		<view class="preventionCureItem" v-for="(item,idx) in PCList" :key="idx" @click="toPreventionCure(item.news_id)">
 			<view class="preventionCureImgBox">
 				<image src="" mode=""></image>
 			</view>
 			<view class="preventionCureContentBox">
 				<view class="preventionCureTitle">
-					安全生产责任重于泰山
+					{{item.title}}
 				</view>
 				<view class="preventionCureContent">
-					和平鸽是和平、友谊、团结和圣洁的象征。世界很多城市和广场上，都会...
+					{{item.text}}
 				</view>
 				<view class="preventionCureTime">
-					2020-12-4
+					{{item.creatime}}
 				</view>
 			</view>
 		</view>
@@ -27,11 +27,40 @@
 	export default {
 		data() {
 			return {
-				
+				dataForm:{
+					type:4,
+					News_num:10,
+					page:1
+				},
+				PCList:[]
 			}
 		},
 		methods: {
-			
+			getPreventionCure(){
+				this.$http.post('/Rank/helpPpoor.html',{...this.dataForm})
+				.then((res)=>{
+					console.log(res)
+					this.PCList=res.data.data
+					
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			toPreventionCure(id){
+				console.log(id)
+				uni.navigateTo({
+					url: '/sub/news_detail/news_detail?id='+id
+				});
+			}
+		},
+		created() {
+			this.getPreventionCure()
 		}
 	}
 </script>
@@ -57,10 +86,14 @@
 			.preventionCureContentBox{
 				width: 417rpx;
 				.preventionCureTitle{
+					// min-width: 100%;
 					line-height: 1;
 					font-size: 30rpx;
 					font-weight: bold;
 					color: #343434;
+					overflow: hidden;
+					text-overflow: ellipsis;
+					white-space: nowrap;
 				}
 				.preventionCureContent{
 					
@@ -69,6 +102,10 @@
 					color: #343434;
 					line-height: 36rpx;
 					margin: 4rpx 0;
+					display: -webkit-box;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 2;
+					overflow: hidden;
 				}
 				.preventionCureTime{
 					

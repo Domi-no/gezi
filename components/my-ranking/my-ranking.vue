@@ -7,22 +7,26 @@
 						<image :src="idx>=3?r_pic[3]:r_pic[idx]" mode=""></image>
 						<text class="r_medal_num">{{idx+1}}</text>
 					</view>
-					<view class="wn_text">鸽仓号50</view>
+					<view class="wn_text">{{item.name||item.user_name}}</view>
 				</view>
 				<view class="personnel">
-					<text class="_personnel">饲养员：</text><text class="p_name space">李大牛</text>
-					<text class="_personnel ">护工：</text><text class="p_name">张三</text>
+					<view class="">
+						<text class="_personnel">{{item.breeder?'饲养员：':'病残率：'}}</text><text class="p_name">{{item.breeder||item.fall_ill}}</text>
+					</view>
+					<view class="" style="margin-left: 19rpx;">
+						<text class="_personnel ">{{item.support?'护工：':'死亡率：'}}</text><text class="p_name">{{item.support||item.mortality}}</text>
+					</view>
 				</view>
 			</view>
 			<view class="r_bt">
 				<view class="store">
 					<view class="_text">当前存栏</view>
-					<view class="_num">9999</view>
+					<view class="_num">{{item.survival}}</view>
 
 				</view>
 				<view class="out">
-					<view class="_text">累计出栏</view>
-					<view class="_num">9999</view>
+					<view class="_text">累计销售</view>
+					<view class="_num">{{item.sale_number}}</view>
 				</view>
 			</view>
 		</view>
@@ -44,6 +48,9 @@
 		},
 		methods:{
 		
+		},
+		created() {
+			console.log(this.rankingList)
 		}
 	}
 </script>
@@ -69,7 +76,7 @@
 				width:182rpx ;
 				font-size: 28rpx;
 				display: flex;
-				justify-content: space-between;
+				// justify-content: space-between;
 				.r_medal{
 					
 					display: inline-block;
@@ -99,6 +106,7 @@
 				}
 				.wn_text{
 					line-height: 57rpx;
+					margin-left: 20rpx;
 				}
 
 			}
@@ -106,19 +114,23 @@
 			.personnel {
 				font-size: 22rpx;
 				margin-top: 12rpx;
-
+				display: flex;
+				view{
+					min-width: 143rpx;
+					display: flex;
+					color: #343434;
+					
+					padding: 0;
+				}
 				._personnel {
 					color: #979797;
 				}
 
-				.p_name {
-					color: #343434;
-					font-family: SimHei;
-				}
+				
 
-				.space {
-					margin-right: 19rpx;
-				}
+				// .space {
+				// 	margin-right: 19rpx;
+				// }
 
 			}
 		}

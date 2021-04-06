@@ -1,12 +1,12 @@
 <template>
-	<view class="help_the_poorContainer">
-		<view class="helpThePoorItem" v-for="(i,index) in helpList" @click="toHelpDetail(i.news_id)" :key="index">
-			<view class="titleBox">
-				{{i.title}}
+	<view class="pigeon_skillContainer">
+		<view class="helpThePoorItem" v-for="(item,index) in pigeonList" :key="index" @click="toPigeonSkillDetail(item.news_id)">
+			<view class="titleBox" >
+				{{item.title}}
 			</view>
 			<image src="" mode=""></image>
 			<view class="timeBox">
-				{{i.creatime}}
+				{{item.creatime}}
 			</view>
 		</view>
 		
@@ -21,20 +21,20 @@
 		data() {
 			return {
 				dataForm:{
-					type:2,
+					type:3,
 					News_num:10,
 					page:1
 				},
-				helpList:[]
+				pigeonList:[]
 			}
 		},
 		methods: {
-			gethelpData(){
+			getPigeonSkill(){
 				this.$http.post('/Rank/helpPpoor.html',{...this.dataForm})
 				.then((res)=>{
 					console.log(res)
-					this.helpList=res.data.data
-					console.log(this.pigeonList)
+					this.pigeonList=res.data.data
+					
 					// uni.showToast({
 					// 	title: 'message',
 					// 	icon: 'none'
@@ -45,7 +45,7 @@
 					console.log(err)
 				})
 			},
-			toHelpDetail(id){
+			toPigeonSkillDetail(id){
 				console.log(id)
 				uni.navigateTo({
 					url: '/sub/news_detail/news_detail?id='+id
@@ -53,13 +53,13 @@
 			}
 		},
 		created() {
-			this.gethelpData()
+			this.getPigeonSkill()
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-.help_the_poorContainer{
+.pigeon_skillContainer{
 	padding: 0 30rpx 60rpx;
 	.helpThePoorItem{
 		padding: 35rpx 0 15rpx;

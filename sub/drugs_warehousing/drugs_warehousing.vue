@@ -165,10 +165,10 @@
 				this.outFormData.unit = value
 			},
 			numberChange({detail:{value}}){
-				this.outFormData.number = value
+				this.outFormData.number = parseInt(value.trim())
 			},
 			unit_priceChange({detail:{value}}){
-				this.outFormData.unit_price =value
+				this.outFormData.unit_price =parseInt(value.trim())
 			},
 			productionChange({detail:{value}}){
 				this.outFormData.production =value
@@ -204,6 +204,11 @@
 								title: '提交成功',
 								icon: 'none'
 							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
 						}else{
 							uni.showToast({
 								title: res.message,

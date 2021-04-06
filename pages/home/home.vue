@@ -29,16 +29,16 @@
 				<view class="gcph">
 					<view>{{rankName}} <image src="../../static/home/zk_btm.png" mode="" @click.stop="showRankListName"></image></view>
 					<view class="rankListName" v-show="this.isShowRLN">
-						<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item}}</text>
+						<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item.name}}</text>
 					</view>
 				</view> 
 				<view class="cage_sum">
-					<view @click="changeTime(idx)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item}}
+					<view @click="changeTime(idx,item)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item.name}}
 						<text class="cage_sum_line" v-show="cRLTime === idx"></text>
 					</view>
 				</view>
 			</view>
-			<my-ranking class="r_c" :rankingList="rankingList"></my-ranking>
+			<my-ranking class="r_c" :rankingList="homeSaleList"></my-ranking>
 			<view class="h_bt"  @click="toRanking">
 				查看全部排名
 			</view>
@@ -59,10 +59,10 @@
 				cRankListNameId:'',
 				rankName:'鸽仓排行',
 				homeNewsList:[],
-				newsArray:[{content:'和平鸽是和平，友谊，团结，和圣洁的象征。世界很多城市和广场上,都会放那么一两只鸽子',title:'安全生产重于泰山'},{content:'和平鸽是和平，友谊，团结，和圣洁的象征。世界很多城市和广场上,都会放那么一两只鸽子',title:'安全生产重于泰山'}],
+				homeSaleList:[],
 				homeBannerList: [],
-				classification:['日榜','月度榜','季度榜','年度榜'],
-				rankListName:['厂区排行','员工排行','鸽仓排行'],
+				classification:[{name:'日榜',timeSlot:'day'},{name:'月度榜',timeSlot:'month'},{name:'季度榜',timeSlot:'season'},{name:'年度榜',timeSlot:'year'}],
+				rankListName:[{name:'厂区排行',rankText:'factory'},{name:'员工排行',rankText:'staff'},{name:'鸽仓排行',rankText:'barn'}],
 				c_img: [{
 					src: '../../static/home/fp.png',
 					text: '扶贫成果'
@@ -76,7 +76,13 @@
 					src: '../../static/home/cpzx.png',
 					text: '产品中心'
 				}],
-				rankingList:[1,2,3,4,5]
+				rankingList:[1,2,3,4,5],
+				saleData:{
+					sale_num:10,
+					RankText:'factory',
+					TimeSlot:'day',
+					page:1
+				}
 				
 			}
 		},
@@ -94,7 +100,9 @@
 					});
 					break;
 					case 1 :
-					console.log(1)
+					uni.navigateTo({
+						url: '/sub/pigeon_skill/pigeon_skill'
+					});
 					break;
 					case 2 :
 					uni.navigateTo({
@@ -109,17 +117,22 @@
 				}
 				
 			},
-			changeTime(idx){
-				console.log(1)
+			changeTime(idx,item){
+				console.log(item)
 				this.cRLTime = idx
+				this.saleData.TimeSlot=item.timeSlot
+				this.getSaleData()
 			}
 			,showRankListName(){
 				this.isShowRLN = !this.isShowRLN
 			},
-			rLNameChange(idx,name){
+			rLNameChange(idx,item){
+				console.log(item.rankText)
 				this.cRankListNameId = idx
-				this.rankName=name
+				this.rankName=item.name
+				this.saleData.RankText =item.rankText
 				this.isShowRLN=false
+				this.getSaleData()
 			},
 			containerClick(){
 				this.isShowRLN=false
@@ -151,29 +164,22 @@
 				})
 			},
 			getHomeSale(){
-				this.$http.post('/Rank/home.html')
+				this.$http.post('/Rank/home.html',{...this.saleData})
 				.then((res)=>{
 					console.log(res)
-				this.homeBannerList =res.data.banner
+					this.homeBannerList =res.data.banner
 					this.homeNewsList =res.data.news
-					this.homeSaleList=res.data.sale
+					this.homeSaleList=res.data.sale.data
 					console.log(res.data.sale)
 				}).catch((err)=>{
 					console.log(err)
 				})
 			},
-			getHomeBanner(){
-				this.$http.post('/Rank/Banner.html')
+			getSaleData(){
+				this.$http.post('/Rank/sale.html',{...this.saleData})
 				.then((res)=>{
 					console.log(res)
-					this.homeBannerList =res.data
-					console.log(this.homeBannerList)
-					// uni.showToast({
-					// 	title: 'message',
-					// 	icon: 'none'
-					// })
-					
-					
+					this.homeSaleList=res.data.data
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -183,8 +189,6 @@
 		created() {
 			this.next()
 			this.getHomeSale()
-			// this.getHomeNews()
-			// this.getHomeBanner()
 			console.log('created')
 			
 		}

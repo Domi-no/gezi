@@ -5,19 +5,27 @@
 			<view class="gcph">
 				<view>{{rankName}} <image src="../../static/home/zk_btm.png" mode="" @click.stop="showRankListName"></image></view>
 				<view class="rankListName" v-show="this.isShowRLN">
-					<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item}}</text>
+					<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item.name}}</text>
 				</view>
 			</view> 
 			<view class="cage_sum">
-				<view @click="changeTime(idx)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item}}
+				<view @click="changeTime(idx,item)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item.name}}
 					<text class="cage_sum_line" v-show="cRLTime === idx"></text>
 				</view>
+				
 			</view>
 		</view>
-		<my-ranking class="r_c" :rankingList="r_data"></my-ranking>
-		<view class="rankingNoMore">
-			已经到底了~. ~
+		<view class="">
+			
+			<my-ranking class="r_c" :rankingList="saleRankList"></my-ranking>
 		</view>
+		<view v-show="isLoadMore">
+		      <uni-load-more :status="loadStatus" ></uni-load-more>
+		</view>
+		<!-- <view class="rankingNoMore">
+			已经到底了~. ~
+		</view> -->
+		
 	</view>
 </template>
 
@@ -26,35 +34,87 @@
 		data() {
 			return {
 				isShowRLN:false,
-				r_data:[1,2,3,4,5,6,7,8,9,10,11],
 				rankName:'鸽仓排行',
 				cRankListNameId:'',
-				rankListName:['厂区排行','员工排行','鸽仓排行'],
-				classification:['日榜','月度榜','季度榜','年度榜'],
+				classification:[{name:'日榜',timeSlot:'day'},{name:'月度榜',timeSlot:'month'},{name:'季度榜',timeSlot:'season'},{name:'年度榜',timeSlot:'year'}],
+				rankListName:[{name:'厂区排行',rankText:'factory'},{name:'员工排行',rankText:'staff'},{name:'鸽仓排行',rankText:'barn'}],
 				cRLTime:0,
+				saleRankList:[],
+				saleData:{
+					sale_num:10,
+					RankText:'factory',
+					TimeSlot:'day',
+					page:1
+				},
+				// 
+				videoList:[],			
+				
+				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
+				isLoadMore:false,  //是否加载中
 			}
 		},
 		methods: {
-			changeTime(idx){
+			changeTime(idx,item){
 				console.log(1)
 				this.cRLTime = idx
+				this.saleData.TimeSlot=item.timeSlot
+				this.saleRankList=[]
+				this.getSaleData()
 			}
 			,showRankListName(){
 				this.isShowRLN = !this.isShowRLN
 			},
-			rLNameChange(idx,name){
+			rLNameChange(idx,item){
 				this.cRankListNameId = idx
-				this.rankName=name
+				this.rankName=item.name
+				this.saleData.RankText =item.rankText
 				this.isShowRLN=false
+				this.saleRankList=[]
+				this.getSaleData()
 			},
 			containerClick(){
 				this.isShowRLN=false
-			}
-		},
-		onLoad(option){
+			},
+			getSaleData(){
+				this.$http.post('/Rank/sale.html',{...this.saleData})
+				.then((res)=>{
+					console.log(res)
+					if(res.code == 200){
+						this.saleRankList.push(...res.data.data)
+						console.log(...res.data.data)
+						if(res.data.data){
+							if(res.data.total <= this.saleRankList.length){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+								
+							      this.isLoadMore=true                                             
+							      this.loadStatus='已经到底了~. ~'
+							}else{
+							      this.isLoadMore=false
+								  console.log(2)
+							}
+						}
+					}else{
+						 this.isLoadMore=true
+						 // this.loadStatus='已经到底了~. ~'
+					}
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			// 
 			
-			console.log(option.query)
-		}
+		},
+		onReachBottom(){  //上拉触底函数
+		          if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
+		                this.isLoadMore=true
+		                this.saleData.page+=1
+		                this.getSaleData()
+		          }
+		},
+		created() {
+			
+			this.getSaleData()
+		},
+		
 	}
 </script>
 

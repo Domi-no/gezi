@@ -29,12 +29,11 @@
 					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{gdColumn.sum}}枚</text><text>平均：{{gdColumn.all}}枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchLine" @touchmove="moveLine" @touchend="touchEndLine"></canvas>
 					<view class="timeClass">
 						{{currentName}}
 					</view>
 				</view>
-				
 			</view>
 			
 		</view>
@@ -44,7 +43,7 @@
 					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum}}只</text><text>平均：{{rgColumn.sum}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<canvas canvas-id="rgcanvasColumn" id="rgcanvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<canvas canvas-id="rgcanvasColumn" id="rgcanvasColumn" class="charts" @touchstart="touchLineA" @touchmove="moveLineA" @touchend="touchEndLineA"></canvas>
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -58,7 +57,7 @@
 					<view class="qiun-title-dot-light">童鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{tgColumn.sum}}只</text><text>平均：{{tgColumn.sum}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<canvas canvas-id="tgcanvasColumn" id="tgcanvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<canvas canvas-id="tgcanvasColumn" id="tgcanvasColumn" class="charts" @touchstart="touchLineB" @touchmove="moveLineB" @touchend="touchEndLineB"></canvas>
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -73,7 +72,7 @@
 					<view class="qiun-title-dot-light">死淘量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{stColumn.sum}}只</text><text>平均：{{stColumn.all}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<canvas canvas-id="stcanvasColumn" id="stcanvasColumn" class="charts" @touchstart="touchColumn"></canvas>
+					<canvas canvas-id="stcanvasColumn" id="stcanvasColumn" class="charts" @touchstart="touchLineC" @touchmove="moveLineC" @touchend="touchEndLineC"></canvas>
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -110,6 +109,9 @@
 	import LbPicker from '@/components/lb-picker'
 	var _self;
 	var canvaColumn = null;
+	var canvaColumnA = null;
+	var canvaColumnB = null;
+	var canvaColumnC = null;
 	import {
 		mapState
 	} from 'vuex'
@@ -193,9 +195,12 @@
 					animation: false,
 					categories: chartData.categories,
 					series: chartData.series,
+					enableScroll: true,
 					xAxis: {
 						disableGrid:true,
-						axisLine:false
+						axisLine:false,
+						itemCount:6,
+								
 					},
 					yAxis: {
 						//disabled:true
@@ -234,26 +239,262 @@
 						            type: "solid",
 						            dashLength: 4,
 						            data: []
-						        }
+						}
 						
 						}
 				});
 				
 			},
-			touchColumn(e){
+			showColumnA(canvasId,chartData){
+				canvaColumnA=new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'column',
+					legend:{show:true},
+					fontSize:11,
+					background:'#FFFFFF',
+					pixelRatio:_self.pixelRatio,
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					enableScroll: true,
+					xAxis: {
+						disableGrid:true,
+						axisLine:false,
+						itemCount:6,
+								
+					},
+					yAxis: {
+						//disabled:true
+						splitNumber: 5,
+						
+					},
+					
+					dataLabel: false,
+					width: _self.cWidth*_self.pixelRatio,
+					height: _self.cHeight*_self.pixelRatio,
+					legend:{show:false},
+					extra: {
+						type: 'group',
+						width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length,
+					    column: {
+					        // 颜色支持线性渐变
+							width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
+					        color: {
+					            type: 'linear',
+					            colorStops: [{
+					                offset: 0, color: '#377BE4' // 0% 处的颜色
+					            }, {
+					                offset: 1, color: '#ff0000' // 100% 处的颜色
+					            }],
+					            global: false // 缺省为 false
+					        }, 
+					        barBorderCircle: true,
+					        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
+					        opacityColor:0.7 ,
+					        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
+					        linearColor: 0,
+					        //多series之间的间距
+					        seriesGap:2,
+					    },
+						markLine: {
+						            type: "solid",
+						            dashLength: 4,
+						            data: []
+						}
+						
+						}
+				});
 				
+			},
+			showColumnB(canvasId,chartData){
+				canvaColumnB=new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'column',
+					legend:{show:true},
+					fontSize:11,
+					background:'#FFFFFF',
+					pixelRatio:_self.pixelRatio,
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					enableScroll: true,
+					xAxis: {
+						disableGrid:true,
+						axisLine:false,
+						itemCount:6,
+								
+					},
+					yAxis: {
+						//disabled:true
+						splitNumber: 5,
+						
+					},
+					
+					dataLabel: false,
+					width: _self.cWidth*_self.pixelRatio,
+					height: _self.cHeight*_self.pixelRatio,
+					legend:{show:false},
+					extra: {
+						type: 'group',
+						width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length,
+					    column: {
+					        // 颜色支持线性渐变
+							width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
+					        color: {
+					            type: 'linear',
+					            colorStops: [{
+					                offset: 0, color: '#377BE4' // 0% 处的颜色
+					            }, {
+					                offset: 1, color: '#ff0000' // 100% 处的颜色
+					            }],
+					            global: false // 缺省为 false
+					        }, 
+					        barBorderCircle: true,
+					        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
+					        opacityColor:0.7 ,
+					        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
+					        linearColor: 0,
+					        //多series之间的间距
+					        seriesGap:2,
+					    },
+						markLine: {
+						            type: "solid",
+						            dashLength: 4,
+						            data: []
+						}
+						
+						}
+				});
 				
+			},
+			showColumnC(canvasId,chartData){
+				canvaColumnC=new uCharts({
+					$this:_self,
+					canvasId: canvasId,
+					type: 'column',
+					legend:{show:true},
+					fontSize:11,
+					background:'#FFFFFF',
+					pixelRatio:_self.pixelRatio,
+					animation: false,
+					categories: chartData.categories,
+					series: chartData.series,
+					enableScroll: true,
+					xAxis: {
+						disableGrid:true,
+						axisLine:false,
+						itemCount:6,
+								
+					},
+					yAxis: {
+						//disabled:true
+						splitNumber: 5,
+						
+					},
+					
+					dataLabel: false,
+					width: _self.cWidth*_self.pixelRatio,
+					height: _self.cHeight*_self.pixelRatio,
+					legend:{show:false},
+					extra: {
+						type: 'group',
+						width: _self.cWidth * _self.pixelRatio * 0.35 / chartData.categories.length,
+					    column: {
+					        // 颜色支持线性渐变
+							width: _self.cWidth * _self.pixelRatio * 0.25 / chartData.categories.length,
+					        color: {
+					            type: 'linear',
+					            colorStops: [{
+					                offset: 0, color: '#377BE4' // 0% 处的颜色
+					            }, {
+					                offset: 1, color: '#ff0000' // 100% 处的颜色
+					            }],
+					            global: false // 缺省为 false
+					        }, 
+					        barBorderCircle: true,
+					        // 透明渐变（值范围0到1，自下而上渐变透明显示column条，值越小透明程度越高）
+					        opacityColor:0.7 ,
+					        // 白色渐变（值范围0到1，自下而上向白色渐变显示column条，值越大白色程度越高）
+					        linearColor: 0,
+					        //多series之间的间距
+					        seriesGap:2,
+					    },
+						markLine: {
+						            type: "solid",
+						            dashLength: 4,
+						            data: []
+						}
+						
+						}
+				});
+				
+			},
+			touchLine(e){
+				canvaColumn.scrollStart(e);
+			},
+			moveLine(e) {
+				canvaColumn.scroll(e);
+			},
+			touchEndLine(e) {
+				canvaColumn.scrollEnd(e);
+				//下面是toolTip事件，如果滚动后不需要显示，可不填写
 				canvaColumn.showToolTip(e, {
 					format: function (item, category) {
-						if(typeof item.data === 'object'){
-							return category + ' ' + item.name + ':' + item.data.value 
-						}else{
-							return category + ' ' + item.name + ':' + item.data 
-						}
+						return category + ' ' + item.name + ':' + item.data 
 					}
 				});
 			},
-			
+			// 
+			touchLineA(e){
+				canvaColumnA.scrollStart(e);
+			},
+			moveLineA(e) {
+				canvaColumnA.scroll(e);
+			},
+			touchEndLineA(e) {
+				canvaColumnA.scrollEnd(e);
+				//下面是toolTip事件，如果滚动后不需要显示，可不填写
+				canvaColumnA.showToolTip(e, {
+					format: function (item, category) {
+						return category + ' ' + item.name + ':' + item.data 
+					}
+				});
+			},
+			// 
+			touchLineB(e){
+				canvaColumnB.scrollStart(e);
+			},
+			moveLineB(e) {
+				canvaColumnB.scroll(e);
+			},
+			touchEndLineB(e) {
+				canvaColumnB.scrollEnd(e);
+				//下面是toolTip事件，如果滚动后不需要显示，可不填写
+				canvaColumnB.showToolTip(e, {
+					format: function (item, category) {
+						return category + ' ' + item.name + ':' + item.data 
+					}
+				});
+			},
+			// 
+			touchLineC(e){
+				canvaColumnC.scrollStart(e);
+			},
+			moveLineC(e) {
+				canvaColumnC.scroll(e);
+			},
+			touchEndLineC(e) {
+				
+				canvaColumnC.scrollEnd(e);
+				//下面是toolTip事件，如果滚动后不需要显示，可不填写
+				canvaColumnC.showToolTip(e, {
+					format: function (item, category) {
+						return category + ' ' + item.name + ':' + item.data 
+					}
+				});
+			},
 			getReportData(){
 				const {block_id,sta_time,end_time,currentId:time_type}=this
 				this.$http.post('/CageData/report.html',{uid:this.userInfo.id,block_id,sta_time,end_time,time_type})
@@ -291,10 +532,10 @@
 						name: '',
 						data: res.data['死淘'].lng,
 					}]}
-					_self.showColumn("canvasColumn", this.gdColumn)
-					_self.showColumn("rgcanvasColumn", this.rgColumn)
-					_self.showColumn("tgcanvasColumn", this.tgColumn)
-					_self.showColumn("stcanvasColumn", this.stColumn)
+					this.showColumn("canvasColumn", this.gdColumn)
+					this.showColumnA("rgcanvasColumn", this.rgColumn)
+					this.showColumnB("tgcanvasColumn", this.tgColumn)
+					this.showColumnC("stcanvasColumn", this.stColumn)
 				}).catch((err)=>{
 					console.log(err)
 				})
