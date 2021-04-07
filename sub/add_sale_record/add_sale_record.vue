@@ -82,7 +82,7 @@
 					货物名称<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="goodsNamePopupShow">
-					<text>{{saleForm.goods_name}}</text>
+					<text>{{goods_type||'请选择'}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
@@ -191,9 +191,10 @@
 				payMethodList:[],
 				specsList:[],
 				block_type:'生产仓',
+				goods_type:'',
 				saleForm:{
 					record_time:'',
-					goods_name:'请选择',
+					goods_name:'',
 					specs:'请选择',
 					unit:'',
 					unit_price:'',
@@ -220,7 +221,8 @@
 			},
 			goodsNameChange(e){
 				console.log(e)
-				this.saleForm.goods_name=e.value
+				this.goods_type=e.item.label
+				this.saleForm.goods_name=e.item.value
 			},
 			payMethodPopupShow(){
 				 this.$refs.payMethod.show()
@@ -275,11 +277,11 @@
 				const uid =this.userInfo.id
 				this.$http.post('/Sale/SaleName.html',{uid})
 				.then(({data:{goodsName,payMethod,specs}}) => {
-						// goodsName.forEach((item,i)=>{
-						// 	console.log(item)
-						// 	this.goodsNameList.push({label:item,value:i})
-						// })
-						this.goodsNameList = goodsName
+						Object.keys(goodsName).forEach((item,i)=>{
+							console.log(item,i,goodsName[item])
+							this.goodsNameList.push({label:goodsName[item],value:item})
+						})
+						// this.goodsNameList = goodsName
 						this.payMethodList = payMethod
 						this.specsList = specs
 						console.log(this.goodsNameList)
