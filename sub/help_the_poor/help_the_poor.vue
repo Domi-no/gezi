@@ -34,7 +34,7 @@
 				.then((res)=>{
 					console.log(res)
 					this.helpList=res.data.data
-					console.log(this.pigeonList)
+					console.log(this.helpList)
 					// uni.showToast({
 					// 	title: 'message',
 					// 	icon: 'none'

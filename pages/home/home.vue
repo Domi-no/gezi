@@ -26,15 +26,15 @@
 		<view class="rank">
 			<view class="rank_head">
 				<!-- <text class="gcph">鸽仓排行</text> <text class="cage_sum">鸽仓总数:&nbsp;1250</text> -->
-				<view class="gcph">
+				<view class="gcph"  >
 					<view>{{rankName}} <image src="../../static/home/zk_btm.png" mode="" @click.stop="showRankListName"></image></view>
-					<view class="rankListName" v-show="this.isShowRLN">
+					<view :class="{rankListName:true,htmlHidden:!isShowRLN}" >
 						<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item.name}}</text>
 					</view>
 				</view> 
 				<view class="cage_sum">
-					<view @click="changeTime(idx,item)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item.name}}
-						<text class="cage_sum_line" v-show="cRLTime === idx"></text>
+					<view @click="changeTime(idx,item)" :class="{rankListClick:cRLTime === idx }" v-for="(item,idx) in classification" :key='idx'>{{item.name}}
+						<text :class="{cage_sum_line:true,htmlHidden:cRLTime !== idx}"></text>
 					</view>
 				</view>
 			</view>
@@ -47,6 +47,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	import uSwiper from '@/uview-ui/components/u-swiper/u-swiper.vue';
 	export default {
 		 components:{
@@ -56,8 +59,8 @@
 			return {
 				cRLTime:0,
 				isShowRLN:false,
-				cRankListNameId:'',
-				rankName:'鸽仓排行',
+				cRankListNameId:null,
+				rankName:'厂区排行',
 				homeNewsList:[],
 				homeSaleList:[],
 				homeBannerList: [],
@@ -89,7 +92,7 @@
 		methods: {
 			toNewsList() {
 				uni.navigateTo({
-					url: '/sub/news_list/news_list?query='+JSON.stringify(this.newsArray)
+					url: '/sub/news_list/news_list'
 				})
 			},
 			toHomeSubPage(idx){
@@ -127,11 +130,12 @@
 				this.isShowRLN = !this.isShowRLN
 			},
 			rLNameChange(idx,item){
+				this.isShowRLN = false
 				console.log(item.rankText)
 				this.cRankListNameId = idx
 				this.rankName=item.name
 				this.saleData.RankText =item.rankText
-				this.isShowRLN=false
+				
 				this.getSaleData()
 			},
 			containerClick(){
@@ -139,7 +143,7 @@
 			},
 			toRanking(){
 				uni.navigateTo({
-					url: '/sub/ph_ranking/ph_ranking'
+					url: '/sub/ph_ranking/ph_ranking?query='+JSON.stringify(this.homeSaleList)
 				})
 			},
 			next(){
@@ -164,7 +168,7 @@
 				})
 			},
 			getHomeSale(){
-				this.$http.post('/Rank/home.html',{...this.saleData})
+				this.$http.post('/Rank/home.html',{uid:this.userInfo.id,...this.saleData})
 				.then((res)=>{
 					console.log(res)
 					this.homeBannerList =res.data.banner
@@ -185,18 +189,24 @@
 				})
 			}
 		},
-		
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
 		created() {
 			this.next()
 			this.getHomeSale()
 			console.log('created')
-			
+			console.log(this.isShowRLN)
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.hContainer {
+		padding-top: 88rpx;
 		.sw {
 			height: 560rpx;
 			background-color: #fff;
@@ -365,6 +375,9 @@
 			margin-top: 40rpx;
 			text-align: center;
 			color: #377BE4;
+		}
+		.htmlHidden{
+			display:none !important;
 		}
 		
 	}

@@ -177,7 +177,10 @@
 		color: #377BE4;
 		text-align: center;
 		line-height: 88rpx;
-		margin: 326rpx auto 0;
+		position: absolute;
+		bottom: 128rpx;
+		left: 50%;
+		transform: translateX(-50%);
 	}
 	.loginTips{
 		position: absolute;

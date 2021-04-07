@@ -96,7 +96,7 @@
 				{{this.harmlessTreatmentData.submit}}
 			</view>
 		</view>
-		<view class="" v-else-if="harmlessTreatmentData.power == 1 && harmlessTreatmentData.text === '审核中'">
+		<view class="" v-else-if="harmlessTreatmentData.power == 1">
 		<view class="leaveReason" v-show="isExamine" >
 			
 				<view class="">

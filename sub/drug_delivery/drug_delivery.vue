@@ -216,7 +216,22 @@
 				this.$http.post('/Vaccin/Delivery.html',{type:2,uid:this.userInfo.id,record_time:this.queryData.time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
 				.then((res) => {
 						console.log(res)
-						
+						if(res.code == 200){
+							uni.showToast({
+								title:'提交成功',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}else{
+							uni.showToast({
+								title:res.message,
+								icon: 'none'
+							})
+						}
 					}).catch((err) => {
 						
 					})

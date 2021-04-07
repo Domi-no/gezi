@@ -37,6 +37,7 @@ methods.forEach(method => {
 					url: 'http://192.168.0.134' + url,
 					header: headers,
 					data: {
+						uid:userInfo.id||'',
 						...params,
 					},
 					method

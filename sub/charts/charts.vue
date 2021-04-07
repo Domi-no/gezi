@@ -26,7 +26,7 @@
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{gdColumn.sum}}枚</text><text>平均：{{gdColumn.all}}枚</text></text></view>
+					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{gdColumn.sum||0}}枚</text><text>平均：{{gdColumn.all||0}}枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
 					<canvas canvas-id="canvasColumn" id="canvasColumn" class="charts" @touchstart="touchLine" @touchmove="moveLine" @touchend="touchEndLine"></canvas>
@@ -40,7 +40,7 @@
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum}}只</text><text>平均：{{rgColumn.sum}}只</text></text></view>
+					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum||0}}只</text><text>平均：{{rgColumn.sum||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
 					<canvas canvas-id="rgcanvasColumn" id="rgcanvasColumn" class="charts" @touchstart="touchLineA" @touchmove="moveLineA" @touchend="touchEndLineA"></canvas>
@@ -54,7 +54,7 @@
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">童鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{tgColumn.sum}}只</text><text>平均：{{tgColumn.sum}}只</text></text></view>
+					<view class="qiun-title-dot-light">童鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{tgColumn.sum||0}}只</text><text>平均：{{tgColumn.sum||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
 					<canvas canvas-id="tgcanvasColumn" id="tgcanvasColumn" class="charts" @touchstart="touchLineB" @touchmove="moveLineB" @touchend="touchEndLineB"></canvas>
@@ -69,7 +69,7 @@
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
-					<view class="qiun-title-dot-light">死淘量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{stColumn.sum}}只</text><text>平均：{{stColumn.all}}只</text></text></view>
+					<view class="qiun-title-dot-light">死淘量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{stColumn.sum||0}}只</text><text>平均：{{stColumn.all||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
 					<canvas canvas-id="stcanvasColumn" id="stcanvasColumn" class="charts" @touchstart="touchLineC" @touchmove="moveLineC" @touchend="touchEndLineC"></canvas>

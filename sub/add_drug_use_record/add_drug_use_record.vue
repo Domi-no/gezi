@@ -242,10 +242,38 @@
 				
 			},
 			cSubBtn(){
-				this.messageChangeData.record_id? this.dataForm.record_id =this.messageChangeData.record_id:''
+				this.messageChangeData.record_id ? this.dataForm.record_id =this.messageChangeData.record_id:''
 				console.log(this.messageChangeData.record_id)
-				this.dataForm.block_id=this.messageChangeData.block_id
+				this.messageChangeData.block_id ? this.dataForm.block_id = this.messageChangeData.block_id:''
+				console.log(this.dataForm.block_id)
+				// 
+				if(!this.isdWsub){
+					return false
+				}
+				this.$http.post('/Work/upRecord.html',{...this.dataForm})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title:'提交成功',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}else{
+							uni.showToast({
+								title:res.message,
+								icon: 'none'
+							})
+						}
+					}).catch((err) => {
+						
+					})
 			},
+			
 			symptomValue({detail:{value}}){
 				this.dataForm.symptom=value
 			},
@@ -262,6 +290,9 @@
 				this.dataForm.approval=value
 			},
 			choiceWarehouseNumber(){
+				if(this.messageChangeData.block_id){
+					return false
+				}
 				this.$refs.drug_warehouse.show()
 			},
 			showDrugUseTime(){
@@ -277,8 +308,9 @@
 				this.$refs.drugFactory.show()
 			},
 			warehouseValue(e){
-				console.log(e.item[1].label)
-				this.drugUseRecordPigeonBin = e.item[1].label
+				console.log(e.item[1])
+				this.drugUseRecordPigeonBin = e.item[1].name
+				this.dataForm.block_id=e.item[1].id
 			},
 			drug_useTime(e){
 				console.log(e.value)
@@ -289,7 +321,7 @@
 				this.drugBatchNumber=e.value
 				console.log(this.batchNumberList[0])
 				Object.keys(this.batchNumberList[0]).forEach((value, index)=>{
-					console.log(value, index,this.batchNumberList[0][value]);
+				console.log(value, index,this.batchNumberList[0][value]);
 					
 					if(e.value === value){
 						this.dataForm.drugs_id=this.batchNumberList[0][value].drugs_id
@@ -363,8 +395,8 @@
 			this.getFixBoxData()
 		},
 		onLoad(e) {
-			e.query?this.messageChangeData= JSON.parse(e.query):''
-			// console.log(this.messageChangeData)
+			e.query ? this.messageChangeData= JSON.parse(e.query):''
+			console.log(this.messageChangeData)
 			
 		}
 	}

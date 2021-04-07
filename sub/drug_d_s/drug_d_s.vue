@@ -14,7 +14,7 @@
 		<view class="drug_d_s_Box" v-for="(item,index) in drugDSdataList" :key="index">
 			<view class="drug_d_s_item">
 				<view class="drug_d_s_item_imaBox">
-					<image src="" mode=""></image>
+					<image :src="item.item_img" mode=""></image>
 				</view>
 				<view class="drug_d_s_rightBox">
 					<view class="drug_d_s_item_title">

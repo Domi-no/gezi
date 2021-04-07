@@ -14,11 +14,11 @@
 		<view class="food_d_s_Box">
 			<view class="food_d_s_item" v-for="(i,idx) in grainNameList" :key="idx">
 				<view class="food_d_s_item_imaBox">
-					<image src="" mode=""></image>
+					<image :src="i.item_img" mode=""></image>
 				</view>
 				<view class="food_d_s_rightBox">
 					<view class="food_d_s_item_title">
-						<text>{{i.grain_name}}</text><text class="stock">库存：{{i.number+i.unit_price}}</text>
+						<text>{{i.grain_name}}</text><text class="stock">库存：{{i.number + i.unit_price}}</text>
 					</view>
 					<view class="food_d_s_item_time">
 						更新时间：{{i.time}}

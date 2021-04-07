@@ -8,7 +8,7 @@
 					{{i.title}}
 				</view>
 				<view class="administration_box">
-					<view class="administration_box_item" v-for="(item,index) in waitData[idx].item" :key="'1'+index" @click="goToItemPage(item.url)">
+					<view class="administration_box_item" v-for="(item,index) in waitData[idx].item" :key="index" @click="goToItemPage(item.url)">
 						<view class="a_i_box">
 							<image class="administration_box_item_img" :src="item.icon" mode=""></image>
 						</view>
@@ -132,7 +132,7 @@
 	.waitContainer{
 		background-color: #fff;
 		// height: 100%;
-		padding: 36rpx 30rpx 40rpx;
+		padding: 124rpx 30rpx 40rpx;
 		.swiper{
 			// padding: 0 30rpx;
 		}

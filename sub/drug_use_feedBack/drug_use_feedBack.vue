@@ -191,7 +191,7 @@
 				batchNumberData:[],
 				dataForm:{
 					uid:'',
-					record_id:1,
+					record_id:'',
 					record_time:'',
 					block_id:'',
 					symptom:'',
@@ -241,7 +241,7 @@
 				 let D = Dates.getDate();
 				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
 				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
-				 this.dataForm.record_time=times
+				 // this.dataForm.record_time=times
 				
 			},
 			reasonChange(){
@@ -255,7 +255,33 @@
 				
 			},
 			cSubBtn(){
-				this.dataForm.block_id=this.messageChangeData.block_id
+				
+				this.messageChangeData.block_id?this.dataForm.block_id=this.messageChangeData.block_id:''
+				if(!this.isdWsub){
+					return false
+				}
+				this.$http.post('/Work/upRecord.html',{...this.dataForm})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title:'提交成功',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}else{
+							uni.showToast({
+								title:res.message,
+								icon: 'none'
+							})
+						}
+					}).catch((err) => {
+						
+					})
 			},
 			feedbackValue({detail:{value}}){
 					this.dataForm.feedback=value
@@ -359,10 +385,11 @@
 					day,
 					approval,
 					dosage,
-					feedback
+					feedback,
+					drugs_id
 				} = this.dataForm
 				let {drugUseRecordPigeonBin,nameOfDrug,dURManufacturer,drugBatchNumber} =  this
-				if(drugUseRecordPigeonBin !== '请选择' && usage_time !== '请选择' && nameOfDrug !== '请选择' && dURManufacturer !== '请选择' && drugBatchNumber !== '请选择' && dosage && approval && day && number && symptom && feedback){
+				if(usage_time !== '请选择' && drugs_id && dosage && approval && day && number && symptom && feedback){
 					return true
 				}
 			},
@@ -378,8 +405,13 @@
 		},
 		onLoad(e) {
 			e.query?this.messageChangeData= JSON.parse(e.query):''
-			// console.log(this.messageChangeData)
+			e.query?this.dataForm.record_time = this.messageChangeData.time:''
+			console.log(this.messageChangeData)
 			
+			
+		},
+		mounted() {
+			console.log('mounted')
 		}
 	}
 </script>

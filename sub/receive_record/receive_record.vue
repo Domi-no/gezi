@@ -25,7 +25,7 @@
 					重量<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
 				<view class="choice choiceInput">
-					<input type="number" :value="dataForm.number" @input="issuerChange" placeholder="请输入" placeholder-style="color:#979797"/><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" :value="dataForm.number" @input="numberChange" placeholder="请输入" placeholder-style="color:#979797"/><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="sterilizeOption" @click="choiceFoods">
@@ -45,7 +45,7 @@
 			</view>
 			<textarea :value="dataForm.remarks"  @input="remarksChange"  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
-		<view class="submitSterilizeRecord" @click="rRSub">
+		<view :class="{submitSterilizeRecord:true,blueBg:rRisSub}" @click="rRSub">
 			提交
 		</view>
 		<lb-picker ref="sRbox" mode="multiSelector" :props="myProps" :list="sRWarehouseList" :level="2" radius="20rpx" confirm-color="#377BE4" @confirm='sRBoxValue'>
@@ -68,9 +68,7 @@
 		    },
 		data() {
 			return {
-				list: [
-				  
-				],
+				list: [],
 				myProps: {
 				     label: 'name',
 				     value: 'id',
@@ -160,13 +158,44 @@
 				 this.dataForm.date=times
 			},
 			rRSub(){
-				
+				if(!this.rRisSub){
+					return false
+				}
+				this.$http.post('/Grain/receive.html', {uid: this.userInfo.id,...this.dataForm})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title: '提交成功',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}else{
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+						}
+						
+					}).catch((err) => {
+						
+					})
+					
 			}
 		},
 		computed:{
 			...mapState({
 				userInfo: (state) => state.user.userInfo
-			})
+			}),
+			rRisSub(){
+				const {remarks,number,block_id,issuer,grain_id}=this.dataForm
+				console.log(remarks , number , block_id , issuer , grain_id)
+				return remarks && number && block_id && issuer && grain_id ? true : false 
+			}
 			
 		},
 		created() {
@@ -240,6 +269,9 @@
 		font-weight: 500;
 		color: #FFFFFF;
 	}
+	.blueBg{
+		background-color:#377BE4;
+	}
 	.star{
 		width: 12rpx;
 		height: 12rpx;
@@ -253,19 +285,20 @@
 		margin-left: 17rpx;
 	}
 	.choiceInput{
-				display: flex;
-				line-height: 88rpx;
-				input{
-					width: 83rpx;
-					margin: auto 16rpx auto 0;
-					font-size: 28rpx;
-					font-weight: 500;
-					color: #979797;
-					text-align: center;
-				}
-				image{
-					margin: auto 0;
-				}
-			}
+		display: flex;
+		line-height: 88rpx;
+		input{
+			width: 83rpx;
+			margin: auto 16rpx auto 0;
+			font-size: 28rpx;
+			font-weight: 500;
+			color: #979797;
+			text-align: center;
+		}
+		image{
+			margin: auto 0;
+		}
+	}
+			
 }
 </style>

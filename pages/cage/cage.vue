@@ -305,8 +305,8 @@
 <style lang="scss" scoped>
 	.cage_container {
 		background-color: #fff;
-		padding-top: 40rpx;
-
+		padding-top: 128rpx;
+		
 		.cage_head {
 			// height: 208rpx;
 			padding: 0 30rpx 40rpx;

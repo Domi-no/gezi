@@ -16,7 +16,7 @@
 				<view class="saleNumBox">
 					<text>可销售数量</text>
 					<view class="" @click="warehousePopupShow">
-						{{block_type}} <image src="../../static/my/zk.png" mode=""></image>
+						{{type_name}} <image src="../../static/my/zk.png" mode=""></image>
 					</view>
 				</view>
 			</view>
@@ -26,43 +26,43 @@
 						<view class="">
 							<image src="../../static/daiban/ht_p.png" mode=""></image><text>种鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{preSaleData.pigeon||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_b.png" mode=""></image><text>鸽蛋</text>
 						</view>
-						<text class="sCCageNum pinkNum">25,468</text>
+						<text class="sCCageNum pinkNum">{{preSaleData.egg||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_g.png" mode=""></image><text>乳鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{preSaleData.squab||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{preSaleData.child||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_qng.png" mode=""></image><text>青年鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{preSaleData.youth||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_fb.png" mode=""></image><text>粪便</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{preSaleData.dung||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_fl.png" mode=""></image><text>废料</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{preSaleData.waste||0}}</text>
 					</view>
 					
 				</scroll-view>
@@ -173,10 +173,11 @@
 					 label: 'type_name',
 					 value: 'block_type',
 				},
-				block_type:'生产仓',
+				block_type:'1',
 				preSaleData:'',
 				todaySaleData:'',
 				monthSaleData:'',
+				type_name:'生产仓',
 			}
 		},
 		onLoad() {
@@ -337,7 +338,8 @@
 			},
 			typeNameChange(e){
 				console.log(e)
-				this.block_type=e.item.type_name
+				this.block_type=e.item.block_type
+				this.type_name=e.item.type_name
 				this.getPreSaleData()
 			},
 			warehousePopupShow(){

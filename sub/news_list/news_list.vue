@@ -77,9 +77,8 @@
 		created() {
 			this.getListNews()
 		},
-		onLoad(e){
-			// console.log(JSON.parse(e.query))
-			// this.newsList =JSON.parse(e.query)
+		onLoad(){
+		
 		}
 	}
 </script>

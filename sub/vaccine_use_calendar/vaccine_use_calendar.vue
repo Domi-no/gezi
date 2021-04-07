@@ -114,19 +114,23 @@
 			change(e){
 			     
 			  	this.dayList=[]
+				
 			  	console.log(this.time)
-			  	// console.log(this.drugUseList)
+			  	console.log(this.vaccineUseData)
 			  	this.today=e.date
-			  	Object.keys(this.vaccineUseData).forEach((value, index)=>{
-			  		// console.log(value, index,this.drugUseList[value]);
-			  		
-			  		if(value == this.today){
-			  			
-			  			this.dayList.push(this.vaccineUseData[value])
-			  			
-			  		}
-			  		console.log(this.dayList)
-			  	});
+				if(this.vaccineUseData){
+					Object.keys(this.vaccineUseData).forEach((value, index)=>{
+						// console.log(value, index,this.drugUseList[value]);
+						
+						if(value == this.today){
+							
+							this.dayList.push(this.vaccineUseData[value])
+							
+						}
+						console.log(this.dayList)
+					});
+				}
+			  	
 			  
 			},
 			addSvRecord(){
@@ -193,20 +197,7 @@
 							}
 							
 						});
-						// console.log(this.vaccineList)
-						// Object.keys(this.vaccineUseData).forEach((value, index)=>{
-						// 	console.log(value, index,this.drugUseList[value]);
-							
-						// 	if(value == this.today){
-								
-						// 		this.dayList.push(this.vaccineUseData[value])
-								
-						// 	}
-							
-						// });
-						
-						console.log(this.time)
-						console.log(this.dayList)
+					
 					}).catch((err) => {
 						
 					})
@@ -221,6 +212,9 @@
 			this.getToday()
 			this.getVYCData()
 			
+		},
+		onShow() {
+			this.getVYCData()
 		}
 	}
 </script>

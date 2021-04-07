@@ -163,7 +163,11 @@
 								title:'提交成功',
 								icon: 'none'
 							})
-						
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
 						}else{
 							uni.showToast({
 								title:res.message,

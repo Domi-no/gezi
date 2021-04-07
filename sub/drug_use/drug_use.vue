@@ -103,19 +103,22 @@
 		methods: {
 			change(e) {
 				this.dayList=[]
-				console.log(e)
+				console.log(e.date)
 				// console.log(this.drugUseList)
+				
 				this.today=e.date
-				Object.keys(this.drugUseList).forEach((value, index)=>{
-					// console.log(value, index,this.drugUseList[value]);
-					
-					if(value == this.today){
+				if(this.drugUseList){
+					Object.keys(this.drugUseList).forEach((value, index)=>{
+						// console.log(value, index,this.drugUseList[value]);
 						
-						this.dayList.push(this.drugUseList[value])
-						
-					}
-					// console.log(this.dayList[0])
-				});
+						if(value == this.today){
+							
+							this.dayList.push(this.drugUseList[value])
+							
+						}
+						// console.log(this.dayList[0])
+					});
+				}
 			},
 			monthChange(e){
 				console.log(e)
@@ -155,14 +158,14 @@
 			console.log(2)
 				this.$http.post('/Work/Record.html', {uid: this.userInfo.id,...this.drugUseForm})
 				.then((res) => {
-						console.log(res)
-						console.log(1)
+						this.time=[]
+						this.dayList=[]
+						this.vaccineUseData=''
 						this.drugUseList=res.data.day
-						// this.drugUseList=JSON.parse(JSON.stringify(this.drugUseList))
+						console.log(this.drugUseList)
 						
 						Object.keys(this.drugUseList).forEach((value, index)=>{
 							console.log(value, index,this.drugUseList[value]);
-							
 							this.time.push(this.drugUseList[value][0].usage_time)
 							if(value == this.today){
 								this.dayList=[]
@@ -185,6 +188,7 @@
 				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
 				 this.drugUseForm.time_m = M < 10?  '0'+ M : M
 				 this.drugUseForm.time_y=Y
+				 this.today=D
 				 console.log(this.today)
 				 console.log(D)
 				 console.log(this.drugUseList)
@@ -198,12 +202,13 @@
 			
 		},
 		created() {
-			this.getDrugUse()
-			console.log(this.newList)
 			this.getToday()
+			this.getDrugUse()
+			console.log(this.dayList)
+			
 		},
-		mounted() {
-				
+		onShow() {
+			this.getDrugUse()
 		}
 		
 	}

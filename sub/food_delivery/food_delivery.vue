@@ -59,14 +59,14 @@
 						使用地点<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox" @click="">
-						<input type="" @input="supplierChange"  :value="fDdataForm.supplier" :disabled="fDdataForm.reason" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="supplierChange"  :value="fDdataForm.supplier" :disabled="fDdataForm.reason === ''" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					<view class="typeName">
 						批准人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox"  @click="">
-						<input type="" @input="examinerChange" :value="fDdataForm.examiner" :disabled="fDdataForm.reason"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+						<input type="" @input="examinerChange" :value="fDdataForm.examiner" :disabled="fDdataForm.reason === ''"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 						<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					
@@ -108,7 +108,7 @@
 				<view class="">
 					备注<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="remarksChange" :value="fDdataForm.remarks" :disabled="fDdataForm.reason" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="remarksChange" :value="fDdataForm.remarks" :disabled="fDdataForm.reason===''" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		</view>
 		<view :class="{leaveSubmit:true,isSubBg:isfDsub}" @click="cSubBtn">
@@ -261,7 +261,7 @@
 					return false
 				}
 				const {time:record_time,grain_name}=this.queryData
-				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time,grain_name,price:this.fWmoney,...this.fWdataForm})
+				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time,grain_name,...this.fDdataForm})
 				.then((res) => {
 						console.log(res)
 					
@@ -270,10 +270,14 @@
 								title:'提交成功',
 								icon: 'none'
 							})
-						
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
 						}else{
 							uni.showToast({
-								title:'提交失败',
+								title:res.message,
 								icon: 'none'
 							})
 						}
@@ -299,15 +303,16 @@
 			}),
 			
 			isfDsub(){
-				
+				this.fDdataForm.price=this.fDmoney
 				let {unit,unit_price,number,price,supplier,remarks,examiner,reason,return_time,borrowing,manager}=this.fDdataForm
 				if(reason === '本厂使用' && examiner && remarks && supplier || reason === '外销' && unit && number && unit_price && manager && remarks ||reason === '外厂借用' && return_time && borrowing && manager && examiner && remarks){
 					return true
 				}
 			},
 			fDmoney(){
-				let {num,price}=this
-				return num&&price? num*price : 0
+				let {number,unit_price}=this.fDdataForm
+				
+				return number&&unit_price? number*unit_price : 0
 			}
 		},
 		onLoad({query}) {

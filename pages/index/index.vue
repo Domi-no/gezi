@@ -1,10 +1,19 @@
 <template>
 	<view class="myFont container">
-		<view class="header">
+		
+		<view :class="{header:true,indexHidden:id === 4}" >
+			
 			<view class="title">
 				智慧养鸽
 			</view>
+			
+			
+			<!-- <view class="mpTitle">
+				智慧养鸽
+			</view> -->
+			
 		</view>
+	
 		<scroll-view scroll-y="true" class="tabPage">
 			<home v-if="id=== 0"></home>
 			<cage v-else-if="id === 1"></cage>
@@ -18,7 +27,7 @@
 						<image  class="scanImg" src="../../static/home/saoma.png" mode="" ></image>
 					</view>
 					<image v-else :src="id===idx?tabIcon[idx].c_icon:tabIcon[idx].icon" mode=""></image>
-					{{item.name}}
+					{{item.name||''}}
 				</view>
 			</view>
 		</view>
@@ -91,10 +100,16 @@
 				bottom: 1rpx;
 				color: #151515;
 			}
+			// .mpTitle {
+				
+				
+			// 	color: #151515;
+			// 	text-align: center;
+			// }
 		}
 		.tabPage {
 			height: 100vh;
-			padding: 88rpx 0 90rpx 0;
+			padding: 0 0 90rpx 0;
 		}
 		.tabBar {
 			width: 100%;
@@ -137,6 +152,9 @@
 					transform: translateY(-50%);
 				}
 			}
+		}
+		.indexHidden{
+			display: none;
 		}
 	}
 </style>

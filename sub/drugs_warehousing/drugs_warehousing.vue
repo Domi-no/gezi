@@ -196,7 +196,7 @@
 				if(!this.isDDsub){
 					return false
 				}
-				this.$http.post('/Vaccin/Delivery.html',{type:1,uid:this.userInfo.id,log_id:this.queryData.log_id,record_time:this.queryData.time||this.queryData.record_time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
+				this.$http.post('/Vaccin/Delivery.html',{type:1,uid:this.userInfo.id,log_id:this.queryData.log_id||'',record_time:this.queryData.time||this.queryData.record_time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
 				.then((res) => {
 						console.log(res)
 						if(res.code == 200){
