@@ -22,6 +22,9 @@
 					"path": "pages/index/index",
 					"style": {
 						"navigationBarTitleText": "",
+						// #ifdef MP-WEIXIN
+						"navigationStyle":"custom",
+						// #endif
 						"app-plus": {
 							"titleNView": false
 						}
@@ -31,6 +34,7 @@
 					"style": {
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
+						
 					}
 		
 				}, {
@@ -38,6 +42,7 @@
 					"style": {
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
+					
 					}
 		
 				}, {
@@ -45,6 +50,7 @@
 					"style": {
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
+					
 					}
 		
 				}, {
@@ -52,18 +58,24 @@
 					"style": {
 						"navigationBarTitleText": "",
 						"enablePullDownRefresh": false
+						
 					}
 		
 				}
 
 	],
-	
+	// #ifdef APP-PLUS||H5
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#F8F8F8",
 		"backgroundColor": "#F8F8F8"
+		
 	},
+	// #endif
+	
+	
+	
 	"subPackages": [{
 			"root": "sub",
 			"pages": [{
@@ -71,7 +83,16 @@
 				"style":{
 					"navigationBarTitleText":"药品出入库",
 					"app-plus":{
-						"titleNView":false
+						"titleNView":{
+								 "titleText":"药品出入库",
+								  "buttons":[ 
+								               {
+								                "text": "出入库记录" ,
+												"color":"#377BE4",
+												"fontSize":"28rpx"
+								                }
+								            ]	
+						}
 					}
 				}
 			},{
@@ -115,7 +136,17 @@
 				"style": {
 					"navigationBarTitleText":"销售",
 					"app-plus":{
-						"titleNView":false
+						"titleNView":{
+						      "titleText":"销售",
+						      "buttons":[ 
+						                {
+						                "text": "＋" ,
+						                "color":"#000",
+										"fontWeight":"bold",
+						                "fontSize":"58rpx"
+						                }
+						                ]	
+						}
 					}
 				}
 			},
@@ -225,7 +256,16 @@
 				"style": {
 					"navigationBarTitleText":"",
 					"app-plus":{
-						"titleNView":false
+						"titleNView":{
+						      "titleText":"粮食仓储",
+						      "buttons":[ 
+						                {
+						                "text": "出入库记录" ,
+										"color":"#377BE4",
+										"fontSize":"28rpx"
+						                }
+						                ]	
+						}
 					}
 				}
 			},
@@ -258,7 +298,17 @@
 				"style": {
 					"navigationBarTitleText":"",
 					"app-plus":{
-						"titleNView":false
+						"titleNView":{
+							
+								 "titleText":"药品使用详情",
+								  "buttons":[ 
+								               {
+								                "text": "信息修改" ,
+												"color":"#377BE4",
+												"fontSize":"28rpx"
+								                }
+								            ]	
+						}
 					}
 				}
 			},
@@ -288,9 +338,23 @@
 				"style": {
 					"navigationBarTitleText":"",
 					"app-plus":{
-						"titleNView":false
+						"titleNView":{
+							
+								 "titleText":"疫苗使用详情",
+								  "buttons":[ 
+								               {
+								                "text": "信息修改" ,
+												"color":"#377BE4",
+												"fontSize":"28rpx"
+								                }
+								            ]
+								                        
+							
+						}
+							
 					}
 				}
+				
 			},
 			{
 				"path": "clock_in_attendance/clock_in_attendance",
@@ -390,7 +454,16 @@
                {
                    "navigationBarTitleText": "",
                    "app-plus":{
-                   	"titleNView":false
+                   	"titleNView":{
+                   			 "titleText":"入库记录",
+                   			  "buttons":[ 
+                   			               {
+                   			                "text": "信息修改" ,
+                   							"color":"#377BE4",
+                   							"fontSize":"28rpx"
+                   			                }
+                   			            ]	
+                   	}
                    }
 				   
                }
@@ -403,7 +476,16 @@
                     "navigationBarTitleText": "",
                     "enablePullDownRefresh": false,
 					"app-plus":{
-						"titleNView":false
+						"titleNView":{
+						      "titleText":"入库记录",
+						      "buttons":[ 
+						                {
+						                "text": "信息修改" ,
+										"color":"#377BE4",
+										"fontSize":"28rpx"
+						                }
+						                ]	
+						}
 					}
                 }
                 

@@ -1,6 +1,6 @@
 <template>
 	<view class="drug_d_s_container">
-		<view class="navigationBar">
+		<!-- <view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -10,7 +10,7 @@
 			<view class="nBright" >
 				<text @click="toRecordsPage">出入库记录</text>
 			</view>
-		</view>
+		</view> -->
 		<view class="drug_d_s_Box" v-for="(item,index) in drugDSdataList" :key="index">
 			<view class="drug_d_s_item">
 				<view class="drug_d_s_item_imaBox">
@@ -54,7 +54,7 @@
 				    delta: 1
 				});
 			},
-			toRecordsPage(){
+			onNavigationBarButtonTap(){
 				uni.navigateTo({
 					url: '/sub/in_out_records/in_out_records'
 				});
@@ -98,7 +98,7 @@
 	.drug_d_s_container{
 			min-height: calc(100vh);
 			background-color: #F4F6FA;
-			padding-top: 88rpx;
+			padding-top: 1rpx;
 			padding-bottom: 30rpx;
 		.navigationBar{
 			position: fixed;

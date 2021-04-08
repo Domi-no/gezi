@@ -448,9 +448,12 @@
 			this.getVaccineData()
 		},
 		onLoad({query}) {
-			this.queryData = JSON.parse(query)
-			JSON.parse(query).text? this.isFeedBack = JSON.parse(query).text : ''
-			console.log(this.query)
+			if(query){
+				this.queryData = JSON.parse(query)
+				JSON.parse(query).text? this.isFeedBack = JSON.parse(query).text : ''
+			}
+			
+			
 		}
 	}
 </script>

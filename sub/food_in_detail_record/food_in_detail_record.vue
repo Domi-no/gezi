@@ -1,6 +1,6 @@
 <template>
 	<view class="food_in_detailContainer">
-		<view class="navigationBar">
+		<!-- <view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -10,7 +10,7 @@
 			<view class="nBright" >
 				<text @click="toRecordsPage">信息修改</text>
 			</view>
-		</view>
+		</view> -->
 		<view class="in_out_record_detailOutBox">
 			<view class="">
 				<text>记录时间</text><text>{{recordDetail.record_time}}</text>
@@ -67,7 +67,7 @@
 				    delta: 1
 				});
 			},
-			toRecordsPage(){
+			onNavigationBarButtonTap(){
 				uni.navigateTo({
 					url: '/sub/foods_warehousing/foods_warehousing?query='+ JSON.stringify(this.queryData)
 				});
@@ -107,7 +107,7 @@
 	.food_in_detailContainer{
 		background-color: #F4F6FA;
 		min-height: calc(100vh);
-		padding-top: 88rpx;
+		padding-top:1rpx;
 		padding-bottom: 88rpx;
 		.navigationBar{
 			position: fixed;

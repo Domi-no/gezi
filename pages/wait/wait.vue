@@ -3,6 +3,7 @@
 			<view class="swiper">
 				<u-swiper :list="list" :name="'image'" indicator-pos="bottomCenter" :indicator="{'background-color':'#A5A5AA'}" height="300"></u-swiper>
 			</view>
+			<!-- #ifdef APP-PLUS||H5 -->
 			<view class="" v-for="(i,idx) in waitData" :key="idx">
 				<view class="administration">
 					{{i.title}}
@@ -16,6 +17,22 @@
 					</view>
 				</view>
 			</view>
+			<!-- #endif -->
+			<!-- #ifdef MP-WEIXIN -->
+			<view class="">
+				<view class="administration">
+					{{wxWaitdata.title}}
+				</view>
+				<view class="administration_box">
+					<view class="administration_box_item" v-for="(item,index) in wxWaitdata.item" :key="index" @click="goToItemPage(item.url)">
+						<view class="a_i_box">
+							<image class="administration_box_item_img" :src="item.icon" mode=""></image>
+						</view>
+						<text>{{item.i_name}}</text>
+					</view>
+				</view>
+			</view>
+			<!-- #endif -->
 	</view>
 </template>
 
@@ -115,7 +132,32 @@
 							
 						]
 					}
-				]
+				],
+				wxWaitdata:{
+						title:'工作记录',
+						item:[
+							{
+								i_name:'疫苗使用',
+								icon:'../../static/daiban/ymsy.png',
+								url:'/sub/vaccine_use/vaccine_use'
+							},
+							{
+								i_name:'药品使用',
+								icon:'../../static/daiban/ypsy.png',
+								url:'/sub/drug_use/drug_use'
+							},
+							{
+								i_name:'饲料消耗',
+								icon:'../../static/daiban/slxh.png',
+								url:'/sub/feed_consumption/feed_consumption'
+							},
+							{
+								i_name:'鸽舍消杀',
+								icon:'../../static/daiban/gsxs.png',
+								url:'/sub/cage_sterilize/cage_sterilize'
+							}
+						]
+					}
 			}
 		},
 		methods: {
@@ -131,7 +173,7 @@
 <style lang="scss" scoped>
 	.waitContainer{
 		background-color: #fff;
-		// height: 100%;
+		min-height: calc(100vh);
 		padding: 124rpx 30rpx 40rpx;
 		.swiper{
 			// padding: 0 30rpx;

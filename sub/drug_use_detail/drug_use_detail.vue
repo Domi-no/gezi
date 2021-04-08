@@ -1,6 +1,6 @@
 <template>
 	<view class="addNewDrugUseRecordContainer">
-		<view class="navigationBar">
+		<!-- <view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -10,7 +10,7 @@
 			<view class="nBright" >
 				<text @click="toRecordsChangePage">信息修改</text>
 			</view>
-		</view>
+		</view> -->
 		<view class="dWTopBox">
 			<text>记录时间</text><text>{{this.messageChangeForm.time}}</text>
 		</view>
@@ -85,7 +85,7 @@
 			}
 		},
 		methods:{
-			toRecordsChangePage(){
+			onNavigationBarButtonTap(){
 				console.log()
 				const messageForm =JSON.stringify(this.messageChangeForm)
 				uni.navigateTo({
@@ -129,7 +129,7 @@
 .addNewDrugUseRecordContainer{
 	min-height: calc(100vh);
 	background-color: #F4F6FA;
-	padding-top: 108rpx;
+	padding-top: 20rpx;
 	padding-bottom: 189rpx;
 	color: #151515;
 	.navigationBar{

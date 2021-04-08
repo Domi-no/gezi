@@ -1,7 +1,7 @@
 <template>
 	<view class="details_of_vaccine_use_container">
 		
-		<view class="navigationBar">
+		<!-- <view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -11,8 +11,8 @@
 			<view class="nBright" >
 				<text @click="toRecordsPage">信息修改</text>
 			</view>
-		</view>
-		<view class="" style="margin-top: 20rpx;">
+		</view> -->
+		<view class="" >
 			<view class="dDTopBox">
 				<text>记录时间</text><text>{{query.usage_time}}</text>
 			</view>
@@ -102,12 +102,13 @@
 						
 					})
 			},
-			toRecordsPage(){
+			onNavigationBarButtonTap(){
 				console.log(this.query)
 				uni.navigateTo({
 					url: '/sub/add_vaccine_use_record/add_vaccine_use_record?query=' + JSON.stringify(this.query)
 				});
-			}
+			},
+		
 		},
 		computed:{
 			...mapState({
@@ -128,7 +129,7 @@
 
 <style lang="scss" scoped>
 .details_of_vaccine_use_container{
-	padding-top: 88rpx;
+	padding-top: 20rpx;
 	padding-bottom: 136rpx;
 	min-height: calc(100vh);
 	background-color: #F4F6FA;
@@ -138,6 +139,7 @@
 		left: 0;
 		width: 100%;
 		height: 88rpx;
+		 // height: var(--status-bar-height);
 		background: #FFFFFF;
 		display: flex;
 		justify-content: space-around;

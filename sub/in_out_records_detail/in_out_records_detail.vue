@@ -1,6 +1,6 @@
 <template>
 	<view class="in_out_record_detailContainer">
-		<view class="navigationBar">
+		<!-- <view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -10,8 +10,8 @@
 			<view class="nBright" >
 				<text @click="toRecordsPage">信息修改</text>
 			</view>
-		</view>
-		<view class="in_out_record_detailOutBox">
+		</view> -->
+		<view class="in_out_record_detailOutBox" style="margin-top: 0;">
 			<view class="">
 				<text>记录时间</text><text>{{recordsDetailData.record_time}}</text>
 			</view>
@@ -73,7 +73,7 @@
 				    delta: 1
 				});
 			},
-			toRecordsPage(){
+			onNavigationBarButtonTap (){
 				console.log(this.recordsDetailData)
 				uni.navigateTo({
 					url:'../drugs_warehousing/drugs_warehousing?query='+JSON.stringify(this.recordsDetailData)
@@ -106,7 +106,7 @@
 	.in_out_record_detailContainer{
 		background-color: #F4F6FA;
 		min-height: calc(100vh);
-		padding-top: 88rpx;
+		padding-top: 20rpx;
 		padding-bottom: 88rpx;
 		.navigationBar{
 			position: fixed;

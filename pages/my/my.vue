@@ -20,6 +20,8 @@
 			</view>
 		</view>
 		<view class="operate_container">
+			
+			<!-- #ifndef  MP-WEIXIN -->
 			<view class="operate_container_box" @click="toOperatePage">
 				<view class="operate_container_left">
 					<image class="operate_container_left_image" src="../../static/my/dy.png" mode=""></image>
@@ -31,6 +33,7 @@
 					<image class="operate_container_zk_image" src="../../static/my/zk.png" mode=""></image>
 				</view>
 			</view>
+			<!-- #endif -->
 			<view class="operate_container_box" @click="toMessageCenter">
 				<view class="operate_container_left">
 					<image class="operate_container_left_image" src="../../static/my/dy.png" mode=""></image>

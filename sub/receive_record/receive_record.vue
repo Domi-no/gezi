@@ -43,7 +43,7 @@
 			<view class="">
 				备注
 			</view>
-			<textarea :value="dataForm.remarks"  @input="remarksChange"  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea :value="dataForm.remarks"  @input="remarksChange"  placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 		<view :class="{submitSterilizeRecord:true,blueBg:rRisSub}" @click="rRSub">
 			提交

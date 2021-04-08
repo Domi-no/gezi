@@ -198,8 +198,9 @@
 		created() {
 			this.next()
 			this.getHomeSale()
-			console.log('created')
+			console.log(this.userInfo.token)
 			console.log(this.isShowRLN)
+			
 		}
 	}
 </script>

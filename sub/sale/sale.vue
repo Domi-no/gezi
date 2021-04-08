@@ -1,6 +1,7 @@
 <template>
 	<view class="saleContainer">
-		<view class="navigationBar">
+		<!-- #ifndef APP-PLUS||H5 -->
+		<cover-view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -10,7 +11,8 @@
 			<view class="nBright" >
 				<image @click="toRecordsPage" src="../../static/daiban/jiahao.png" mode=""></image>
 			</view>
-		</view>
+		</cover-view>
+		<!-- #endif -->
 		<view class="saleTopBox">
 			<view class=""style="padding: 0 30rpx;">
 				<view class="saleNumBox">
@@ -192,7 +194,7 @@
 				    delta: 1
 				})
 			},
-			toRecordsPage(){
+			onNavigationBarButtonTap(){
 				
 				uni.navigateTo({
 					url:'/sub/add_sale_record/add_sale_record?list='+JSON.stringify(this.list)
@@ -362,7 +364,7 @@
 
 <style lang="scss" scoped>
 .saleContainer{
-	padding-top: 88rpx;
+	padding-top: 1rpx;
 	background-color: #F4F6FA;
 	min-height: calc(100vh);
 	.navigationBar{

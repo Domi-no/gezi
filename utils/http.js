@@ -7,24 +7,25 @@ import {
 } from '@/utils/session'
 
 
+
 // 获取userInfo的token信息
 let methods = ["post", "del", "put", "get"]
 methods.forEach(method => {
 	request[method] = (url, params, extra = {}) =>
 		new Promise((resolve, reject) => {
 			let userInfo = getSession(sessionType.USER_INFO)
-			console.log(userInfo);
+			console.log(store.state.user.userInfo.token,'用户信息');
 			let {
 				title = "请稍后..",
 					showLoading = true,
 					showErrorToast = true,
 					headers = {
-						"content-type": "application/x-www-form-urlencoded",
-						token: userInfo.token
+						// "content-type": "application/x-www-form-urlencoded",
+						token: userInfo.token||store.state.user.userInfo.token
 						// token: '6220489c2a49a927a70834ced97f95b3'
 					}
 			} = extra;
-
+			
 			// 显示全屏loading
 			showLoading &&
 				uni.showLoading({
@@ -37,7 +38,7 @@ methods.forEach(method => {
 					url: 'http://192.168.0.134' + url,
 					header: headers,
 					data: {
-						uid:userInfo.id||'',
+						uid:userInfo.id||store.state.user.userInfo.id||'',
 						...params,
 					},
 					method
@@ -54,7 +55,7 @@ methods.forEach(method => {
 						} = res.data;
 
 						// 未登录/重新登录/Token过期
-						if (code == 402) {
+						if (code == 402||code == 400) {
 							// toast("未登录或已过期");
 							store.dispatch("SET_USER_INFO", "");
 							uni.setStorageSync("timUserSign", "");

@@ -155,6 +155,9 @@
 			...mapState({
 				userInfo: (state) => state.user.userInfo
 			}),
+		},
+		onShow() {
+			this.getConsumeData()
 		}
 	}
 </script>

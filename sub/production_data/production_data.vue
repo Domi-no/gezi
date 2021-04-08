@@ -49,20 +49,20 @@
 							</view>
 							<view class="pd_pigeon_bt_state pd_r_mr">
 								<view class="pd_pigeon_bt_state_text longText">
-									<text v-if="i.alias === '种鸽'">转出</text><text v-if="i.alias === '鸽蛋'">入库</text><text v-if="i.alias === '乳鸽'">出售</text><text v-if="i.alias === '童鸽'">转至飞棚</text>
+									<text v-if="i.alias === '种鸽'">转出</text><text v-if="i.alias === '鸽蛋'">入库</text><text v-if="i.alias === '乳鸽'">出售</text><text v-if="i.alias === '童鸽'||i.alias === '青年鸽'">转至飞棚</text>
 								</view>
-								<text class="pd_pigeon_bt_state_num">{{i.alias === '童鸽' ? i.shift_to : i.getout}}</text>
+								<text class="pd_pigeon_bt_state_num">{{i.alias === '童鸽'||i.alias === '青年鸽' ? i.shift_to : i.getout}}</text>
 							</view>
 							<view class="pd_pigeon_bt_state pd_l_mr">
 								<view class="pd_pigeon_bt_state_text">
 									<text class="text_m">{{i.alias === '鸽蛋' ? '臭蛋' : '死亡'}}</text>
 								</view><text class="pd_pigeon_bt_state_num">{{i.death}}</text>
 							</view>
-							<view class="pd_pigeon_bt_state pd_r_mr" v-if="i.alias !== '童鸽'">
+							<view class="pd_pigeon_bt_state pd_r_mr" v-if="i.alias === '种鸽' || i.alias === '鸽蛋'||i.alias === '乳鸽'">
 								<view class="pd_pigeon_bt_state_text longText">
 									<text v-if="i.alias === '种鸽'">新增</text><text v-if="i.alias === '鸽蛋'">转入孵化机</text><text v-if="i.alias === '乳鸽'">孵化机转入</text>
 								</view>
-								<text class="pd_pigeon_bt_state_num">{{ i.alias === '种鸽' ? i.added_wit : i.shift_to}}</text>
+								<text class="pd_pigeon_bt_state_num">{{ i.alias === '种鸽' ? i.added_wit :i.alias === '鸽蛋'? i.shift_to : i.hatch}}</text>
 							</view>
 						</view>
 					</view>
@@ -396,7 +396,7 @@
 
 			.pd_bt {
 				height: 99rpx;
-				padding: 1rpx 30rpx;
+				padding: 10rpx 30rpx 20rpx 30rpx;
 				// border-radius: 0 0 20rpx 20rpx;
 				overflow: hidden;
 				display: flex;
@@ -423,7 +423,7 @@
 					font-size: 30rpx;
 					font-weight: 500;
 					color: #377BE4;
-					margin-top: 6rpx;
+					// margin-top: 6rpx;
 				}
 				text{
 					float: right;

@@ -1,6 +1,6 @@
 <template>
 	<view class="food_d_s_container">
-		<view class="navigationBar">
+		<!-- <view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -10,7 +10,7 @@
 			<view class="nBright" >
 				<text @click="toRecordsPage">出入库记录</text>
 			</view>
-		</view>
+		</view> -->
 		<view class="food_d_s_Box">
 			<view class="food_d_s_item" v-for="(i,idx) in grainNameList" :key="idx">
 				<view class="food_d_s_item_imaBox">
@@ -54,7 +54,7 @@
 				    delta: 1
 				});
 			},
-			toRecordsPage(){
+			onNavigationBarButtonTap(){
 				uni.navigateTo({
 					url: '/sub/food_in_out_records/food_in_out_records'
 				});
@@ -74,18 +74,7 @@
 				.then((res) => {
 						console.log(res)
 						this.grainNameList=res.data
-						// if(res.code == 200){
-						// 	uni.showToast({
-						// 		title:'审核成功',
-						// 		icon: 'none'
-						// 	})
-						// 	this.isExamine=false
-						// }else{
-						// 	uni.showToast({
-						// 		title:'审核失败',
-						// 		icon: 'none'
-						// 	})
-						// }
+						
 					}).catch((err) => {
 						
 				})
@@ -110,7 +99,7 @@
 	.food_d_s_container{
 			min-height: calc(100vh);
 			background-color: #F4F6FA;
-			padding-top: 88rpx;
+			padding-top: 1rpx;
 		.navigationBar{
 			position: fixed;
 			top: 0;

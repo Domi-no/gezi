@@ -112,6 +112,9 @@
 		created() {
 			this.getToday()
 			this.getDisinfectList()
+		},
+		onShow() {
+			this.getDisinfectList()
 		}
 	}
 </script>

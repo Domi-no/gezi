@@ -2,12 +2,22 @@
 	<view class="myFont cage_container">
 		<view class="cage_head">
 			<view class="cage_pic">
+				<!-- #ifdef APP-PLUS||H5 -->
 				<view class="column" v-for="(item,idx) in cage_image" :key="idx" @click="toProductionPage(item.url)">
 					<image :src="item.pic" mode=""></image>
 					<view class="column_text">
 						{{item.text}}
 					</view>
 				</view>
+				<!-- #endif -->
+				<!-- #ifdef MP-WEIXIN -->
+				<view class="wxColumn" v-for="(item,idx) in wx_cage_image" :key="idx" @click="toProductionPage(item.url)">
+					<image :src="item.pic" mode=""></image>
+					<view class="column_text">
+						{{item.text}}
+					</view>
+				</view>
+				<!-- #endif -->
 			</view>
 		</view>
 		<view class="_category">
@@ -242,6 +252,27 @@
 					}
 					
 				],
+				wx_cage_image: [{
+						url: '/sub/charts/charts',
+						pic: '../../static/cage/scbb.png',
+						text: '生产报表'
+					},
+					{
+						url: '/sub/production_calendar/production_calendar',
+						pic: '../../static/cage/scrl.png',
+						text: '生产日历'
+					},
+					{
+						url: '/sub/abnormal_alarm/abnormal_alarm',
+						pic: '../../static/cage/ycjb.png',
+						text: '异常警报'
+					},
+					{
+						url: '/sub/production_records/production_records',
+						pic: '../../static/cage/sccgl.png',
+						text: '生产仓管理'
+					}
+				],
 				time:'',
 				calendarList:[]
 			}
@@ -313,8 +344,8 @@
 
 			.cage_pic {
 				width: 690rpx;
-				height: 360rpx;
-				padding: 43rpx 73rpx;
+				// height: 360rpx;
+				padding: 43rpx 57rpx;
 				background: #FFFFFF;
 				box-shadow: 0rpx 2rpx 10rpx 0rpx rgba(4, 10, 61, 0.1);
 				border-radius: 20rpx;
@@ -336,10 +367,29 @@
 					}
 				}
 				.column:nth-child(1){
-					margin-left:0
+					margin-left:0;
 				}
 				.column:nth-child(4){
-					margin-left:0
+					margin-left:0;
+					margin-top:45rpx;
+				}
+				.column:nth-child(5){
+					margin-top:45rpx;
+				}
+				.column:nth-child(6){
+					margin-top:45rpx;
+				}
+				.wxColumn{
+					font-size: 24rpx;
+					
+					image {
+						width: 76rpx;
+						height: 80rpx;
+					}
+					
+					.column_text {
+						line-height: 10rpx;
+					}
 				}
 			}
 		}

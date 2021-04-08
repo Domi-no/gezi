@@ -799,7 +799,7 @@
 		    @confirm="saveBtn('confirm')">
 		</neil-modal>
 		<neil-modal
-		    :show="true" 
+		    :show="isShowTipModal" 
 		    @close="closesTipModal" 
 			:cancel-color="'#377BE4'"
 			:align="'center'"
@@ -909,7 +909,8 @@
 				otherlist:[],
 				otherGelongList:[],
 				subAlarmData:[],
-				alarShow:false
+				alarShow:false,
+				isShowTipModal:false
 				
 			};
 		},
@@ -1024,6 +1025,7 @@
 					this.dataForm.cage_id=e.item.children[0].cage_id
 				}
 				console.log(e)
+				this.getFrequencyData()
 			},
 			gelongChange(e){
 				console.log(e.item)
@@ -1032,6 +1034,8 @@
 				this.queryData.num=e.item.num
 				this.queryData.text=e.item.text
 				this.queryData.ageday=e.item.ageday
+				console.log(this.dataForm.cage_id)
+				this.getFrequencyData()
 			},
 			otherWNPopupShow(){
 				this.$refs.pRWarehouse.show()
@@ -1082,13 +1086,19 @@
 				this.dataForm.added_wit=parseInt(value.trim())
 			},
 			getFrequencyData(){
-				this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id})
-				.then((res)=>{
-					console.log(res)
-					this.changeNumber=res.data.frequency
-				}).catch((err)=>{
-					console.log(err)
-				})
+				console.log(this.dataForm.dove_type , this.cage_id)
+				if(this.dataForm.dove_type && this.dataForm.cage_id){
+					
+					this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type})
+					.then((res)=>{
+						console.log(res,'frequency')
+						this.changeNumber=res.data.frequency
+					}).catch((err)=>{
+						console.log(err)
+					})
+					this.isShowTipModal=true
+				}
+				
 			},
 			getToday(){
 				let Dates = new Date();
@@ -1147,7 +1157,7 @@
 		computed:{
 			...mapState({
 				userInfo: (state) => state.user.userInfo
-			}),
+			})
 			
 		},
 		created() {
@@ -1171,6 +1181,8 @@
 				this.dataForm.uid=this.userInfo.id
 				this.dataForm.dove_type=this.queryData.name
 				console.log(query)
+				this.dataForm.dove_type && this.dataForm.cage_id ? this.isShowTipModal=true :''
+				
 			}else{
 				this.queryData.name=JSON.parse(query)
 				this.queryData.name === '飞棚'? this.dataForm.dove_type='青年鸽' :''

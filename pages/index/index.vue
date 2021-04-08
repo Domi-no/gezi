@@ -2,15 +2,19 @@
 	<view class="myFont container">
 		
 		<view :class="{header:true,indexHidden:id === 4}" >
-			
+			<!-- #ifdef APP-PLUS||H5 -->
 			<view class="title">
 				智慧养鸽
 			</view>
+			<!-- #endif -->
 			
 			
-			<!-- <view class="mpTitle">
+			<!-- #ifdef MP-WEIXIN -->
+			<view class="mpTitle">
 				智慧养鸽
-			</view> -->
+			</view>
+			<!-- #endif -->
+			
 			
 		</view>
 	
@@ -35,6 +39,10 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
+	import uSwiper from '@/uview-ui/components/u-swiper/u-swiper.vue';
 	export default {
 		data() {
 			return {
@@ -78,6 +86,19 @@
 				
 			}
 		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		onLoad() {
+			if(!this.userInfo.token){
+				uni.navigateTo({
+					url: "/pages/login/login"
+				});
+			}
+		}
 	}
 </script>
 
@@ -100,12 +121,11 @@
 				bottom: 1rpx;
 				color: #151515;
 			}
-			// .mpTitle {
-				
-				
-			// 	color: #151515;
-			// 	text-align: center;
-			// }
+			.mpTitle {
+				line-height: 128rpx;
+				color: #151515;
+				text-align: center;
+			}
 		}
 		.tabPage {
 			height: 100vh;
