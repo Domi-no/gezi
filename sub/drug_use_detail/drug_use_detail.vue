@@ -112,13 +112,16 @@
 		},
 		onLoad(e) {
 			console.log(e)
-			let { id, name ,time}=JSON.parse(e.query)
-			console.log(id,name,time)
-			this.id=id
-			this.messageChangeForm.name=name
-			this.messageChangeForm.time=time
+		
+			this.id=JSON.parse(e.query).record_id
+			this.messageChangeForm.name=JSON.parse(e.query).type_name
+			this.messageChangeForm.time=JSON.parse(e.query).usage_time
+			console.log(this.messageChangeForm)
 		},
 		created() {
+			
+		},
+		onShow() {
 			this.getRecordsForm()
 		}
 		

@@ -1,7 +1,7 @@
 <template>
 	<view class="addNewVaccineUseRecordContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{queryData.usage_time||today}}</text>
+			<text>记录时间</text><text>{{queryData.record_time||today}}</text>
 		</view>
 		
 		<view class="leaveType">
@@ -27,7 +27,7 @@
 					使用原因<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox"  @click="">
-					<input type="number" @input="vaccineUseReasonChange"  :value="vaccineUseReason"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="vaccineUseReasonChange"  :value="addVaccineData.vaccineUseReason"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
@@ -56,14 +56,14 @@
 					用苗时间<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="vaccine_timeShow">
-					<text>{{vaccineUseTime}}</text>
+					<text>{{addVaccineData.vaccineUseTime}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					接种数量<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="vaccineNumberChange"  :value="vaccineNumber"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="vaccineNumberChange"  :value="addVaccineData.vaccineNumber"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="leaveTime">
@@ -71,51 +71,51 @@
 					免疫方法<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="number" @input="methodChange" :value="method"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="methodChange" :value="addVaccineData.method"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					免疫计量<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="vaccineMeterageChange"  :value="vaccineMeterage"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="number" @input="vaccineMeterageChange"  :value="addVaccineData.vaccineMeterage"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					免疫人员<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="personnelChange"  :value="personnel"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="" @input="personnelChange"  :value="addVaccineData.personnel"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					饲养员<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="breederChange"  :value="breeder"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="" @input="breederChange"  :value="addVaccineData.breeder"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					免疫工作负责人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="approvalChange"  :value="approval" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="" @input="approvalChange"  :value="addVaccineData.approval" placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
 					接种单位负责人<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="chargeChange"  :value="charge"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="" @input="chargeChange"  :value="addVaccineData.charge"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
 			<view class="leaveReason">
 				<view class="">
 					备注<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="remarksChange" :value="remarks" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="remarksChange" :value="addVaccineData.remarks" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 			<view class="leaveReason" v-show="isFeedBack === '反馈'">
 				<view class="">
 					反馈<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
-				<textarea   @input="feedBackChange" :value="feedback" placeholder="请输入反馈" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<textarea   @input="feedBackChange" :value="addVaccineData.feedback" placeholder="请输入反馈" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 			</view>
 		</view>
 		<view :class="{leaveSubmit:true,isSubBg:isdWsub}" @click="cSubBtn">
@@ -205,7 +205,26 @@
 				charge:'',
 				isFeedBack:'',
 				feedback:'',
-				queryData:''
+				queryData:'',
+				vaccineDetailData:'',
+				addVaccineData:{
+					vaccin_id:'',
+					drugs_id:'',
+					vaccineHouseId:'',
+					today:'',
+					charge:'',
+					breeder:'',
+					approval:'',
+					remarks:'',
+					personnel:'',
+					vaccineMeterage:'',
+					method:'',
+					vaccineNumber:'',
+					vaccineUseReason:'',
+					vaccineUseTime:'',
+					queryData:'',
+					feedback:'',
+					}
 			}
 		},
 		methods: {
@@ -249,11 +268,27 @@
 				if(!this.isdWsub){
 					return false
 				}
-				const {drugs_id,vaccineHouseId,today,charge,breeder,approval,remarks,personnel,vaccineMeterage,method,vaccineNumber,vaccineUseReason,vaccineUseTime,queryData,feedback}=this
-				this.$http.post('/Vaccin/upRecord.html', {uid: this.userInfo.id,record_time:today,block_id:vaccineHouseId,symptom:vaccineUseReason,number:vaccineNumber,usage_time:vaccineUseTime,approval,charge,remarks,personnel,breeder,method,drugs_id,approval,dosage:vaccineMeterage,vaccin_id:queryData.vaccin_id,feedback})
+				
+				const {drugs_id,vaccineHouseId,today,charge,breeder,approval,remarks,personnel,vaccineMeterage,method,vaccineNumber,vaccineUseReason,vaccineUseTime,queryData,feedback}=this.addVaccineData
+				this.$http.post('/Vaccin/upRecord.html', {uid: this.userInfo.id,vaccin_id:this.queryData.vaccin_id||'',record_time:today,block_id:vaccineHouseId,symptom:vaccineUseReason,number:vaccineNumber,usage_time:vaccineUseTime,approval,charge,remarks,personnel,breeder,method,drugs_id,approval,dosage:vaccineMeterage,vaccin_id:this.queryData.vaccin_id,feedback})
 				.then((res) => {
 						console.log(res)
-						
+						if(res.code == 200){
+							uni.showToast({
+								title: '提交成功',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}else{
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+						}
 						
 					}).catch((err) => {
 						
@@ -280,7 +315,7 @@
 				 let M = Dates.getMonth() + 1;
 				 let D = Dates.getDate();
 				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
-				 this.today=times
+				 this.addVaccineData.today=times
 				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
 				 // this.drugUseForm.time_y=Y
 			},
@@ -391,44 +426,74 @@
 			},
 			vaccine_useTimeChange(e){
 				console.log(e)
-				this.vaccineUseTime=e.value
+				this.addVaccineData.vaccineUseTime=e.value
 			},
 			vaccineUseReasonChange({detail:{value}}){
 				console.log(value)
-				this.vaccineUseReason=value
+				this.addVaccineData.vaccineUseReason=value
 			},
 			vaccineNumberChange({detail:{value}}){
 				console.log(value)
-				this.vaccineNumber=value
+				this.addVaccineData.vaccineNumber=parseInt(value.trim())
 			},
 			methodChange({detail:{value}}){
-				this.method=value
+				this.addVaccineData.method=value
 			},
 			vaccineMeterageChange({detail:{value}}){
-				this.vaccineMeterage=value
+				this.addVaccineData.vaccineMeterage=value.trim()
 			},
 			personnelChange({detail:{value}}){
-				this.personnel=value
+				this.addVaccineData.personnel=value
 			},
 			breederChange({detail:{value}}){
-				this.breeder=value
+				this.addVaccineData.breeder=value
 			},
 			approvalChange({detail:{value}}){
-				this.approval=value
+				this.addVaccineData.approval=value
 			},
 			chargeChange({detail:{value}}){
-				this.charge=value
+				this.addVaccineData.charge=value
 			},
 			remarksChange({detail:{value}}){
-				this.remarks=value
+				this.addVaccineData.remarks=value
 			},
 			feedBackChange({detail:{value}}){
-				this.feedback=value
-			}
+				this.addVaccineData.feedback=value
+			},
+			getVaccineUseDetail(){
+				console.log(this.query)
+				this.$http.post('/Vaccin/RecordMe.html', {uid: this.userInfo.id,vaccin_id:this.queryData.vaccin_id})
+				.then((res) => {
+	 				
+						this.vaccineDetailData=res.data[0]
+						this.today=res.data[0].record_time
+						this.addVaccineData.vaccineHouseId=res.data[0].block_id
+						this.addVaccineData.vaccineUseReason=res.data[0].symptom
+						this.addVaccineData.vaccineNumber=res.data[0].number
+						this.addVaccineData.vaccineUseTime=res.data[0].usage_time
+						this.addVaccineData.approval=res.data[0].approval
+						this.addVaccineData.charge=res.data[0].charge
+						this.addVaccineData.remarks=res.data[0].remarks
+						this.addVaccineData.personnel=res.data[0].personnel
+						this.addVaccineData.breeder=res.data[0].breeder
+						this.addVaccineData.method=res.data[0].method
+						this.addVaccineData.drugs_id=res.data[0].druge_id
+						this.addVaccineData.approval=res.data[0].approval
+						this.addVaccineData.vaccineMeterage = res.data[0].dosage
+						console.log(this.addVaccineData.vaccineMeterage)
+						this.addVaccineData.feedback=res.data[0].feedback
+						this.vaccineBatchValue=res.data[0].batch_number
+						this.vaccineFactoryName=res.data[0].production
+						this.vaccineValue=res.data[0].drugs_name
+				console.log(this.vaccineDetailData)
+					}).catch((err) => {
+						
+					})
+			},
 		},
 		computed:{
 			isdWsub(){
-				const {charge,breeder,approval,remarks,personnel,vaccineMeterage,method,vaccineNumber,vaccineUseReason,vaccineUseTime,vaccineBatchValue,vaccineTimeValue,vaccineFactoryName,vaccineValue,vaccineHouseValue}=this
+				const {charge,breeder,approval,remarks,personnel,vaccineMeterage,method,vaccineNumber,vaccineUseReason,vaccineUseTime,vaccineBatchValue,vaccineTimeValue,vaccineFactoryName,vaccineValue,vaccineHouseValue}=this.addVaccineData
 				if(vaccineHouseValue !== '请选择' &&vaccineValue !== '请选择' &&vaccineFactoryName !== '请选择'&&vaccineBatchValue !== '请选择'&&vaccineUseTime !== '请选择' &&vaccineTimeValue !== '请选择' && charge && breeder && approval && remarks && personnel && vaccineMeterage && method && vaccineNumber && vaccineUseReason ){
 					return true
 				}
@@ -443,6 +508,14 @@
 		},
 		
 		created() {
+			
+			
+			if(this.queryData.vaccin_id){
+				this.getVaccineUseDetail()
+			}else{
+				
+				
+			}
 			this.getToday()
 			this.getFixBoxData()
 			this.getVaccineData()
@@ -450,7 +523,10 @@
 		onLoad({query}) {
 			if(query){
 				this.queryData = JSON.parse(query)
-				JSON.parse(query).text? this.isFeedBack = JSON.parse(query).text : ''
+				JSON.parse(query).feedback? this.isFeedBack = JSON.parse(query).feedback : ''
+				
+				this.vaccineHouseValue=this.queryData.name
+				console.log(this.queryData)
 			}
 			
 			

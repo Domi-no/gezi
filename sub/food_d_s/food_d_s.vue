@@ -90,6 +90,9 @@
 			
 		},
 		created() {
+			
+		},
+		onShow() {
 			this.getGrainNameData()
 		}
 	}

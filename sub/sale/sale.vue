@@ -28,45 +28,44 @@
 						<view class="">
 							<image src="../../static/daiban/ht_p.png" mode=""></image><text>种鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">{{preSaleData.pigeon||0}}</text>
+						<text class="sCCageNum pinkNum">{{queryData.preSaleData.pigeon||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_b.png" mode=""></image><text>鸽蛋</text>
 						</view>
-						<text class="sCCageNum pinkNum">{{preSaleData.egg||0}}</text>
+						<text class="sCCageNum pinkNum">{{queryData.preSaleData.egg||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_g.png" mode=""></image><text>乳鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">{{preSaleData.squab||0}}</text>
+						<text class="sCCageNum pinkNum">{{queryData.preSaleData.squab||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">{{preSaleData.child||0}}</text>
+						<text class="sCCageNum pinkNum">{{queryData.preSaleData.child||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_qng.png" mode=""></image><text>青年鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">{{preSaleData.youth||0}}</text>
+						<text class="sCCageNum pinkNum">{{queryData.preSaleData.youth||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_fb.png" mode=""></image><text>粪便</text>
 						</view>
-						<text class="sCCageNum pinkNum">{{preSaleData.dung||0}}</text>
+						<text class="sCCageNum pinkNum">{{queryData.preSaleData.dung||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_fl.png" mode=""></image><text>废料</text>
 						</view>
-						<text class="sCCageNum pinkNum">{{preSaleData.waste||0}}</text>
+						<text class="sCCageNum pinkNum">{{queryData.preSaleData.waste||0}}</text>
 					</view>
-					
 				</scroll-view>
 				<view class="lineBox">
 					<view class="" style="position: relative;">
@@ -127,7 +126,7 @@
 					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA" @touchmove="moveLineA"  @touchend="touchEndLineA"></canvas>
 				</view>
 		</view>
-		<lb-picker ref="warehouse" :props="myProps" :list="list" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
+		<lb-picker ref="warehouse" :props="myProps" :list="queryData.list" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
 	</view>
@@ -170,13 +169,17 @@
 						legendShape:'rect'
 					}]
 				},
-				list:[],
+				
+				queryData:{
+					list:[],
+					preSaleData:'',
+				},
 				myProps:{
 					 label: 'type_name',
 					 value: 'block_type',
 				},
 				block_type:'1',
-				preSaleData:'',
+				
 				todaySaleData:'',
 				monthSaleData:'',
 				type_name:'生产仓',
@@ -195,9 +198,10 @@
 				})
 			},
 			onNavigationBarButtonTap(){
+				console.log(this.queryData)
 				
 				uni.navigateTo({
-					url:'/sub/add_sale_record/add_sale_record?list='+JSON.stringify(this.list)
+					url:'/sub/add_sale_record/add_sale_record?query='+JSON.stringify(this.queryData)
 				});
 			},
 			
@@ -302,7 +306,7 @@
 				this.$http.post('/Sale/preSale.html', {uid: this.userInfo.id,block_type})
 				.then((res) => {
 						console.log(res)
-						this.preSaleData=res.data
+						this.queryData.preSaleData=res.data
 					}).catch((err) => {
 						
 				})
@@ -312,7 +316,7 @@
 				this.$http.post('/Grain/typeBlock.html', {uid: this.userInfo.id})
 				.then((res) => {
 						console.log(res)
-					this.list=res.data
+					this.queryData.list=res.data
 					}).catch((err) => {
 						
 				})
@@ -355,6 +359,9 @@
 			
 		},
 		created() {
+			
+		},
+		onShow() {
 			this.getTypeBlockData()
 			this.getPreSaleData()
 			this.getSalesData()

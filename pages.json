@@ -89,7 +89,8 @@
 								               {
 								                "text": "出入库记录" ,
 												"color":"#377BE4",
-												"fontSize":"28rpx"
+												"fontSize":"28rpx",
+												"width":"auto"
 								                }
 								            ]	
 						}
@@ -143,7 +144,8 @@
 						                "text": "＋" ,
 						                "color":"#000",
 										"fontWeight":"bold",
-						                "fontSize":"58rpx"
+						                "fontSize":"58rpx",
+										"width":"auto"
 						                }
 						                ]	
 						}
@@ -262,7 +264,8 @@
 						                {
 						                "text": "出入库记录" ,
 										"color":"#377BE4",
-										"fontSize":"28rpx"
+										"fontSize":"28rpx",
+										"width":"auto"
 						                }
 						                ]	
 						}
@@ -305,7 +308,8 @@
 								               {
 								                "text": "信息修改" ,
 												"color":"#377BE4",
-												"fontSize":"28rpx"
+												"fontSize":"28rpx",
+												"width":"auto"
 								                }
 								            ]	
 						}
@@ -345,7 +349,8 @@
 								               {
 								                "text": "信息修改" ,
 												"color":"#377BE4",
-												"fontSize":"28rpx"
+												"fontSize":"28rpx",
+												"width":"auto"
 								                }
 								            ]
 								                        
@@ -460,7 +465,8 @@
                    			               {
                    			                "text": "信息修改" ,
                    							"color":"#377BE4",
-                   							"fontSize":"28rpx"
+                   							"fontSize":"28rpx",
+											"width":"auto"
                    			                }
                    			            ]	
                    	}
@@ -482,7 +488,8 @@
 						                {
 						                "text": "信息修改" ,
 										"color":"#377BE4",
-										"fontSize":"28rpx"
+										"fontSize":"28rpx",
+										"width":"auto"
 						                }
 						                ]	
 						}

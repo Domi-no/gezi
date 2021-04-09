@@ -87,7 +87,7 @@
 					用药审批人<image class="star" :src="starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="number" @input="approvalChange" :value="dataForm.approval"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+					<input type="" @input="approvalChange" :value="dataForm.approval"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				
 			</view>
@@ -178,7 +178,8 @@
 					
 				},
 				allFactoryData:[],
-				messageChangeData:{}
+				messageChangeData:{},
+				hQuery:false
 				
 				
 			}
@@ -244,7 +245,7 @@
 			cSubBtn(){
 				this.messageChangeData.record_id ? this.dataForm.record_id =this.messageChangeData.record_id:''
 				console.log(this.messageChangeData.record_id)
-				this.messageChangeData.block_id ? this.dataForm.block_id = this.messageChangeData.block_id:''
+				
 				console.log(this.dataForm.block_id)
 				// 
 				if(!this.isdWsub){
@@ -290,7 +291,7 @@
 				this.dataForm.approval=value
 			},
 			choiceWarehouseNumber(){
-				if(this.messageChangeData.block_id){
+				if(this.messageChangeData.record_id){
 					return false
 				}
 				this.$refs.drug_warehouse.show()
@@ -311,6 +312,7 @@
 				console.log(e.item[1])
 				this.drugUseRecordPigeonBin = e.item[1].name
 				this.dataForm.block_id=e.item[1].id
+				
 			},
 			drug_useTime(e){
 				console.log(e.value)
@@ -366,6 +368,19 @@
 					
 					console.log(this.batchNumberData)
 				});
+			},
+			getRecordsForm(){
+				this.$http.post('/Work/RecordMe.html', {record_id: this.dataForm.record_id,})
+				.then((res) => {
+						console.log(res)
+						this.dataForm=res.data[0]
+						this.dURManufacturer=res.data[0].production
+						this.drugBatchNumber=res.data[0].batch_number
+						this.nameOfDrug=res.data[0].drugs_name
+						
+				}).catch((err) => {
+					
+				})
 			}
 		},
 		computed:{
@@ -376,10 +391,14 @@
 					usage_time,
 					day,
 					approval,
-					dosage
+					dosage,
+					drugs_id,
+					block_id,
 				} = this.dataForm
+				console.log(this.dataForm.block_id)
 				let {drugUseRecordPigeonBin,nameOfDrug,dURManufacturer,drugBatchNumber} =  this
-				if(drugUseRecordPigeonBin !== '请选择' && usage_time !== '请选择' && nameOfDrug !== '请选择' && dURManufacturer !== '请选择' && drugBatchNumber !== '请选择' && dosage && approval && day && number && symptom ){
+				console.log(block_id,usage_time,drugs_id,dosage,approval,day,number,symptom)
+				if(block_id !== '' && usage_time !== '请选择' && drugs_id !== '' && dosage && approval && day && number && symptom ){
 					return true
 				}
 			},
@@ -388,16 +407,24 @@
 			})
 		},
 		created() {
+			if(this.hQuery){
+				this.getRecordsForm()
+			}else{
+					this.getToday()
+			}
 			this.getDrugData()
 			this.dataForm.uid=this.userInfo.id
 			this.getToday()
 			this.getAllFactory()
 			this.getFixBoxData()
+			
 		},
 		onLoad(e) {
 			e.query ? this.messageChangeData= JSON.parse(e.query):''
-			console.log(this.messageChangeData)
 			
+			e.query ? this.dataForm.record_id = JSON.parse(e.query).record_id:''
+			e.query ? this.hQuery=true : this.hQuery=false
+			console.log(this.dataForm)
 		}
 	}
 </script>

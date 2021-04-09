@@ -18,8 +18,8 @@
 					</view>
 				</view>
 				<view class="" style="display: flex;">
-					<view :class="i.text=== '已反馈' ? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toAddVaccinePage(i)">
-						{{i.text}}
+					<view :class="i.feedback=== '已反馈' ? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toAddVaccinePage(i)">
+						{{i.feedback}}
 					</view>
 					<view class="usageRecordItemBtn" @click="toVUDPage(i)">
 						查看
@@ -48,6 +48,8 @@
 		},
 		methods: {
 			getVaccineUseRecord(){
+				this.monthList=[]
+				this.monthData=[]
 				this.$http.post('/Vaccin/census.html', {uid: this.userInfo.id,type:0,text:this.text})
 				.then((res) => {
 						console.log(res)
@@ -68,7 +70,9 @@
 					})
 			},
 			toAddVaccinePage(i){
-				if(i.text === '已反馈'){
+				console.log(i)
+				// return false
+				if(i.feedback === '已反馈'){
 					return false
 				}
 				uni.navigateTo({
@@ -77,6 +81,8 @@
 				
 			},
 			toVUDPage(i){
+				console.log(i)
+				// return false
 				uni.navigateTo({
 								 url: '/sub/details_of_vaccine_use/details_of_vaccine_use?query=' + JSON.stringify(i)
 				}); 
@@ -101,7 +107,10 @@
 			}
 		},
 		created() {
-			this.getVaccineUseRecord()
+		
+		},
+		onShow() {
+				this.getVaccineUseRecord()
 		}
 	}
 </script>

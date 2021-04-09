@@ -2,14 +2,14 @@
 	<view class="sunui-uploader-bd">
 		<view class="sunui-uploader-files">
 			<block v-for="(item, index) in upload_before_list" :key="index">
-				<view class="sunui-uploader-file" :class="[item.upload_percent < 100 ? 'sunui-uploader-file-status' : '']" @click="previewImage(index)">
+				<view class="sunui-uploader-file" :class="[item.upload_percent < 100 ? '' : '']" @click="previewImage(index)">
 					<!-- step1.这里修改服务器返回字段 ！！！ -->
 					<image class="sunui-uploader-img" :style="upload_img_wh" :src="item.path" mode="aspectFill" />
 					<view class="sunui-img-removeicon right" @click.stop="removeImage(index)" v-show="upimg_move">×</view>
-					<view class="sunui-loader-filecontent" v-if="item.upload_percent < 100">{{ item.upload_percent }}%</view>
+					<!-- <view class="sunui-loader-filecontent" v-if="item.upload_percent < 100">{{ item.upload_percent }}%</view> -->
 				</view>
 			</block>
-			<view v-show="upload_len < upload_count" hover-class="sunui-uploader-hover" class="sunui-uploader-inputbox" @click="chooseImage" :style="upload_img_wh">
+			<view v-show="upload_before_list.length < 1" hover-class="sunui-uploader-hover" class="sunui-uploader-inputbox" @click="chooseImage" :style="upload_img_wh">
 				<view><text class="iconfont icon-mn_shangchuantupian" style="color: #666;"></text></view>
 			</view>
 		</view>
@@ -32,7 +32,9 @@ export default {
 			upload_len: 0,
 			upload_cache: [],
 			upload_cache_list: [],
-			upload_before_list: []
+			upload_before_list: [],
+			_upload_count:8,
+			myUpload_length:0
 		};
 	},
 	name: 'sunui-upimg',
@@ -50,7 +52,7 @@ export default {
 		// 上传数量
 		upload_count: {
 			type: [Number, String],
-			default: 4
+			default: 1
 		},
 		// 是否自动上传? 可以先用变量为false然后再改为true即为手动上传
 		upload_auto: {
@@ -198,6 +200,7 @@ export default {
 			userInfo: (state) => state.user.userInfo
 		}),
 		
+		
 	},
 	created() {
 		isSub=this
@@ -232,7 +235,7 @@ const promisify = api => {
 };
 
 const upload = function(options) {
-		console.log(7,src)
+		console.log(options)
 		let url = options.url,
 		_self = options._self,
 		path = src[0],
@@ -248,6 +251,7 @@ const upload = function(options) {
 		filePath: path,
 		name: name,
 		formData: extra,
+		header:{token:options.extra.token},
 		success: function(res) {
 			
 			

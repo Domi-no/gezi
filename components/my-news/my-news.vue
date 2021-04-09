@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="_news" v-for="(item,idx) in news" :key="idx">
+		<view class="_news" v-for="(item,idx) in news" :key="idx" @click="toNewsDetailPage(item.news_id)">
 			<view class="news_left">
 				<view class="news_head">
 					{{item.title}}
@@ -30,7 +30,14 @@
 
 			};
 		},
-			
+		methods:{
+			toNewsDetailPage(id){
+				
+				uni.navigateTo({
+					url: '/sub/news_detail/news_detail?id='+id
+				});
+			}
+		},
 		created(){
 			console.log(this.news)
 		}

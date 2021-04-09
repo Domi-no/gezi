@@ -93,11 +93,11 @@
 			
 		},
 		onLoad() {
-			if(!this.userInfo.token){
-				uni.navigateTo({
-					url: "/pages/login/login"
-				});
-			}
+			// if(!this.userInfo.token){
+			// 	uni.navigateTo({
+			// 		url: "/pages/login/login"
+			// 	});
+			// }
 		}
 	}
 </script>

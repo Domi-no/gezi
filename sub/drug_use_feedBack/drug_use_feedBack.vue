@@ -87,7 +87,7 @@
 						用药审批人<image class="star" :src="starSrc[0]" mode=""></image>
 					</view>
 					<view class="choiceBox">
-						<input type="number" @input="approvalChange" :value="dataForm.approval"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+						<input type="" @input="approvalChange" :value="dataForm.approval"    placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /><image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 					</view>
 					
 				</view>
@@ -302,6 +302,9 @@
 				this.dataForm.approval=value
 			},
 			choiceWarehouseNumber(){
+				if(this.messageChangeData.record_id){
+					return false
+				}
 				this.$refs.drug_warehouse.show()
 			},
 			showDrugUseTime(){
@@ -374,6 +377,19 @@
 					
 					console.log(this.batchNumberData)
 				});
+			},
+			getRecordsForm(){
+				this.$http.post('/Work/RecordMe.html', {record_id: this.dataForm.record_id,})
+				.then((res) => {
+						console.log(res)
+						this.dataForm=res.data[0]
+						this.dURManufacturer=res.data[0].production
+						this.drugBatchNumber=res.data[0].batch_number
+						this.nameOfDrug=res.data[0].drugs_name
+						
+				}).catch((err) => {
+					
+				})
 			}
 		},
 		computed:{
@@ -388,7 +404,14 @@
 					feedback,
 					drugs_id
 				} = this.dataForm
-				let {drugUseRecordPigeonBin,nameOfDrug,dURManufacturer,drugBatchNumber} =  this
+				console.log(symptom,
+					number,
+					usage_time,
+					day,
+					approval,
+					dosage,
+					feedback,
+					drugs_id)
 				if(usage_time !== '请选择' && drugs_id && dosage && approval && day && number && symptom && feedback){
 					return true
 				}
@@ -398,21 +421,24 @@
 			})
 		},
 		created() {
+			if(this.messageChangeData.record_id){
+				this.getRecordsForm()
+			}else{
+				this.getToday()
+			}
 			this.getDrugData()
 			this.dataForm.uid=this.userInfo.id
-			this.getToday()
+			
 			this.getAllFactory()
 		},
 		onLoad(e) {
 			e.query?this.messageChangeData= JSON.parse(e.query):''
-			e.query?this.dataForm.record_time = this.messageChangeData.time:''
-			console.log(this.messageChangeData)
+			e.query?this.dataForm=JSON.parse(e.query):''
+			console.log(this.dataForm)
 			
 			
 		},
-		mounted() {
-			console.log('mounted')
-		}
+		
 	}
 </script>
 

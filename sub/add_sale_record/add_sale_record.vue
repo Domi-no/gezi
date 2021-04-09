@@ -15,45 +15,44 @@
 						<view class="">
 							<image src="../../static/daiban/ht_p.png" mode=""></image><text>种鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{warehouseList.preSaleData.pigeon||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_b.png" mode=""></image><text>鸽蛋</text>
 						</view>
-						<text class="sCCageNum pinkNum">25,468</text>
+						<text class="sCCageNum pinkNum">{{warehouseList.preSaleData.egg||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_g.png" mode=""></image><text>乳鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{warehouseList.preSaleData.squab||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
 							<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{warehouseList.preSaleData.child||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
-							<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+							<image src="../../static/daiban/ht_qng.png" mode=""></image><text>青年鸽</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{warehouseList.preSaleData.youth||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
-							<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+							<image src="../../static/daiban/ht_fb.png" mode=""></image><text>粪便</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{warehouseList.preSaleData.dung||0}}</text>
 					</view>
 					<view class="sCItem">
 						<view class="">
-							<image src="../../static/daiban/ht_o.png" mode=""></image><text>童鸽</text>
+							<image src="../../static/daiban/ht_fl.png" mode=""></image><text>废料</text>
 						</view>
-						<text class="sCCageNum pinkNum">598</text>
+						<text class="sCCageNum pinkNum">{{warehouseList.preSaleData.waste||0}}</text>
 					</view>
-					
 				</scroll-view>
 				<view class="lineBox">
 					<view class="" style="position: relative;">
@@ -111,14 +110,14 @@
 				单价<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="">
-				<input type="" @input="unit_priceChange"  :value="saleForm.unit_price"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<input type="number" @input="unit_priceChange"  :value="saleForm.unit_price"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
 				客户<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 			</view>
 			<view class="choiceBox"  @click="">
-				<input type="number" @input="customerChange" :value="saleForm.customer"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+				<input type="" @input="customerChange" :value="saleForm.customer"   placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
@@ -147,7 +146,7 @@
 		     @cancel="onCancel"
 		     ref="reason" 
 		    ></w-picker>
-		<lb-picker ref="warehouse" :props="myProps" :list="warehouseList" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
+		<lb-picker ref="warehouse" :props="myProps" :list="warehouseList.list" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
 		<lb-picker ref="goodsName"  :list="goodsNameList" radius="20rpx" confirm-color="#377BE4" @confirm='goodsNameChange'>
@@ -186,7 +185,7 @@
 					 value: 'block_type',
 				},
 				leftValue:'',
-				warehouseList:[],
+				warehouseList:{},
 				goodsNameList:[],
 				payMethodList:[],
 				specsList:[],
@@ -203,7 +202,8 @@
 					customer:'',
 					pay_method:'请选择',
 					remarks:''
-				}
+				},
+				preSaleData:[],
 				
 			}
 		},
@@ -315,10 +315,10 @@
 								});
 							},1000)
 						}else{
-							uni.showToast({
-								title: res.message,
-								icon: 'none'
-							})
+							// uni.showToast({
+							// 	title: res.message,
+							// 	icon: 'none'
+							// })
 						}
 					}).catch((err) => {
 						
@@ -352,9 +352,9 @@
 			this.getPreSaleData()
 			this.getSaleNameData()
 		},
-		onLoad({list}) {
-			console.log(list)
-			this.warehouseList=JSON.parse(list)
+		onLoad({query}) {
+			console.log(query)
+			this.warehouseList=JSON.parse(query)
 		}
 		
 	}

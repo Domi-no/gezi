@@ -25,10 +25,10 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name,item.text)">
+							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item)">
 								{{item.text}}
 							</view>
-							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
+							<view class="usageRecordItemBtn" @click="toDUDPage(item)">
 								查看
 							</view>
 						</view>
@@ -44,10 +44,10 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name,item.text)">
+							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item)">
 								{{item.text}}
 							</view>
-							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
+							<view class="usageRecordItemBtn" @click="toDUDPage(item)">
 								查看
 							</view>
 						</view>
@@ -63,10 +63,10 @@
 							</view>
 						</view>
 						<view class="" style="display: flex;">
-							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item.record_id,item.usage_time,item.name,item.text)">
+							<view :class="item.text === '已反馈'? 'usageRecordItemBtned' : 'usageRecordItemBtn'" style="margin-right: 40rpx;" @click="toDUFeedBackPage(item)">
 								{{item.text}}
 							</view>
-							<view class="usageRecordItemBtn" @click="toDUDPage(item.record_id,item.usage_time,item.name)">
+							<view class="usageRecordItemBtn" @click="toDUDPage(item)">
 								查看
 							</view>
 						</view>
@@ -136,21 +136,21 @@
 					url: '/sub/add_drug_use_record/add_drug_use_record'
 				});
 			},
-			toDUDPage(id,time,name) {
-				let form ={id:id,name:name,time:time}
-				console.log(form)
+			toDUDPage(i) {
+				console.log(i)
+				
 				uni.navigateTo({
-					url: '/sub/drug_use_detail/drug_use_detail?query=' + JSON.stringify(form)
+					url: '/sub/drug_use_detail/drug_use_detail?query=' + JSON.stringify(i)
 				});
 
 			},
-			toDUFeedBackPage(id,time,name,text) {
-				if(text === '已反馈'){
+			toDUFeedBackPage(i) {
+				if(i.text === '已反馈'){
 					return false
 				}
-				let feedBackForm ={id:id,name:name,time:time}
+				
 				uni.navigateTo({
-					url: '/sub/drug_use_feedBack/drug_use_feedBack?query='+ JSON.stringify(feedBackForm)
+					url: '/sub/drug_use_feedBack/drug_use_feedBack?query='+ JSON.stringify(i)
 				});
 
 			},

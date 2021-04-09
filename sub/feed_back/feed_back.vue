@@ -15,7 +15,7 @@
 			</view>
 			<view class="feedBackPicContainer">
 				
-				<sunui-upimg @change="getImageInfo" :upload_count="8" :url="'http://192.168.0.134/CageData/addImg.html'"  @showTip="showTip" :header="formData" :upload_auto="false" ref="upimg"></sunui-upimg>
+				<sunui-upimg @change="getImageInfo"   :url="'http://jx.onlylove.top/CageData/addImg.html'"  @showTip="showTip" :header="formData" :upload_auto="false" ref="upimg"></sunui-upimg>
 			</view>
 			<!-- <easy-upload
 			   :dataList="dataList"
@@ -58,7 +58,8 @@
 				formData:{
 					feedback_time:'',
 					describe:'',
-					uid:''
+					uid:'',
+					token:''
 					
 				},
 				 dataList: [],
@@ -136,6 +137,7 @@
 		created() {
 			this.getToday()	
 			this.formData.uid=this.userInfo.id
+			this.formData.token=this.userInfo.token
 			console.log(this.formData)
 			
 		}

@@ -27,7 +27,7 @@
 			<view class="rank_head">
 				<!-- <text class="gcph">鸽仓排行</text> <text class="cage_sum">鸽仓总数:&nbsp;1250</text> -->
 				<view class="gcph"  >
-					<view>{{rankName}} <image src="../../static/home/zk_btm.png" mode="" @click.stop="showRankListName"></image></view>
+					<view @click.stop="showRankListName">{{rankName}} <image src="../../static/home/zk_btm.png" mode="" ></image></view>
 					<view :class="{rankListName:true,htmlHidden:!isShowRLN}" >
 						<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item.name}}</text>
 					</view>
@@ -187,7 +187,8 @@
 				}).catch((err)=>{
 					console.log(err)
 				})
-			}
+			},
+			
 		},
 		computed:{
 			...mapState({
@@ -281,7 +282,7 @@
 			margin-top: 20rpx;
 			padding: 40rpx 30rpx 0;
 			background-color: #FFFFFF;
-			// min-height: calc(100vh - 1000rpx);
+			min-height: calc(100vh - 1044rpx);
 
 			.rank_head {
 				font-size: 34rpx;

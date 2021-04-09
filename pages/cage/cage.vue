@@ -345,40 +345,44 @@
 			.cage_pic {
 				width: 690rpx;
 				// height: 360rpx;
-				padding: 43rpx 57rpx;
+				padding: 43rpx 0;
 				background: #FFFFFF;
 				box-shadow: 0rpx 2rpx 10rpx 0rpx rgba(4, 10, 61, 0.1);
 				border-radius: 20rpx;
 				display: flex;
-				justify-content: space-around;
+				justify-content: space-between;
 				flex-wrap: wrap;
 				text-align: center;
 				margin: 0 auto;
 				.column {
 					font-size: 24rpx;
-					margin-left: 92rpx;
+					margin: 0 30rpx;
+					width: 160rpx;
+				
 					image {
 						width: 76rpx;
 						height: 80rpx;
 					}
 
 					.column_text {
+						display: inline-block;
 						line-height: 10rpx;
 					}
 				}
-				.column:nth-child(1){
-					margin-left:0;
-				}
 				.column:nth-child(4){
-					margin-left:0;
+					
 					margin-top:45rpx;
 				}
 				.column:nth-child(5){
+					
 					margin-top:45rpx;
 				}
 				.column:nth-child(6){
 					margin-top:45rpx;
 				}
+				// .column:nth-child(6){
+				// 	margin-top:45rpx;
+				// }
 				.wxColumn{
 					font-size: 24rpx;
 					

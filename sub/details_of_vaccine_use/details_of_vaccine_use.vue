@@ -17,7 +17,7 @@
 				<text>记录时间</text><text>{{query.usage_time}}</text>
 			</view>
 			<view class="dDTopBox" style="border-bottom: 0;">
-				<text>仓号</text><text>{{query.type_name}}</text>
+				<text>仓号</text><text>{{query.name}}</text>
 			</view>
 		</view>
 		<view class="" style="margin-top: 20rpx;">
@@ -117,12 +117,16 @@
 			
 		},
 		created() {
+			
+		},
+		onShow() {
 			this.getVaccineUseDetail()
 		},
 		onLoad({query}) {
 			console.log(JSON.parse(query))
 			this.query=JSON.parse(query),
-			this.query.text="查看"
+			this.query.feedback="已反馈"
+			console.log(query)
 		}
 	}
 </script>

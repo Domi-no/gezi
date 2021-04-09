@@ -21,7 +21,7 @@ methods.forEach(method => {
 					showErrorToast = true,
 					headers = {
 						// "content-type": "application/x-www-form-urlencoded",
-						token: userInfo.token||store.state.user.userInfo.token
+						token: userInfo.token||store.state.user.userInfo.token||''
 						// token: '6220489c2a49a927a70834ced97f95b3'
 					}
 			} = extra;
@@ -34,8 +34,10 @@ methods.forEach(method => {
 				});
 
 			// 开始发送请求
+
+
 			uni.request({
-					url: 'http://192.168.0.134' + url,
+					url: 'http://jx.onlylove.top/' + url,
 					header: headers,
 					data: {
 						uid:userInfo.id||store.state.user.userInfo.id||'',
@@ -47,7 +49,7 @@ methods.forEach(method => {
 					uni.hideLoading();
 
 					let [err, res] = chunk;
-
+					console.log(chunk)
 					if (res.data) {
 						let {
 							code,
@@ -55,13 +57,19 @@ methods.forEach(method => {
 						} = res.data;
 
 						// 未登录/重新登录/Token过期
-						if (code == 402||code == 400) {
+						if (code == 402||code == 401) {
+							uni.showToast({
+								title: res.data.message ,
+								icon: 'none'
+							})
 							// toast("未登录或已过期");
 							store.dispatch("SET_USER_INFO", "");
 							uni.setStorageSync("timUserSign", "");
 							 return uni.navigateTo({
 								url: "/pages/login/login"
 							});
+						}else{
+							
 						}
 						resolve(res.data);
 					} else {

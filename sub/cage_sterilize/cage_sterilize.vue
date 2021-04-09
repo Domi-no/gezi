@@ -110,10 +110,10 @@
 			
 		},
 		created() {
-			this.getToday()
-			this.getDisinfectList()
+			
 		},
 		onShow() {
+			this.getToday()
 			this.getDisinfectList()
 		}
 	}

@@ -30,7 +30,7 @@
 			return {
 				cForget:false,
 				userInfo:{
-					phone:'15775772825',
+					phone:'15775772888',
 					password:'abc123456'
 				}
 			}
@@ -55,41 +55,28 @@
 				this.userInfo.password =value
 			},
 			login(){
-				// const res = uni.request({
-				// 	method:'POST',
-				// 	url:'http://192.168.0.134/Login/loginByPwd.html',
-				// 	data:this.userInfo,
-				// 	success: ({data:{data}}) => {
-				// 		this.$store.dispatch('handleUserInfo', data).then(() => {})
-				// 		// uni.navigateTo({
-				// 		// 	url: '/pages/index/index'
-				// 		// });
-				// 	},
-				// 	fail: (err) => {
-				// 		console.log(err)
-				// 		uni.showToast({
-							
-				// 		})
-				// 	}
-					
-				// })
+				
 				// console.log(this.userInfo)
 				this.$http.post('/Login/loginByPwd.html',this.userInfo)
 				.then(({code,message,data})=>{
 					
-					uni.showToast({
-						title: message ||'登录异常',
-						icon: 'none'
-					})
-					console.log(code)
 					if(code == 200){
 						console.log(1111)
+						uni.showToast({
+							title: message ,
+							icon: 'none'
+						})
 						this.$store.dispatch('handleUserInfo',{...data,uphone:this.userInfo.phone,upassword:this.userInfo.password}).then(() => {})
 						setTimeout(()=>{
 							uni.navigateTo({
 								url: '/pages/index/index'
 							});
 						},1000)
+					}else{
+						uni.showToast({
+							title: message ,
+							icon: 'none'
+						})
 					}
 					
 				}).catch((err)=>{

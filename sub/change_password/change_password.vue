@@ -15,6 +15,12 @@
 	import {
 		mapState
 	} from 'vuex'
+	import store from '@/store/index.js'
+	// import config from '@/utils/config.js'
+	import {
+		sessionType,
+		getSession,
+	} from '@/utils/session'
 	export default {
 		data() {
 			return {
@@ -31,7 +37,7 @@
 		methods: {
 			verifyPassword(e){
 				// /^.*[^\d].*$/
-				if(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,20}$/.test(e.detail.value)){
+				if(/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{8,20}$/.test(e.detail.value)){
 					this.isShowT = false
 					this.isClick = true
 				}else{
@@ -52,9 +58,21 @@
 				.then((res)=>{
 					console.log(res)
 					uni.showToast({
-						title: 'message',
+						title: res.message,
 						icon: 'none'
 					})
+					if(res.code == 200){
+						console.log(2)
+						
+						console.log(1)
+						setTimeout(()=>{
+							store.dispatch("SET_USER_INFO", "");
+							uni.setStorageSync("timUserSign", "");
+							uni.navigateTo({
+								url: "/pages/login/login"
+							});
+						},500)
+					}
 					
 					
 				}).catch((err)=>{

@@ -121,9 +121,11 @@
 				 this.today=times
 			},
 			getVaccineStatisticsData(){
+				
 				this.$http.post('/Vaccin/census.html', {uid: this.userInfo.id,type:1})
 				.then((res) => {
 						console.log(res)
+						this.vaccineUseData = []
 						Object.keys(res.data).forEach((value, index)=>{
 							console.log(value, index,res.data[value]);
 							this.vaccineUseData.push({time:value,num:res.data[value]})
@@ -140,6 +142,12 @@
 			}),
 		},
 		created() {
+			console.log(1)
+			// this.getToday()
+			// this.getVaccineStatisticsData()
+		},
+		onShow(){
+			console.log(2)
 			this.getToday()
 			this.getVaccineStatisticsData()
 		}

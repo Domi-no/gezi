@@ -23,6 +23,7 @@
 		},
 		methods: {
 			getNewsDetails(){
+				console.log(this.newsId,'getData')
 				this.$http.post('/Rank/newsDetails.html',{newsid:this.newsId})
 				.then((res)=>{
 					console.log(res)
@@ -40,10 +41,13 @@
 			}
 		},
 		created() {
+			console.log(this.newsId,'created')
 			this.getNewsDetails()
 		},
 		onLoad(e){
+			console.log(e.id)
 			this.newsId=e.id
+			console.log(this.newsId,'onload')
 		}
 	}
 </script>
