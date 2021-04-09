@@ -60,13 +60,29 @@
 				});
 			},
 			toDrugDelivery(i){
+				console.log(i)
+				const form = {
+					drugs_name:i.drugs_name,
+					number:i.number,
+					time:i.time,
+					unit_price:i.unit_price
+				}
+				// return false
 				uni.navigateTo({
-					url: '/sub/drug_delivery/drug_delivery?query='+ JSON.stringify(i)
+					url: '/sub/drug_delivery/drug_delivery?query='+ JSON.stringify(form)
 				});
 			},
 			toDrugWarehousing(i){
+				console.log(i)
+				const form = {
+					drugs_name:i.drugs_name,
+					number:i.number,
+					time:i.time,
+					unit_price:i.unit_price
+				}
+				// return false
 				uni.navigateTo({
-					url: '/sub/drugs_warehousing/drugs_warehousing?query=' + JSON.stringify(i)
+					url: '/sub/drugs_warehousing/drugs_warehousing?query=' + JSON.stringify(form)
 				});
 			},
 			getDrugDSdata(){

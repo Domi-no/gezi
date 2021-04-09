@@ -60,13 +60,27 @@
 				});
 			},
 			tofoodDelivery(i){
+				console.log(i)
+				// return false
+				const form = {
+					grain_name:i.grain_name,
+					number:i.number,
+					time:i.time,
+					unit_price:i.unit_price
+				}
 				uni.navigateTo({
-					url: '/sub/food_delivery/food_delivery?query='+JSON.stringify(i)
+					url: '/sub/food_delivery/food_delivery?query='+JSON.stringify(form)
 				});
 			},
 			tofoodWarehousing(i){
+				const form = {
+					grain_name:i.grain_name,
+					number:i.number,
+					time:i.time,
+					unit_price:i.unit_price
+				}
 				uni.navigateTo({
-					url: '/sub/foods_warehousing/foods_warehousing?query='+JSON.stringify(i)
+					url: '/sub/foods_warehousing/foods_warehousing?query='+JSON.stringify(form)
 				});
 			},
 			getGrainNameData(){

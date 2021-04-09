@@ -326,10 +326,13 @@
 			
 		},
 		created() {
+			
+		},
+		onShow() {
 			this.getToday()
 			this.getCageData()
 			this.getCalendarData()
-		},
+		}
 	}
 </script>
 

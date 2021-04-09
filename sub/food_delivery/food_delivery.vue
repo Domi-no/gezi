@@ -317,6 +317,7 @@
 		},
 		onLoad({query}) {
 			this.queryData=JSON.parse(query)
+			console.log(this.queryData)
 		}
 	}
 </script>
