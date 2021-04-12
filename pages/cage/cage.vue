@@ -326,10 +326,13 @@
 			
 		},
 		created() {
-			
+			console.log('created')
+			this.getToday()
+			this.getCageData()
+			this.getCalendarData()
 		},
 		onShow() {
-			this.getToday()
+			console.log('onshow')
 			this.getCageData()
 			this.getCalendarData()
 		}
@@ -388,7 +391,7 @@
 				// }
 				.wxColumn{
 					font-size: 24rpx;
-					
+					margin: 0 30rpx;
 					image {
 						width: 76rpx;
 						height: 80rpx;

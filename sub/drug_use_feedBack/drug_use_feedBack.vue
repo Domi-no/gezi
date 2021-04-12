@@ -1,7 +1,7 @@
 <template>
 	<view class="drugUseFeedBackContainer">
 		<view class="dWTopBox">
-				<text>记录时间</text><text>{{this.messageChangeData.time||this.dataForm.record_time}}</text>
+				<text>记录时间</text><text>{{messageChangeData.time||dataForm.record_time}}</text>
 			</view>
 		
 			<view class="leaveType">
@@ -9,7 +9,7 @@
 					用药鸽仓<image class="star" src="../../static/daiban/star.png" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="choiceWarehouseNumber">
-					<text>{{this.messageChangeData.name||drugUseRecordPigeonBin}}</text>
+					<text>{{messageChangeData.name||drugUseRecordPigeonBin}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
@@ -33,7 +33,7 @@
 							开始用药时间<image class="star" :src="starSrc[0]" mode=""></image>
 						</view>
 						<view class="choiceBox"  @click="">
-							<text>{{this.dataForm.usage_time}}</text>
+							<text>{{dataForm.usage_time}}</text>
 							<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 						</view>
 					</view>
@@ -432,12 +432,20 @@
 			this.getAllFactory()
 		},
 		onLoad(e) {
+			
 			e.query?this.messageChangeData= JSON.parse(e.query):''
 			e.query?this.dataForm=JSON.parse(e.query):''
 			console.log(this.dataForm)
 			
 			
 		},
+		onShow() {
+			if(this.messageChangeData.record_id){
+				this.getRecordsForm()
+			}else{
+				this.getToday()
+			}
+		}
 		
 	}
 </script>

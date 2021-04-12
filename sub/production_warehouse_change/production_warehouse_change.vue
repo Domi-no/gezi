@@ -793,10 +793,16 @@
 		    @close="closeSaveModal" 
 			:cancel-color="'#377BE4'"
 			:align="'center'"
-		    title="" 
-		    content="确定提交日记录？"
+		    title=" " 
+		    content=""
 		    @cancel="cancelBtn('cancel')" 
 		    @confirm="saveBtn('confirm')">
+			<view class="" style="font-size: 34rpx;
+font-weight: bold;
+color: #151515;padding:0rpx 0 50rpx 0"
+>
+				确定提交日记录？
+			</view>
 		</neil-modal>
 		<neil-modal
 		    :show="isShowTipModal" 
@@ -1086,13 +1092,14 @@
 				this.dataForm.added_wit=parseInt(value.trim())
 			},
 			getFrequencyData(){
-				console.log(this.dataForm.dove_type , this.cage_id)
+				console.log(this.dataForm,'getFrequencyData')
 				if(this.dataForm.dove_type && this.dataForm.cage_id){
 					
 					this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type})
 					.then((res)=>{
 						console.log(res,'frequency')
 						this.changeNumber=res.data.frequency
+						console.log(this.changeNumber,'changenumber')
 					}).catch((err)=>{
 						console.log(err)
 					})
@@ -1160,8 +1167,14 @@
 			})
 			
 		},
+		// #ifdef H5 || MP-WEIXIN
+		onShow() {
+			this.getFrequencyData()
+		},
+		// #endif
 		created() {
 			this.getFrequencyData()
+			console.log(this.changeNumber,'changenumber')
 			this.getToday()
 			if(this.queryData.name==='飞棚'){
 			
@@ -1175,7 +1188,7 @@
 		onLoad({query}) {
 			
 			if(query&&JSON.parse(query).cage_id){
-				console.log(1)
+				console.log(JSON.parse(query))
 				this.queryData = JSON.parse(query)
 				this.dataForm.cage_id=this.queryData.cage_id
 				this.dataForm.uid=this.userInfo.id
@@ -1187,7 +1200,7 @@
 				this.queryData.name=JSON.parse(query)
 				this.queryData.name === '飞棚'? this.dataForm.dove_type='青年鸽' :''
 				this.queryData.name === '育雏仓'? this.dataForm.dove_type='童鸽' :''
-				console.log(this.queryData.name)
+				console.log(this.queryData.name,'queryData')
 			}
 		}
 	}

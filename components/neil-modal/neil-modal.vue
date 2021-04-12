@@ -2,17 +2,17 @@
     <view class="neil-modal" @touchmove.stop.prevent="bindTouchmove" :class="{'neil-modal--show':isOpen}">
         <view class="neil-modal__mask" @click="clickMask"></view>
         <view class="neil-modal__container">
-            <view class="neil-modal__header" v-if="title.length > 0">{{title}}</view>
-            <view class="neil-modal__content" :class="content ? 'neil-modal--padding' : ''" :style="{textAlign:align}">
-                <template v-if="content">
+            <view class="neil-modal__header"  :class="{ishow:!title.length}">{{title}}</view>
+            <view class="neil-modal__content" :class="content ? '' : ''" :style="{textAlign:align}">
+               <!-- <template  :class="{ishow:!content}">
                     <text class="modal-content">{{content}}</text>
-                </template>
-                <template v-else>
+                </template> -->
+                <template  :class="{ishow:content}">
                     <slot />
                 </template>
             </view>
             <view class="neil-modal__footer">
-                <view v-if="showCancel" class="neil-modal__footer-left" @click="clickLeft" :style="{color:cancelColor}"
+                <view  :class="{'neil-modal__footer_left':true,ishow:!showCancel}" @click="clickLeft" :style="{color:cancelColor}"
                     hover-class="neil-modal__footer-hover" :hover-start-time="20" :hover-stay-time="70">
                     {{cancelText}}
                 </view>
@@ -195,7 +195,7 @@
             display: flex;
             flex-direction: row;
 
-            &-left,
+            &_left,
             &-right {
                 position: relative;
                 flex: 1;
@@ -255,6 +255,10 @@
 		    .neil-modal__container,.neil-modal__mask{
 				opacity: 1;
 			}
+		}
+		
+		.ishow{
+			display: none;
 		}
     }
 </style>

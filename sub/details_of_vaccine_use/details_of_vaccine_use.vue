@@ -1,17 +1,19 @@
 <template>
 	<view class="details_of_vaccine_use_container">
+		<!-- #ifdef MP-WEIXIN -->
+	<view class="navigationBar">
+		<view class="goBackImg" >
+			<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
+		</view>
+		<view class="nBtitle">
+			疫苗使用详情
+		</view>
+		<view class="nBright" >
+			<text @click="toChangeMessagePage">信息修改</text>
+		</view>
+	</view>
+		<!-- #endif -->
 		
-		<!-- <view class="navigationBar">
-			<view class="goBackImg" >
-				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
-			</view>
-			<view class="nBtitle">
-				疫苗使用详情
-			</view>
-			<view class="nBright" >
-				<text @click="toRecordsPage">信息修改</text>
-			</view>
-		</view> -->
 		<view class="" >
 			<view class="dDTopBox">
 				<text>记录时间</text><text>{{query.usage_time}}</text>
@@ -69,7 +71,7 @@
 			<view class="">
 				备注
 			</view>
-			<textarea   :disabled="false" :value="vaccineDetailData.feedback" placeholder="请输入备注" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   disabled="true" :value="vaccineDetailData.feedback"  placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 	</view>
 </template>
@@ -101,6 +103,11 @@
 					}).catch((err) => {
 						
 					})
+			},
+			toChangeMessagePage(){
+				uni.navigateTo({
+					url: '/sub/add_vaccine_use_record/add_vaccine_use_record?query=' + JSON.stringify(this.query)
+				});
 			},
 			onNavigationBarButtonTap(){
 				console.log(this.query)
@@ -134,6 +141,9 @@
 <style lang="scss" scoped>
 .details_of_vaccine_use_container{
 	padding-top: 20rpx;
+	/*  #ifdef  MP-WEIXIN  */
+	padding-top: 100rpx;
+	/*  #endif  */
 	padding-bottom: 136rpx;
 	min-height: calc(100vh);
 	background-color: #F4F6FA;

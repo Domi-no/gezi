@@ -300,7 +300,24 @@
 				"path": "drug_use_detail/drug_use_detail",
 				"style": {
 					"navigationBarTitleText":"",
+					// #ifdef MP-WEIXIN
+					"navigationStyle":"custom",
+					// #endif
 					"app-plus":{
+						"titleNView":{
+							
+								 "titleText":"药品使用详情",
+								  "buttons":[ 
+								               {
+								                "text": "信息修改" ,
+												"color":"#377BE4",
+												"fontSize":"28rpx",
+												"width":"auto"
+								                }
+								            ]	
+						}
+					},
+					"mp-weixin":{
 						"titleNView":{
 							
 								 "titleText":"药品使用详情",
@@ -341,6 +358,9 @@
 				"path": "details_of_vaccine_use/details_of_vaccine_use",
 				"style": {
 					"navigationBarTitleText":"",
+					// #ifdef MP-WEIXIN
+					"navigationStyle":"custom",
+					// #endif
 					"app-plus":{
 						"titleNView":{
 							

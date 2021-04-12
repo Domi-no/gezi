@@ -1,7 +1,7 @@
 <template>
 	<view class="vaccine_use_container">
 		<view class="vaccine_use_top_box">
-			<text>{{this.today}}</text>
+			<text>{{today}}</text>
 			<view class="" @click="toCalendarPage()">
 				日历<image src="../../static/daiban/blue_zk.png" mode=""></image>
 			</view>
@@ -143,12 +143,13 @@
 		},
 		created() {
 			console.log(1)
-			// this.getToday()
+			this.getToday()
 			// this.getVaccineStatisticsData()
 		},
 		onShow(){
-			console.log(2)
+			
 			this.getToday()
+			console.log(this.today,'11')
 			this.getVaccineStatisticsData()
 		}
 	}

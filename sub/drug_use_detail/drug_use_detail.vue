@@ -1,6 +1,7 @@
 <template>
 	<view class="addNewDrugUseRecordContainer">
-		<!-- <view class="navigationBar">
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -8,14 +9,16 @@
 				药品使用详情
 			</view>
 			<view class="nBright" >
-				<text @click="toRecordsChangePage">信息修改</text>
+				<text @click="toChangeMessagePage">信息修改</text>
 			</view>
-		</view> -->
+		</view>
+		<!-- #endif -->
+		
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{this.messageChangeForm.time}}</text>
+			<text>记录时间</text><text>{{messageChangeForm.time}}</text>
 		</view>
 		<view class="dWTopBox">
-			<text>用药鸽仓</text><text>{{this.messageChangeForm.name}}</text>
+			<text>用药鸽仓</text><text>{{messageChangeForm.name}}</text>
 		</view>
 		<view class="leaveReason">
 			<view class="">
@@ -25,32 +28,32 @@
 		</view>
 		<view class="" style="margin-top: 20rpx;">
 			<view class="dWTopBox">
-				<text>生病数量</text><text>{{this.drugUseDetailForm.number}}</text>
+				<text>生病数量</text><text>{{drugUseDetailForm.number}}</text>
 			</view>
 			<view class="dWTopBox">
-				<text>开始用药时间</text><text>{{this.drugUseDetailForm.usage_time}}</text>
+				<text>开始用药时间</text><text>{{drugUseDetailForm.usage_time}}</text>
 			</view>
 			<view class="dWTopBox">
-				<text>用药天数</text><text>{{this.drugUseDetailForm.day}}</text>
-			</view>
-		</view>
-		<view class=""  style="margin-top: 20rpx;">
-			<view class="dWTopBox">
-				<text>药品名称</text><text>{{this.drugUseDetailForm.drugs_name}}</text>
-			</view>
-			<view class="dWTopBox">
-				<text>生产厂家</text><text>{{this.drugUseDetailForm.production}}</text>
-			</view>
-			<view class="dWTopBox">
-				<text>药品批号</text><text>{{this.drugUseDetailForm.batch_number}}</text>
+				<text>用药天数</text><text>{{drugUseDetailForm.day}}</text>
 			</view>
 		</view>
 		<view class=""  style="margin-top: 20rpx;">
 			<view class="dWTopBox">
-				<text>药品用量</text><text>{{this.drugUseDetailForm.dosage}}</text>
+				<text>药品名称</text><text>{{drugUseDetailForm.drugs_name}}</text>
 			</view>
 			<view class="dWTopBox">
-				<text>用药审批人</text><text>{{this.drugUseDetailForm.approval}}</text>
+				<text>生产厂家</text><text>{{drugUseDetailForm.production}}</text>
+			</view>
+			<view class="dWTopBox">
+				<text>药品批号</text><text>{{drugUseDetailForm.batch_number}}</text>
+			</view>
+		</view>
+		<view class=""  style="margin-top: 20rpx;">
+			<view class="dWTopBox">
+				<text>药品用量</text><text>{{drugUseDetailForm.dosage}}</text>
+			</view>
+			<view class="dWTopBox">
+				<text>用药审批人</text><text>{{drugUseDetailForm.approval}}</text>
 			</view>
 		</view>
 		
@@ -58,7 +61,7 @@
 			<view class="">
 				用药反馈
 			</view>
-			<textarea   :disabled="true" :value="drugUseDetailForm.feedback" placeholder="" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea    :value="drugUseDetailForm.feedback"   disabled="true" />
 		</view>
 
 	</view>
@@ -85,6 +88,12 @@
 			}
 		},
 		methods:{
+			toChangeMessagePage(){
+				const messageForm =JSON.stringify(this.messageChangeForm)
+				uni.navigateTo({
+					url: '/sub/add_drug_use_record/add_drug_use_record?query=' + messageForm
+				});
+			},
 			onNavigationBarButtonTap(){
 				console.log()
 				const messageForm =JSON.stringify(this.messageChangeForm)
@@ -119,7 +128,7 @@
 			console.log(this.messageChangeForm)
 		},
 		created() {
-			
+			// this.getRecordsForm()
 		},
 		onShow() {
 			this.getRecordsForm()
@@ -133,6 +142,9 @@
 	min-height: calc(100vh);
 	background-color: #F4F6FA;
 	padding-top: 20rpx;
+	/*  #ifdef  MP-WEIXIN  */
+	padding-top: 100rpx;
+	/*  #endif  */
 	padding-bottom: 189rpx;
 	color: #151515;
 	.navigationBar{
@@ -216,4 +228,5 @@
 	}
 	
 }
+
 </style>

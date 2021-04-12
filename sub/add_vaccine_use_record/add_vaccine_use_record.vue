@@ -1,7 +1,7 @@
 <template>
 	<view class="addNewVaccineUseRecordContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{queryData.record_time||today}}</text>
+			<text>记录时间</text><text>{{queryData.record_time|| addVaccineData.today}}</text>
 		</view>
 		
 		<view class="leaveType">
@@ -56,7 +56,7 @@
 					用苗时间<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="vaccine_timeShow">
-					<text>{{addVaccineData.vaccineUseTime}}</text>
+					<text>{{addVaccineData.vaccineUseTime||'请选择'}}</text>
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
@@ -278,6 +278,7 @@
 								title: '提交成功',
 								icon: 'none'
 							})
+							// return false
 							setTimeout(()=>{
 								uni.navigateBack({
 								    delta: 1
@@ -350,7 +351,7 @@
 			warehouseValue(e){
 				console.log(e.item[1])
 				this.vaccineHouseValue=e.item[1].name
-				this.vaccineHouseId=e.item[1].id
+				this.addVaccineData.vaccineHouseId=e.item[1].id
 			},
 			vaccineBatchNumberChange(e){
 				console.log(e)
@@ -360,7 +361,7 @@
 					console.log(value, index,this.vccinebatchNumberList[value]);
 					
 					if(e.value === value){
-						this.drugs_id=this.vccinebatchNumberList[value].drugs_id
+						this.addVaccineData.drugs_id=this.vccinebatchNumberList[value].drugs_id
 						console.log(this.drugs_id)
 					}
 				});
@@ -458,7 +459,7 @@
 				this.addVaccineData.remarks=value
 			},
 			feedBackChange({detail:{value}}){
-				this.addVaccineData.feedback=value
+				this.feedback=value
 			},
 			getVaccineUseDetail(){
 				console.log(this.query)
@@ -510,15 +511,26 @@
 		created() {
 			
 			
+			// if(this.queryData.vaccin_id){
+			// 	this.getVaccineUseDetail()
+			// }else{
+				
+				
+			// }
+			this.getToday()
+			this.getFixBoxData()
+			this.getVaccineData()
+		},
+		onShow() {
+			this.getToday()
+			
 			if(this.queryData.vaccin_id){
 				this.getVaccineUseDetail()
 			}else{
 				
 				
 			}
-			this.getToday()
-			this.getFixBoxData()
-			this.getVaccineData()
+			console.log(this.today)
 		},
 		onLoad({query}) {
 			if(query){

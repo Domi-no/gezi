@@ -34,8 +34,8 @@ methods.forEach(method => {
 				});
 
 			// 开始发送请求
-
-
+			// http://192.168.0.100
+			// http://jx.onlylove.top
 			uni.request({
 					url: 'http://jx.onlylove.top/' + url,
 					header: headers,

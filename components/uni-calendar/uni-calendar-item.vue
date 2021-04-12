@@ -19,7 +19,7 @@
 				'uni-calendar-item--multiple': weeks.multiple,
 				'uni-calendar-item--after-checked':weeks.afterMultiple,
 				'uni-calendar-item--disable':weeks.disable,
-				}">{{weeks.date}}<image v-show="this.isShow" :src="name=== '疫苗' ? picSrc[0] : picSrc[1]" style="width: 22rpx; height: 26rpx;position: absolute;right: 4rpx;top: 4rpx;" mode=""></image></view>
+				}">{{weeks.date}}<image v-show="this.ymTime.includes(this.weeks.fullDate)" :src="name=== '疫苗' ? picSrc[0] : picSrc[1]" style="width: 22rpx; height: 26rpx;position: absolute;right: 4rpx;top: 4rpx;" mode=""></image></view>
 			<!-- <text v-if="!lunar&&!weeks.extraInfo && weeks.isDay" class="uni-calendar-item__weeks-lunar-text" :class="{
 				'uni-calendar-item--isDay-text':weeks.isDay,
 				'uni-calendar-item--isDay':calendar.fullDate === weeks.fullDate && weeks.isDay,
@@ -103,10 +103,11 @@
 			}
 		},
 		created() {
-			console.log(this.box,this.name)
+			// console.log(this.box,this.name)
 		},
 		computed:{
 			isShow(){
+				console.log(this.ymTime.includes(this.weeks.fullDate))
 				return this.ymTime.includes(this.weeks.fullDate)
 				
 			}

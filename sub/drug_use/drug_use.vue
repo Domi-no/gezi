@@ -14,7 +14,7 @@
 			<!-- <view class="noRecord">今日没有疫苗使用记录~</view> -->
 			<view class="" style="margin-top: 9rpx;">
 				<view class="" v-for="(item,idx) in dayList[0]" :key="idx">
-					<view class="usageRecordItem" v-show="item.type_name=== '生产仓'" >
+					<view class="usageRecordItem" v-if="item.type_name=== '生产仓'" >
 						<view class="usageRecordItemLeft">
 							<image src="../../static/daiban/g_g.png" mode=""></image>
 							<view class="" style="margin-left: 13rpx;">
@@ -33,7 +33,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="usageRecordItem" v-show="item.type_name=== '育雏仓'" >
+					<view class="usageRecordItem" v-if="item.type_name=== '育雏仓'" >
 						<view class="usageRecordItemLeft">
 							<image src="../../static/daiban/r_g.png" mode=""></image>
 							<view class="" style="margin-left: 13rpx;">
@@ -52,7 +52,7 @@
 							</view>
 						</view>
 					</view>
-					<view class="usageRecordItem" v-show="item.type_name=== '飞鹏管理仓'" >
+					<view class="usageRecordItem" v-if="item.type_name=== '飞鹏管理仓'" >
 						<view class="usageRecordItemLeft">
 							<image src="../../static/daiban/b_g.png" mode=""></image>
 							<view class="" style="margin-left: 13rpx;">
@@ -203,11 +203,12 @@
 		},
 		created() {
 			this.getToday()
-			this.getDrugUse()
+			// this.getDrugUse()
 			console.log(this.dayList)
 			
 		},
 		onShow() {
+			this.getToday()
 			this.getDrugUse()
 		}
 		
