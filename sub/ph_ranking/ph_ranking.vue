@@ -17,7 +17,7 @@
 		</view>
 		<view class="">
 			
-			<my-ranking class="r_c" :rankingList="saleRankList"></my-ranking>
+			<my-ranking class="r_c" :gecang="isWH" :rankingList="saleRankList"></my-ranking>
 		</view>
 		<view v-show="isLoadMore">
 		      <uni-load-more :status="loadStatus" ></uni-load-more>
@@ -34,7 +34,7 @@
 		data() {
 			return {
 				isShowRLN:false,
-				rankName:'鸽仓排行',
+				rankName:'厂区排行',
 				cRankListNameId:'',
 				classification:[{name:'日榜',timeSlot:'day'},{name:'月度榜',timeSlot:'month'},{name:'季度榜',timeSlot:'season'},{name:'年度榜',timeSlot:'year'}],
 				rankListName:[{name:'厂区排行',rankText:'factory'},{name:'员工排行',rankText:'staff'},{name:'鸽仓排行',rankText:'barn'}],
@@ -51,6 +51,7 @@
 				
 				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
 				isLoadMore:false,  //是否加载中
+				isWH:false,
 			}
 		},
 		methods: {
@@ -65,6 +66,7 @@
 				this.isShowRLN = !this.isShowRLN
 			},
 			rLNameChange(idx,item){
+				item.name==='鸽仓排行'?this.isWH=true:this.isWH=false
 				this.cRankListNameId = idx
 				this.rankName=item.name
 				this.saleData.RankText =item.rankText

@@ -4,7 +4,7 @@
 			<view class="titleBox" >
 				{{item.title}}
 			</view>
-			<image src="" mode=""></image>
+			<image :src="item.display_img" mode=""></image>
 			<view class="timeBox">
 				{{item.creatime}}
 			</view>
@@ -77,7 +77,7 @@
 			width: 690rpx;
 			height: 388rpx;
 			margin: 16rpx auto 10rpx;
-			background-color: #fac;
+			// background-color: #fac;
 		}
 		.timeBox{
 			font-size: 22rpx;

@@ -11,10 +11,10 @@
 				</view>
 				<view class="personnel">
 					<view class="">
-						<text class="_personnel">{{item.breeder?'饲养员：':'病残率：'}}</text><text class="p_name">{{item.breeder||item.fall_ill}}</text>
+						<text class="_personnel">{{gecang?'饲养员：':'病残率：'}}</text><text class="p_name">{{item.breeder||item.fall_ill}}</text>
 					</view>
 					<view class="" style="margin-left: 19rpx;">
-						<text class="_personnel ">{{item.support?'护工：':'死亡率：'}}</text><text class="p_name">{{item.support||item.mortality}}</text>
+						<text class="_personnel ">{{gecang?'护工：':'死亡率：'}}</text><text class="p_name">{{item.support||item.mortality}}</text>
 					</view>
 				</view>
 			</view>
@@ -39,6 +39,10 @@
 			rankingList:{
 				type:Array,
 				// required:true
+			},
+			gecang:{
+				type:Boolean,
+				default:false
 			}
 		},
 		data() {
@@ -124,6 +128,7 @@
 				}
 				._personnel {
 					color: #979797;
+					font-size: 22rpx;
 				}
 
 				

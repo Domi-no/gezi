@@ -40,10 +40,18 @@
 				})
 			}
 		},
+		// #ifdef  APP-PLUS||H5
 		created() {
 			console.log(this.newsId,'created')
 			this.getNewsDetails()
 		},
+		// #endif
+		
+		// #ifdef  MP-WEIXIN
+		onShow() {
+			this.getNewsDetails()
+		},
+		// #endif
 		onLoad(e){
 			console.log(e.id)
 			this.newsId=e.id

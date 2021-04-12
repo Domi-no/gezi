@@ -18,9 +18,9 @@
 		<neil-modal 
 		    :show="show" 
 		    @close="closeModal" 
-		    title="" 
+		    title="确认退出吗" 
 			:align="'center'"
-		    content="确认退出吗"
+		    content=""
 		    @cancel="canCelBtn('cancel')" 
 		    @confirm="signOutBtn('confirm')">
 		</neil-modal>
@@ -69,6 +69,9 @@
 			checkForUpdates(){
 				this.tipsValue='已经是最新版本'
 				this.isShowTips=true
+			},
+			closeModal(){
+				
 			}
 		},
 			

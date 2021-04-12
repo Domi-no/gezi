@@ -37,7 +37,7 @@ methods.forEach(method => {
 			// http://192.168.0.100
 			// http://jx.onlylove.top
 			uni.request({
-					url: 'http://jx.onlylove.top/' + url,
+					url: 'https://jx.onlylove.top/' + url,
 					header: headers,
 					data: {
 						uid:userInfo.id||store.state.user.userInfo.id||'',

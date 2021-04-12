@@ -7,7 +7,7 @@
 			<view class="productItemText">
 				{{i.text}}
 			</view>
-			<image class="img" src="" mode="">
+			<image class="img" :src="i.display_img" mode="">
 				
 			</image>
 		</view>
@@ -94,7 +94,7 @@
 	 .img{
 		 width: 630rpx;
 		 height: 352rpx;
-		 background-color: #000000;
+		 // background-color: #000000;
 		 margin-top: 22rpx;
 	 }
  }

@@ -38,7 +38,7 @@
 					</view>
 				</view>
 			</view>
-			<my-ranking class="r_c" :rankingList="homeSaleList"></my-ranking>
+			<my-ranking class="r_c" :gecang="isWh" :rankingList="homeSaleList"></my-ranking>
 			<view class="h_bt"  @click="toRanking">
 				查看全部排名
 			</view>
@@ -85,7 +85,8 @@
 					RankText:'factory',
 					TimeSlot:'day',
 					page:1
-				}
+				},
+				isWh:false
 				
 			}
 		},
@@ -130,6 +131,7 @@
 				this.isShowRLN = !this.isShowRLN
 			},
 			rLNameChange(idx,item){
+				item.name === '鸽仓排行' ? this.isWh=true : this.isWh =false
 				this.isShowRLN = false
 				console.log(item.rankText)
 				this.cRankListNameId = idx

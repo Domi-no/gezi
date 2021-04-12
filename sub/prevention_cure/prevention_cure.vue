@@ -2,7 +2,7 @@
 	<view class="preventionCureContainer">
 		<view class="preventionCureItem" v-for="(item,idx) in PCList" :key="idx" @click="toPreventionCure(item.news_id)">
 			<view class="preventionCureImgBox">
-				<image src="" mode=""></image>
+				<image :src="item.display_img" mode=""></image>
 			</view>
 			<view class="preventionCureContentBox">
 				<view class="preventionCureTitle">
@@ -80,7 +80,7 @@
 					height: 136rpx;
 					border-radius: 10rpx;
 					overflow: hidden;
-					background-color: #afc;
+					// background-color: #afc;
 				}
 			}
 			.preventionCureContentBox{

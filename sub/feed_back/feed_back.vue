@@ -15,7 +15,7 @@
 			</view>
 			<view class="feedBackPicContainer">
 				
-				<sunui-upimg @change="getImageInfo"   :url="'http://jx.onlylove.top/CageData/addImg.html'"  @showTip="showTip" :header="formData" :upload_auto="false" ref="upimg"></sunui-upimg>
+				<sunui-upimg @change="getImageInfo"   :url="'https://jx.onlylove.top/CageData/addImg.html'"  @showTip="showTip" :header="formData" :upload_auto="false" ref="upimg"></sunui-upimg>
 			</view>
 			<!-- <easy-upload
 			   :dataList="dataList"
