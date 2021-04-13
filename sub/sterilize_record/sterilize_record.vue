@@ -28,6 +28,22 @@
 					{{drugName||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
+			<view class="sterilizeOption" @click="choiceCorporateNamePopup">
+				<view class="">
+					生产厂家<image class="star" src="../../static/daiban/star.png" mode=""></image>
+				</view>
+				<view class="choice">
+					{{corporateName||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				</view>
+			</view>
+			<view class="sterilizeOption" @click="choiceDrugBatchNumberPopup">
+				<view class="">
+					药品批号<image class="star" src="../../static/daiban/star.png" mode=""></image>
+				</view>
+				<view class="choice">
+					{{batchNumber||'请选择'}}<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
+				</view>
+			</view>
 			<view class="sterilizeOption">
 				<view class="">
 					药品用量<image class="star" src="../../static/daiban/star.png" mode=""></image>
@@ -66,6 +82,15 @@
 		 <lb-picker ref="drugName" :list="drugList" :props="drugProps" radius="20rpx" confirm-color="#377BE4" @confirm="drugValue">
 		 			 <view slot="confirm-text" >完成</view>
 		 </lb-picker>
+		 <lb-picker ref="corporateName" :list="corporateNameList" :props="drugProps" radius="20rpx" confirm-color="#377BE4" @confirm="corporateNameChange">
+		 			 <view slot="confirm-text" >完成</view>
+		 </lb-picker>
+		 <lb-picker ref="batchNumber" :list="batchNumberList" :props="drugProps" radius="20rpx" confirm-color="#377BE4" @confirm="batchNumberValue">
+		 			 <view slot="confirm-text" >完成</view>
+		 </lb-picker>
+		 <!-- <lb-picker ref="drugName" mode="multiSelector" :props="myProps" :list="drugList" :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='drugValue'>
+		 			 <view slot="confirm-text" >完成</view>
+		 </lb-picker> -->
 	</view>
 </template>
 
@@ -116,13 +141,15 @@
 				     value: 'id',
 				},
 				drugProps:{
-					label: 'drugs_name',
-					value: 'drugs_id',
+					label: 'name',
+					
 				},
 				block_value:'',
-				
+				corporateNameList:[],
+				corporateName:'',
 				drugName:'',
-				
+				batchNumber:'',
+				batchNumberList:[],
 				username:'',
 				sRdataForm:{
 					record_time:'',
@@ -131,6 +158,7 @@
 					drugs_id:'',
 					number:'',
 					remarks:'',
+					// batchNumber:''
 				}
 			}
 		},
@@ -147,6 +175,12 @@
 			choiceDrugPopup(){
 				this.$refs.drugName.show()
 			},
+			choiceDrugBatchNumberPopup(){
+				this.$refs.batchNumber.show()
+			},
+			choiceCorporateNamePopup(){
+				this.$refs.corporateName.show()
+			},
 			modeChange(e){
 				console.log(e)
 				this.sRdataForm.mode=e.value
@@ -162,8 +196,19 @@
 			},
 			drugValue(e){
 				console.log(e)
-				this.drugName=e.item.drugs_name
-				this.sRdataForm.drugs_id=e.item.drugs_id
+				this.drugName=e.item.name
+				this.corporateNameList=e.item.children
+				// this.sRdataForm.drugs_id=e.item.drugs_id
+			},
+			corporateNameChange(e){
+				this.corporateName=e.item.name
+				this.batchNumberList=e.item.children
+				console.log(e)
+			},
+			batchNumberValue(e){
+				console.log(e)
+				this.batchNumber=e.item.name
+				this.sRdataForm.drugs_id=e.item.id
 			},
 			numberChange({detail:{value}}){
 				this.sRdataForm.number=parseInt(value.trim())
@@ -207,11 +252,19 @@
 			},
 			getDrugsName(){
 				
-				this.$http.post('/Work/drugsName.html', {uid: this.userInfo.id})
+				this.$http.post('/sale/define.html', {uid: this.userInfo.id})
 				.then((res) => {
 						console.log(res)
-						this.drugList=res.data
-					
+					Object.keys(res.data).forEach((value, index)=>{
+						this.drugList.push({name:value,children:[]})
+						Object.keys(res.data[value]).forEach((val, ind)=>{
+							this.drugList[index].children.push({name:val,children:[]})
+							Object.keys(res.data[value][val]).forEach((valu, inde)=>{
+								this.drugList[index].children[ind].children.push({name:valu,id:res.data[value][val][valu].drugs_id})
+							});
+						});
+					});
+					console.log(this.drugList)
 					}).catch((err) => {
 						
 					})
@@ -255,7 +308,7 @@
 			isSRsub(){
 				
 				const {record_time,block_id,mode,drugs_id,number,remarks}=this.sRdataForm
-				
+				console.log(record_time,block_id,mode,drugs_id,number,remarks)
 				return record_time&&block_id&&mode&&drugs_id&&number&&remarks ? true :false
 			}
 			

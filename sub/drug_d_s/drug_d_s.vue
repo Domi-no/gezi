@@ -65,7 +65,8 @@
 					drugs_name:i.drugs_name,
 					number:i.number,
 					time:i.time,
-					unit_price:i.unit_price
+					unit_price:i.unit_price,
+					category:i.category,
 				}
 				// return false
 				uni.navigateTo({
@@ -78,7 +79,8 @@
 					drugs_name:i.drugs_name,
 					number:i.number,
 					time:i.time,
-					unit_price:i.unit_price
+					unit_price:i.unit_price,
+					category:i.category,
 				}
 				// return false
 				uni.navigateTo({

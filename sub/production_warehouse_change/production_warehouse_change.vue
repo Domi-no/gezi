@@ -916,7 +916,8 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				otherGelongList:[],
 				subAlarmData:[],
 				alarShow:false,
-				isShowTipModal:false
+				isShowTipModal:false,
+				isGetFrequencyData:false
 				
 			};
 		},
@@ -974,6 +975,10 @@ color: #151515;padding:0rpx 0 50rpx 0"
 						});
 						this.alarShow=true
 						console.log(this.subAlarmData[0])
+					}else{
+						uni.navigateBack({
+						    delta: 1
+						});
 					}
 					if(res.code != 200){
 						uni.showToast({
@@ -1093,12 +1098,13 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			},
 			getFrequencyData(){
 				console.log(this.dataForm,'getFrequencyData')
-				if(this.dataForm.dove_type && this.dataForm.cage_id){
+				if(this.dataForm.dove_type && this.dataForm.cage_id&& !this.isGetFrequencyData){
 					
 					this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type})
 					.then((res)=>{
 						console.log(res,'frequency')
 						this.changeNumber=res.data.frequency
+						this.isGetFrequencyData=true
 						console.log(this.changeNumber,'changenumber')
 					}).catch((err)=>{
 						console.log(err)

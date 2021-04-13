@@ -11,26 +11,28 @@
 				出库原因<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="out_reasonShow">
-				<text>{{outFormData.out_reason}}</text>
+				<text>{{outFormData.out_reason||'请选择'}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 		</view>
 		<view :class="{notSelected:whetherSelect}" @click="dShowTips">
-			<view class="manager" >
+			<view class="manager" @click="manufacturerPopupShow">
 				<view class="">
 					生产厂家<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="" @input="productionChange" :value="outFormData.production" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<text>{{outFormData.production||'请选择'}}</text>
+					<!-- <input type="" @input="productionChange" :value="outFormData.production" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /> -->
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="manager" style="border: 0;">
+			<view class="manager" style="border: 0;" @click="batchNumberPopupShow">
 				<view class="">
 					生产批号<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox">
-					<input type="" @input="batch_numberChange" :value="outFormData.batch_number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<text>{{outFormData.batch_number||'请选择'}}</text>
+					<!-- <input type="" @input="batch_numberChange" :value="outFormData.batch_number" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" /> -->
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 			</view>
@@ -105,7 +107,7 @@
 		<view class="setUpTips" v-show="dIsShowTips">
 			请先选择出库原因
 		</view>
-		<w-picker
+		<!-- <w-picker
 		     :visible.sync="visible"
 		     mode="selector"
 		     value="本厂使用"
@@ -115,22 +117,36 @@
 		     @confirm="out_reasonChange"
 		     @cancel="onCancel"
 		     ref="reason" 
-		    ></w-picker>
+		    ></w-picker> -->
+			<lb-picker ref="reason" :list="reasonOptions" :props="defaultProps" radius="20rpx" confirm-color="#377BE4" @confirm="out_reasonChange">
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
+			<lb-picker ref="manufacturer" :list="manufacturerList" :props="myProps" radius="20rpx" confirm-color="#377BE4" @confirm="manufacturerChange">
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
+			<lb-picker ref="batchNumber" :list="batchNumberList"  radius="20rpx" confirm-color="#377BE4" @confirm="batchNumberChange">
+						 <view slot="confirm-text" >完成</view>
+			</lb-picker>
 	</view>
 </template>
 
 <script>
+	import LbPicker from '@/components/lb-picker'
 	import wPicker from "@/components/w-picker/w-picker.vue";
 	import {
 		mapState
 	} from 'vuex'
 	export default {
 		components:{
-		        wPicker
+		        wPicker,LbPicker
 		},
 		data() {
 			return {
-				defaultProps:{"label":"name","value":"id"},
+				
+				defaultProps:{label:"name",value:"id"},
+				myProps:{
+					label:"name",
+				},
 				isSub:false,
 				visible:false,
 				reasonOptions:[],
@@ -148,7 +164,8 @@
 				
 				queryData:'',
 				// ---
-				
+				manufacturerList:[],
+				batchNumberList:[],
 				dIsShowTips:false,
 				outFormData:{
 					out_reason:'请选择',
@@ -160,7 +177,8 @@
 					supplier:'',
 					approved:'',
 					suppman:'',
-					remarks:''
+					remarks:'',
+					
 				}
 			}
 		},
@@ -170,14 +188,34 @@
 				
 			 console.log(e)
 			},
+			manufacturerPopupShow(){
+				if(this.whetherSelect){
+					return false
+				}
+				this.$refs.manufacturer.show()
+			},
+			batchNumberPopupShow(){
+				if(this.whetherSelect){
+					return false
+				}
+				this.$refs.batchNumber.show()
+			},
 			out_reasonChange(e){
 				
 				console.log(e)
-				this.outFormData.out_reason=e.result
+				this.outFormData.out_reason=e.item.name
 				this.whetherSelect=false
 				
 			},
-			
+			manufacturerChange(e){
+				this.batchNumberList=e.item.children
+				this.outFormData.production=e.item.name
+				console.log(this.batchNumberList)
+			},
+			batchNumberChange(e){
+				console.log(e.value)
+				this.outFormData.batch_number=e.value
+			},
 			unitChange({detail:{value}}){
 				this.outFormData.unit = value
 			},
@@ -213,7 +251,7 @@
 				if(!this.isDDsub){
 					return false
 				}
-				this.$http.post('/Vaccin/Delivery.html',{type:2,uid:this.userInfo.id,record_time:this.queryData.time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
+				this.$http.post('/Vaccin/Delivery.html',{type:2,uid:this.userInfo.id,category:this.queryData.category,record_time:this.queryData.time,drugs_name:this.queryData.drugs_name,price:this.price,category:this.queryData.category,...this.outFormData})
 				.then((res) => {
 						console.log(res)
 						if(res.code == 200){
@@ -262,6 +300,20 @@
 					}).catch((err) => {
 						
 					})
+			},
+			getDrugsInfoData(){
+				this.manufacturerList=[]
+				this.$http.post('/Vaccin/drugsInfo.html',{uid:this.userInfo.id,drugs_name:this.queryData.drugs_name})
+				.then((res) => {
+						console.log(res)
+						Object.keys(res.data).forEach((val, ind)=>{
+						     console.log(val,ind,res.data[val])
+							 this.manufacturerList.push({name:val,children:res.data[val].batch_number})
+						});
+						console.log(this.manufacturerList)
+					}).catch((err) => {
+						
+					})
 			}
 		},
 		computed:{
@@ -286,6 +338,7 @@
 		
 		created() {
 			this.getDrugDeliveryReasonData()
+			this.getDrugsInfoData()
 		},
 		onLoad({query}) {
 			this.queryData= JSON.parse(query)
