@@ -11,7 +11,7 @@
 				
 			</image>
 		</view>
-		
+		<view  class="noMore">已经到底了~. ~</view>
 	</view>
 </template>
 
@@ -90,6 +90,13 @@
 			 -webkit-line-clamp: 3;
 			 overflow: hidden;
 		 }
+	 }
+	 .noMore{
+		 font-size: 24rpx;
+		 font-weight: 500;
+		 color: #979797;
+		 text-align: center;
+		 margin: 57rpx auto 0;
 	 }
 	 .img{
 		 width: 630rpx;

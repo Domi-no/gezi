@@ -241,8 +241,8 @@
 
 		.focus_news {
 			margin-top: 20rpx;
-			height: 484rpx;
-			padding: 40rpx 30rpx 0;
+			// height: 484rpx;
+			padding: 40rpx 30rpx 20rpx;
 			background-color: #fff;
 
 			.focus_head {

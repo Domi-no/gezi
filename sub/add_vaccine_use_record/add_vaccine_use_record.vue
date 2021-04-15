@@ -459,7 +459,7 @@
 				this.addVaccineData.remarks=value
 			},
 			feedBackChange({detail:{value}}){
-				this.feedback=value
+				this.addVaccineData.feedback=value
 			},
 			getVaccineUseDetail(){
 				console.log(this.query)

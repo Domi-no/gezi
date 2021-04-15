@@ -9,7 +9,7 @@
 		<view class="vaccineUseSecordItem" v-for="(item,idx) in vaccineUseData" :key="idx">
 			<view class="vU_title">
 				<view class="">
-					<image :src="picSrc[idx]" mode=""></image>本年疫苗使用记录
+					<image :src="picSrc[idx].img" mode=""></image>本{{picSrc[idx].type}}疫苗使用记录
 				</view>
 				<text>共计{{item.num}}次</text>
 			</view>
@@ -79,7 +79,7 @@
 			return {
 				today:'',
 				vaccineUseData:[],
-				picSrc:['../../static/daiban/nian.png','../../static/daiban/ji.png','../../static/daiban/yue.png'],
+				picSrc:[{img:'../../static/daiban/nian.png',type:'年'},{img:'../../static/daiban/ji.png',type:'季'},{img:'../../static/daiban/yue.png',type:'月'}],
 				text:''
 			}
 		},
