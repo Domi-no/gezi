@@ -44,7 +44,7 @@
 						<image src="../../static/daiban/ht_b.png" mode=""></image>
 						<view class="records_breedingPigeon_item_left_t">
 							<view class="">
-								<text>鸽蛋</text><text>{{recordsData['童鸽'].text}}</text>
+								<text>鸽蛋</text><text>{{recordsData['鸽蛋'].text}}</text>
 							</view>
 							<view class="">
 								当前存栏{{recordsData['鸽蛋'].num}}只
@@ -62,7 +62,7 @@
 						<image src="../../static/daiban/ht_g.png" mode=""></image>
 						<view class="records_breedingPigeon_item_left_t">
 							<view class="">
-								<text>乳鸽</text><text>{{recordsData['童鸽'].text}}</text>
+								<text>乳鸽</text><text>{{recordsData['乳鸽'].text}}</text>
 							</view>
 							<view class="">
 								当前存栏{{recordsData['乳鸽'].num}}只
@@ -254,8 +254,13 @@
 		},
 		created() {
 			this.getJournalData()
-			this.getRecordData()
+			// this.getRecordData()
 			this.getToday()
+		},
+		onShow(){
+			if(this.cage_id){
+				this.getRecordData()
+			}
 		}
 	}
 </script>

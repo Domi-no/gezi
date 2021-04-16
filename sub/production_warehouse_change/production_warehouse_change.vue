@@ -976,16 +976,25 @@ color: #151515;padding:0rpx 0 50rpx 0"
 						this.alarShow=true
 						console.log(this.subAlarmData[0])
 					}else{
-						uni.navigateBack({
-						    delta: 1
-						});
+						if(res.code == 200){
+							uni.showToast({
+								title: '提交成功',
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}else{
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+						}
 					}
-					if(res.code != 200){
-						uni.showToast({
-							title: res.message,
-							icon: 'none'
-						})
-					}
+					
+					
 				}).catch((err)=>{
 					console.log(err)
 				})
