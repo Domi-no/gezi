@@ -13,7 +13,7 @@
 			<view class="forgetPassword">
 				<text></text>
 				<text @click="forgetPassword">忘记密码</text>
-			</view>
+			</view>	
 		</view>
 		<view class="login" @click="login">
 			登录

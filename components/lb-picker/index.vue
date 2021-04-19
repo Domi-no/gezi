@@ -45,21 +45,25 @@
 			  <slot  name="action-zyj"></slot>
 			</view>	
           <!-- 取消 -->
-          <view class="lb-picker-action lb-picker-action-cancel"
-            @tap.stop="handleCancel">
-            <slot v-if="$slots['cancel-text']"
-              name="cancel-text">
-            </slot>
-            <text v-else
-              class="lb-picker-action-cancel-text"
-              :style="{ color: cancelColor }">{{ cancelText }}</text>
-          </view>
+         
+          	<view class="lb-picker-action lb-picker-action-cancel"
+          	  @tap.stop="handleCancel" v-if="!zyj">
+          	  <slot :class="{isShow:!zyj}" v-if="$slots['cancel-text']"
+          	    name="cancel-text">
+          	  </slot>
+          	  <text v-else
+          	    class="lb-picker-action-cancel-text"
+          	    :style="{ color: cancelColor}"><text v-if="!zyj">{{ cancelText }}</text></text>
+          	</view>
+         
 		
           <!-- 中间 -->
-          <view class="lb-picker-action lb-picker-center"
-            v-if="$slots['action-center']">
-            <slot name="action-center"></slot>
-          </view>
+         <view :class="{isShow:zyj}">
+         	<view class="lb-picker-action lb-picker-center"
+         	   v-if="$slots['action-center']">
+         	   <slot name="action-center"></slot>
+         	 </view>
+         </view>
 
           <!-- 确定 -->
           <view class="lb-picker-action lb-picker-action-confirm"
@@ -514,5 +518,7 @@ export default {
 .uni-picker-view-indicator{
 	height: 80rpx !important;
 }
-
+.isShow{
+	display: none;
+}
 </style>

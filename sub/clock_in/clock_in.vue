@@ -89,6 +89,9 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -98,17 +101,36 @@
 		methods: {
 			getLocation(){
 				console.log(1)
-				uni.getLocation({
-					success:(res)=> {
-					console.log(res)	
-					},
-					fail:(res)=>{
-						console.log(res)
-					}
-				})
+				this.getClockData()
+				// uni.getLocation({
+				// 	success:(res)=> {
+				// 	console.log(res)	
+				// 	},
+				// 	fail:(res)=>{
+				// 		console.log(res)
+				// 	}
+				// })
 				
+			},
+			getClockData(){
+				this.$http.post('/Punch/clock.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+				
+					}).catch((err) => {
+						
+					})
 			}
 		},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
+		created() {
+			
+		}
 		
 	}
 </script>

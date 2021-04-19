@@ -120,11 +120,16 @@
 				</view>
 			</view>
 		</view>
+		
 		<view class="qiun-columns">
-				
-				<view class="qiun-charts" >
-					<canvas canvas-id="canvasLineA" id="canvasLineA" class="charts" @touchstart="touchLineA" @touchmove="moveLineA"  @touchend="touchEndLineA"></canvas>
-				</view>
+		  <qiun-data-charts
+		    type="line"
+		    :chartData="chartData"
+		    background="none"
+		    :animation="false"
+			class="charts"
+			    :ontouch="true"
+		  />
 		</view>
 		<lb-picker ref="warehouse" :props="myProps" :list="queryData.list" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
 					 <view slot="confirm-text" >完成</view>
@@ -133,9 +138,7 @@
 </template>
 
 <script>
-	import uCharts from '../../js_sdk/u-charts/u-charts/u-charts.js';
-		var _self;
-		var canvaLineA=null;
+	
 		import LbPicker from '@/components/lb-picker';
 		import {
 			mapState
@@ -205,102 +208,8 @@
 				});
 			},
 			
-			showLineA(canvasId,chartData){
-				canvaLineA=new uCharts({
-					$this:_self,
-					canvasId: canvasId,
-					type: 'line',
-					fontSize:11	,
-					legend:{show:true,position:'top',float:'right'},
-					dataLabel:false,
-					dataPointShape:true,
-					background:'#FFFFFF',
-					pixelRatio:_self.pixelRatio,
-					categories: chartData.categories,
-					series: chartData.series,
-					animation: false,
-					dataPointShape:false,
-					enableScroll:true,
-					xAxis: {
-						type:'grid',
-						gridColor:'#CCCCCC',
-						gridType:'dash',
-						dashLength:8,
-						itemCount:5,
-						// scrollShow:true,
-						// scrollAlign:'left',
-					},
-					yAxis: {
-						gridType:'solid',
-						gridColor:'#CCCCCC',
-						dashLength:8,
-						splitNumber:5,
-						calibration:true,
-						  "disabled": false,
-						        "disableGrid": false,
-						data: [
-						        {
-						            position: "left",
-						            disabled: false,
-						            axisLine: false,
-						            // axisLineColor: "#CCCCCC",
-						            // calibration: false,
-						            // fontColor: "#666666",
-						            // fontSize: 13,
-						            // textAlign: "right",
-						            // title: "",
-						            // titleFontSize: 13,
-						            // titleFontColor: "#666666",
-						            // min: null,
-						            // max: null,
-						            // format: ""
-						        }
-						    ],
-						
-						
-						format:(val)=>{return val.toFixed(0)+''}
-					},
-					width: _self.cWidth*_self.pixelRatio,
-					height: _self.cHeight*_self.pixelRatio,
-					extra: {
-						// lineStyle:'straight',
-						line:{
-							type: 'straight'
-						}
-					}
-				});
-				
-			},
-			touchLineA(e) {
-				// canvaLineA.showToolTip(e, {
-				// 	format: function (item, category) {
-				// 		return category + ' ' + item.name + ':' + item.data 
-				// 	}
-				// });
-				console.log(e)
-				canvaLineA.scrollStart(e);
-			},
-			touchStart(e){
-				
-				 console.log()
-				this.leftValue = e.detail.scrollLeft * 0.24
-				
-			},
-			moveLineA(e) {
-							canvaLineA.scroll(e);
-						},
-						touchEndLineA(e) {
-							canvaLineA.scrollEnd(e);
-							//下面是toolTip事件，如果滚动后不需要显示，可不填写
-							canvaLineA.showToolTip(e, {
-								format: function (item, category) {
-									return category + ' ' + item.name + ':' + item.data 
-								}
-							});
-						},
-			touchEnd(e){
-				console.log(e)
-			},
+			
+			
 			getPreSaleData(){
 				const {block_type} = this
 				this.$http.post('/Sale/preSale.html', {uid: this.userInfo.id,block_type})
@@ -325,6 +234,11 @@
 				
 				this.$http.post('/Sale/SalesData.html', {uid: this.userInfo.id})
 				.then((res) => {
+					if(res.code == 200){
+						this.chartData.categories =[]
+						this.chartData.series[0].data=[]
+						this.chartData.series[1].data=[]
+						this.chartData.series[2].data=[]
 						console.log(res)
 						console.log(res.data.canvas)
 						this.todaySaleData=res.data['今日销售']
@@ -337,7 +251,9 @@
 							this.chartData.series[2].data.push(res.data.canvas[value][2].number)    
 						});
 						console.log(this.chartData)
-						this.showLineA("canvasLineA",this.chartData)
+					}
+					
+						
 					}).catch((err) => {
 						
 				})
@@ -566,6 +482,10 @@
 		}
 	}
 }
+.charts-box{
+  width: 100%;
+  height:500px;
+}
 .qiun-charts {
 		width: 100%;
 		height: 500upx;
@@ -574,7 +494,7 @@
 	}
 	
 	.charts {
-		width: 720upx;
+		width: 100%;
 		height: 328upx;
 		background-color: #FFFFFF;
 		margin: 0 auto;

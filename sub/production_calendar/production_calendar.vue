@@ -198,7 +198,6 @@
 	import {
 		mapState
 	} from 'vuex'
-	// import EiCalendar from '@/components/ei-calendar/ei-calendar';
 	export default {
 
 		data() {

@@ -34,7 +34,7 @@
 					{{item.name||''}}
 				</view>
 			</view>
-		</view>
+		</view>	
 	</view>
 </template>
 
@@ -43,7 +43,9 @@
 		mapState
 	} from 'vuex'
 	import uSwiper from '@/uview-ui/components/u-swiper/u-swiper.vue';
+	
 	export default {
+	
 		data() {
 			return {
 				id: 0,
@@ -93,11 +95,15 @@
 			
 		},
 		onLoad() {
-			// if(!this.userInfo.token){
-			// 	uni.navigateTo({
-			// 		url: "/pages/login/login"
-			// 	});
-			// }
+			
+			// #ifdef  MP-WEIXIN
+			if(!this.userInfo.token){
+				uni.navigateTo({
+					url: "/pages/login/login"
+				});
+			}
+			// #endif
+			
 		}
 	}
 </script>
