@@ -160,12 +160,12 @@
 			// 	"path": "production_report/production_report",
 			// 	"style": ""
 			// },
-			// {
-			// 	"path": "production_records/production_records",
-			// 	"style": {
-			// 		"navigationBarTitleText":"日记录"
-			// 	}
-			// },
+			{
+				"path": "production_records/production_records",
+				"style": {
+					"navigationBarTitleText":"日记录"
+				}
+			},
 			{
 				"path": "production_data/production_data",
 				"style": {

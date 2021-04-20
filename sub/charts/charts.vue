@@ -25,33 +25,50 @@
 				查询
 			</view>
 		</view>
+		<!-- #ifdef APP-PLUS || H5 -->
+	
+		
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{chartData.sum||0}}枚</text><text>平均：{{chartData.all||0}}枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
-
-					<qiun-data-charts style="width: 100%;"  canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData" :errorShow="false" :canvas2d="true" background="none"
-					  :ontouch="true"  />
+					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData"
+					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"  @getIndex="getIndex"/>
 					<view class="timeClass">
 						{{currentName}}
 					</view>
 				</view>
 			</view>
 		</view>
+		<!-- #endif -->
 		<!--  -->
-		
-		
+<!-- #ifdef MP-WEIXIN -->
+<view class="uchars_box">
+			<view class="qiun-columns">
+				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{chartData.sum||0}}枚</text><text>平均：{{chartData.all||0}}枚</text></text></view>
+				</view>
+				<view class="qiun-charts">
+					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData"
+					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"  :tooltipShow="false"  />
+					<view class="timeClass">
+						{{currentName}}
+					</view>
+				</view>
+			</view>
+		</view>
+<!-- #endif -->
+<!-- #ifdef APP-PLUS || H5 -->
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum||0}}只</text><text>平均：{{rgColumn.all||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-			
-					<qiun-data-charts style="width: 100%;" type="column" canvasId="ggge132asrtgg456h89f7hfasd" :chartData="rgColumn" :errorShow="false" :canvas2d="true" background="none"
-					  :ontouch="true"   />
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false"
+					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey"  @getIndex="getIndex"/>
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -59,15 +76,33 @@
 			</view>
 
 		</view>
+		<!-- #endif -->
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="uchars_box">
+			<view class="qiun-columns">
+				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
+					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum||0}}只</text><text>平均：{{rgColumn.all||0}}只</text></text></view>
+				</view>
+				<view class="qiun-charts">
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false"
+					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey"  :tooltipShow="false" />
+					<view class="timeClass">
+						{{currentName}}
+					</view>
+				</view>
+			</view>
+		
+		</view>
+		<!-- #endif -->
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 					<view class="qiun-title-dot-light">童鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{tgColumn.sum||0}}只</text><text>平均：{{tgColumn.all||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-			
-					<qiun-data-charts style="width: 100%;" type="column" canvasId="ccc1238789asa7898v987bb98798" :chartData="tgColumn" :errorShow="false" :canvas2d="true" background="none"
-					 :ontouch="true"   />
+					<!-- <canvas canvasId="canvasColumn" id="canvasColumn" type="2d" class="charts" @tap="tap($event,'canvasColumn')"/> -->
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="tonggeclid" :chartData="tgColumn" :errorShow="false"
+					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="tonggeclkey" />
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -81,9 +116,8 @@
 					<view class="qiun-title-dot-light">死淘量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{stColumn.sum||0}}只</text><text>平均：{{stColumn.all||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-			
-					<qiun-data-charts style="width: 100%;" type="column" canvasId="ffff123456ffff132ffffasd" :chartData="stColumn" :errorShow="false" :canvas2d="true" background="none"
-					 :ontouch="true"  />
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="sitaoliangid" :chartData="stColumn" :errorShow="false"
+					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="sitaoliangkey" />
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -91,15 +125,14 @@
 			</view>
 
 		</view>
-		
+
 		<!--  -->
 		<lb-picker ref="startPRTime" mode="dateSelector" :value="sta_time" :level="3" radius="20rpx" confirm-color="#377BE4"
 		 @confirm='pRtime'>
 
 			<view slot="confirm-text">完成</view>
 		</lb-picker>
-		<lb-picker ref="endPRTime" mode="dateSelector" :zyj="true"  :level="3" radius="20rpx" confirm-color="#377BE4"
-		 @confirm='pEtime'>
+		<lb-picker ref="endPRTime" mode="dateSelector" :zyj="true" :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='pEtime'>
 			<view slot="action-zyj" class="zyj">
 				<view :class="{zyjB:currentId === 'week'}" @click="currentTime('week','周')">
 					周
@@ -120,9 +153,8 @@
 
 </template>
 <script>
-	// import uCharts from '../../js_sdk/u-charts/u-charts/u-charts.js';
 	import LbPicker from '@/components/lb-picker'
-	
+
 	import {
 		mapState
 	} from 'vuex'
@@ -141,41 +173,40 @@
 				end_time: '',
 				sta_time: '',
 				gdColumn: {},
-				cccdata:{
-					
-					    "categories": [
-					        "2016",
-					        "2017",
-					        "2018",
-					        "2019",
-					        "2020",
-					        "2021"
-					    ],
-					    "series": [
-					        {
-					            "name": "目标值",
-					            "data": [
-					                35,
-					                36,
-					                31,
-					                33,
-					                13,
-					                34
-					            ]
-					        },
-					        {
-					            "name": "完成量",
-					            "data": [
-					                18,
-					                27,
-					                21,
-					                24,
-					                6,
-					                28
-					            ]
-					        }
-					    ]
-					
+				cccdata: {
+
+					"categories": [
+						"2016",
+						"2017",
+						"2018",
+						"2019",
+						"2020",
+						"2021"
+					],
+					"series": [{
+							"name": "目标值",
+							"data": [
+								35,
+								36,
+								31,
+								33,
+								13,
+								34
+							]
+						},
+						{
+							"name": "完成量",
+							"data": [
+								18,
+								27,
+								21,
+								24,
+								6,
+								28
+							]
+						}
+					]
+
 				},
 				rgColumn: {
 
@@ -193,17 +224,20 @@
 				blockName: '所有仓',
 				currentId: 'month',
 				currentName: '月',
-				chartData:{}
+				chartData: {}
 			}
 		},
 		onLoad() {
-			console.log(1)
-			_self = this;
-			this.cWidth = uni.upx2px(700);
-			this.cHeight = uni.upx2px(370);
+
 		},
 
 		methods: {
+			getIndex(e){
+				console.log(e)
+			},
+			tap(e) {
+				console.log(e)
+			},
 			currentTime(id, name) {
 				this.currentId = id
 				this.currentName = name
@@ -231,7 +265,7 @@
 				this.$refs.pRWarehouseChange.show()
 			},
 
-		
+
 			touchLine(e) {
 				canvaColumn.scrollStart(e);
 			},
@@ -312,18 +346,18 @@
 					})
 					.then((res) => {
 						console.log(res)
-						const obj ={
+						const obj = {
 							all: res.data['鸽蛋'].all,
 							sum: res.data['鸽蛋'].sum,
 							categories: res.data['鸽蛋'].lat,
-							series:[{
+							series: [{
 								name: '',
-								data:res.data['鸽蛋'].lng,
-							}]	
+								data: res.data['鸽蛋'].lng,
+							}]
 						}
 						this.chartData = JSON.parse(JSON.stringify(obj))
-						
-						
+
+
 						this.rgColumn = {
 							all: res.data['乳鸽'].all,
 							sum: res.data['乳鸽'].sum,
@@ -351,8 +385,8 @@
 								data: res.data['死淘'].lng,
 							}]
 						}
-						
-						console.log(this.chartData,this.rgColumn,this.tgColumn,this.stColumn)
+
+						console.log(this.chartData, this.rgColumn, this.tgColumn, this.stColumn)
 					}).catch((err) => {
 						console.log(err)
 					})
@@ -397,11 +431,11 @@
 
 		},
 		created() {
-			
+
 		},
 		onLoad() {
 			this.getToday()
-			
+
 			this.getAllBlock()
 			this.getReportData()
 		}
@@ -509,6 +543,11 @@
 		}
 	}
 
+	.charts-box {
+		width: 100%;
+		height: 300px;
+	}
+
 	.qiun-charts {
 		width: 700upx;
 		height: 380upx;
@@ -605,7 +644,7 @@
 				line-height: 56rpx;
 				font-size: 24rpx;
 				color: #377be4;
-				border-top:  1rpx solid #377be4;
+				border-top: 1rpx solid #377be4;
 			}
 		}
 

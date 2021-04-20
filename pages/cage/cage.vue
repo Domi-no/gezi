@@ -279,6 +279,7 @@
 		},
 		methods: {
 			toProductionPage(url) {
+				
 				uni.navigateTo({
 					url
 				})
