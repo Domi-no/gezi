@@ -42,8 +42,8 @@
 					</view>
 				</view>
 				<view class="operate_container_zk">
-					<view class="newsNum">
-						13
+					<view class="newsNum" v-show="unread">
+						{{unread}}
 					</view>
 					<image class="operate_container_zk_image" src="../../static/my/zk.png" mode=""></image>
 				</view>
@@ -78,6 +78,11 @@
 		mapState
 	} from 'vuex'
 	export default {
+		props:{
+			unread:{
+				type:Number
+			}
+		},
 		data() {
 			return {
 				
@@ -88,6 +93,8 @@
 				console.log(1)
 			},		
 			toMessageCenter(){
+				console.log(this.userInfo)
+				
 				uni.navigateTo({
 					url: '/sub/message_center/message_center'
 				});
@@ -102,10 +109,8 @@
 					url: '/sub/set_up/set_up'
 				});
 			},
-			log(){
-				console.log(1)
-				console.log(this.userInfo)
-			}
+			
+			
 		},
 		
 		computed: {
@@ -113,6 +118,11 @@
 				userInfo: (state) => state.user.userInfo
 			})
 		},
+		created() {
+			console.log((this.unread))
+		},
+		
+		
 	}
 </script>
 

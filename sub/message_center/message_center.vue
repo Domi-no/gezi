@@ -1,41 +1,77 @@
 <template>
 	<view class="messageCenterContainer">
-		<view class="messageItem">
+		<view class="messageItem" v-for="(i,idx) in messageList" :key="idx">
 			<view class="messageTitle">
-				<text>元旦放假通知</text><text>14:00</text>
+				<text :class="{clickColor:i.read}">{{i.title}}</text><text>{{i.creatime}}</text>
 			</view>
-			<view class="messageContent">
-				元旦，即公历的1月1日，是世界多数国家通称的“新年”。“元旦”意即“初始之日”。
+			<view :class="{messageContent:true,clickColor:i.read}">
+				{{i.content}}
 			</view>
-			<view class="ViewDetails" @click="toMessageDetail()">
-				<text>查看详情</text><image src="../../static/cage/cage_b_zk.png" mode=""></image>
+			<view class="ViewDetails" @click="toMessageDetail(i.message_id)">
+				<text :class="{clickColor:i.read}">查看详情</text><image :src="i.read ? picSrc[0] : picSrc[1]" mode=""></image>
 			</view>
 		</view>
+		
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				
+				picSrc:['../../static/cage/cage_b_zk.png','../../static/daiban/zk.png'],
+				messageList:[]
 			}
 		},
 		methods: {
 			toMessageDetail(id){
 				uni.navigateTo({
-					url: '/sub/message_detail/message_detail'
+					url: '/sub/message_detail/message_detail?id=' + id
 				});
-			}
+			},
+			getMessageList(){
+				this.$http.post('/Rank/message.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					console.log(res)
+					this.messageList=res.data
+					// uni.showToast({
+					// 	title: 'message',
+					// 	icon: 'none'
+					// })
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			 onBackPress(){
+				 
+				
+				 let page = getCurrentPages()[0]
+				 console.log(page)
+				 console.log(page.$vm)
+				 page.$vm.getUnreadData()
+			 }
+		},
+		computed: {
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			})
+		},
+		created() {
+			this.getMessageList()
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
 	.messageCenterContainer{
-		height: calc(100vh);
+		min-height: calc(100vh);
 		background-color: #F4F6FA;
 		padding-top: 10rpx;
+		padding: 30rpx;
 		
 		.messageItem{
 			width: 670rpx;
@@ -84,6 +120,9 @@
 					top: 8rpx;
 				}
 			}
+		}
+		.clickColor{
+			color: #979797 !important;
 		}
 	}
 

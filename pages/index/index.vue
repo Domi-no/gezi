@@ -22,7 +22,7 @@
 			<home v-if="id=== 0"></home>
 			<cage v-else-if="id === 1"></cage>
 			<wait v-else-if="id === 3"></wait>
-			<my v-else-if="id === 4"></my>
+			<my v-else-if="id === 4" :unread="unread"></my>
 		</scroll-view>
 		<view class="tabBar">
 			<view class="" v-for="(item,idx) in tabIcon" @click="change(idx)" :key="idx">
@@ -72,7 +72,8 @@
 						c_icon: '../../static/home/o_wd.png',
 						name: '我的'
 					}
-				]
+				],
+				unread:'',
 			}
 		},
 		onLoad() {
@@ -86,7 +87,28 @@
 					}
 				}) : this.id = id
 				
-			}
+			},
+			getUnreadData(){
+				this.$http.post('/Login/unread.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					if(res.code == 200){
+						
+						console.log(res)
+						this.unread=res.data.unread
+						
+					}else{
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						})
+					}
+					
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
 		},
 		computed:{
 			...mapState({
@@ -103,8 +125,9 @@
 				});
 			}
 			// #endif
-			
-		}
+			this.getUnreadData()
+		},
+		
 	}
 </script>
 

@@ -128,7 +128,8 @@
 		    background="none"
 		    :animation="false"
 			class="charts"
-			    :ontouch="true"
+			:ontouch="true"
+			  canvasId="salelineid"
 		  />
 		</view>
 		<lb-picker ref="warehouse" :props="myProps" :list="queryData.list" radius="20rpx" confirm-color="#377BE4" @confirm='typeNameChange'>
@@ -189,7 +190,7 @@
 			}
 		},
 		onLoad() {
-			_self = this;
+			
 			this.cWidth=uni.upx2px(720);
 			this.cHeight=uni.upx2px(320);
 			
@@ -208,7 +209,12 @@
 				});
 			},
 			
-			
+			touchStart(e){
+				
+				 console.log()
+				this.leftValue = e.detail.scrollLeft * 0.24
+				
+			},
 			
 			getPreSaleData(){
 				const {block_type} = this

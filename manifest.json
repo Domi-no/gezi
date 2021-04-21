@@ -100,5 +100,14 @@
                 }
             }
         }
+    },
+    "h5" : {
+        "sdkConfigs" : {
+            "maps" : {
+                "qqmap" : {
+                    "key" : "EJ4BZ-BCB6U-LRHV3-BQDNB-PKIQT-XTFYW"
+                }
+            }
+        }
     }
 }

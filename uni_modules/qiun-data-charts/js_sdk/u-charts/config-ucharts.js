@@ -388,9 +388,9 @@ module.exports = {
 			"axisLineColor": "#CCCCCC",
 			"calibration": false,
 			"fontColor": "#666666",
-			"fontSize": 13,
-			"rotateLabel": false,
-			"itemCount": 5,
+			"fontSize": 10,
+			"rotateLabel": true,
+			"itemCount": 7,
 			"boundaryGap": "center",
 			"disableGrid": true,
 			"gridColor": "#CCCCCC",
@@ -418,7 +418,7 @@ module.exports = {
 				"axisLineColor": "#CCCCCC",
 				"calibration": false,
 				"fontColor": "#666666",
-
+				"fontSize": 10,
 				"textAlign": "right",
 				"title": "",
 				"titleFontSize": 13,
@@ -448,7 +448,7 @@ module.exports = {
 		"extra": {
 			"column": {
 				"type": "group",
-				"width": 20,
+				"width": 13,
 				"seriesGap": 2,
 				"barBorderCircle": true,
 				"linearType": "custom",

@@ -1,5 +1,5 @@
 <!-- 
- * qiun-data-charts 秋云高性能跨全端图表组件 v2.0.0-20210418
+ * qiun-data-charts 秋云高性能跨全端图表组件 v2.0.0-20210420
  * Copyright (c) 2021 QIUN® 秋云 https://www.ucharts.cn All rights reserved.
  * Licensed ( http://www.apache.org/licenses/LICENSE-2.0 )
  * 复制使用请保留本段注释，感谢支持开源！
@@ -373,12 +373,13 @@ export default {
       }
       this.cid = id
     }
+    const systemInfo = uni.getSystemInfoSync()
     // #ifdef MP-WEIXIN || MP-QQ
     this.inWx = true;
-    if (this.canvas2d === false) {
+    if (this.canvas2d === false || systemInfo.platform === 'windows') {
       this.type2d = false;
     }else{
-      this.pixel = uni.getSystemInfoSync().pixelRatio;
+      this.pixel = systemInfo.pixelRatio;
       if (this.canvasId === 'uchartsid' || this.canvasId == '') {
         console.log('[uCharts]:开启canvas2d模式，必须指定canvasId，否则会出现偶尔获取不到dom节点的问题！');
       }
@@ -390,7 +391,7 @@ export default {
     // #endif
     // #ifdef MP-ALIPAY
     this.inAli = true;
-    this.pixel = uni.getSystemInfoSync().pixelRatio;
+    this.pixel = systemInfo.pixelRatio;
     // #endif
     // #ifdef MP-BAIDU
     this.inBd = true;
@@ -968,9 +969,7 @@ export default {
     },
     _showTooltip(e) {
       let cid = this.cid
-	  console.log(cid,'showtooltip')
       let tc = cfu.option[cid].tooltipCustom
-	  console.log(tc)
       if (tc && tc !== undefined && tc !== null) {
         let offset = undefined;
         if (tc.x >= 0 && tc.y >= 0) {
@@ -1001,9 +1000,7 @@ export default {
       }
     },
     _tap(e,move) {
-		console.log(e)
       let cid = this.cid
-	  console.log(cid)
       let currentIndex = null;
       let legendIndex = null;
       if (this.inScrollView === true || this.inAli) {
@@ -1050,7 +1047,6 @@ export default {
           legendIndex = cfu.instance[cid].getLegendDataIndex(e);
           cfu.instance[cid].touchLegend(e);
           if (this.tooltipShow === true) {
-			  console.log(e)
             this._showTooltip(e);
           }
           this.emitMsg({name: 'getIndex', params: {type:"getIndex", event:{ x: e.detail.x, y: e.detail.y - e.currentTarget.offsetTop }, currentIndex: currentIndex, legendIndex: legendIndex, id: cid}});
