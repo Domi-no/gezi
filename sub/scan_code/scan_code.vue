@@ -2,55 +2,123 @@
 	<view class="scan_code_container">
 		<view class="scan_code_Top">
 			<view class="">
-				<text>当前仓号</text><text>生产仓1</text>
+				<text>当前仓号</text><text>{{scanCodeData.type_name}}</text>
 			</view>
 			<view class="">
 				<text>日期</text><text>2020-12-12</text>
 			</view>
 		</view>
 		<view class="scan_code_wNBox">
-			<view :class="currentId===index? 'currentClass' :'scan_code_wNItem'" v-for="(item,index) in 6" @click="currentBox(index,item)" :key="index">
+			<view :class="{ scan_code_wNItem:true,currentClass:item.cage_id === cage_id}" v-for="(item,index) in scanCodeData.array" @click="currentBox(index,item)" :key="index">
 				<view class="scan_codeHeader">
-					<image src="../../static/home/scancode.png" mode=""></image><view>220号</view>
+					<image src="../../static/home/scancode.png" mode=""></image><view>{{item.blockName}}</view>
 				</view>
 				<view class="scan_codeDetailsBox">
 						<view class="">
-							<text>种鸽</text><text class="scNum">22</text>
+							<text>种鸽</text><text class="scNum">{{item.pigeon}}</text>
 						</view>
 						<view class="">
-							<text>种鸽</text><text class="scNum">22</text>
+							<text>鸽蛋</text><text class="scNum">{{item.egg}}</text>
 						</view>
 						<view class="" style="margin-top: 6rpx;">
-							<text>个种鸽</text><text class="scNum">2222</text>
+							<text>乳鸽</text><text class="scNum">{{item.squab}}</text>
 						</view>
 						<view class="" style="margin-top: 6rpx;">
-							<text>种鸽</text><text class="scNum">222</text>
+							<text>童鸽</text><text class="scNum">{{item.child}}</text>
+						</view>	
+						<view class="" style="margin-top: 6rpx;">
+							<text>青年鸽</text><text class="scNum">{{item.youth}}</text>
 						</view>	
 				</view>
 			</view>
+			
 		</view>
-		<view :class="{scan_code_btn:true,scan_code_sub:currentId !== ''}" @click="toRecordPage">
+		<view :class="{scan_code_btn:true,scan_code_sub:isSub}" @click="toRecordPage">
 			确认
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
 	export default {
 		data() {
 			return {
-				currentId:''
+				cage_id:'',
+				id:'',
+				scanCodeData:{},
+				today:'',
+				isSub:false,
+				queryData:'',
 			}
 		},
 		methods: {
-			currentBox(idx){
-				this.currentId=idx
+			currentBox(idx,item){
+				this.cage_id=item.cage_id
+				this.queryData=item
+				console.log(this.cage_id)
+				this.isSub=true
 			},
 			toRecordPage(){
-				uni.navigateTo({
-					url:'/sub/production_warehouse_change/production_warehouse_change'
+				console.log(this.cage_id)
+				// return false
+				
+				if(this.queryData.type_name==='生产仓'){
+					uni.navigateTo({
+						url:'/sub/production_records/production_records?query=' + JSON.stringify(this.queryData)
+					})
+				}else{
+					uni.navigateTo({
+						url:'/sub/production_warehouse_change/production_warehouse_change?query=' + JSON.stringify(this.queryData)
+					})
+				}
+				
+			},
+			getScanCodeData(){
+				this.$http.post('/Rank/ScanCode.html',{uid:this.userInfo.id,cages:'125,126'})
+				.then((res)=>{
+					if(res.code == 200){
+						
+						console.log(res)
+						this.scanCodeData = res.data
+						
+					}else{
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						})
+					}
+					
+					
+					
+				}).catch((err)=>{
+					console.log(err)
 				})
-			}
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.today=times
+			},
+		},
+		computed: {
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			})
+		},
+		created() {
+			
+		},
+		onLoad({id}) {
+			this.id = id
+			this.getToday()
+			this.getScanCodeData()
 		}
 	}
 </script>
@@ -84,7 +152,8 @@
 		flex-wrap: wrap;
 		.scan_code_wNItem{
 			width: 320rpx;
-			height: 160rpx;
+			// height: 160rpx;
+			padding-bottom: 10rpx;
 			background: #FFFFFF;
 			box-shadow: 0rpx 1rpx 6rpx 0rpx rgba(0, 0, 0, 0.1);
 			border-radius: 10rpx;
@@ -94,7 +163,8 @@
 		}
 		.currentClass{
 			width: 320rpx;
-			height: 160rpx;
+			// height: 160rpx;
+			padding-bottom: 10rpx;
 			background: #FFFFFF;
 			box-shadow: 3rpx 4rpx 20rpx 0rpx rgba(0, 0, 0, 0.1);
 			border-radius: 10rpx;

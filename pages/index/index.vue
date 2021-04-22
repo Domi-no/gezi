@@ -27,7 +27,7 @@
 		<view class="tabBar">
 			<view class="" v-for="(item,idx) in tabIcon" @click="change(idx)" :key="idx">
 				<view class="">
-					<view class="scan" v-if="idx===2" @click="change(idx)">
+					<view class="scan" v-if="idx===2" >
 						<image  class="scanImg" src="../../static/home/saoma.png" mode="" ></image>
 					</view>
 					<image v-else :src="id===idx?tabIcon[idx].c_icon:tabIcon[idx].icon" mode=""></image>
@@ -73,7 +73,7 @@
 						name: '我的'
 					}
 				],
-				unread:'',
+				unread:0,
 			}
 		},
 		onLoad() {
@@ -82,8 +82,12 @@
 			change(id) {
 				id === 2 ? uni.scanCode({
 					success: function(res) {
+						console.log(res)
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
+						uni.navigateTo({
+							url:'../../sub/scan_code/scan_code?id=' + 1
+						})
 					}
 				}) : this.id = id
 				
@@ -127,6 +131,12 @@
 			// #endif
 			this.getUnreadData()
 		},
+		onShow() {
+			console.log(this.id)
+			if(this.id === 4){
+				this.getUnreadData()
+			}
+		}
 		
 	}
 </script>

@@ -1,6 +1,6 @@
 <template >
 	<view class="productionWarehouseChangeContainer">
-		<view class="records_top" v-if="queryData.name !== '育雏仓'&& queryData.name !== '飞棚'" >
+		<view class="records_top" v-if="queryData.name !== '育雏仓'&& queryData.name !== '飞棚仓'" >
 			<view class="records_top_i" >
 				<text class="records_top_i_left">仓号</text>
 				<view class="records_top_i_right">
@@ -27,7 +27,7 @@
 					<image src="../../static/report/report_zk.png" mode=""></image>
 				</view>
 			</view>
-			<view class="records_top_i" v-if="queryData.name !== '飞棚'" @click="otherNumberPopupShow">
+			<view class="records_top_i" v-if="queryData.name !== '飞棚仓'" @click="otherNumberPopupShow">
 				<text class="records_top_i_left">鸽笼编号</text>
 				<view class="records_top_i_right" @click="pigeonCageShow">
 					<text class="records_top_i_right_text">{{queryData.warehouseNumber}}</text>
@@ -657,7 +657,7 @@
 			</view>
 		</view>
 		<!-- 飞鹏仓 -->
-		<view v-if="queryData.name === '飞棚'" class="">
+		<view v-if="queryData.name === '飞棚仓'" class="">
 			<view class="records_breedingPigeon_modify">
 				<view class="records_breedingPigeon_modify_head">
 					<view class="records_breedingPigeon_modify_head_top">
@@ -940,7 +940,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			},
 			saveBtn(e){
 				console.log(e)
-				if(!this.dataForm.cage_id && this.queryData.name == "飞棚"){
+				if(!this.dataForm.cage_id && this.queryData.name == "飞棚仓"){
 					uni.showToast({
 						title: '请选择仓号',
 						icon: 'none'
@@ -1034,10 +1034,10 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.alarShow=false
 			},
 			pRWarehouseChange(e){
-				
+				console.log(e)
 				this.queryData.groupNumber=e.item.name
 				this.otherGelongList=e.item.children
-				if(this.queryData.name==='飞棚'){
+				if(this.queryData.name==='飞棚仓'){
 					console.log(1)
 					this.queryData.num=e.item.children[0].num
 					this.queryData.text=e.item.children[0].text
@@ -1136,6 +1136,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.$http.post('/CageData/nurture.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
+					this.nurtureData=[]
 					Object.keys(res.data).forEach((value, index)=>{
 						console.log(value, index,res.data[value]);
 						this.nurtureData.push({name:value,children:[]})
@@ -1157,6 +1158,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.$http.post('/CageData/Feipeng.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
+					this.nurtureData=[]
 					Object.keys(res.data).forEach((value, index)=>{
 						console.log(value, index,res.data[value]);
 						this.nurtureData.push({name:value,children:[]})
@@ -1185,13 +1187,9 @@ color: #151515;padding:0rpx 0 50rpx 0"
 		// #ifdef H5 || MP-WEIXIN
 		onShow() {
 			this.getFrequencyData()
-		},
-		// #endif
-		created() {
-			this.getFrequencyData()
 			console.log(this.changeNumber,'changenumber')
 			this.getToday()
-			if(this.queryData.name==='飞棚'){
+			if(this.queryData.name==='飞棚仓'){
 			
 				this.getFeipengData()
 				
@@ -1200,9 +1198,15 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					
 			}
 		},
-		onLoad({query}) {
+		// #endif
+		created() {
+			// this.getFrequencyData()
 			
-			if(query&&JSON.parse(query).cage_id){
+		},
+		onLoad({query}) {
+			console.log(query,'query')
+			if(query&&JSON.parse(query).cage_id&&!JSON.parse(query).type_name){
+				console.log('123456789')
 				console.log(JSON.parse(query))
 				this.queryData = JSON.parse(query)
 				this.dataForm.cage_id=this.queryData.cage_id
@@ -1211,11 +1215,23 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				console.log(query)
 				this.dataForm.dove_type && this.dataForm.cage_id ? this.isShowTipModal=true :''
 				
+			}else if(query&&JSON.parse(query).type_name){
+				this.queryData.name=JSON.parse(query).type_name
+				console.log(this.queryData,'13456')
+				if(JSON.parse(query).type_name === '飞棚仓'){
+					
+					this.getFeipengData()
+					console.log(this.nurtureData,'飞棚',JSON.parse(query),'query')
+				}else if(JSON.parse(query).type_name === '育雏仓'){
+					this.getNurtureData()
+					console.log(this.nurtureData)
+				}
 			}else{
+				console.log('22222222')
 				this.queryData.name=JSON.parse(query)
-				this.queryData.name === '飞棚'? this.dataForm.dove_type='青年鸽' :''
+				this.queryData.name === '飞棚仓'? this.dataForm.dove_type='青年鸽' :''
 				this.queryData.name === '育雏仓'? this.dataForm.dove_type='童鸽' :''
-				console.log(this.queryData.name,'queryData')
+				console.log(this.queryData,'queryData')
 			}
 		}
 	}

@@ -2,22 +2,21 @@
 	<view class="myFont cage_container">
 		<view class="cage_head">
 			<view class="cage_pic">
-				<!-- #ifdef APP-PLUS||H5 -->
+				
 				<view class="column" v-for="(item,idx) in cage_image" :key="idx" @click="toProductionPage(item.url)">
 					<image :src="item.pic" mode=""></image>
 					<view class="column_text">
 						{{item.text}}
 					</view>
 				</view>
-				<!-- #endif -->
-				<!-- #ifdef MP-WEIXIN -->
-				<view class="wxColumn" v-for="(item,idx) in wx_cage_image" :key="idx" @click="toProductionPage(item.url)">
+				
+			<!-- 	<view class="wxColumn" v-for="(item,idx) in wx_cage_image" :key="idx" @click="toProductionPage(item.url)">
 					<image :src="item.pic" mode=""></image>
 					<view class="column_text">
 						{{item.text}}
 					</view>
 				</view>
-				<!-- #endif -->
+				 -->
 			</view>
 		</view>
 		<view class="_category">
@@ -246,7 +245,7 @@
 						text: '育雏仓管理'
 					},
 					{
-						url: '/sub/production_warehouse_change/production_warehouse_change?query='+JSON.stringify('飞棚'),
+						url: '/sub/production_warehouse_change/production_warehouse_change?query='+JSON.stringify('飞棚仓'),
 						pic: '../../static/cage/fpcgl.png',
 						text: '飞棚仓管理'
 					}

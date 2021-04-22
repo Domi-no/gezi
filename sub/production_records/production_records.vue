@@ -11,7 +11,7 @@
 			<view class="records_top_i" @click="gelongShow">
 				<text class="records_top_i_left">鸽笼编号</text>
 				<view class="records_top_i_right">
-					<text class="records_top_i_right_text">{{warehouseNumber}}</text>
+					<text class="records_top_i_right_text">{{ warehouseNumber}}</text>
 					<image src="../../static/report/report_zk.png" mode=""></image>
 				</view>
 			</view>
@@ -148,6 +148,7 @@
 				recordsData:{},
 				isShow:false,
 				time:'',
+				queryData:'',
 				
 			};
 		},
@@ -162,10 +163,16 @@
 				this.show=true
 			},
 			pRWPopup(){
+				if(this.queryData.cage_id){
+					return false
+				}
 				this.$refs.pRWarehouseChange.show()
 				
 			},
 			gelongShow(){
+				if(this.queryData.cage_id){
+					return false
+				}
 				this.$refs.gelong.show()
 			},
 			pigeonCageClose(){
@@ -259,6 +266,17 @@
 		},
 		onShow(){
 			if(this.cage_id){
+				this.getRecordData()
+			}
+		},
+		onLoad({query}) {
+			
+			console.log(query)
+			if( query && JSON.parse(query).cage_id){
+				this.queryData = JSON.parse(query)
+				this.cage_id = queryData.cage_id
+				this.groupNumber = queryData.blockName
+				this.warehouseNumber = queryData.cageName
 				this.getRecordData()
 			}
 		}

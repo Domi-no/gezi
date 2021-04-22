@@ -12,7 +12,7 @@
 					<text>{{clockInfo.userInfo.name}}</text>
 				</view>
 			</view>
-			<text class="cRule">考勤规则</text>
+			<text class="cRule" @click="rulesClick">考勤规则</text>
 		</view>
 		<view class="" style="padding: 41rpx 30rpx 0;" v-if="clockInfo.Punch">
 			<view class="clockDetail">
@@ -82,7 +82,7 @@
 					<view class="" >
 						{{clockInfo.Punch.text}}
 					</view>
-					<text>{{clockInfo.Punch.time}}</text>
+					<text>{{clock_in_time}}</text>
 				</view>
 			</view>
 		</view>
@@ -104,7 +104,9 @@
 				dataForm:{
 					lat:'',
 					lng:''
-				}
+				},
+				clock_in_time:'',
+				timer:'',
 			}
 		},
 		methods: {
@@ -146,8 +148,20 @@
 			getClockData(){
 				this.$http.post('/Punch/clock.html', {uid: this.userInfo.id,...this.dataForm})
 				.then((res) => {
-						// console.log(res)
-				
+						console.log(res)
+						if(res.code == 200){
+							uni.showToast({
+								title: '打卡成功',
+								icon: 'none'
+							})
+							
+							this.getClockInfoData()
+						}else{
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+						}
 					}).catch((err) => {
 						
 					})
@@ -161,7 +175,26 @@
 					}).catch((err) => {
 						
 					})
+			},
+			getTime(){
+				let time = new Date();
+				  var hour = time.getHours();
+				  var minutes = time.getMinutes();
+				  var seconds = time.getSeconds();
+				 let times = (hour < 10? '0' : '')+ hour+ (minutes < 10 ? ":0" : ":") + minutes + (seconds < 10 ? ":0" : ":") + seconds;
+				 this.clock_in_time=times
+				// const that =this
+				this.timer= setTimeout(()=>{
+					
+					this.getTime()
+					
+				},1000)
+			},
+			rulesClick(){
+				console.log(1)
+				
 			}
+			
 		},
 		computed:{
 			...mapState({
@@ -171,14 +204,14 @@
 			
 		},
 		onLoad() {
-			
+			this.getTime()
 		},
-		created() {
-			
+		created() {	
 			this.getLocation(this.getClockInfoData)
-			
-			
-			
+		},
+		onUnload(){
+			console.log('unload')
+			clearTimeout(this.timer)
 		}
 		
 	}

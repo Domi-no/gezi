@@ -50,11 +50,12 @@
 			})
 		},
 		created() {
-			this.getMessageDetail()
+			
 		},
 		onLoad({id}) {
 			this.message_id =id 
 			console.log(this.message_id)
+			this.getMessageDetail()
 		}
 	}
 </script>

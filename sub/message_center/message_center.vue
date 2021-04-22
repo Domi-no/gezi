@@ -7,8 +7,8 @@
 			<view :class="{messageContent:true,clickColor:i.read}">
 				{{i.content}}
 			</view>
-			<view class="ViewDetails" @click="toMessageDetail(i.message_id)">
-				<text :class="{clickColor:i.read}">查看详情</text><image :src="i.read ? picSrc[0] : picSrc[1]" mode=""></image>
+			<view class="ViewDetails" @click="toMessageDetail(i.message_id,idx)">
+				<text :class="{clickColor:i.read}">查看详情</text><image :src="i.read === 0 ? picSrc[0] : picSrc[1]" mode=""></image>
 			</view>
 		</view>
 		
@@ -27,7 +27,9 @@
 			}
 		},
 		methods: {
-			toMessageDetail(id){
+			toMessageDetail(id,idx){
+				console.log(id,idx)
+				this.messageList[idx].read = 1
 				uni.navigateTo({
 					url: '/sub/message_detail/message_detail?id=' + id
 				});
@@ -46,14 +48,7 @@
 					console.log(err)
 				})
 			},
-			 onBackPress(){
-				 
-				
-				 let page = getCurrentPages()[0]
-				 console.log(page)
-				 console.log(page.$vm)
-				 page.$vm.getUnreadData()
-			 }
+			
 		},
 		computed: {
 			...mapState({
