@@ -112,6 +112,9 @@
 		min-height: calc(100vh - 88rpx);
 		background-color: #F4F6FA;
 		padding-bottom: 30rpx;
+		/*  #ifdef  MP-WEIXIN */
+		min-height: calc(100vh);
+		/*  #endif  */
 		.topBox{
 			width: 100%;
 			height: 88rpx;

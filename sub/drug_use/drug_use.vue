@@ -218,7 +218,9 @@
 <style lang="scss" scoped>
 	.drug_use_calendar_container {
 		min-height: calc(100vh - 88rpx);
-
+/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 		.explain {
 			font-size: 22rpx;
 			font-weight: 500;

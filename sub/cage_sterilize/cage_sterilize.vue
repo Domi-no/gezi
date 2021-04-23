@@ -125,6 +125,9 @@
 	background-color: #F4F6FA;
 	padding-top: 4rpx;
 	padding-bottom: 30rpx;
+	/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 	.sterilizeTime{
 		width: 100%;
 		height: 88rpx;

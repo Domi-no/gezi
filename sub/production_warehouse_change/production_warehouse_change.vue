@@ -50,7 +50,7 @@
 						</view>
 						<view class="">
 							<text class="alarm">{{queryData.text}}</text>
-							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+							<!-- <text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text> -->
 						</view>
 					</view>
 					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
@@ -188,7 +188,7 @@
 						<!-- <text class="alarm">需要补足种鸽！</text> -->
 						<view class="">
 							<text class="alarm">{{queryData.text}}</text>
-							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+							<!-- <text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text> -->
 						</view>
 					</view>
 					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num}}</text>只</view>
@@ -667,7 +667,7 @@
 						</view>
 						<view class="">
 							<text class="alarm">{{queryData.text}}</text>
-							<text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text>
+							<!-- <text style="font-size: 24rpx;font-weight: 500;color: #343434;" v-if="queryData.ageday">日龄：{{queryData.ageday}}天</text> -->
 						</view>
 					</view>
 					<view class="records_breedingPigeon_modify_bt">当前存栏：<text>{{queryData.num||0}}</text>只</view>
@@ -917,7 +917,8 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				subAlarmData:[],
 				alarShow:false,
 				isShowTipModal:false,
-				isGetFrequencyData:false
+				isGetFrequencyData:false,
+				isChoice:false,
 				
 			};
 		},
@@ -933,6 +934,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				
 			},
 			pigeonCageShow(){
+				
 				this.pCShow=true
 			},
 			pigeonCageClose(){
@@ -1058,9 +1060,15 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.getFrequencyData()
 			},
 			otherWNPopupShow(){
+				if(this.isChoice){
+					return false
+				}
 				this.$refs.pRWarehouse.show()
 			},
 			otherNumberPopupShow(){
+				if(this.isChoice){
+					return false
+				}
 				this.$refs.gelongbianhao.show()
 			},
 			shift_toChange({detail:{value}}){
@@ -1132,10 +1140,16 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.dataForm.time=times
 					
 			},
-			getNurtureData(){
+			getNurtureData(query){
 				this.$http.post('/CageData/nurture.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
+					if(query){
+						this.queryData.num=res.data[query.blockName][query.cageName].survival
+						// this.queryData.text=query.type_name
+						this.queryData.ageday=res.data[query.blockName][query.cageName].ageday
+						this.dataForm.cage_id=res.data[query.blockName][query.cageName].cage_id
+					}
 					this.nurtureData=[]
 					Object.keys(res.data).forEach((value, index)=>{
 						console.log(value, index,res.data[value]);
@@ -1154,10 +1168,18 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					console.log(err)
 				})
 			},
-			getFeipengData(){
+			getFeipengData(query){
 				this.$http.post('/CageData/Feipeng.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
+					// 
+					if(query){
+						this.queryData.num=res.data[query.blockName][query.cageName].survival
+						// this.queryData.text=query.type_name
+						this.queryData.ageday=res.data[query.blockName][query.cageName].ageday
+						this.dataForm.cage_id=res.data[query.blockName][query.cageName].cage_id
+					}
+					// 
 					this.nurtureData=[]
 					Object.keys(res.data).forEach((value, index)=>{
 						console.log(value, index,res.data[value]);
@@ -1171,6 +1193,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 							
 						// this.warehouseList.push({name:value,children:res.data[value]})
 					});
+					
 					console.log(this.nurtureData)
 				}).catch((err)=>{
 					console.log(err)
@@ -1219,13 +1242,19 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.queryData.name=JSON.parse(query).type_name
 				console.log(this.queryData,'13456')
 				if(JSON.parse(query).type_name === '飞棚仓'){
+					this.isChoice=true
+					this.queryData.groupNumber=JSON.parse(query).blockName
+					this.dataForm.dove_type='青年鸽'
+					this.getFeipengData(JSON.parse(query))
 					
-					this.getFeipengData()
-					console.log(this.nurtureData,'飞棚',JSON.parse(query),'query')
 				}else if(JSON.parse(query).type_name === '育雏仓'){
-					this.getNurtureData()
-					console.log(this.nurtureData)
-				}
+					this.dataForm.dove_type='童鸽'
+					this.isChoice=true
+					this.queryData.groupNumber=JSON.parse(query).blockName
+					this.queryData.warehouseNumber=JSON.parse(query).cageName
+					this.getNurtureData(JSON.parse(query))
+					
+				};
 			}else{
 				console.log('22222222')
 				this.queryData.name=JSON.parse(query)

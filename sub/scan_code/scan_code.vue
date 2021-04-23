@@ -127,6 +127,9 @@
 .scan_code_container{
 	background-color:#F4F6FA;
 	min-height: calc(100vh - 88rpx);
+	/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 	.scan_code_Top{
 		view{
 			height: 88rpx;

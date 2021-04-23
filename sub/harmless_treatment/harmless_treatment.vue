@@ -287,7 +287,9 @@
 .harmlessTreatmentContainer{
 	min-height: calc(100vh - 88rpx);
 	background-color: #F4F6FA;
-	
+	/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 	.hTTopBox{
 		width: 100%;
 		height: 88rpx;

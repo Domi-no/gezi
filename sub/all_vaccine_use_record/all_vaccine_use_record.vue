@@ -121,6 +121,9 @@
 	background-color: #F2F4F9;
 	padding-top: 26rpx;
 	padding-bottom: 64rpx;
+	/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 	.allVaccineUseRecordTitle{
 		font-size: 30rpx;
 		font-weight: bold;

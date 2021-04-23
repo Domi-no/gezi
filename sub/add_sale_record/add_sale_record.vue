@@ -366,6 +366,9 @@
 	background-color: #F4F6FA;
 	padding-bottom: 138rpx;
 	color: #151515;
+	/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 	.saleTopBox{
 		background: #FFFFFF;
 		// padding: 0 30rpx;

@@ -64,6 +64,9 @@
 	 background-color: #F4F6FA;
 	 padding-top: 1rpx;
 	 padding-bottom: 30rpx;
+	 /*  #ifdef  MP-WEIXIN */
+	 min-height: calc(100vh);
+	 /*  #endif  */
 	 .productItem{
 		 width: 690rpx;
 		 // height: 620rpx;

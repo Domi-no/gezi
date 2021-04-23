@@ -211,6 +211,9 @@
 	min-height: calc(100vh - 88rpx);
 	background-color: #F4F6FA;
 	padding-top: 20rpx;
+	/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 	.sterilizeBox{
 		background-color: #fff;
 		

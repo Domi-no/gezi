@@ -131,6 +131,9 @@ import {
 	padding-top: 20rpx;
 	padding-bottom: 224rpx;
 	color: #151515;
+	/*  #ifdef  MP-WEIXIN */
+	min-height: calc(100vh);
+	/*  #endif  */
 	.notSelected{
 		color: #979797 !important;
 	}
