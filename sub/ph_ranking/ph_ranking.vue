@@ -2,15 +2,15 @@
 	<view class="myFont r_container" @click.stop="containerClick">
 		<view class="rank_head">
 			<!-- <text class="gcph">鸽仓排行</text> <text class="cage_sum">鸽仓总数:&nbsp;1250</text> -->
-			<view class="gcph">
-				<view>{{rankName}} <image src="../../static/home/zk_btm.png" mode="" @click.stop="showRankListName"></image></view>
-				<view class="rankListName" v-show="this.isShowRLN">
+			<view class="gcph" >
+				<view @click.stop="showRankListName">{{rankName}} <image src="../../static/home/zk_btm.png" mode="" ></image></view>
+				<view :class="{rankListName:true,htmlHidden:!isShowRLN}">
 					<text :class="cRankListNameId === idx ? 'cRankListName' : ''" v-for="(item,idx) in rankListName" :key = 'idx' @click="rLNameChange(idx,item)">{{item.name}}</text>
 				</view>
 			</view> 
 			<view class="cage_sum">
-				<view @click="changeTime(idx,item)" :class="cRLTime === idx ? 'rankListClick' : ''" v-for="(item,idx) in classification" :key='idx'>{{item.name}}
-					<text class="cage_sum_line" v-show="cRLTime === idx"></text>
+				<view @click="changeTime(idx,item)" :class="{rankListClick:cRLTime === idx} " v-for="(item,idx) in classification" :key='idx'>{{item.name}}
+					<text :class="{cage_sum_line:true,htmlHidden:cRLTime !== idx}"></text>
 				</view>
 				
 			</view>
@@ -50,7 +50,7 @@
 				videoList:[],			
 				
 				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
-				isLoadMore:false,  //是否加载中
+				isLoadMore:true,  //是否加载中
 				isWH:false,
 			}
 		},
@@ -60,6 +60,7 @@
 				this.cRLTime = idx
 				this.saleData.TimeSlot=item.timeSlot
 				this.saleRankList=[]
+				this.saleData.page = 1
 				this.getSaleData()
 			}
 			,showRankListName(){
@@ -78,6 +79,7 @@
 				this.isShowRLN=false
 			},
 			getSaleData(){
+				console.log(this.saleData.TimeSlot,this.saleData.page)
 				this.$http.post('/Rank/sale.html',{...this.saleData})
 				.then((res)=>{
 					console.log(res)
@@ -106,11 +108,13 @@
 			
 		},
 		onReachBottom(){  //上拉触底函数
-		          if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
-		                this.isLoadMore=true
-		                this.saleData.page+=1
-		                this.getSaleData()
-		          }
+		  if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
+		        this.isLoadMore=true
+				console.log(this.saleData.page,'PAGE1')
+		        this.saleData.page += 1
+				console.log(this.saleData.page,'PAGE')
+		        this.getSaleData()
+		  }
 		},
 		created() {
 			
@@ -212,6 +216,9 @@
 			color: #979797;
 			text-align: center;
 			margin: 57rpx auto 0;
+		}
+		.htmlHidden{
+			display:none !important;
 		}
 	
 }

@@ -95,6 +95,10 @@
 				font-weight: 500;
 				color: #676767;
 				line-height: 44rpx;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
 			}
 			.ViewDetails{
 				height: 81rpx;

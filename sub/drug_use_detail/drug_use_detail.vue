@@ -1,7 +1,7 @@
 <template>
 	<view class="addNewDrugUseRecordContainer">
-		<!-- #ifdef MP-WEIXIN -->
-		<view class="navigationBar">
+		
+		<!-- <view class="navigationBar">
 			<view class="goBackImg" >
 				<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 			</view>
@@ -11,8 +11,8 @@
 			<view class="nBright" >
 				<text @click="toChangeMessagePage">信息修改</text>
 			</view>
-		</view>
-		<!-- #endif -->
+		</view> -->
+		
 		
 		<view class="dWTopBox">
 			<text>记录时间</text><text>{{messageChangeForm.time}}</text>
@@ -63,7 +63,11 @@
 			</view>
 			<textarea    :value="drugUseDetailForm.feedback"   disabled="true" />
 		</view>
-
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="messageChangeBtn" @click="toChangeMessagePage">
+			信息修改
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -143,7 +147,7 @@
 	background-color: #F4F6FA;
 	padding-top: 20rpx;
 	/*  #ifdef  MP-WEIXIN  */
-	padding-top: 100rpx;
+	// padding-top: 100rpx;
 	/*  #endif  */
 	padding-bottom: 189rpx;
 	color: #151515;
@@ -225,6 +229,18 @@
 			color: #979797;
 			line-height: 42rpx;
 		}
+	}
+	.messageChangeBtn{
+		width: 670rpx;
+		height: 88rpx;
+		background: #377BE4;
+		border-radius: 44rpx;
+		text-align: center;
+		line-height: 88rpx;
+		margin: 80rpx auto 30rpx;
+		font-size: 34rpx;
+		font-weight: 500;
+		color: #FFFFFF;
 	}
 	
 }

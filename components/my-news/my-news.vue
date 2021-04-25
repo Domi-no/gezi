@@ -63,12 +63,14 @@
 			}
 
 			.news_content {
+				min-height: 68rpx;
 				margin-top: 11rpx;
 				font-size: 24rpx;
 				display: -webkit-box;
 				-webkit-box-orient: vertical;
 				-webkit-line-clamp: 2;
 				overflow: hidden;
+				
 			}
 
 			.news_time {

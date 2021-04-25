@@ -217,6 +217,11 @@
 		mapState
 	} from 'vuex'
 	export default {
+		props:{
+			calendarList:{
+					type:Array
+			}
+		},
 		data() {
 			return {
 				cage_image: [{
@@ -273,7 +278,7 @@
 					}
 				],
 				time:'',
-				calendarList:[]
+				// calendarList:[]
 			}
 		},
 		methods: {
@@ -288,15 +293,15 @@
 					url: '../../sub/production_data/production_data'
 				})
 			},
-			getCageData(){
-				this.$http.post('/CageData/getData.html', {uid: this.userInfo.id,time:this.time})
-				.then((res) => {
-						console.log(res)
+			// getCageData(){
+			// 	this.$http.post('/CageData/getData.html', {uid: this.userInfo.id,time:this.time})
+			// 	.then((res) => {
+			// 			console.log(res)
 					
-				}).catch((err) => {
+			// 	}).catch((err) => {
 						
-				})
-			},
+			// 	})
+			// },
 			getToday(){
 				let Dates = new Date();
 				 let Y = Dates.getFullYear();
@@ -326,15 +331,15 @@
 			
 		},
 		created() {
-			console.log('created')
+			console.log(this.calendarList)
 			this.getToday()
-			this.getCageData()
-			this.getCalendarData()
+			// this.getCageData()
+			// this.getCalendarData()
 		},
 		onShow() {
 			console.log('onshow')
-			this.getCageData()
-			this.getCalendarData()
+			// this.getCageData()
+			// this.getCalendarData()
 		}
 	}
 </script>

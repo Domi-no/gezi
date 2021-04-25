@@ -122,7 +122,7 @@
 				
 			},
 			changeTime(idx,item){
-				console.log(item)
+				console.log(item.timeSlot,this.saleData)
 				this.cRLTime = idx
 				this.saleData.TimeSlot=item.timeSlot
 				this.getSaleData()
@@ -241,7 +241,7 @@
 
 		.focus_news {
 			margin-top: 20rpx;
-			// height: 484rpx;
+			min-height: 134rpx;
 			padding: 40rpx 30rpx 20rpx;
 			background-color: #fff;
 

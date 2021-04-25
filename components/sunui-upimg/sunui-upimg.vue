@@ -9,7 +9,7 @@
 					<!-- <view class="sunui-loader-filecontent" v-if="item.upload_percent < 100">{{ item.upload_percent }}%</view> -->
 				</view>
 			</block>
-			<view v-show="upload_before_list.length < 1" hover-class="sunui-uploader-hover" class="sunui-uploader-inputbox" @click="chooseImage" :style="upload_img_wh">
+			<view v-if="upload_before_list.length < 1" hover-class="sunui-uploader-hover" class="sunui-uploader-inputbox" @click="chooseImage" :style="upload_img_wh">
 				<view><text class="iconfont icon-mn_shangchuantupian" style="color: #666;"></text></view>
 			</view>
 		</view>

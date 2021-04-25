@@ -11,7 +11,10 @@
 				
 			</image>
 		</view>
-		<view  class="noMore">已经到底了~. ~</view>
+		<!-- <view  class="noMore">已经到底了~. ~</view> -->
+		<view v-show="isLoadMore">
+		      <uni-load-more :status="loadStatus" ></uni-load-more>
+		</view>
 	</view>
 </template>
 
@@ -25,6 +28,8 @@
 					News_num:10,
 					page:1
 				},
+				isLoadMore:true,
+				loadStatus:'loading',  //加载样式：more-加载前样式，loading-加载中样式，nomore-没有数据样式
 			}
 		},
 		methods: {
@@ -38,7 +43,23 @@
 					// 	title: 'message',
 					// 	icon: 'none'
 					// })
-					
+					if(res.code == 200){
+						this.productCenterList.push(...res.data.data)
+						console.log(...res.data.data)
+						if(res.data.data){
+							if(res.data.total <= this.productCenterList.length){  //判断接口返回数据量小于请求数据量，则表示此为最后一页
+								
+							      this.isLoadMore=true                                             
+							      this.loadStatus='已经到底了~. ~'
+							}else{
+							      this.isLoadMore=false
+								  console.log(2)
+							}
+						}
+					}else{
+						 this.isLoadMore=true
+						 // this.loadStatus='已经到底了~. ~'
+					}
 					
 				}).catch((err)=>{
 					console.log(err)
@@ -50,6 +71,15 @@
 					url: '/sub/news_detail/news_detail?id='+id
 				});
 			}
+		},
+		onReachBottom(){  //上拉触底函数
+		  if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
+		        this.isLoadMore=true
+				console.log(this.dataForm.page,'PAGE1')
+		        this.dataForm.page += 1
+				console.log(this.dataForm.page,'PAGE')
+		        this.getProductCenterData()
+		  }
 		},
 		created() {
 			this.getProductCenterData()

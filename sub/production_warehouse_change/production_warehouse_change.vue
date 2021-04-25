@@ -829,16 +829,39 @@ color: #151515;padding:0rpx 0 50rpx 0"
 		    @confirm="warningBtn('confirm')">
 			<view class="" style="padding-bottom: 50rpx;"  >
 				<view class="" v-if="subAlarmData[0]">
-					<view class="warningBox" style="" v-if="subAlarmData[0].data[0].chData[0].glData['鸽蛋需补足']">
+					<view class="warningBox" style="" v-if="subAlarmData[0].data[0].chData[0].glData['种鸽需补足']">
 						<text style="width:148rpx;color: #E64329;">种鸽需补足</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="" >编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 					</view>
-					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['死淘异常']">
-					<view class="warningBox" style="flex;margin-top: 10rpx;">
-						<text style="width: 148rpx;color: #E64329;">死淘异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['死淘率异常']">
+						<view class="warningBox" style="flex;margin-top: 10rpx;">
+							<text style="width: 148rpx;color: #E64329;">死淘率异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+						</view>
+						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['死淘率异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['死淘率异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['死淘率异常'].death}}只</text>
+						</view>
 					</view>
-					
-						<view class="warningBox" style="margin-top: 5rpx;" v-for="(item,index) in subAlarmData[0].data[0].chData[0].glData['死淘异常']" :key="index">
-							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{item.alias}}</text><text style="">{{'死淘率'+item.ratio}}</text><text style="margin-left: 20rpx;">{{item.death}}只</text>
+					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['无产能异常']">死
+						<view class="warningBox" style="flex;margin-top: 10rpx;">
+							<text style="width: 148rpx;color: #E64329;">无产能异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+						</view>
+						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['无产能异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['无产能异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['无产能异常'].death}}只</text>
+						</view>
+					</view>
+					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['病残率异常']">
+						<view class="warningBox" style="flex;margin-top: 10rpx;">
+							<text style="width: 148rpx;color: #E64329;">病残率异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+						</view>
+						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['病残率异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['病残率异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['病残率异常'].death}}只</text>
+						</view>
+					</view>
+					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['无精蛋异常']">
+						<view class="warningBox" style="flex;margin-top: 10rpx;">
+							<text style="width: 148rpx;color: #E64329;">无精蛋异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+						</view>
+						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].death}}只</text>
 						</view>
 					</view>
 

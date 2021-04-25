@@ -20,7 +20,7 @@
 	
 		<scroll-view scroll-y="true" class="tabPage">
 			<home v-if="id=== 0"></home>
-			<cage v-else-if="id === 1"></cage>
+			<cage v-else-if="id === 1" :calendarList="calendarList"></cage>
 			<wait v-else-if="id === 3"></wait>
 			<my v-else-if="id === 4" :unread="unread"></my>
 		</scroll-view>
@@ -74,6 +74,8 @@
 					}
 				],
 				unread:0,
+				calendarList:[],
+				time:'',
 			}
 		},
 		onLoad() {
@@ -86,12 +88,13 @@
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
 						uni.navigateTo({
-							url:'../../sub/scan_code/scan_code?id=' + 1
+							url:'../../sub/scan_code/scan_code?id=' + res.result
 						})
 					}
 				}) : this.id = id
 				
 			},
+			
 			getUnreadData(){
 				this.$http.post('/Login/unread.html',{uid:this.userInfo.id})
 				.then((res)=>{
@@ -113,6 +116,27 @@
 					console.log(err)
 				})
 			},
+			getCalendarData(){
+				this.$http.post('/CageData/calendar.html',{uid:this.userInfo.id,time:this.time})
+				.then((res)=>{
+					
+					this.calendarList=res.data
+					console.log(this.calendarList)
+				}).catch((err)=>{
+					console.log(err)
+				})
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 this.time=times
+				
+				
+			},
 		},
 		computed:{
 			...mapState({
@@ -121,7 +145,7 @@
 			
 		},
 		onLoad() {
-			
+			this.getToday()
 			// #ifdef  MP-WEIXIN
 			if(!this.userInfo.token){
 				uni.navigateTo({
@@ -130,11 +154,15 @@
 			}
 			// #endif
 			this.getUnreadData()
+			this.getCalendarData()
 		},
 		onShow() {
 			console.log(this.id)
 			if(this.id === 4){
 				this.getUnreadData()
+			}
+			if(this.id === 1){
+				this.getCalendarData()
 			}
 		}
 		

@@ -295,9 +295,9 @@
 			{
 				"path": "drug_use_detail/drug_use_detail",
 				"style": {
-					"navigationBarTitleText": "",
+					"navigationBarTitleText": "药品使用详情",
 					// #ifdef MP-WEIXIN
-					"navigationStyle": "custom",
+					// "navigationStyle": "custom",
 					// #endif
 					"app-plus": {
 						"titleNView": {
@@ -310,19 +310,18 @@
 								"width": "auto"
 							}]
 						}
-					},
-					"mp-weixin": {
-						"titleNView": {
-
-							"titleText": "药品使用详情",
-							"buttons": [{
-								"text": "信息修改",
-								"color": "#377BE4",
-								"fontSize": "28rpx",
-								"width": "auto"
-							}]
-						}
 					}
+					// "mp-weixin": {
+					// 	"titleNView": {
+					// 		"titleText": "药品使用详情",
+					// 		"buttons": [{
+					// 			"text": "信息修改",
+					// 			"color": "#377BE4",
+					// 			"fontSize": "28rpx",
+					// 			"width": "auto"
+					// 		}]
+					// 	}
+					// }
 				}
 			},
 			{
@@ -349,9 +348,9 @@
 			{
 				"path": "details_of_vaccine_use/details_of_vaccine_use",
 				"style": {
-					"navigationBarTitleText": "",
+					"navigationBarTitleText": "疫苗使用详情",
 					// #ifdef MP-WEIXIN
-					"navigationStyle": "custom",
+					// "navigationStyle": "custom",
 					// #endif
 					"app-plus": {
 						"titleNView": {
@@ -368,6 +367,17 @@
 						}
 
 					}
+					// "mp-weixin": {
+					// 	"titleNView": {
+					// 		"titleText": "疫苗使用详情",
+					// 		"buttons": [{
+					// 			"text": "信息修改",
+					// 			"color": "#377BE4",
+					// 			"fontSize": "28rpx",
+					// 			"width": "auto"
+					// 		}]
+					// 	}
+					// }
 				}
 
 			},

@@ -77,7 +77,7 @@
 				
 			},
 			getScanCodeData(){
-				this.$http.post('/Rank/ScanCode.html',{uid:this.userInfo.id,cages:'125,126'})
+				this.$http.post('/Rank/ScanCode.html',{uid:this.userInfo.id,cages:this.id})
 				.then((res)=>{
 					if(res.code == 200){
 						

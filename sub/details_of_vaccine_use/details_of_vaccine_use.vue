@@ -1,7 +1,7 @@
 <template>
 	<view class="details_of_vaccine_use_container">
 		<!-- #ifdef MP-WEIXIN -->
-	<view class="navigationBar">
+	<!-- <view class="navigationBar">
 		<view class="goBackImg" >
 			<image @click="goBack" src="../../static/daiban/back.png" mode=""></image>
 		</view>
@@ -11,7 +11,7 @@
 		<view class="nBright" >
 			<text @click="toChangeMessagePage">信息修改</text>
 		</view>
-	</view>
+	</view> -->
 		<!-- #endif -->
 		
 		<view class="" >
@@ -73,6 +73,11 @@
 			</view>
 			<textarea   disabled="true" :value="vaccineDetailData.feedback"  placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
+			<!-- #ifdef MP-WEIXIN -->
+		<view class="messageChangeBtn" @click="toChangeMessagePage">
+			信息修改
+		</view>
+		<!-- #endif -->
 	</view>
 </template>
 
@@ -142,7 +147,7 @@
 .details_of_vaccine_use_container{
 	padding-top: 20rpx;
 	/*  #ifdef  MP-WEIXIN  */
-	padding-top: 100rpx;
+	padding-top: 20rpx;
 	/*  #endif  */
 	padding-bottom: 136rpx;
 	min-height: calc(100vh);
@@ -223,6 +228,18 @@
 			color: #979797;
 			line-height: 42rpx;
 		}
+	}
+	.messageChangeBtn{
+		width: 670rpx;
+		height: 88rpx;
+		background: #377BE4;
+		border-radius: 44rpx;
+		text-align: center;
+		line-height: 88rpx;
+		margin: 80rpx auto 30rpx;
+		font-size: 34rpx;
+		font-weight: 500;
+		color: #FFFFFF;
 	}
 }
 </style>

@@ -5,7 +5,7 @@
 		</view>
 		<view class="aVUROptionBox" v-for="(item,idx) in monthList" :key="idx">
 			<view class="allVaccineUseRecordTime">
-				{{year+'年'+item+'月'}}
+				{{year+'年'+item}}
 			</view>
 			<view class="usageRecordItem" v-for="(i,index) in monthData[idx]" :key="index">
 				<view class="usageRecordItemLeft">
