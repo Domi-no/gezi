@@ -942,6 +942,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				isShowTipModal:false,
 				isGetFrequencyData:false,
 				isChoice:false,
+				pqueryData:'',
 				
 			};
 		},
@@ -1083,7 +1084,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.getFrequencyData()
 			},
 			otherWNPopupShow(){
-				if(this.isChoice){
+				if(this.isChoice || this.pqueryData.id){
 					return false
 				}
 				this.$refs.pRWarehouse.show()
@@ -1168,25 +1169,35 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				.then((res)=>{
 					console.log(res)
 					if(query){
+						console.log(query)
 						this.queryData.num=res.data[query.blockName][query.cageName].survival
-						// this.queryData.text=query.type_name
+						
 						this.queryData.ageday=res.data[query.blockName][query.cageName].ageday
 						this.dataForm.cage_id=res.data[query.blockName][query.cageName].cage_id
 					}
 					this.nurtureData=[]
 					Object.keys(res.data).forEach((value, index)=>{
-						console.log(value, index,res.data[value]);
+						
 						this.nurtureData.push({name:value,children:[]})
 						Object.keys(res.data[value]).forEach((valu, inde)=>{
-							console.log(valu, inde,res.data[value][valu])
-							// this.list.push({name:value,children:res.data[value]})
+							
+						
 						this.nurtureData[index].children.push({name:valu,cage_id:res.data[value][valu].cage_id,num:res.data[value][valu].survival,ageday:res.data[value][valu].ageday,text:res.data[value][valu].text})
-							// this.warehouseList.push({name:value,children:res.data[value]})
+							
 						});
 							
-						// this.warehouseList.push({name:value,children:res.data[value]})
+						
 					});
 					console.log(this.nurtureData)
+					if(this.pqueryData.id){
+						console.log(this.pqueryData)
+						this.nurtureData.forEach((i,idx)=>{
+							console.log(i)
+							if(this.pqueryData.name === i.name){
+								this.otherGelongList=i.children
+							}
+						})
+					}
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -1195,29 +1206,43 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.$http.post('/CageData/Feipeng.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
-					// 
-					if(query){
-						this.queryData.num=res.data[query.blockName][query.cageName].survival
-						// this.queryData.text=query.type_name
-						this.queryData.ageday=res.data[query.blockName][query.cageName].ageday
-						this.dataForm.cage_id=res.data[query.blockName][query.cageName].cage_id
+					console.log(query)
+					if(query && !query.text){
+					
+						this.queryData.num=res.data[query.blockName]['鸽笼'].survival
+						
+						this.queryData.ageday=res.data[query.blockName]['鸽笼'].ageday
+						this.dataForm.cage_id=res.data[query.blockName]['鸽笼'].cage_id
+					}else if(query && query.text){
+						this.queryData.num=res.data[query.name]['鸽笼'].survival
+						
+						this.queryData.ageday=res.data[query.name]['鸽笼'].ageday
+						this.dataForm.cage_id=res.data[query.name]['鸽笼'].cage_id
 					}
 					// 
 					this.nurtureData=[]
 					Object.keys(res.data).forEach((value, index)=>{
-						console.log(value, index,res.data[value]);
+						
 						this.nurtureData.push({name:value,children:[]})
 						Object.keys(res.data[value]).forEach((valu, inde)=>{
-							console.log(valu, inde,res.data[value][valu])
-							// this.list.push({name:value,children:res.data[value]})
+						
 						this.nurtureData[index].children.push({name:valu,cage_id:res.data[value][valu].cage_id,num:res.data[value][valu].survival,ageday:res.data[value][valu].ageday,text:res.data[value][valu].text})
-							// this.warehouseList.push({name:value,children:res.data[value]})
+							
 						});
 							
-						// this.warehouseList.push({name:value,children:res.data[value]})
+						
 					});
 					
 					console.log(this.nurtureData)
+					if(this.pqueryData.id){
+						console.log(this.pqueryData)
+						this.nurtureData.forEach((i,idx)=>{
+							console.log(i)
+							if(this.pqueryData.name === i.name){
+								this.otherGelongList=i.children
+							}
+						})
+					}
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -1266,15 +1291,21 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				console.log(this.queryData,'13456')
 				if(JSON.parse(query).type_name === '飞棚仓'){
 					this.isChoice=true
-					this.queryData.groupNumber=JSON.parse(query).blockName
+					this.pqueryData = JSON.parse(query)
+					 JSON.parse(query).text ? this.dataForm.cage_id =  JSON.parse(query).cage_id  :''
+					 JSON.parse(query).text ? this.getFrequencyData():''
+					this.pqueryData.id = JSON.parse(query).id
+					JSON.parse(query).blockName?this.queryData.groupNumber=JSON.parse(query).blockName : this.queryData.groupNumber=JSON.parse(query).name
 					this.dataForm.dove_type='青年鸽'
 					this.getFeipengData(JSON.parse(query))
 					
 				}else if(JSON.parse(query).type_name === '育雏仓'){
 					this.dataForm.dove_type='童鸽'
-					this.isChoice=true
-					this.queryData.groupNumber=JSON.parse(query).blockName
-					this.queryData.warehouseNumber=JSON.parse(query).cageName
+					this.pqueryData = JSON.parse(query)
+					
+					JSON.parse(query).blockName ? this.isChoice=true :''
+					JSON.parse(query).blockName ? this.queryData.groupNumber=JSON.parse(query).blockName : this.queryData.groupNumber=JSON.parse(query).name
+					 JSON.parse(query).blockName ? this.queryData.warehouseNumber=JSON.parse(query).cageName :''
 					this.getNurtureData(JSON.parse(query))
 					
 				};

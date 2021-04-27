@@ -71,11 +71,11 @@
 							
 						</view>
 						<view class="" v-if="item.text === '今日未记录'" >
-							<text >今日未记录&nbsp;＞</text>
+							<text @click="toRecordPage(item)">今日未记录&nbsp;＞</text>
 						</view>
 						<view class="change_recordBtn" v-else >
 							
-							<view >修改记录</view>
+							<!-- <view >修改记录</view> -->
 						</view>
 					</view>
 				</view>
@@ -173,7 +173,23 @@
 				}).catch((err)=>{
 					console.log(err)
 				})
-			}
+			},
+			toRecordPage(i){
+				console.log(i)
+				
+				// return false
+				
+				if(i.type_name === '生产仓'){
+					uni.navigateTo({
+						url:'/sub/production_records/production_records?query=' + JSON.stringify(i)
+					})
+				}else{
+					uni.navigateTo({
+						url:'/sub/production_warehouse_change/production_warehouse_change?query=' + JSON.stringify(i)
+					})
+				}
+				
+			},
 			
 			
 		},
@@ -416,7 +432,7 @@
 					width: 200rpx;
 					height: 70rpx;
 					background: #FFFFFF;
-					border: 1rpx solid #377BE4;
+					// border: 1rpx solid #377BE4;
 					border-radius: 35rpx;
 					text-align: center;
 					line-height: 70rpx;

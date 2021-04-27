@@ -200,7 +200,7 @@
 				})
 			},
 			getFixBoxData(){
-				this.$http.post('/Grain/fixBlock.html', {uid: this.userInfo.id})
+				this.$http.post('/Work/FactoryBlock.html', {uid: this.userInfo.id})
 				.then((res) => {
 						console.log(res)
 						

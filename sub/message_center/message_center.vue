@@ -2,7 +2,7 @@
 	<view class="messageCenterContainer">
 		<view class="messageItem" v-for="(i,idx) in messageList" :key="idx">
 			<view class="messageTitle">
-				<text :class="{clickColor:i.read}">{{i.title}}</text><text>{{i.creatime}}</text>
+				<text :class="{clickColor:i.read}">{{i.title}}</text><text :class="{clickColor:i.read}">{{i.creatime}}</text>
 			</view>
 			<view :class="{messageContent:true,clickColor:i.read}">
 				{{i.content}}
@@ -121,7 +121,7 @@
 			}
 		}
 		.clickColor{
-			color: #979797 !important;
+			color: #E4E5E9 !important;
 		}
 	}
 

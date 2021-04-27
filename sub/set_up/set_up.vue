@@ -4,12 +4,16 @@
 			<view class="" @click="toChangePasswordPage">
 				<text>修改密码</text><image class="changePasswordImg" src="../../static/cage/cage_b_zk.png" mode=""></image>
 			</view>
-			<view class="" @click="clearCache">
-				<text>清除缓存</text><text class="cacheSize">1.23MB</text>
+			<!-- #ifdef APP-PLUS ||H5 -->
+			<view class="" @click="handleClearCache">
+				<text>清除缓存</text><text class="cacheSize">{{fileSizeString}}</text>
 			</view>
-			<view class="" @click="checkForUpdates">
-				<text>检查更新</text><text class="edition">1.1.1</text>
+			
+			
+			<view class="" @click="getEditionData">
+				<text>检查更新</text><text class="edition">{{versionNumber}}</text>
 			</view>
+			<!-- #endif -->
 		</view>
 		<view class="signOut" @click="signOut">退出登录</view>
 		<view class="setUpTips" v-show="isShowTips">
@@ -29,6 +33,9 @@
 
 <script>
 	import {
+		mapState
+	} from 'vuex'
+	import {
 		removeSession,
 		sessionType
 	} from '@/utils/session';
@@ -39,7 +46,9 @@
 			return {
 				isShowTips:false,
 				tipsValue:'',
-				show:false
+				show:false,
+				versionNumber:'',
+				fileSizeString: "",
 			}
 		},
 		methods: {
@@ -72,7 +81,127 @@
 			},
 			closeModal(){
 				
-			}
+			},
+			getEditionData(){
+				
+				this.$http.post('/Rank/edition.html', {uid: this.userInfo.id})
+				.then((res) => {
+						console.log(res)
+				if(res.data.edition_num != this.versionNumber){
+					uni.showToast({
+						title: '请更新版本' ,
+						icon: 'none'
+					})
+				}else{
+					uni.showToast({
+						title: '已经是最新版本' ,
+						icon: 'none'
+					})
+				}
+					}).catch((err) => {
+						
+				})
+			},
+			
+			// 
+			
+			resetPassword(){
+							uni.setStorage({ //将用户信息保存在本地
+								key: 'userInfoss',
+								data: "设置设置设置设置设置设置"
+							})
+						},
+						chackAppUpdate(){
+			//测试会不会清除本地账号等数据存储
+			                uni.getStorage({
+							    key: 'userInfoss',
+							    success: function (res) {
+							        console.log(res.data);
+							    }
+							});
+							uni.showToast({
+								title: '缓存清理'+this.fileSizeString,
+								duration: 2000
+							});
+						},
+						// 获取缓存
+						formatSize() {
+							let that = this;
+							plus.cache.calculate(function(size) {
+								let sizeCache = parseInt(size);
+								if (sizeCache == 0) {
+									that.fileSizeString = "0B";
+								} else if (sizeCache < 1024) {
+									that.fileSizeString = sizeCache + "B";
+								} else if (sizeCache < 1048576) {
+									that.fileSizeString = (sizeCache / 1024).toFixed(2) + "KB";
+								} else if (sizeCache < 1073741824) {
+									that.fileSizeString = (sizeCache / 1048576).toFixed(2) + "MB";
+								} else {
+									that.fileSizeString = (sizeCache / 1073741824).toFixed(2) + "GB";
+								}
+							});
+							console.log(this.fileSizeString,'缓存1123')
+						},
+						// 清除缓存
+						handleClearCache() {
+							let that = this
+							// that.$refs.popupSet.close()
+							uni.showModal({
+								title: '清除缓存',
+								content: '您确定要清除缓存吗？',
+								success: function(res) {
+									if (res.confirm) {
+										console.log('用户点击确定');
+										that.clearCache()
+									
+									} else if (res.cancel) {
+										console.log('用户点击取消');
+									}
+								}
+							});
+						},
+						// 清理缓存
+						clearCache() {
+							let that = this;
+							let os = plus.os.name;
+							if (os == 'Android') {
+								let main = plus.android.runtimeMainActivity();
+								let sdRoot = main.getCacheDir();
+								let files = plus.android.invoke(sdRoot, "listFiles");
+								let len = files.length;
+								for (let i = 0; i < len; i++) {
+									let filePath = '' + files[i]; // 没有找到合适的方法获取路径，这样写可以转成文件路径  
+									plus.io.resolveLocalFileSystemURL(filePath, function(entry) {
+										if (entry.isDirectory) {
+											entry.removeRecursively(function(entry) { //递归删除其下的所有文件及子目录  
+												uni.showToast({
+													title: '缓存清理完成',
+													duration: 2000
+												});
+												that.formatSize(); // 重新计算缓存  
+											}, function(e) {
+												console.log(e.message)
+											});
+										} else {
+											entry.remove();
+										}
+									}, function(e) {
+										console.log('文件路径读取失败')
+									});
+								}
+							} else { // ios  
+								plus.cache.clear(function() {
+									uni.showToast({
+										title: '缓存清理完成',
+										duration: 2000
+									});
+									that.formatSize();
+								});
+							}
+						},
+			
+			
 		},
 			
 		watch:{
@@ -80,7 +209,33 @@
 				console.log(this.isShowTips)
 				this.isShowTips ? setTimeout(()=>{this.isShowTips=false},1000):''
 			}
-		}
+		},
+		created() {
+			// this.getTypeBlockData()
+			
+			// #ifdef  APP-PLUS
+			plus.runtime.getProperty(plus.runtime.appid,(wgtinfo)=>{
+			     console.log(JSON.stringify(wgtinfo));
+			     console.log("b版本好好",wgtinfo.version);//应用版本号
+				this.versionNumber=wgtinfo.version
+			})
+			this.formatSize()
+			// #endif
+			console.log(this.fileSizeString,'缓存')
+			                    
+		},
+		onLoad() {
+					// #ifdef  APP-PLUS
+					// this.formatSize()
+					// #endif
+					
+				},
+		computed:{
+			...mapState({
+				userInfo: (state) => state.user.userInfo
+			}),
+			
+		},
 	}
 </script>
 

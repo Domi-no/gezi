@@ -5,7 +5,7 @@
 				<text>{{blockName}}</text>
 				<image src="@/static/report/report_zk.png" mode=""></image>
 			</view>
-			<view class="report_head_right">
+			<view class="report_head_right" @click="typeNChange">
 				打印报表
 			</view>
 		</view>
@@ -224,7 +224,8 @@
 				blockName: '所有仓',
 				currentId: 'month',
 				currentName: '月',
-				chartData: {}
+				chartData: {},
+				typeN:1,
 			}
 		},
 		onLoad() {
@@ -330,19 +331,54 @@
 					}
 				});
 			},
-			getReportData() {
+			typeNChange(){
 				const {
 					block_id,
 					sta_time,
 					end_time,
-					currentId: time_type
+					currentId: time_type,
+					typeN
 				} = this
+				uni.downloadFile({
+					
+				    url: 'https://jx.onlylove.top//CageData/report.html', //仅为示例，并非真实的资源
+				
+					header:{token:this.userInfo.token},
+					data:{uid: this.userInfo.id,
+						block_id,
+						sta_time,
+						end_time,
+						time_type,
+						typeN,},
+				    success: (res) => {
+				        if (res.statusCode === 200) {
+				   console.log(res.tempFilePath) // 保存后的地址
+				            console.log('下载成功');
+				        }
+				    }
+				});
+				
+				
+	
+			},
+			getReportData() {
+				
+				
+				const {
+					block_id,
+					sta_time,
+					end_time,
+					currentId: time_type,
+					
+				} = this
+				
 				this.$http.post('/CageData/report.html', {
 						uid: this.userInfo.id,
 						block_id,
 						sta_time,
 						end_time,
-						time_type
+						time_type,
+						
 					})
 					.then((res) => {
 						console.log(res)

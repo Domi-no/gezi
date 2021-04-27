@@ -169,7 +169,7 @@
 			// height: 160rpx;
 			padding-bottom: 10rpx;
 			background: #FFFFFF;
-			box-shadow: 3rpx 4rpx 20rpx 0rpx rgba(0, 0, 0, 0.1);
+			box-shadow: 3rpx 4rpx 20rpx 0rpx rgba(0, 0, 0, 0.4);
 			border-radius: 10rpx;
 			margin-top: 30rpx;
 		}

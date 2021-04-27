@@ -149,6 +149,7 @@
 				isShow:false,
 				time:'',
 				queryData:'',
+				pQueryData:'',
 				
 			};
 		},
@@ -163,7 +164,7 @@
 				this.show=true
 			},
 			pRWPopup(){
-				if(this.queryData.cage_id){
+				if(this.queryData.cage_id || this.pQueryData.id){
 					return false
 				}
 				this.$refs.pRWarehouseChange.show()
@@ -203,6 +204,7 @@
 				
 			},
 			pRWarehouseChange(e){
+				this.warehouseNumber='请选择'
 				console.log(e)
 				this.groupNumber=e.item.name
 				this.gelongList=e.item.children
@@ -212,19 +214,29 @@
 				.then((res)=>{
 					console.log(res)
 					Object.keys(res.data).forEach((value, index)=>{
-						console.log(value, index,res.data[value]);
+						
 						this.list.push({name:value,children:[]})
 						Object.keys(res.data[value]).forEach((valu, inde)=>{
-							console.log(valu, inde,res.data[value][valu])
-							// this.list.push({name:value,children:res.data[value]})
+							
 						this.list[index].children.push({name:valu,cage_id:res.data[value][valu].cage_id})
-							// this.warehouseList.push({name:value,children:res.data[value]})
+							
 						});
 		
-						// this.warehouseList.push({name:value,children:res.data[value]})
+						
 					});
-					// this.list=res.data
+					
 					console.log(this.list)
+					
+					if(this.pQueryData.id){
+						console.log(this.pQueryData)
+						this.list.forEach((i,idx)=>{
+							console.log(i)
+							if(this.pQueryData.name === i.name){
+								this.gelongList=i.children
+							}
+						})
+					}
+					
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -278,6 +290,10 @@
 				this.groupNumber = queryData.blockName
 				this.warehouseNumber = queryData.cageName
 				this.getRecordData()
+			}else if(query && JSON.parse(query).text){
+				console.log(JSON.parse(query))
+				this.pQueryData = JSON.parse(query)
+				this.groupNumber = JSON.parse(query).name
 			}
 		}
 	}
