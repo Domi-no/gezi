@@ -26,8 +26,8 @@
 			</view>
 		</view>
 		<!-- #ifdef APP-PLUS || H5 -->
-	
-		
+
+
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -35,7 +35,8 @@
 				</view>
 				<view class="qiun-charts">
 					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData"
-					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"  @getIndex="getIndex"/>
+					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"
+					 @getIndex="getIndex" />
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -44,23 +45,24 @@
 		</view>
 		<!-- #endif -->
 		<!--  -->
-<!-- #ifdef MP-WEIXIN -->
-<view class="uchars_box">
+		<!-- #ifdef MP-WEIXIN -->
+		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
 					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{chartData.sum||0}}枚</text><text>平均：{{chartData.all||0}}枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
 					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData"
-					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"  :tooltipShow="false"  />
+					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"
+					 :tooltipShow="false" />
 					<view class="timeClass">
 						{{currentName}}
 					</view>
 				</view>
 			</view>
 		</view>
-<!-- #endif -->
-<!-- #ifdef APP-PLUS || H5 -->
+		<!-- #endif -->
+		<!-- #ifdef APP-PLUS || H5 -->
 		<view class="uchars_box">
 			<view class="qiun-columns">
 				<view class="qiun-bg-white qiun-title-bar qiun-common-mt">
@@ -68,7 +70,7 @@
 				</view>
 				<view class="qiun-charts">
 					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false"
-					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey"  @getIndex="getIndex"/>
+					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey" @getIndex="getIndex" />
 					<view class="timeClass">
 						{{currentName}}
 					</view>
@@ -85,13 +87,13 @@
 				</view>
 				<view class="qiun-charts">
 					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false"
-					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey"  :tooltipShow="false" />
+					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey" :tooltipShow="false" />
 					<view class="timeClass">
 						{{currentName}}
 					</view>
 				</view>
 			</view>
-		
+
 		</view>
 		<!-- #endif -->
 		<view class="uchars_box">
@@ -169,7 +171,7 @@
 				pixelRatio: 1,
 				serverData: '',
 				list: [],
-				block_id: 0,
+				block_id: '',
 				end_time: '',
 				sta_time: '',
 				gdColumn: {},
@@ -225,7 +227,7 @@
 				currentId: 'month',
 				currentName: '月',
 				chartData: {},
-				typeN:1,
+				typeN: 1,
 			}
 		},
 		onLoad() {
@@ -233,7 +235,7 @@
 		},
 
 		methods: {
-			getIndex(e){
+			getIndex(e) {
 				console.log(e)
 			},
 			tap(e) {
@@ -331,7 +333,7 @@
 					}
 				});
 			},
-			typeNChange(){
+			typeNChange() {
 				const {
 					block_id,
 					sta_time,
@@ -340,45 +342,57 @@
 					typeN
 				} = this
 				uni.downloadFile({
-					
-				    url: 'https://jx.onlylove.top//CageData/report.html', //仅为示例，并非真实的资源
-				
-					header:{token:this.userInfo.token},
-					data:{uid: this.userInfo.id,
-						block_id,
-						sta_time,
-						end_time,
-						time_type,
-						typeN,},
-				    success: (res) => {
-				        if (res.statusCode === 200) {
-				   console.log(res.tempFilePath) // 保存后的地址
-				            console.log('下载成功');
-				        }
-				    }
+					url: 'https://jx.onlylove.top//CageData/export.html?uid=' + this.userInfo.id +'&block_id=' + block_id+
+						'&sta_time=' + sta_time + '&time_type=' +time_type +'&end_time='+end_time +'&typeN=' +typeN, //仅为示例，并非真实的资源
+					header: {
+						token: this.userInfo.token
+					},
+					success: (res) => {
+						if (res.statusCode === 200) {
+							console.log(res.tempFilePath) // 保存后的地址
+							console.log('下载成功');
+							const tempFIlePath =res.tempFilePath
+						
+							uni.openDocument({
+								filePath:tempFIlePath,
+								success:(res)=>console.log('成功打开文档')
+							})
+						
+							// uni.saveFile({
+							// 				tempFIlePath,
+							// 				success:(res)=>{
+							// 					 //res.savedFilePath文件的保存路径
+							// 					 //保存成功并打开文件
+												
+							// 				},
+							// 				fail:()=>console.log('下载失败')
+							// 			})
+							
+						}
+					}
 				});
-				
-				
-	
+
+
+
 			},
 			getReportData() {
-				
-				
+
+
 				const {
 					block_id,
 					sta_time,
 					end_time,
 					currentId: time_type,
-					
+
 				} = this
-				
+
 				this.$http.post('/CageData/report.html', {
 						uid: this.userInfo.id,
 						block_id,
 						sta_time,
 						end_time,
 						time_type,
-						
+
 					})
 					.then((res) => {
 						console.log(res)

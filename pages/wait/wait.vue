@@ -1,7 +1,7 @@
 <template>
 	<view class="waitContainer">
 			<view class="swiper">
-				<u-swiper :list="list" :name="'image'" indicator-pos="bottomCenter" :indicator="{'background-color':'#A5A5AA'}" height="300"></u-swiper>
+				<u-swiper :list="bannerList" :name="'linkurl'" indicator-pos="bottomCenter" :indicator="{'background-color':'#A5A5AA'}" height="300"></u-swiper>
 			</view>
 			<!-- #ifdef APP-PLUS||H5 -->
 			<view class="" v-if="userInfo.DealtWith['管理']">
@@ -243,6 +243,7 @@
 						]
 					},
 					powerList:[],
+					bannerList:[],
 			}
 		},
 		methods: {
@@ -258,6 +259,15 @@
 				// 	this.powerList.push({title:value,children:this.userInfo.DealtWith[value]})
 				// })
 				console.log(this.userInfo.DealtWith)
+			},
+			getBannerData(){
+				this.$http.post('/Rank/Banner.html',{position:2})
+				.then((res)=>{
+					console.log(res)
+					this.bannerList=res.data
+				}).catch((err)=>{
+					console.log(err)
+				})
 			}
 		},
 		computed:{
@@ -268,6 +278,7 @@
 		},
 		created() {
 			this.showList()
+			this.getBannerData()
 		}
 	}
 </script>

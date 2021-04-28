@@ -12,7 +12,7 @@
 					<text>{{clockInfo.userInfo.name}}</text>
 				</view>
 			</view>
-			<text class="cRule" @click="rulesClick">考勤规则</text>
+			<!-- <text class="cRule" @click="rulesClick">考勤规则</text> -->
 		</view>
 		<view class="" style="padding: 41rpx 30rpx 0;" v-if="clockInfo.Punch">
 			<view class="clockDetail">

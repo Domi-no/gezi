@@ -15,7 +15,7 @@
 				</view>
 				<view class="info_work">
 					<image class="info_work_image" src="../../static/my/kq.png" mode=""></image>
-					<text class="info_work_dk" >上班已打卡</text>
+					<text class="info_work_dk" >{{type}}</text>
 				</view>
 			</view>
 		</view>
@@ -81,6 +81,9 @@
 		props:{
 			unread:{
 				type:Number
+			},
+			type:{
+				type:String
 			}
 		},
 		data() {
