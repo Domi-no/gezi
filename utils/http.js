@@ -21,11 +21,17 @@ methods.forEach(method => {
 					showErrorToast = true,
 					headers = {
 						// "content-type": "application/x-www-form-urlencoded",
-						token: userInfo.token||store.state.user.userInfo.token||''
+						token: userInfo.token||store.state.user.userInfo.token||'',
 						// token: '6220489c2a49a927a70834ced97f95b3'
+						// #ifdef H5 || APP-PLUS
+						'AppOrWeChat':'200'
+						// #endif
+						// #ifdef MP-WEIXIN
+						'AppOrWeChat':'300'
+						// #endif
 					}
 			} = extra;
-			
+			// setRequestHeader('type',200)
 			// 显示全屏loading
 			showLoading &&
 				uni.showLoading({

@@ -17,14 +17,20 @@
 							<text>无产能异常</text><text>{{ite.glData['无产能异常'].block_name}}</text><text>鸽笼编号：{{ite.glData['无产能异常'].name}}</text><text></text>
 						</view>
 						<view class="a_containe_detail_bc" v-if="ite.glData['死精蛋异常']" >
-							<text>无产能异常</text><text>{{ite.glData['死精蛋异常'].block_name}}</text><text>鸽笼编号：{{ite.glData['死精蛋异常'].name}}</text><text></text>
+							<text>死精蛋异常</text><text>{{ite.glData['死精蛋异常'].block_name}}</text><text>鸽笼编号：{{ite.glData['死精蛋异常'].name}}</text><text></text>
+						</view>
+						<view class="a_containe_detail_bc" v-if="ite.glData['病残率异常']" >
+							<text>病残率异常</text><text>{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
+						</view>
+						<view class="a_containe_detail_bc" v-if="ite.glData['死淘率异常']" >
+							<text>死淘率异常</text><text>{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
 						</view>
 						<view class="a_containe_detail_st">
-							<view  class="a_containe_detail_st_gz" v-if="ite.glData['死淘率异常']" :key="ind">
+							<view  class="a_containe_detail_st_gz" v-if="ite.glData['死淘率异常']" >
 								<text>死淘率异常</text><text>{{ite.glData['死淘率异常'].alias}}</text><text>死淘率{{ite.glData['死淘率异常'].ratio}}</text><text>{{ite.glData['死淘率异常'].death}}只</text>
 							</view>
-							<view  class="a_containe_detail_st_gz" v-if="ite.glData['病残率异常']" :key="ind">
-								<text>病残率异常</text><text>{{ite.glData['病残率异常'].alias}}</text><text>死淘率{{ite.glData['病残率异常'].ratio}}</text><text>{{ite.glData['病残率异常'].death}}只</text>
+							<view  class="a_containe_detail_st_gz" v-if="ite.glData['病残率异常']" >
+								<text>病残率异常</text><text>{{ite.glData['病残率异常'].alias}}</text><text>病残率{{ite.glData['病残率异常'].ratio}}</text><text>{{ite.glData['病残率异常'].death}}只</text>
 							</view>
 						</view>
 					</view>
@@ -61,11 +67,11 @@
 						Object.keys(res.data[value].data).forEach((val, ind)=>{
 							
 		
-							console.log(val,res.data[value].data[val])
+							// console.log(val,res.data[value].data[val])
 							
 							this.alarmList[index].data.push({chName:val,chData:[]})
 							Object.keys(res.data[value].data[val]).forEach((valu, inde)=>{
-								console.log(valu,res.data[value].data[val][valu])
+								// console.log(valu,res.data[value].data[val][valu])
 								// console.log(valu)
 								
 								

@@ -86,8 +86,8 @@
 				</view>
 			</view>
 		</view>
-		<view class="wifiClock">
-			<image src="../../static/daiban/zdwz.png" mode=""></image>已进入打卡范围：和天下鸽业WIFI
+		<view :class="{wifiClock:true,clockColor:!clockInfo.Punch.entry}">
+			<image v-if="clockInfo.Punch.entry"  src="../../static/daiban/zdwz.png" mode=""></image><image v-else src="../../static/daiban/wdk.png" style="width:24rpx;height:24rpx;" mode=""></image>{{clockInfo.Punch.entry?'已进入':'未进入'}}打卡范围：{{clockInfo.userInfo.firm_name}}WIFI
 		</view>
 	</view>
 </template>
@@ -107,6 +107,7 @@
 				},
 				clock_in_time:'',
 				timer:'',
+				icClick:false,
 			}
 		},
 		methods: {
@@ -146,25 +147,33 @@
 				
 			},
 			getClockData(){
+				if(this.icClick){
+					return false
+				}
+				this.icClick=true
 				this.$http.post('/Punch/clock.html', {uid: this.userInfo.id,...this.dataForm})
 				.then((res) => {
 						console.log(res)
 						if(res.code == 200){
 							uni.showToast({
 								title: '打卡成功',
-								icon: 'none'
+								icon: 'none',
+								  duration: 2000,
 							})
 							
 							this.getClockInfoData()
 						}else{
 							uni.showToast({
 								title: res.message,
-								icon: 'none'
+								icon: 'none',
+								  duration: 2000
 							})
 						}
+					this.icClick = false
 					}).catch((err) => {
 						
 					})
+					
 			},
 			getClockInfoData(){
 				this.$http.post('/Punch/clockInfo.html', {uid: this.userInfo.id,...this.dataForm})
@@ -304,6 +313,10 @@
 		.clockColor{
 			color: #E64329;
 		}
+		
+	}
+	.clockColor{
+		color: #E64329;
 	}
 	.clockBtn{
 		width: 290rpx;

@@ -201,7 +201,8 @@
 					price:'',
 					customer:'',
 					pay_method:'请选择',
-					remarks:''
+					remarks:'',
+					block_type:1,
 				},
 				preSaleData:[],
 				
@@ -213,6 +214,7 @@
 			},
 			typeNameChange(e){
 				this.block_type=e.item.type_name
+				this.saleForm.block_type=e.item.block_type
 				this.getPreSaleData()
 				console.log(e)
 			},
@@ -267,7 +269,7 @@
 				const uid =this.userInfo.id
 				this.$http.post('/Sale/preSale.html', {uid,block_type})
 				.then((res) => {
-						console.log(res)
+						// console.log(res)
 						this.preSaleData=res.data
 					}).catch((err) => {
 						
@@ -290,7 +292,7 @@
 				})
 			},
 			onCancel(){
-				console.log(this)
+				// console.log(this)
 			},
 			onConfirm(e){
 				this.reasonValue=e.result
@@ -326,7 +328,7 @@
 			},
 			touchStart(e){
 				
-				 console.log()
+				 // console.log()
 				this.leftValue = e.detail.scrollLeft * 0.24
 				
 			},
@@ -353,8 +355,10 @@
 			this.getSaleNameData()
 		},
 		onLoad({query}) {
-			console.log(query)
+			
 			this.warehouseList=JSON.parse(query)
+			this.warehouseList.list.shift()
+			console.log(this.warehouseList.list)
 		}
 		
 	}

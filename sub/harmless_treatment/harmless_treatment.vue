@@ -148,6 +148,9 @@
 			this.$refs.hTTime.show()
 			},
 			toTFInputPage(data){
+				if(this.harmlessTreatmentData.power === 1){
+					return false
+				}
 				data.record_time = this.record_time
 				uni.navigateTo({
 					url:'/sub/t_f_change/t_f_change?query='+JSON.stringify(data)

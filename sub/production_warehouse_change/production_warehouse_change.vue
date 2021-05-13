@@ -836,15 +836,16 @@ color: #151515;padding:0rpx 0 50rpx 0"
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
 							<text style="width: 148rpx;color: #E64329;">死淘率异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
-						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['死淘率异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['死淘率异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['死淘率异常'].death}}只</text>
 						</view>
 					</view>
+					
 					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['无产能异常']">死
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
 							<text style="width: 148rpx;color: #E64329;">无产能异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
-						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['无产能异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['无产能异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['无产能异常'].death}}只</text>
 						</view>
 					</view>
@@ -852,7 +853,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
 							<text style="width: 148rpx;color: #E64329;">病残率异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
-						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['病残率异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['病残率异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['病残率异常'].death}}只</text>
 						</view>
 					</view>
@@ -860,7 +861,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
 							<text style="width: 148rpx;color: #E64329;">无精蛋异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
-						<view class="warningBox" style="margin-top: 5rpx;"  :key="index">
+						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].death}}只</text>
 						</view>
 					</view>
@@ -1143,14 +1144,18 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					
 					this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type})
 					.then((res)=>{
-						console.log(res,'frequency')
-						this.changeNumber=res.data.frequency
+						if(res.data.frequency){
+							
+							this.changeNumber=res.data.frequency
+							
+							this.isShowTipModal=true
+						}
+						
 						this.isGetFrequencyData=true
-						console.log(this.changeNumber,'changenumber')
 					}).catch((err)=>{
 						console.log(err)
 					})
-					this.isShowTipModal=true
+					
 				}
 				
 			},
@@ -1284,7 +1289,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.dataForm.uid=this.userInfo.id
 				this.dataForm.dove_type=this.queryData.name
 				console.log(query)
-				this.dataForm.dove_type && this.dataForm.cage_id ? this.isShowTipModal=true :''
+				// this.dataForm.dove_type && this.dataForm.cage_id ? this.isShowTipModal=true :''
 				
 			}else if(query&&JSON.parse(query).type_name){
 				this.queryData.name=JSON.parse(query).type_name

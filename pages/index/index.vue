@@ -91,6 +91,9 @@
 						uni.navigateTo({
 							url:'../../sub/scan_code/scan_code?id=' + res.result
 						})
+					},
+					fail:function(res){
+						console.log(res)
 					}
 				}) : this.id = id
 				

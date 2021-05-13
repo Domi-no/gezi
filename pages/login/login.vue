@@ -31,7 +31,13 @@
 				cForget:false,
 				userInfo:{
 					phone:'15775772888',
-					password:'abc123456'
+					password:'abc123456',
+					// #ifdef  H5 || APP-PLUS
+					type:200,
+					// #endif
+					// #ifdef  MP-WEIXIN
+					type:300,
+					// #endif
 				}
 			}
 		},
