@@ -34,10 +34,11 @@
 		},
 		methods: {
 			getProductCenterData(){
+				// this.productCenterList=[]
 				this.$http.post('/Rank/helpPpoor.html',{...this.dataForm})
 				.then((res)=>{
 					console.log(res)
-					this.productCenterList=res.data.data
+					// this.productCenterList=res.data.data
 					
 					// uni.showToast({
 					// 	title: 'message',

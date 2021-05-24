@@ -105,8 +105,11 @@
 			}),
 			
 		},
-		created() {
+		onShow() {
 			this.getDrugDSdata()
+		},
+		created() {
+			
 		}
 		
 	}
@@ -212,14 +215,14 @@
 						.deliveryBtn{
 							font-size: 24rpx;
 							font-weight: 500;
-							border: 1rpx solid #E64329;
+							border: 1px solid #E64329;
 							color: #E64329;
 							margin-right: 40rpx;
 						}
 						.warehousingBtn{
 							font-size: 24rpx;
 							font-weight: 500;
-							border: 1rpx solid #377BE4;
+							border: 1px solid #377BE4;
 							color: #377BE4;
 							
 						}

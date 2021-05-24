@@ -102,6 +102,9 @@
 			
 		},
 		created() {
+			
+		},
+		onShow() {
 			this.getDeliveryData()
 		}
 	}

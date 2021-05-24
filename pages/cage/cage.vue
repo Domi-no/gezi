@@ -3,7 +3,7 @@
 		<view class="cage_head">
 			<view class="cage_pic">
 				
-				<view class="column" v-for="(item,idx) in cage_image" :key="idx" @click="toProductionPage(item.url)" v-if="userInfo.ProData||idx<3">
+				<view class="column" v-for="(item,idx) in cage_image" :key="idx" @click="toProductionPage(item.url)">
 					<image :src="item.pic" mode=""></image>
 					<view class="column_text">
 						{{item.text}}

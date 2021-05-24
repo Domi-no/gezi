@@ -1260,13 +1260,13 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			})
 			
 		},
-		// #ifdef H5 || MP-WEIXIN
+		
 		onShow() {
 			this.getFrequencyData()
 			console.log(this.changeNumber,'changenumber')
 			this.getToday()
 			if(this.queryData.name==='飞棚仓'){
-			
+				
 				this.getFeipengData()
 				
 			}else if(this.queryData.name ==='育雏仓'){
@@ -1274,7 +1274,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					
 			}
 		},
-		// #endif
+		
 		created() {
 			// this.getFrequencyData()
 			

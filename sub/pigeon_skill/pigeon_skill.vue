@@ -38,7 +38,7 @@
 				this.$http.post('/Rank/helpPpoor.html',{...this.dataForm})
 				.then((res)=>{
 					console.log(res)
-					this.pigeonList=res.data.data
+					// this.pigeonList=res.data.data
 					
 					// uni.showToast({
 					// 	title: 'message',

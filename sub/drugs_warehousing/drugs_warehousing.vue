@@ -1,7 +1,7 @@
 <template>
 	<view class="drugWarehousingContainer">
 		<view class="dWTopBox">
-			<text>记录时间</text><text>{{queryData.time||queryData.record_time}}</text>
+			<text>记录时间</text><text>{{queryData.time||queryData.record_time||date}}</text>
 		</view>
 		<view class="dWTopBox">
 			<text>药品名称</text><text>{{queryData.drugs_name}}</text>
@@ -33,7 +33,7 @@
 					单位<image class="star" :src="whetherSelect?starSrc[1]:starSrc[0]" mode=""></image>
 				</view>
 				<view class="choiceBox" @click="">
-					<input type="number" @input="unitChange" :value="outFormData.unit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+					<input type="" @input="unitChange" :value="outFormData.unit" :disabled="whetherSelect"  placeholder="请输入" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 					<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 				</view>
 				<view class="typeName">
@@ -144,7 +144,8 @@
 					approved:'',
 					receiver:'',
 					remarks:''
-				}
+				},
+				date:'',
 			}
 		},
 		methods: {
@@ -168,7 +169,7 @@
 				this.outFormData.number = parseInt(value.trim())
 			},
 			unit_priceChange({detail:{value}}){
-				this.outFormData.unit_price =parseInt(value.trim())
+				this.outFormData.unit_price =value.trim()
 			},
 			productionChange({detail:{value}}){
 				this.outFormData.production =value
@@ -196,7 +197,7 @@
 				if(!this.isDDsub){
 					return false
 				}
-				this.$http.post('/Vaccin/Delivery.html',{type:1,uid:this.userInfo.id,log_id:this.queryData.log_id||'',record_time:this.queryData.time||this.queryData.record_time,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData})
+				this.$http.post('/Vaccin/Delivery.html',{type:1,uid:this.userInfo.id,log_id:this.queryData.log_id||'',record_time:this.queryData.time||this.queryData.record_time||this.date,drugs_name:this.queryData.drugs_name,category:this.queryData.category,...this.outFormData,price:this.price})
 				.then((res) => {
 						console.log(res)
 						if(res.code == 200){
@@ -245,7 +246,18 @@
 					}).catch((err) => {
 						
 					})
-			}
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 // this.drugUseForm.time_y=Y
+				this.date=times
+				 console.log(D)	
+			},
 		},
 		computed:{
 			isFactory(){
@@ -253,14 +265,15 @@
 			},
 			
 			isDDsub(){
-				let {production,batch_number,unit,unit_price,number,supplier,approved,receiver}=this.outFormData
-				if(production && batch_number && unit && unit_price && number && this.price && supplier && approved && receiver ){
+				let {production,batch_number,unit,unit_price,number,supplier,approved,receiver,remarks}=this.outFormData
+				if(production && batch_number && unit && unit_price && number && this.price && supplier && approved && receiver &&remarks){
 					return true
 				}
 			},
 			price(){
 				const {number,unit_price}=this.outFormData
-				return number&&unit_price? number * unit_price : 0
+				 return number&&unit_price? (number * unit_price).toFixed(2) : 0
+				 
 			},
 			...mapState({
 				userInfo: (state) => state.user.userInfo
@@ -269,9 +282,15 @@
 		
 		created() {
 			this.getDrugDeliveryReasonData()
+			this.getToday()
 		},
+		
 		onLoad({query}) {
 			this.queryData= JSON.parse(query)
+			if(JSON.parse(query).log_id){
+				this.outFormData=JSON.parse(query)
+				}
+			
 			console.log(JSON.parse(query))
 		}
 	}

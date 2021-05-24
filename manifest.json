@@ -74,7 +74,12 @@
             },
             "splashscreen" : {
                 "iosStyle" : "common",
-                "androidStyle" : "common"
+                "androidStyle" : "default",
+                "android" : {
+                    "hdpi" : "C:/Users/windows10/Desktop/qdy.png",
+                    "xhdpi" : "C:/Users/windows10/Desktop/qdy.png",
+                    "xxhdpi" : "C:/Users/windows10/Desktop/qdy.png"
+                }
             }
         }
     },

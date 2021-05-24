@@ -1,7 +1,7 @@
 <template>
 	<view class="foofWarehousingContainer">
 		<view class="fWTopBox">
-			<text>记录时间</text><text>{{queryData.time||queryData.creatime}}</text>
+			<text>记录时间</text><text>{{queryData.time||queryData.creatime||date}}</text>
 		</view>
 		<view class="fWTopBox">
 			<text>物品名称</text><text>{{queryData.grain_name}}</text>
@@ -116,7 +116,8 @@
 					// borrowing:'',
 					// manager:'',
 					
-				}
+				},
+				date:'',
 			}
 		},
 		methods: {
@@ -124,13 +125,13 @@
 			 this.$refs.reason.show()
 			},
 			unitChange({detail:{value}}){
-				this.fWdataForm.unit = parseInt(value.trim())
+				this.fWdataForm.unit = value.trim()
 			},
 			numberChange({detail:{value}}){
 				this.fWdataForm.number = parseInt(value.trim())
 			},
 			unit_priceChange({detail:{value}}){
-				this.fWdataForm.unit_price = parseInt(value.trim())
+				this.fWdataForm.unit_price = value.trim()
 			},
 			supplierChange({detail:{value}}){
 				this.fWdataForm.supplier = value.trim()
@@ -153,8 +154,8 @@
 					return false
 				}
 				const {grain_name}=this.queryData
-				
-				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time:this.queryData.creatime||this.queryData.time,grain_name,price:this.fWmoney,...this.fWdataForm})
+				console.log(this.fWmoney)
+				this.$http.post('/Grain/beLaidUp.html', {uid: this.userInfo.id,record_time:this.queryData.creatime||this.queryData.time||this.date,grain_name,price:this.fWmoney,...this.fWdataForm})
 				.then((res) => {
 						console.log(res)
 					
@@ -177,7 +178,18 @@
 					}).catch((err) => {
 						
 				})
-			}
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 // this.drugUseForm.time_y=Y
+				this.date=times
+				 console.log(D)	
+			},
 		},
 		computed:{
 			isfWsub(){
@@ -188,15 +200,26 @@
 			},
 			fWmoney(){
 				let {number,unit_price}=this.fWdataForm
-				return number&&unit_price? number*unit_price : 0
+				 return  number && unit_price ? (number * unit_price).toFixed(2) : 0
+				
+				
 			},
 			...mapState({
 				userInfo: (state) => state.user.userInfo
 			}),
 		},
+		onShow() {
+			this.getToday()
+		},
 		onLoad({query}) {
 			console.log(JSON.parse(query))
-			this.queryData=JSON.parse(query)
+			if(JSON.parse(query)){
+				this.queryData=JSON.parse(query)
+				if(JSON.parse(query).grain_id){
+						this.fWdataForm=JSON.parse(query)
+				}
+				
+			}
 		}
 	}
 </script>

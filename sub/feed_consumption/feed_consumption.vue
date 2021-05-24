@@ -147,9 +147,9 @@
 			
 		},
 		created() {
-			this.getToday()
-			this.getTypeBlockData()
-			this.getConsumeData()
+			// this.getToday()
+			// this.getTypeBlockData()
+			// this.getConsumeData()
 		},
 		computed:{
 			...mapState({
@@ -157,6 +157,8 @@
 			}),
 		},
 		onShow() {
+			this.getToday()
+			this.getTypeBlockData()
 			this.getConsumeData()
 		}
 	}

@@ -60,6 +60,10 @@
 			.news_head {
 				font-size: 30rpx;
 				font-weight: 700;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 1;
+				overflow: hidden;
 			}
 
 			.news_content {

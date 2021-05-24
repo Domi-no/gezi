@@ -15,6 +15,12 @@
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 		</view>
+		<view class="fDTopBox" style="margin-top: 2rpx;" v-if="fDdataForm.reason !== '外销'">
+			<text>重量</text><view class="" style="display: flex;">
+				<input type="number" @input="numberChange" :value="fDdataForm.number"  placeholder="请输入"   style="position: relative;top: -5rpx;"/>公斤
+
+			</view>
+		</view>
 		<view :class="{notSelected:whetherSelect}">
 			
 			<!--  -->
@@ -305,7 +311,7 @@
 			isfDsub(){
 				this.fDdataForm.price=this.fDmoney
 				let {unit,unit_price,number,price,supplier,remarks,examiner,reason,return_time,borrowing,manager}=this.fDdataForm
-				if(reason === '本厂使用' && examiner && remarks && supplier || reason === '外销' && unit && number && unit_price && manager && remarks ||reason === '外厂借用' && return_time && borrowing && manager && examiner && remarks){
+				if(reason === '本厂使用' && examiner && remarks && supplier&&number || reason === '外销' && unit && number && unit_price && manager && remarks ||reason === '外厂借用' && return_time && borrowing && manager && examiner && remarks){
 					return true
 				}
 			},
@@ -352,7 +358,7 @@
 			color: #343434;
 		}
 		input{
-			width: 92rpx;
+			width: 102rpx;
 			height: 40rpx;
 			margin: auto 14rpx auto 0;
 			line-height: 40rpx;

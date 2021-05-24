@@ -69,7 +69,7 @@
 			},
 			onNavigationBarButtonTap(){
 				uni.navigateTo({
-					url: '/sub/foods_warehousing/foods_warehousing?query='+ JSON.stringify(this.queryData)
+					url: '/sub/foods_warehousing/foods_warehousing?query='+ JSON.stringify(this.recordDetail)
 				});
 			},
 			getIntoData(){
@@ -77,6 +77,7 @@
 				.then((res) => {
 						console.log(res)
 						this.recordDetail=res.data
+						this.recordDetail.grain_id=this.queryData.grain_id
 						// if(res.code == 200){
 						// 	uni.showToast({
 						// 		title:'提交成功',
@@ -98,6 +99,9 @@
 			this.queryData=JSON.parse(query)
 		},
 		created() {
+			
+		},
+		onShow() {
 			this.getIntoData()
 		}
 	}

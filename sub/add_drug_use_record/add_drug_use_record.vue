@@ -276,13 +276,13 @@
 			},
 			
 			symptomValue({detail:{value}}){
-				this.dataForm.symptom=value
+				this.dataForm.symptom=value.trim()
 			},
 			numberChange({detail:{value}}){
 				this.dataForm.number=value
 			},
 			drugDayChange({detail:{value}}){
-				this.dataForm.day=value
+				this.dataForm.day=value.trim()
 			},
 			dosageChange({detail:{value}}){
 				this.dataForm.dosage=value

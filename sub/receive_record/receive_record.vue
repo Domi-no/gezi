@@ -291,7 +291,7 @@
 		display: flex;
 		line-height: 88rpx;
 		input{
-			width: 83rpx;
+			width: 140rpx;
 			margin: auto 16rpx auto 0;
 			font-size: 28rpx;
 			font-weight: 500;

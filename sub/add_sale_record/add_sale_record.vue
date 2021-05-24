@@ -244,7 +244,7 @@
 				this.saleForm.unit=value
 			},
 			numberChange({detail:{value}}){
-				this.saleForm.number=value
+				this.saleForm.number=parseInt(value.trim())
 			},
 			remarksChange({detail:{value}}){
 				this.saleForm.remarks=value
@@ -343,7 +343,7 @@
 			},
 			fWmoney(){
 				let {number,unit_price}=this.saleForm
-				return number&&unit_price? number*unit_price : 0
+				return number&&unit_price? (number * unit_price).toFixed(2) : 0
 			},
 			...mapState({
 				userInfo: (state) => state.user.userInfo

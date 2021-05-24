@@ -220,10 +220,11 @@
 				this.outFormData.unit = value
 			},
 			numberChange({detail:{value}}){
+				console.log(value)
 				this.outFormData.number = parseInt(value.trim())
 			},
 			unit_priceChange({detail:{value}}){
-				this.outFormData.unit_price =parseInt(value.trim())
+				this.outFormData.unit_price =value.trim()
 			},
 			productionChange({detail:{value}}){
 				this.outFormData.production =value
@@ -322,14 +323,14 @@
 			},
 			
 			isDDsub(){
-				let {out_reason,production,batch_number,unit,unit_price,number,supplier,approved,suppman}=this.outFormData
-				if(out_reason === '本厂使用' && production && batch_number && unit && unit_price && number && this.price && supplier && approved && suppman || out_reason === '外销' &&  production && batch_number && unit && unit_price && number && this.price && approved){
+				let {out_reason,production,batch_number,unit,unit_price,number,supplier,approved,suppman,remarks}=this.outFormData
+				if(out_reason === '本厂使用' && production && batch_number && unit && unit_price && number && this.price && supplier && approved && suppman&&remarks || out_reason === '外销' &&  production && batch_number && unit && unit_price && number && this.price && approved&&remarks){
 					return true
 				}
 			},
 			price(){
 				const {number,unit_price}=this.outFormData
-				return number&&unit_price? number * unit_price : 0
+				return number&&unit_price? (number * unit_price).toFixed(2) : 0
 			},
 			...mapState({
 				userInfo: (state) => state.user.userInfo
