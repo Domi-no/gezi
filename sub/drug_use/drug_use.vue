@@ -97,36 +97,29 @@
 				drugUseForm:{
 					time_y:'',
 					time_m:''
-				}
+				},
+				backDay:'',
 			}
 		},
 		methods: {
 			change(e) {
 				this.dayList=[]
+				this.backDay= e
 				console.log(e.date)
-				// console.log(this.drugUseList)
-				
 				this.today=e.date
 				if(this.drugUseList){
 					Object.keys(this.drugUseList).forEach((value, index)=>{
-						// console.log(value, index,this.drugUseList[value]);
-						
 						if(value == this.today){
-							
 							this.dayList.push(this.drugUseList[value])
-							
 						}
-						// console.log(this.dayList[0])
 					});
 				}
 			},
 			monthChange(e){
-				console.log(e)
 				this.drugUseForm.time_m=e
 				this.getDrugUse()
 			},
 			yearChange(e){
-				console.log(e)
 				this.drugUseForm.time_y=e
 				console.log(this.drugUseForm)
 				this.getDrugUse()
@@ -155,24 +148,18 @@
 
 			},
 			getDrugUse() {
-			console.log(2)
 				this.$http.post('/Work/Record.html', {uid: this.userInfo.id,...this.drugUseForm})
 				.then((res) => {
 						this.time=[]
 						this.dayList=[]
 						this.vaccineUseData=''
 						this.drugUseList=res.data.day
-						console.log(this.drugUseList)
-						
 						Object.keys(this.drugUseList).forEach((value, index)=>{
-							console.log(value, index,this.drugUseList[value]);
 							this.time.push(this.drugUseList[value][0].usage_time)
 							if(value == this.today){
 								this.dayList=[]
 								this.dayList.push(this.drugUseList[value])
 							}
-							console.log(this.dayList)
-							console.log(this.time)
 						});
 
 
@@ -189,9 +176,6 @@
 				 this.drugUseForm.time_m = M < 10?  '0'+ M : M
 				 this.drugUseForm.time_y=Y
 				 this.today=D
-				 console.log(this.today)
-				 console.log(D)
-				 console.log(this.drugUseList)
 				
 			}
 		},
@@ -202,7 +186,7 @@
 			
 		},
 		created() {
-			this.getToday()
+			// this.getToday()
 			// this.getDrugUse()
 			console.log(this.dayList)
 			
@@ -210,6 +194,8 @@
 		onShow() {
 			this.getToday()
 			this.getDrugUse()
+			this.change(this.backDay)
+			// console.log(this.dayList)
 		}
 		
 	}

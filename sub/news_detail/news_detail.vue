@@ -82,6 +82,9 @@
 		font-weight: 500;
 		color: #343434;
 		line-height: 44rpx;
+		image{
+			
+		}
 	}
 	.news_detail_image{
 		width: 690rpx;
@@ -90,7 +93,7 @@
 		image{
 			width: 690rpx;
 			height: 388rpx;
-			background-color: #fac;
+			// background-color: #fac;
 		}
 	}
 }

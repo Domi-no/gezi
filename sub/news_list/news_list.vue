@@ -98,7 +98,7 @@
 					height: 136rpx;
 					border-radius: 10rpx;
 					overflow: hidden;
-					background-color: #afc;
+					// background-color: #afc;
 				}
 			}
 			.newsListContentBox{

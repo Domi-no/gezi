@@ -180,7 +180,7 @@
 				.then((res) => {
 						// console.log(res)
 						this.clockInfo=res.data
-
+						alert(res)
 					}).catch((err) => {
 						
 					})
@@ -217,6 +217,7 @@
 		},
 		created() {	
 			this.getLocation(this.getClockInfoData)
+			// this.getClockData()
 		},
 		onUnload(){
 			console.log('unload')

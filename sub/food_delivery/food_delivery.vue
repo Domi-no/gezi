@@ -208,27 +208,27 @@
 				this.fDdataForm.unit_price = parseInt(value.trim())
 			},
 			supplierChange({detail:{value}}){
-				this.fDdataForm.supplier = parseInt(value.trim())
+				this.fDdataForm.supplier = value.trim()
 			},
 			examinerChange({detail:{value}}){
-				this.fDdataForm.examiner = parseInt(value.trim())
+				this.fDdataForm.examiner = value.trim()
 			},
 			remarksChange({detail:{value}}){
-				this.fDdataForm.remarks = parseInt(value.trim())
+				this.fDdataForm.remarks = value.trim()
 			},
 			// 
 			managerChange({detail:{value}}){
-				this.fDdataForm.manager = parseInt(value.trim())
+				this.fDdataForm.manager = value.trim()
 			},
 			borrowingChange({detail:{value}}){
-				this.fDdataForm.borrowing = parseInt(value.trim())
+				this.fDdataForm.borrowing = value.trim()
 			},
 			return_timeChange({detail:{value}}){
-				this.fDdataForm.return_time = parseInt(value.trim())
+				this.fDdataForm.return_time = value.trim()
 			},
 			
 			placeChange({detail:{value}}){
-				this.fDdataForm.place = parseInt(value.trim())
+				this.fDdataForm.place = value.trim()
 			},
 			onCancel(){
 				console.log(this)

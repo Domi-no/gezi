@@ -4,7 +4,7 @@
 			<view class="info_box">
 				<view class="info_left">
 					<view class="info_imageBox">
-						<!-- <image :src="userInfo.avatar" mode=""></image> -->
+						<image :src="userInfo.avatar" mode=""></image>
 					</view>
 					<view class="info_nameBox" @click="log">
 						<view class="name">

@@ -107,25 +107,22 @@
 				vaccineUseData:'',
 				vaccineList:'',
 				today:'',
-				dayList:[]
+				dayList:[],
+				backDay:'',
 			}
 		},
 		methods: {
-			change(e){
-			     
+			change(e){  
 			  	this.dayList=[]
-				
+				this.backDay=e
 			  	console.log(this.time)
 			  	console.log(this.vaccineUseData)
 			  	this.today=e.date
 				if(this.vaccineUseData){
 					Object.keys(this.vaccineUseData).forEach((value, index)=>{
 						// console.log(value, index,this.drugUseList[value]);
-						
-						if(value == this.today){
-							
-							this.dayList.push(this.vaccineUseData[value])
-							
+						if(value == this.today){	
+							this.dayList.push(this.vaccineUseData[value])	
 						}
 						console.log(this.dayList)
 					});
@@ -216,6 +213,7 @@
 		onShow() {
 			this.getToday()
 			this.getVYCData()
+			this.change(this.backDay)
 		}
 	}
 </script>

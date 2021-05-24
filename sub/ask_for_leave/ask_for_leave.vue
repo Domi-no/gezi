@@ -141,7 +141,11 @@
 							title: res.message,
 							icon: 'none'
 						})
-						
+						setTimeout(()=>{
+							uni.navigateBack({
+							    delta: 1
+							});
+						},1000)
 						
 					}).catch((err)=>{
 						console.log(err)

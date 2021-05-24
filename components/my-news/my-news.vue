@@ -85,7 +85,7 @@
 				width: 240rpx;
 				height: 136rpx;
 				border-radius: 10rpx;
-				background-color: #fac;
+				// background-color: #fac;
 
 			}
 		}
