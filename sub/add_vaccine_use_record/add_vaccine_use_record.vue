@@ -259,13 +259,11 @@
 				this.remarks =value
 			},
 			onCancel(){
-				console.log(this)
 			},
 			onConfirm(e){
 				this.reasonValue=e.result
 				
 			},
-			
 			
 			cSubBtn(){
 				if(!this.isdWsub){
@@ -275,7 +273,6 @@
 				const {drugs_id,vaccineHouseId,today,charge,breeder,approval,remarks,personnel,vaccineMeterage,method,vaccineNumber,vaccineUseReason,vaccineUseTime,queryData,feedback}=this.addVaccineData
 				this.$http.post('/Vaccin/upRecord.html', {uid: this.userInfo.id,vaccin_id:this.queryData.vaccin_id||'',record_time:today,block_id:vaccineHouseId,symptom:vaccineUseReason,number:vaccineNumber,usage_time:vaccineUseTime,approval,charge,remarks,personnel,breeder,method,drugs_id,approval,dosage:vaccineMeterage,vaccin_id:this.queryData.vaccin_id,feedback})
 				.then((res) => {
-						console.log(res)
 						if(res.code == 200){
 							uni.showToast({
 								title: '提交成功',
@@ -326,13 +323,9 @@
 			getFixBoxData(){
 				this.$http.post('/Work/FactoryBlock.html', {uid: this.userInfo.id})
 				.then((res) => {
-						console.log(res)
-						
 						Object.keys(res.data).forEach((value, index)=>{
-							console.log(value, index,res.data[value]);
 							this.vaccineHouse.push({name:value,children:res.data[value]})
 						});
-						console.log(this.vaccineHouse)
 					}).catch((err) => {
 						
 					})
@@ -340,104 +333,69 @@
 			getVaccineData(){
 				this.$http.post('/Vaccin/define.html',{uid:this.userInfo.id})
 				.then((res)=>{
-					console.log(res)
 					this.vaccineData =res.data
 					Object.keys(this.vaccineData).forEach((value, index)=>{
-						console.log(value, index,this.vaccineData[value]);
 						this.vaccineNameList.push(value)
-						console.log(this.vaccineNameList)
 					});
 				}).catch((err)=>{
 					// console.log(err)
 				})
 			},
 			warehouseValue(e){
-				console.log(e.item[1])
 				this.vaccineHouseValue=e.item[1].name
 				this.addVaccineData.vaccineHouseId=e.item[1].id
 			},
 			vaccineBatchNumberChange(e){
-				console.log(e)
 				this.vaccineBatchValue=e.value
-				console.log(this.vccinebatchNumberList)
 				Object.keys(this.vccinebatchNumberList).forEach((value, index)=>{
-					console.log(value, index,this.vccinebatchNumberList[value]);
-					
 					if(e.value === value){
 						this.addVaccineData.drugs_id=this.vccinebatchNumberList[value].drugs_id
-						console.log(this.drugs_id)
 					}
 				});
 			},
 			vaccineNameChange(e){
-				console.log(e)
 				this.vaccineValue=e.value
 				Object.keys(this.vaccineData).forEach((value, index)=>{
-					console.log(value, index,this.vaccineData[value]);
-					
 					if(e.value === value){
 						this.vaccineFactoryList=this.vaccineData[value]
-						console.log(this.vaccineFactoryList)
 					}
 				});
 				this.vaccineFactoryData=[]
 				Object.keys(this.vaccineFactoryList).forEach((value, index)=>{
-					console.log(value, index,this.vaccineFactoryList[value]);
-					
 					this.vaccineFactoryData.push(value)
-					console.log(this.vaccineFactoryData)
 				});
 			},
 			vaccineFactoryChange(e){
-				console.log(e)
 				this.vaccineFactoryName=e.value
-				console.log(this.vaccineFactoryList)
 				Object.keys(this.vaccineFactoryList).forEach((value, index)=>{
-					console.log(value, index,this.vaccineFactoryList[value]);
 					if(e.value === value){
 						this.vaccineTimeList=this.vaccineFactoryList[value]
-						console.log(this.vaccineTimeList)
 					}
 				});
 				this.vaccineTimeData=[]
 				Object.keys(this.vaccineTimeList).forEach((value, index)=>{
-					console.log(value, index,this.vaccineTimeList[value]);
-					
 					this.vaccineTimeData.push(value)
-					
-					console.log(this.vaccineTimeData)
 				});
 			},
 			vaccineTimeChange(e){
-				console.log(e)
 				this.vaccineTimeValue=e.value
-				console.log(this.vaccineFactoryList)
 				Object.keys(this.vaccineTimeList).forEach((value, index)=>{
-					console.log(value, index,this.vaccineTimeList[value]);
 					if(e.value === value){
 						this.vccinebatchNumberList=this.vaccineTimeList[value]
-						console.log(this.vccinebatchNumberList)
 					}
 				});
 				this.vaccinebatchNumberData=[]
 				Object.keys(this.vccinebatchNumberList).forEach((value, index)=>{
-					console.log(value, index,this.vccinebatchNumberList[value]);
-					
 					this.vaccinebatchNumberData.push(value)
-					
-					console.log(this.vaccinebatchNumberData)
 				});
 			},
 			vaccine_useTimeChange(e){
-				console.log(e)
 				this.addVaccineData.vaccineUseTime=e.value
 			},
 			vaccineUseReasonChange({detail:{value}}){
-				console.log(value)
 				this.addVaccineData.vaccineUseReason=value
 			},
 			vaccineNumberChange({detail:{value}}){
-				console.log(value)
 				this.addVaccineData.vaccineNumber=parseInt(value.trim())
 			},
 			methodChange({detail:{value}}){
@@ -465,10 +423,8 @@
 				this.addVaccineData.feedback=value
 			},
 			getVaccineUseDetail(){
-				console.log(this.query)
 				this.$http.post('/Vaccin/RecordMe.html', {uid: this.userInfo.id,vaccin_id:this.queryData.vaccin_id})
-				.then((res) => {
-	 				
+				.then((res) => {	 				
 						this.vaccineDetailData=res.data[0]
 						this.today=res.data[0].record_time
 						this.addVaccineData.vaccineHouseId=res.data[0].block_id
@@ -483,13 +439,12 @@
 						this.addVaccineData.method=res.data[0].method
 						this.addVaccineData.drugs_id=res.data[0].druge_id
 						this.addVaccineData.approval=res.data[0].approval
-						this.addVaccineData.vaccineMeterage = res.data[0].dosage
-						console.log(this.addVaccineData.vaccineMeterage)
+						this.addVaccineData.vaccineMeterage = res.data[0].dosage						
 						this.addVaccineData.feedback=res.data[0].feedback
 						this.vaccineBatchValue=res.data[0].batch_number
 						this.vaccineFactoryName=res.data[0].production
 						this.vaccineValue=res.data[0].drugs_name
-				console.log(this.vaccineDetailData)
+				
 					}).catch((err) => {
 						
 					})
@@ -511,40 +466,25 @@
 			}),
 		},
 		
-		created() {
-			
-			
-			// if(this.queryData.vaccin_id){
-			// 	this.getVaccineUseDetail()
-			// }else{
-				
-				
-			// }
+		created() {			
 			this.getToday()
 			this.getFixBoxData()
 			this.getVaccineData()
 		},
 		onShow() {
 			this.getToday()
-			
 			if(this.queryData.vaccin_id){
 				this.getVaccineUseDetail()
 			}else{
-				
-				
+					
 			}
-			console.log(this.today)
 		},
 		onLoad({query}) {
 			if(query){
 				this.queryData = JSON.parse(query)
 				JSON.parse(query).feedback? this.isFeedBack = JSON.parse(query).feedback : ''
-				
 				this.vaccineHouseValue=this.queryData.name
-				console.log(this.queryData)
 			}
-			
-			
 		}
 	}
 </script>

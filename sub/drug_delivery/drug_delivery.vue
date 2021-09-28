@@ -185,8 +185,6 @@
 		methods: {
 			out_reasonShow(e){
 				this.$refs.reason.show()
-				
-			 console.log(e)
 			},
 			manufacturerPopupShow(){
 				if(this.whetherSelect){
@@ -201,8 +199,6 @@
 				this.$refs.batchNumber.show()
 			},
 			out_reasonChange(e){
-				
-				console.log(e)
 				this.outFormData.out_reason=e.item.name
 				this.whetherSelect=false
 				
@@ -210,17 +206,17 @@
 			manufacturerChange(e){
 				this.batchNumberList=e.item.children
 				this.outFormData.production=e.item.name
-				console.log(this.batchNumberList)
+			
 			},
 			batchNumberChange(e){
-				console.log(e.value)
+			
 				this.outFormData.batch_number=e.value
 			},
 			unitChange({detail:{value}}){
 				this.outFormData.unit = value
 			},
 			numberChange({detail:{value}}){
-				console.log(value)
+				
 				this.outFormData.number = parseInt(value.trim())
 			},
 			unit_priceChange({detail:{value}}){
@@ -245,7 +241,7 @@
 				this.outFormData.remarks=value
 			},
 			onCancel(){
-				console.log(this)
+				
 			},
 			
 			cSubBtn(){
@@ -292,9 +288,9 @@
 			getDrugDeliveryReasonData(){
 				this.$http.post('/Vaccin/cause.html')
 				.then((res) => {
-						console.log(res)
+						
 						res.data.forEach((item,index)=>{
-							console.log(item)
+							
 							this.reasonOptions.push({name:item,id:index})
 						})
 						console.log(this.reasonOptions)
@@ -306,12 +302,12 @@
 				this.manufacturerList=[]
 				this.$http.post('/Vaccin/drugsInfo.html',{uid:this.userInfo.id,drugs_name:this.queryData.drugs_name})
 				.then((res) => {
-						console.log(res)
+					
 						Object.keys(res.data).forEach((val, ind)=>{
-						     console.log(val,ind,res.data[val])
+						    
 							 this.manufacturerList.push({name:val,children:res.data[val].batch_number})
 						});
-						console.log(this.manufacturerList)
+						
 					}).catch((err) => {
 						
 					})

@@ -236,25 +236,25 @@
 
 		methods: {
 			getIndex(e) {
-				console.log(e)
+				
 			},
 			tap(e) {
-				console.log(e)
+				
 			},
 			currentTime(id, name) {
 				this.currentId = id
 				this.currentName = name
 			},
 			pRtime(e) {
-				console.log(e.value)
+				
 				this.sta_time = e.value
 			},
 			pEtime(e) {
-				console.log(e.value)
+				
 				this.end_time = e.value
 			},
 			pRWarehouseChange(e) {
-				console.log(e)
+				
 				this.blockName = e.item.name
 				this.block_id = e.item.id
 			},
@@ -349,8 +349,7 @@
 					},
 					success: (res) => {
 						if (res.statusCode === 200) {
-							console.log(res.tempFilePath) // 保存后的地址
-							console.log('下载成功');
+							
 							const tempFIlePath =res.tempFilePath
 						
 							uni.openDocument({
@@ -395,7 +394,7 @@
 
 					})
 					.then((res) => {
-						console.log(res)
+						
 						const obj = {
 							all: res.data['鸽蛋'].all,
 							sum: res.data['鸽蛋'].sum,
@@ -436,7 +435,7 @@
 							}]
 						}
 
-						console.log(this.chartData, this.rgColumn, this.tgColumn, this.stColumn)
+						
 					}).catch((err) => {
 						console.log(err)
 					})
@@ -449,17 +448,17 @@
 				let staY = 0
 				if (M > 6) {
 					staM = M - 6
+					staY = Y
 				} else {
 					staM = M + 12 - 6
 					staY = Y - 1
 				}
-				console.log(staM)
+				console.log(staY)
 				let D = Dates.getDate();
-				let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
-				let sTimes = staY + (staM < 10 ? "-0" : "-") + staM + (D < 10 ? "-0" : "-") + D;
+				this.end_time = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				this.sta_time = staY + (staM < 10 ? "-0" : "-") + staM + (D < 10 ? "-0" : "-") + D;
 				// this.drugUseForm.time_m = M < 10?  '0'+ M : M
-				this.end_time = times
-				this.sta_time = sTimes
+				
 
 			},
 			getAllBlock() {
@@ -674,7 +673,7 @@
 				}
 
 				.start {
-					font-size: 24rpx;
+					// font-size: 24rpx;
 					color: #151515;
 
 				}

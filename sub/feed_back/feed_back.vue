@@ -7,15 +7,18 @@
 			<view class="problemDescription">
 				问题/意见描述 <image class="starImg" src="../../static/my/star.png" mode=""></image>
 			</view>
-			<textarea :value="formData.describe" @input="inputQuestion" placeholder="请输入问题/意见描述" placeholder-style="tPStyle" />
+			<textarea :value="formData.describe" @input="inputQuestion" placeholder="请输入问题/意见描述"
+				placeholder-style="tPStyle" />
 		</view>
 		<view class="feedBackPic">
 			<view class="feedBackPicTitle">
 				反馈截图
 			</view>
 			<view class="feedBackPicContainer">
-				
-				<sunui-upimg @change="getImageInfo"   :url="'https://jx.onlylove.top/CageData/addImg.html'"  @showTip="showTip" :header="formData" :upload_auto="false" ref="upimg"></sunui-upimg>
+
+				<sunui-upimg @change="getImageInfo" @getSrc="getSrc"
+					:url="'https://jx.onlylove.top/CageData/addImg.html'" @showTip="showTip" :header="formData"
+					:upload_auto="false" ref="upimg"></sunui-upimg>
 			</view>
 			<!-- <easy-upload
 			   :dataList="dataList"
@@ -26,130 +29,159 @@
 			      @successImage="successImage" 
 				:formData="formData"
 			   >132</easy-upload> -->
-		</view>		
-		
+		</view>
+
 		<view :class="{feedBackSubmit:true,submitBg:formData.describe}" @click="fbSubmit">
 			提交
 		</view>
-		
-	</view>	
+
+	</view>
 </template>
 
 <script>
-	
-	 import easyUpload from '@/components/easy-upload/easy-upload.vue';
+	// import easyUpload from '@/components/easy-upload/easy-upload.vue';
 	import {
 		mapState
 	} from 'vuex'
-	
+
 	var _self;
-		import sunUiUpimg from '@/components/sunui-upimg/sunui-upimg.vue';
+	import sunUiUpimg from '@/components/sunui-upimg/sunui-upimg.vue';
 	export default {
-		components:{
-			easyUpload,
-			sunuiUpimg:sunUiUpimg,
-			
+		components: {
+			// easyUpload,
+			sunuiUpimg: sunUiUpimg,
+
 		},
-		data(){
+		data() {
 			return {
 				auto: false,
-				question:'',
-				time:'',
-				formData:{
-					feedback_time:'',
-					describe:'',
-					uid:'',
-					token:''
-					
+				question: '',
+				time: '',
+				formData: {
+					feedback_time: '',
+					describe: '',
+					uid: '',
+					token: ''
+
 				},
-				 dataList: [],
+				dataList: [],
 				types: 'image',
-					src1: '', // 提交到后台的图片信息
-						src: '', // 用来在前端展示的图片，如上面图片中显示的一样
-						isSub:false,
-				
-				            
-				
+				src1: '', // 提交到后台的图片信息
+				src: '', // 用来在前端展示的图片，如上面图片中显示的一样
+				isSub: false,
+
+
+
 			}
 		},
-		
+
 		methods: {
-			inputQuestion(e){
-				this.formData.describe = e.detail.value.trim()
-				
+			getSrc(e) {
+				this.src = e[0]
+				console.log(this.src)
 			},
-			successImage(e){
+			inputQuestion(e) {
+				this.formData.describe = e.detail.value.trim()
+			},
+			successImage(e) {
 				console.log(e)
 			},
 			getImageInfo(e) {
-				
-				console.log('返回图片信息：',e);
+
+				console.log('返回图片信息：', e);
 			},
-			getToday(){
+			getToday() {
 				let Dates = new Date();
-				 let Y = Dates.getFullYear();
-				 let M = Dates.getMonth() + 1;
-				 let D = Dates.getDate();
-				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
-				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
-				this.formData.feedback_time=times
-				
+				let Y = Dates.getFullYear();
+				let M = Dates.getMonth() + 1;
+				let D = Dates.getDate();
+				let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				// this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				this.formData.feedback_time = times
+
 			},
-			
-			fbSubmit(){
-				if(!this.formData.describe){
+
+			fbSubmit() {
+				if (!this.formData.describe) {
 					uni.showToast({
 						title: '请填写反馈内容',
 						icon: 'none'
 					})
 					return false
+				} else if (!this.src) {
+					// console.log(this.src)
+					this.submit()
+				}else{
+					this.$refs.upimg.upload(true)
 				}
-				console.log(1)
 				
-				console.log(this.isSub)
-				this.$refs.upimg.upload(true)
+
 			},
-			showTip(res){
+			showTip(res) {
 				console.log(JSON.parse(res.data))
-				if(JSON.parse(res.data).code == 200){
+				if (JSON.parse(res.data).code == 200) {
 					uni.showToast({
 						title: '反馈成功',
 						icon: 'none'
 					})
-					setTimeout(()=>{
+					setTimeout(() => {
 						uni.navigateBack({
-						    delta: 1
+							delta: 1
 						});
-					},1000)
+					}, 1000)
 				}
-				
+
 			},
-			
-			
+			submit() {
+				this.$http.post('/CageData/addImg.html', this.formData)
+					.then((res) => {
+						if (res.code == 200) {
+							uni.showToast({
+								title: '反馈成功',
+								icon: 'none'
+							})
+							setTimeout(() => {
+								uni.navigateBack({
+									delta: 1
+								});
+							}, 1000)
+						} else {
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+						}
+
+					}).catch((err) => {
+						console.log(err)
+					})
+			}
+
+
 		},
-		computed:{
+		computed: {
 			...mapState({
 				userInfo: (state) => state.user.userInfo
 			}),
-			
-			
+
+
 		},
 		created() {
-			this.getToday()	
-			this.formData.uid=this.userInfo.id
-			this.formData.token=this.userInfo.token
-			console.log(this.formData)
-			
+			this.getToday()
+			this.formData.uid = this.userInfo.id
+			this.formData.token = this.userInfo.token
+
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.feedBackContainer{
+	.feedBackContainer {
 		height: calc(100vh);
 		background-color: #F4F6FA;
 		padding-top: 20rpx;
-		.feedBackTime{
+
+		.feedBackTime {
 			width: 100%;
 			height: 88rpx;
 			line-height: 88rpx;
@@ -161,65 +193,74 @@
 			display: flex;
 			justify-content: space-between;
 		}
-		.feedBackContent{
+
+		.feedBackContent {
 			margin-top: 2rpx;
 			background-color: #fff;
 			height: 420rpx;
 			padding: 26rpx 30rpx 0;
-			.problemDescription{
-				
-				.starImg{
+
+			.problemDescription {
+
+				.starImg {
 					width: 12rpx;
 					height: 12rpx;
 					position: relative;
 					top: -8rpx;
 					right: -10rpx;
-					
+
 				}
 			}
-			textarea{
+
+			textarea {
 				height: 260rpx;
 				width: calc(100% - 30rpx);
 				border: 1rpx solid #D1D2D3;
 				margin-top: 16rpx;
 				padding: 18rpx 15rpx;
 			}
-			.tPStyle{
+
+			.tPStyle {
 				font-size: 28px;
 				font-weight: 500;
 				color: #979797;
 			}
-			
+
 		}
-		.feedBackPic{
+
+		.feedBackPic {
 			// height: 260rpx;
 			width: 100%;
 			background: #FFFFFF;
 			margin-top: 20rpx;
-			padding:30rpx ;
-			.feedBackPicTitle{
+			padding: 30rpx;
+
+			.feedBackPicTitle {
 				font-size: 30rpx;
 				font-family: PingFang SC;
 				font-weight: 500;
 				color: #151515;
 			}
-				
-			.feedBackPicContainer{
+
+			.feedBackPicContainer {
 				margin-top: 15rpx;
-				.feedBackPicBox{
+
+				.feedBackPicBox {
 					width: 140rpx;
 					height: 140rpx;
 					border: 1rpx solid #D1D2D3;
 					position: relative;
 					margin-left: 30rpx;
-					.cancelPic{
+
+					.cancelPic {
 						width: 32rpx;
 						height: 32rpx;
 						position: absolute;
 						top: 0;
-						right:0;
+						right: 0;
 					}
-					.heng{
+
+					.heng {
 						position: relative;
 						top: 51%;
 						left: 50%;
@@ -228,7 +269,8 @@
 						height: 1rpx;
 						border: 1rpx solid #D1D2D3;
 					}
-					.shu{
+
+					.shu {
 						position: relative;
 						top: 50%;
 						left: 48%;
@@ -238,14 +280,15 @@
 						border: 1rpx solid #D1D2D3;
 					}
 				}
-					
-				.feedBackPicBox:nth-child(1){
+
+				.feedBackPicBox:nth-child(1) {
 					margin-left: 0;
 				}
 			}
-			
+
 		}
-		.feedBackSubmit{
+
+		.feedBackSubmit {
 			width: 670rpx;
 			height: 88rpx;
 			background: #D1D2D3;
@@ -257,9 +300,9 @@
 			line-height: 88rpx;
 			margin: 110rpx auto 0;
 		}
-		.submitBg{
+
+		.submitBg {
 			background-color: #377BE4;
 		}
 	}
-
 </style>

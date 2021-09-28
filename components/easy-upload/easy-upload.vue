@@ -201,7 +201,6 @@
 						"content-type": "application/x-www-form-urlencoded",
 						token: this.userInfo.token
 					},
-					
 					success: (uploadFileRes) => {
 						this.$emit('successImage',uploadFileRes)
 					}

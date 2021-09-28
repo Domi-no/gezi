@@ -122,7 +122,7 @@
 				
 			},
 			changeTime(idx,item){
-				console.log(item.timeSlot,this.saleData)
+				
 				this.cRLTime = idx
 				this.saleData.TimeSlot=item.timeSlot
 				this.getSaleData()
@@ -133,7 +133,7 @@
 			rLNameChange(idx,item){
 				item.name === '鸽仓排行' ? this.isWh=true : this.isWh =false
 				this.isShowRLN = false
-				console.log(item.rankText)
+				
 				this.cRankListNameId = idx
 				this.rankName=item.name
 				this.saleData.RankText =item.rankText
@@ -149,7 +149,7 @@
 				})
 			},
 			next(){
-				console.log(1)
+				
 				this.$nextTick(function(){
 					console.log('next')
 				
@@ -158,7 +158,7 @@
 			getHomeNews(){
 				this.$http.post('/Rank/news.html',{News:'homeNews'})
 				.then((res)=>{
-					console.log(res)
+					
 					this.homeNewsList =res.data
 					// uni.showToast({
 					// 	title: 'message',
@@ -172,7 +172,7 @@
 			getHomeSale(){
 				this.$http.post('/Rank/home.html',{uid:this.userInfo.id,...this.saleData})
 				.then((res)=>{
-					console.log(res)
+					
 					this.homeBannerList =res.data.banner
 					this.homeNewsList =res.data.news
 					this.homeSaleList=res.data.sale.data
@@ -184,7 +184,7 @@
 			getSaleData(){
 				this.$http.post('/Rank/sale.html',{...this.saleData})
 				.then((res)=>{
-					console.log(res)
+					
 					this.homeSaleList=res.data.data
 				}).catch((err)=>{
 					console.log(err)
@@ -201,8 +201,7 @@
 		created() {
 			this.next()
 			this.getHomeSale()
-			console.log(this.userInfo.token)
-			console.log(this.isShowRLN)
+			
 			
 		}
 	}

@@ -1,13 +1,18 @@
 {
-    "name" : "鸽子",
+    "name" : "智慧养鸽",
     "appid" : "__UNI__B512BA6",
     "description" : "",
     "versionName" : "1.0.0",
     "versionCode" : "100",
     "transformPx" : false,
     "app-plus" : {
+        "compatible" : {
+            "ignoreVersion" : true
+        },
         /* 5+App特有相关 */
-        "modules" : {},
+        "modules" : {
+            "Geolocation" : {}
+        },
         /* 模块配置 */
         "distribute" : {
             /* 应用发布信息 */
@@ -38,7 +43,14 @@
             "ios" : {},
             /* ios打包配置 */
             "sdkConfigs" : {
-                "ad" : {}
+                "ad" : {},
+                "geolocation" : {
+                    "baidu" : {
+                        "__platform__" : [ "ios", "android" ],
+                        "appkey_ios" : "207d3704a8f1e582dc7f130ec78dd2b5",
+                        "appkey_android" : "0a6e59a20537553d593ab033f761732d"
+                    }
+                }
             },
             "icons" : {
                 "android" : {
@@ -73,14 +85,19 @@
                 }
             },
             "splashscreen" : {
-                "iosStyle" : "common",
+                "iosStyle" : "storyboard",
                 "androidStyle" : "default",
                 "android" : {
-                    "hdpi" : "C:/Users/windows10/Desktop/qdy.png",
-                    "xhdpi" : "C:/Users/windows10/Desktop/qdy.png",
-                    "xxhdpi" : "C:/Users/windows10/Desktop/qdy.png"
-                }
+                    "hdpi" : "E:/startupDiagramAndIcon/dove480.9.png",
+                    "xhdpi" : "E:/startupDiagramAndIcon/dove720.9.png",
+                    "xxhdpi" : "E:/startupDiagramAndIcon/dove1080.9.png"
+                },
+                "useOriginalMsgbox" : true
             }
+        },
+        "splashscreen" : {
+            "waiting" : false,
+            "alwaysShowBeforeRender" : true
         }
     },
     /* SDK配置 */

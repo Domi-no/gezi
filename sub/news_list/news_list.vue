@@ -104,6 +104,7 @@
 			.newsListContentBox{
 				width: 417rpx;
 				
+				
 				.newsListTitle{
 					line-height: 1;
 					font-size: 30rpx;
@@ -114,7 +115,7 @@
 					white-space: nowrap;
 				}
 				.newsListContent{
-					
+					min-height: 70rpx;
 					font-size: 24rpx;
 					font-weight: 500;
 					color: #343434;

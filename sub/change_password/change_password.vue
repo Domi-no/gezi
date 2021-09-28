@@ -44,10 +44,10 @@
 					this.isShowT = true
 					this.isClick = false
 				}
-				console.log(e.detail.value.charAt(e.detail.value.length-1))
-				console.log(e.detail.value,e.detail.value.substr(0, e.detail.value.length - 1))
+				// console.log(e.detail.value.charAt(e.detail.value.length-1))
+				// console.log(e.detail.value,e.detail.value.substr(0, e.detail.value.length - 1))
 				this.passwordForm.password = e.detail.value
-				console.log(this.passwordForm)
+				
 			},
 			oldPasswordValue({detail:{value}}){
 				this.passwordForm.old_password =value
@@ -56,15 +56,13 @@
 				this.isClick ? console.log('确认') :''
 				this.$http.post('/Login/SetPassword.html',{...this.passwordForm,uid:this.userInfo.id,})
 				.then((res)=>{
-					console.log(res)
+					
 					uni.showToast({
 						title: res.message,
 						icon: 'none'
 					})
 					if(res.code == 200){
-						console.log(2)
-						
-						console.log(1)
+					
 						setTimeout(()=>{
 							store.dispatch("SET_USER_INFO", "");
 							uni.setStorageSync("timUserSign", "");

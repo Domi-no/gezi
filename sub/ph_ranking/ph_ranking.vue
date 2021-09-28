@@ -56,12 +56,15 @@
 		},
 		methods: {
 			changeTime(idx,item){
+				this.isLoadMore=false
 				console.log(1)
 				this.cRLTime = idx
 				this.saleData.TimeSlot=item.timeSlot
 				this.saleRankList=[]
 				this.saleData.page = 1
+				this.loadStatus='loading'
 				this.getSaleData()
+				 
 			}
 			,showRankListName(){
 				this.isShowRLN = !this.isShowRLN
@@ -73,6 +76,9 @@
 				this.saleData.RankText =item.rankText
 				this.isShowRLN=false
 				this.saleRankList=[]
+				this.saleData.page = 1
+				this.loadStatus='loading'
+				this.isLoadMore=false
 				this.getSaleData()
 			},
 			containerClick(){
@@ -110,9 +116,9 @@
 		onReachBottom(){  //上拉触底函数
 		  if(!this.isLoadMore){  //此处判断，上锁，防止重复请求
 		        this.isLoadMore=true
-				console.log(this.saleData.page,'PAGE1')
+				
 		        this.saleData.page += 1
-				console.log(this.saleData.page,'PAGE')
+				
 		        this.getSaleData()
 		  }
 		},

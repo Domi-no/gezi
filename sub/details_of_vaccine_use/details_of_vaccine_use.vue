@@ -71,7 +71,7 @@
 			<view class="">
 				备注
 			</view>
-			<textarea   disabled="true" :value="vaccineDetailData.feedback"  placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
+			<textarea   disabled="true" :value="vaccineDetailData.remarks"  placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
 			<!-- #ifdef MP-WEIXIN -->
 		<view class="messageChangeBtn" @click="toChangeMessagePage">
@@ -99,10 +99,10 @@
 				});
 			},
 			getVaccineUseDetail(){
-				console.log(this.query)
+			
 				this.$http.post('/Vaccin/RecordMe.html', {uid: this.userInfo.id,vaccin_id:this.query.vaccin_id})
 				.then((res) => {
-						console.log(res)
+						
 						this.vaccineDetailData=res.data[0]
 				
 					}).catch((err) => {
@@ -115,7 +115,7 @@
 				});
 			},
 			onNavigationBarButtonTap(){
-				console.log(this.query)
+		
 				uni.navigateTo({
 					url: '/sub/add_vaccine_use_record/add_vaccine_use_record?query=' + JSON.stringify(this.query)
 				});
@@ -135,10 +135,10 @@
 			this.getVaccineUseDetail()
 		},
 		onLoad({query}) {
-			console.log(JSON.parse(query))
+		
 			this.query=JSON.parse(query),
 			this.query.feedback="已反馈"
-			console.log(query)
+		
 		}
 	}
 </script>

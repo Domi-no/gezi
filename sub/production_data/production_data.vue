@@ -16,7 +16,7 @@
 				<view class="pd_item_title"  @click="exhibitionHandler(idx,item.array)">
 					<view class="" style="display: flex">
 						<text class="pd_item_title_num">{{item.name}}</text>
-						<view class="" style="width: 185rpx;display: flex">
+						<view class="" style="width: 185rpx;display: flex;overflow: hidden;">
 							<view class="pd_item_title_syy">饲养员:</view>
 							<view class="pd_item_title_syy_mz">{{item.user_name}}</view>
 						</view>
@@ -62,7 +62,7 @@
 								<view class="pd_pigeon_bt_state_text longText">
 									<text v-if="i.alias === '种鸽'">新增</text><text v-if="i.alias === '鸽蛋'">转入孵化机</text><text v-if="i.alias === '乳鸽'">孵化机转入</text>
 								</view>
-								<text class="pd_pigeon_bt_state_num">{{ i.alias === '种鸽' ? i.added_wit :i.alias === '鸽蛋'? i.shift_to : i.hatch}}</text>
+								<text class="pd_pigeon_bt_state_num">{{ i.alias === '种鸽' ? i.addSum :i.alias === '鸽蛋'? i.shift_to : i.hatch}}</text>
 							</view>
 						</view>
 					</view>
@@ -217,7 +217,7 @@
 			height: 88rpx;
 			display: flex;
 			justify-content: space-between;
-			padding: 0 30rpx 0;
+			padding: 0 10rpx 0;
 			background-color: #fff;
 			line-height: 88rpx;
 
@@ -263,7 +263,7 @@
 			.pd_item_title {
 				height: 88rpx;
 				line-height: 88rpx;
-				padding: 0 30rpx;
+				padding: 0 10rpx;
 				border-bottom: 1rpx solid #f4f6fa;
 				display: flex;
 				justify-content: space-between;
@@ -284,6 +284,7 @@
 				}
 
 				.pd_item_title_syy_mz {
+					overflow: hidden;
 					font-size: 22rpx;
 				}
 

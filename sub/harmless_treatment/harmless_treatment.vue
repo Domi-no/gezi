@@ -169,6 +169,9 @@
 			},
 			submitForReview(){
 				const {record_time}=this
+				if(this.harmlessTreatmentData.text=="审核中"){
+					return false
+				}
 				if(this.harmlessTreatmentData.submit === '提交'||this.harmlessTreatmentData.submit === '再次提交'){
 					this.$http.post('/Sale/issue.html', {uid: this.userInfo.id,record_time})
 					.then((res) => {
@@ -361,6 +364,10 @@
 			.hTRemarks{
 				display: block;
 				margin-top: 14rpx;
+				text-overflow: ellipsis;
+				overflow: hidden;
+				
+white-space: nowrap;
 			}
 		}
 		.ht_zk{

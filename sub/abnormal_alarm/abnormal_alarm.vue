@@ -61,31 +61,36 @@
 			gitCallPoliceList(){
 				this.$http.post('/CageData/callPolice.html', {uid: this.userInfo.id})
 				.then((res) => {
+					
 					Object.keys(res.data).forEach((value, index)=>{
-						// console.log(value,res.data[value])
+						
 						this.alarmList.push({time:res.data[value].time,data:[],type:res.data[value].type})
-						Object.keys(res.data[value].data).forEach((val, ind)=>{
-							
-		
-							// console.log(val,res.data[value].data[val])
-							
-							this.alarmList[index].data.push({chName:val,chData:[]})
-							Object.keys(res.data[value].data[val]).forEach((valu, inde)=>{
-								// console.log(valu,res.data[value].data[val][valu])
-								// console.log(valu)
+						if(res.data[value].data){
+							Object.keys(res.data[value].data).forEach((val, ind)=>{
 								
+									
+								// console.log(val,res.data[value].data[val])
 								
-								this.alarmList[index].data[ind].chData.push({glName:valu,glData:res.data[value].data[val][valu]})
-								
-								
-							// console.log(3)	
-							// console.log(this.alarmList)
-							
+								this.alarmList[index].data.push({chName:val,chData:[]})
+								if(res.data[value].data[val]){
+									Object.keys(res.data[value].data[val]).forEach((valu, inde)=>{
+										// console.log(valu,res.data[value].data[val][valu])
+										
+										
+										
+										this.alarmList[index].data[ind].chData.push({glName:valu,glData:res.data[value].data[val][valu]})
+										
+										
+									// console.log(3)	
+									
+									
+									});
+								}
 							});
-						});
+						}
 					});
 					
-					console.log(this.alarmList)
+				
 					
 				}).catch((err) => {
 						

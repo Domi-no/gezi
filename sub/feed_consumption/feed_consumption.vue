@@ -34,7 +34,7 @@
 						<text class="sterilizeDetailKey">饲料发放人：<text class="sterilizeDetailValue">{{i.issuer}}</text></text><text></text>
 					</view>
 					<view class="">
-						<text class="sterilizeDetailKey">备注：<text class="sterilizeDetailValue"></text></text><text></text>
+						<text class="sterilizeDetailKey">备注：<text class="sterilizeDetailValue">{{i.remarks}}</text></text><text></text>
 					</view>
 				</view>
 			</view>

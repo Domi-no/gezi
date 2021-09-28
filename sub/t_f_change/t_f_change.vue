@@ -57,10 +57,10 @@ import {
 		},
 		methods: {
 			deathChange({detail:{value}}){
-				this.tfDataForm.death_number=parseInt(value.trim())
+				this.tfDataForm.death_number=value.trim()
 			},
 			handle_numberChange({detail:{value}}){
-				this.tfDataForm.handle_number=parseInt(value.trim())
+				this.tfDataForm.handle_number=value.trim()
 				this.tfDataForm.handle_number > this.tfDataForm.death_numbe ?  this.tfDataForm.handle_number = this.tfDataForm.death_numbe : this.tfDataForm.handle_number
 			},
 			submit_remarksChange({detail:{value}}){

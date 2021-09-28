@@ -88,14 +88,25 @@
 						console.log(res)
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
-						uni.navigateTo({
-							url:'../../sub/scan_code/scan_code?id=' + res.result
-						})
+						;
+						if(res.result){
+							uni.navigateTo({
+								url:'../../sub/scan_code/scan_code?id=' + res.result
+							})
+						}else{
+							uni.showToast({
+								title: '二维码错误',
+								icon: 'none'
+							})
+						}
+						
 					},
 					fail:function(res){
 						console.log(res)
 					}
 				}) : this.id = id
+				
+				
 				
 			},
 			
@@ -104,7 +115,6 @@
 				.then((res)=>{
 					if(res.code == 200){
 						
-						console.log(res)
 						this.unread=res.data.unread
 						
 					}else{
@@ -125,7 +135,7 @@
 				.then((res)=>{
 					if(res.code == 200){
 						
-						console.log(res)
+						
 						this.type=res.data.type
 						
 					}else{
@@ -146,7 +156,7 @@
 				.then((res)=>{
 					
 					this.calendarList=res.data
-					console.log(this.calendarList)
+					
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -183,7 +193,7 @@
 			this.getClockTypeData()
 		},
 		onShow() {
-			console.log(this.id)
+			
 			if(this.id === 4){
 				this.getUnreadData()
 				this.getClockTypeData()
@@ -196,7 +206,7 @@
 	}
 </script>
 
-<style lang="less">
+<style lang="scss" scoped>
 	.container {
 		background-color: #f4f6fa;
 		font-weight: 500;

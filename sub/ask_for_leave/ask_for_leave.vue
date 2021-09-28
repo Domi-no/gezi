@@ -14,14 +14,14 @@
 				开始时间<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox" @click="leaveSTime">
-				<text>{{leaveForm.start_time}}</text>
+				<text>{{leaveForm.start_time||'请选择'}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
 				结束时间<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<view class="choiceBox"  @click="leaveETime">
-				<text>{{leaveForm.end_time}}</text>
+				<text>{{leaveForm.end_time||'请选择'}}</text>
 				<image class="zk" src="../../static/daiban/zk.png" mode=""></image>
 			</view>
 			<view class="typeName">
@@ -33,7 +33,7 @@
 		</view>
 		<view class="leaveReason">
 			<view class="">
-				请假类型<image class="star" src="../../static/daiban/star.png" mode=""></image>
+				请假事由<image class="star" src="../../static/daiban/star.png" mode=""></image>
 			</view>
 			<textarea :value="leaveForm.reason"  @input="reasonChange"  placeholder="请输入请假事由" placeholder-style="font-size: 28rpx;font-weight: 500;color: #979797;" />
 		</view>
@@ -57,7 +57,7 @@
 		<w-picker
 				:visible.sync="visible"
 				mode="date" 
-				startYear="2017" 
+				:startYear="year" 
 				endYear="2029"
 				value=""
 				:current="true"
@@ -70,7 +70,7 @@
 		<w-picker
 				:visible.sync="visible2"
 				mode="date" 
-				startYear="2017" 
+				:startYear="year" 
 				endYear="2029"
 				value=""
 				:current="true"
@@ -102,11 +102,12 @@
 				 leaveType:[],
 				 leaveForm:{
 					 type_id:'',
-					 start_time:'请选择',
-					 end_time:'请选择',
+					 start_time:'',
+					 end_time:'',
 					 duration:'',
 					 reason:''
-				 }
+				 },
+				 year:'',
 				 
 			}
 		},
@@ -125,17 +126,19 @@
 				
 			},
 			onConfirm(e){
-				console.log(e)
-				console.log(this.visible,this.visible2)
+				
 				// this.visible ? this.startDay = e.obj.day : this.endDay = e.obj.day
 				this.visible ? this.leaveForm.start_time = e.result : this.leaveForm.end_time = e.result
+				if(this.leaveForm.start_time&&this.leaveForm.end_time){
+					this.getLengthOfLeave()
+				}
 				
 			},
 			cSubBtn(){
 				if(this.isSub){
 					this.$http.post('/Work/addLeave.html',{uid:this.userInfo.id,...this.leaveForm})
 					.then((res)=>{
-						console.log(res)
+						
 						
 						uni.showToast({
 							title: res.message,
@@ -165,21 +168,43 @@
 				.then((res)=>{
 					console.log(res)
 					this.leaveType =res.data
-					// uni.showToast({
-					// 	title: 'message',
-					// 	icon: 'none'
-					// })
-					
 					
 				}).catch((err)=>{
 					console.log(err)
 				})
 			},
-			leaveTypeChange(value){
-				console.log(value)
+			leaveTypeChange(value){			
 				this.baseValue=value
+			},
+			getLengthOfLeave(){
+				this.$http.post('/Work/LengthOfLeave.html', {start_time:this.leaveForm.start_time,end_time:this.leaveForm.end_time})
+				.then((res) => {
+						console.log(res)
+						if(res.code == 200){
+							this.leaveForm.duration=res.data.day
+						}else{
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+						}
+					this.icClick = false
+					}).catch((err) => {
+						
+					})
+			},
+			getToday(){
+				let Dates = new Date();
+				 let Y = Dates.getFullYear();
+				 let M = Dates.getMonth() + 1;
+				 let D = Dates.getDate();
+				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				 // this.dataForm.record_time=times
+				 this.year=Y
+				 console.log(times)
 				
-			}
+			},
 		},
 		computed:{
 			isSub(){
@@ -202,6 +227,7 @@
 		},
 		created() {
 			this.getLeaveType()
+			this.getToday()
 		}
 		
 	}

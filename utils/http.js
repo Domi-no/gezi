@@ -53,7 +53,7 @@ methods.forEach(method => {
 				})
 				.then(chunk => {
 					uni.hideLoading();
-
+					
 					let [err, res] = chunk;
 					console.log(chunk)
 					if (res.data) {
@@ -65,7 +65,7 @@ methods.forEach(method => {
 						// 未登录/重新登录/Token过期
 						if (code == 402||code == 401) {
 							uni.showToast({
-								title: res.data.message ,
+								title: '登录状态已失效',
 								icon: 'none'
 							})
 							// toast("未登录或已过期");
@@ -79,8 +79,13 @@ methods.forEach(method => {
 						}
 						resolve(res.data);
 					} else {
-						toast("请求失败，请重试", "error");
-						reject(err);
+						uni.showToast({
+							title: "请求失败，请重试" ,
+							icon: 'none'
+						})
+						// toast("请求失败，请重试", "error");
+						// reject(err);
+						
 					}
 				});
 		});

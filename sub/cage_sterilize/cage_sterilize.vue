@@ -84,7 +84,7 @@
 				const {record_time}=this
 				this.$http.post('/Sale/disinfectList.html', {uid: this.userInfo.id,record_time})
 				.then((res) => {
-						console.log(res)
+
 						this.disinfectList=res.data
 						// if(res.code == 200){
 						// 	uni.showToast({

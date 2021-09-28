@@ -52,25 +52,22 @@
 				this.monthData=[]
 				this.$http.post('/Vaccin/census.html', {uid: this.userInfo.id,type:0,text:this.text})
 				.then((res) => {
-						console.log(res)
 						Object.keys(res.data).forEach((value, index)=>{
-							console.log(value, index,res.data[value]);
 							this.year=value
 							this.newData=res.data[value]
 						});
 						Object.keys(this.newData).forEach((value, index)=>{
-							console.log(value, index,this.newData[value]);
+							
 							this.monthList.push(value)
 							this.monthData.push(this.newData[value])
 						});
-						console.log(this.year)
-						console.log(this.monthData)
+						
 					}).catch((err) => {
 						
 					})
 			},
 			toAddVaccinePage(i){
-				console.log(i)
+			
 				// return false
 				if(i.feedback === '已反馈'){
 					return false
@@ -81,15 +78,15 @@
 				
 			},
 			toVUDPage(i){
-				console.log(i)
+				
 				// return false
 				uni.navigateTo({
-								 url: '/sub/details_of_vaccine_use/details_of_vaccine_use?query=' + JSON.stringify(i)
+					 url: '/sub/details_of_vaccine_use/details_of_vaccine_use?query=' + JSON.stringify(i)
 				}); 
 			}
 		},
 		onLoad({query}) {
-			console.log(query)
+			
 			this.text=query
 		},
 		computed:{

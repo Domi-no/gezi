@@ -60,7 +60,7 @@
 				});
 			},
 			toDrugDelivery(i){
-				console.log(i)
+				
 				const form = {
 					drugs_name:i.drugs_name,
 					number:i.number,
@@ -74,7 +74,7 @@
 				});
 			},
 			toDrugWarehousing(i){
-				console.log(i)
+				
 				const form = {
 					drugs_name:i.drugs_name,
 					number:i.number,
@@ -90,7 +90,7 @@
 			getDrugDSdata(){
 				this.$http.post('/Vaccin/stockList.html', {uid: this.userInfo.id})
 				.then((res) => {
-						console.log(res)
+						
 						this.drugDSdataList=res.data
 					}).catch((err) => {
 						

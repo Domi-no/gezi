@@ -49,23 +49,23 @@
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text leftBox">
 								<text>残疾</text>
-							</view><text class="_pigeon_type_bt_item_num">{{i.disease}}</text>
+							</view><text class="_pigeon_type_bt_item_num">{{i.disease||0}}</text>
 						</view>
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text">
 								<text>转出</text>
-							</view><text class="_pigeon_type_bt_item_num">{{i.shift_to}}</text>
+							</view><text class="_pigeon_type_bt_item_num">{{i.shift_to||0}}</text>
 						</view>
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text leftBox">
 								<text>死亡</text>
-							</view><text class="_pigeon_type_bt_item_num">{{i.death}}</text>
+							</view><text class="_pigeon_type_bt_item_num">{{i.death||0}}</text>
 						</view>
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text">
 								<text>新增</text>
 							</view>
-							<text class="_pigeon_type_bt_item_num">{{i.added_wit}}</text>
+							<text class="_pigeon_type_bt_item_num">{{i.addSum||0}}</text>
 						</view>
 					</view>
 				</view>
@@ -90,7 +90,7 @@
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text">
 								<text>入库</text>
-							</view><text class="_pigeon_type_bt_item_num">{{i.added_wit}}</text>
+							</view><text class="_pigeon_type_bt_item_num">{{i.getout}}</text>
 						</view>
 						<view class="_pigeon_type_bt_item">
 							<view class="_pigeon_type_bt_item_text leftBox">
@@ -318,7 +318,7 @@
 				.then((res)=>{
 					
 					this.calendarList=res.data
-					console.log(this.calendarList)
+					
 				}).catch((err)=>{
 					console.log(err)
 				})
@@ -331,7 +331,7 @@
 			
 		},
 		created() {
-			console.log(this.calendarList)
+			
 			this.getToday()
 			// this.getCageData()
 			// this.getCalendarData()
@@ -542,7 +542,7 @@
 					line-height: 66rpx;
 					display: flex;
 					._pigeon_type_bt_item_text{
-						width: 115rpx;
+						min-width: 115rpx;
 						text-align: right;
 					}
 					._pigeon_type_bt_item_num {

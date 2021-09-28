@@ -188,12 +188,12 @@
 			getDrugData(){
 				this.$http.post('/Work/multiple.html',{uid:this.userInfo.id})
 				.then((res)=>{
-					console.log(res)
+				
 					this.drugData =res.data
 					Object.keys(this.drugData).forEach((value, index)=>{
-						console.log(value, index,this.drugData[value]);
+					
 						this.drugNameList.push(value)
-						console.log(this.drugNameList)
+						
 					});
 				}).catch((err)=>{
 					// console.log(err)
@@ -202,10 +202,9 @@
 			getFixBoxData(){
 				this.$http.post('/Work/FactoryBlock.html', {uid: this.userInfo.id})
 				.then((res) => {
-						console.log(res)
-						
+	
 						Object.keys(res.data).forEach((value, index)=>{
-							console.log(value, index,res.data[value]);
+							
 							this.warehouseList.push({name:value,children:res.data[value]})
 						});
 						console.log(this.warehouseList)
@@ -216,7 +215,7 @@
 			getAllFactory(){
 				this.$http.post('/Work/AllFactory.html',{uid:this.userInfo.id})
 				.then((res)=>{
-					console.log(res.data)
+					
 					this.allFactoryData = res.data
 				}).catch((err)=>{
 					
@@ -244,16 +243,14 @@
 			},
 			cSubBtn(){
 				this.messageChangeData.record_id ? this.dataForm.record_id =this.messageChangeData.record_id:''
-				console.log(this.messageChangeData.record_id)
 				
-				console.log(this.dataForm.block_id)
 				// 
 				if(!this.isdWsub){
 					return false
 				}
 				this.$http.post('/Work/upRecord.html',{...this.dataForm})
 				.then((res) => {
-						console.log(res)
+						
 						if(res.code == 200){
 							uni.showToast({
 								title:'提交成功',
@@ -309,70 +306,62 @@
 				this.$refs.drugFactory.show()
 			},
 			warehouseValue(e){
-				console.log(e.item[1])
+				
 				this.drugUseRecordPigeonBin = e.item[1].name
 				this.dataForm.block_id=e.item[1].id
 				
 			},
 			drug_useTime(e){
-				console.log(e.value)
+				
 				this.dataForm.usage_time=e.value
 			},
 			drugBatchNumberChange(e){
-				console.log(e)
+				
 				this.drugBatchNumber=e.value
-				console.log(this.batchNumberList[0])
+				
 				Object.keys(this.batchNumberList[0]).forEach((value, index)=>{
-				console.log(value, index,this.batchNumberList[0][value]);
-					
+				
 					if(e.value === value){
 						this.dataForm.drugs_id=this.batchNumberList[0][value].drugs_id
-						console.log(this.dataForm.drugs_id)
+						
 					}
 				});
 			},
 			drugNameChange(e){
-				console.log(e)
+				
 				this.nameOfDrug=e.value
 				Object.keys(this.drugData).forEach((value, index)=>{
-					console.log(value, index,this.drugData[value]);
 					
 					if(e.value === value){
 						this.drugFactoryList.push(this.drugData[value])
-						console.log(this.drugFactoryList[0])
+						
 					}
 				});
 				this.drugFactoryData=[]
 				Object.keys(this.drugFactoryList[0]).forEach((value, index)=>{
-					console.log(value, index,this.drugFactoryList[0][value]);
-					
+				
 					this.drugFactoryData.push(value)
-					console.log(this.drugFactoryData)
+					
 				});
 			},
 			drugFactoryChange(e){
-				console.log(e)
+				
 				this.dURManufacturer=e.value
 				Object.keys(this.drugFactoryList[0]).forEach((value, index)=>{
-					console.log(value, index,this.drugFactoryList[0][value]);
+					
 					if(e.value === value){
 						this.batchNumberList.push(this.drugFactoryList[0][value])
-						console.log(this.batchNumberList)
+						
 					}
 				});
 				this.batchNumberData=[]
 				Object.keys(this.batchNumberList[0]).forEach((value, index)=>{
-					console.log(value, index,this.batchNumberList[0][value]);
-					
 					this.batchNumberData.push(value)
-					
-					console.log(this.batchNumberData)
 				});
 			},
 			getRecordsForm(){
 				this.$http.post('/Work/RecordMe.html', {record_id: this.dataForm.record_id,})
 				.then((res) => {
-						console.log(res)
 						this.dataForm=res.data[0]
 						this.dURManufacturer=res.data[0].production
 						this.drugBatchNumber=res.data[0].batch_number
@@ -395,9 +384,9 @@
 					drugs_id,
 					block_id,
 				} = this.dataForm
-				console.log(this.dataForm.block_id)
+				
 				let {drugUseRecordPigeonBin,nameOfDrug,dURManufacturer,drugBatchNumber} =  this
-				console.log(block_id,usage_time,drugs_id,dosage,approval,day,number,symptom)
+			
 				if(block_id !== '' && usage_time !== '请选择' && drugs_id !== '' && dosage && approval && day && number && symptom ){
 					return true
 				}
@@ -431,7 +420,7 @@
 			
 			e.query ? this.dataForm.record_id = JSON.parse(e.query).record_id:''
 			e.query ? this.hQuery=true : this.hQuery=false
-			console.log(this.messageChangeData,'434')
+			
 		}
 	}
 </script>

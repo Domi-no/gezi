@@ -93,11 +93,10 @@
 		},
 		methods: {
 			toOperatePage(){
-				console.log(1)
+				
 			},		
 			toMessageCenter(){
-				console.log(this.userInfo)
-				
+			
 				uni.navigateTo({
 					url: '/sub/message_center/message_center'
 				});
@@ -122,7 +121,7 @@
 			})
 		},
 		created() {
-			console.log((this.unread))
+			
 		},
 		
 		

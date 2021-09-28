@@ -205,14 +205,24 @@
 			},
 			pRWarehouseChange(e){
 				this.warehouseNumber='请选择'
-				console.log(e)
+				// console.log(e)
 				this.groupNumber=e.item.name
 				this.gelongList=e.item.children
 			},
 			getJournalData(){
 				this.$http.post('/CageData/Journal.html',{uid:this.userInfo.id})
 				.then((res)=>{
-					console.log(res)
+					// console.log(res)
+					if(!res.data){
+						uni.showToast({
+							title: '无权限操作',
+							icon: 'none'
+						})
+						setTimeout(()=>{
+							uni.navigateBack()
+						},1500)
+						return false
+					}
 					Object.keys(res.data).forEach((value, index)=>{
 						
 						this.list.push({name:value,children:[]})
@@ -230,7 +240,7 @@
 					if(this.pQueryData.id){
 						console.log(this.pQueryData)
 						this.list.forEach((i,idx)=>{
-							console.log(i)
+							// console.log(i)
 							if(this.pQueryData.name === i.name){
 								this.gelongList=i.children
 							}
@@ -245,13 +255,13 @@
 				const {cage_id,userInfo:{id:uid}} = this
 				this.$http.post('/CageData/record.html',{uid,cage_id})
 				.then((res)=>{
-					console.log(res)
+					// console.log(res)
 					
 					this.recordsData=res.data
 					this.isShow=true
 					console.log(this.recordsData)
 				}).catch((err)=>{
-					console.log(err)
+					// console.log(err)
 				})
 			},
 			getToday(){
@@ -286,12 +296,12 @@
 			console.log(query)
 			if( query && JSON.parse(query).cage_id){
 				this.queryData = JSON.parse(query)
-				this.cage_id = queryData.cage_id
-				this.groupNumber = queryData.blockName
-				this.warehouseNumber = queryData.cageName
+				this.cage_id = this.queryData.cage_id
+				this.groupNumber = this.queryData.blockName
+				this.warehouseNumber = this.queryData.cageName
 				this.getRecordData()
 			}else if(query && JSON.parse(query).text){
-				console.log(JSON.parse(query))
+				// console.log(JSON.parse(query))
 				this.pQueryData = JSON.parse(query)
 				this.groupNumber = JSON.parse(query).name
 			}

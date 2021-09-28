@@ -216,13 +216,13 @@
 				this.block_type=e.item.type_name
 				this.saleForm.block_type=e.item.block_type
 				this.getPreSaleData()
-				console.log(e)
+			
 			},
 			goodsNamePopupShow(){
 				 this.$refs.goodsName.show()
 			},
 			goodsNameChange(e){
-				console.log(e)
+				
 				this.goods_type=e.item.label
 				this.saleForm.goods_name=e.item.value
 			},
@@ -230,14 +230,14 @@
 				 this.$refs.payMethod.show()
 			},
 			payMethodChange(e){
-				console.log(e)
+				
 				this.saleForm.pay_method=e.value
 			},
 			specsPopupShow(){
 				 this.$refs.specs.show()
 			},
 			specsChange(e){
-				console.log(e)
+				
 				this.saleForm.specs=e.value
 			},
 			unitChange({detail:{value}}){
@@ -280,13 +280,13 @@
 				this.$http.post('/Sale/SaleName.html',{uid})
 				.then(({data:{goodsName,payMethod,specs}}) => {
 						Object.keys(goodsName).forEach((item,i)=>{
-							console.log(item,i,goodsName[item])
+							
 							this.goodsNameList.push({label:goodsName[item],value:item})
 						})
 						// this.goodsNameList = goodsName
 						this.payMethodList = payMethod
 						this.specsList = specs
-						console.log(this.goodsNameList)
+						
 					}).catch((err) => {
 						
 				})
@@ -305,7 +305,7 @@
 				const uid =this.userInfo.id
 				this.$http.post('/Sale/sale.html',{uid,...this.saleForm,price:this.fWmoney})
 				.then((res) => {
-						console.log(res)
+						
 						if(res.code == 200){
 							uni.showToast({
 								title: '提交成功',
@@ -358,7 +358,7 @@
 			
 			this.warehouseList=JSON.parse(query)
 			this.warehouseList.list.shift()
-			console.log(this.warehouseList.list)
+			
 		}
 		
 	}

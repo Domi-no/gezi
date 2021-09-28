@@ -125,6 +125,7 @@
 						this.dataForm.lat=res.latitude
 						this.dataForm.lng=res.longitude
 						console.log(this.dataForm)
+						
 						uni.hideLoading();
 						callBack && callBack()
 						
@@ -146,6 +147,7 @@
 				console.log(22)
 				
 			},
+			
 			getClockData(){
 				if(this.icClick){
 					return false
@@ -158,10 +160,12 @@
 							uni.showToast({
 								title: '打卡成功',
 								icon: 'none',
-								  duration: 2000,
+								 duration: 2000,
 							})
+							setTimeout(()=>{
+								this.getClockInfoData()
+							},500)
 							
-							this.getClockInfoData()
 						}else{
 							uni.showToast({
 								title: res.message,
@@ -178,9 +182,21 @@
 			getClockInfoData(){
 				this.$http.post('/Punch/clockInfo.html', {uid: this.userInfo.id,...this.dataForm})
 				.then((res) => {
-						// console.log(res)
-						this.clockInfo=res.data
-						alert(res)
+						console.log(res)
+						
+						if(res.code == 200){
+							this.clockInfo=res.data
+						}else{
+							uni.showToast({
+								title: res.message,
+								icon: 'none'
+							})
+							setTimeout(()=>{
+								uni.navigateBack({
+								    delta: 1
+								});
+							},1000)
+						}
 					}).catch((err) => {
 						
 					})
@@ -200,8 +216,7 @@
 				},1000)
 			},
 			rulesClick(){
-				console.log(1)
-				
+			
 			}
 			
 		},
@@ -220,7 +235,7 @@
 			// this.getClockData()
 		},
 		onUnload(){
-			console.log('unload')
+			
 			clearTimeout(this.timer)
 		}
 		

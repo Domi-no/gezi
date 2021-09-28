@@ -236,6 +236,17 @@
 					</view>
 				</view>
 				<view class="r_pigeon_add_i">
+					<text>入库</text>
+					<view class="r_pigeon_add_i_right">
+						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('getout','reduce')"></image>
+						<view class="inputBox">
+							<input ref="inp" :value="dataForm.getout" @input="getoutChange"  class="r_red" type="number" @blur="onBlur($event,'getout')"/>
+						</view>
+						<image class="jiahao" src="../../static/cage/jia.png" mode="" @click="numberChange('getout','add')"></image>
+						<text>枚</text>
+					</view>
+				</view>
+				<view class="r_pigeon_add_i">
 					<text>破损</text>
 					<view class="r_pigeon_add_i_right">
 						<image class="jianhao" src="../../static/cage/jian.png" mode="" @click="numberChange('massacre','reduce')"></image>
@@ -928,6 +939,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					dead_eggs:0,
 					sell:0,
 					shift_to:0,
+					getout:0,
 				},
 				nurtureData:[],
 				feipengData:[],
@@ -1117,6 +1129,9 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			massacreChange({detail:{value}}){
 				this.dataForm.massacre=parseInt(value.trim())
 			},
+			getoutChange({detail:{value}}){
+				this.dataForm.getout=parseInt(value.trim())
+			},
 			replenishChange({detail:{value}}){
 				this.dataForm.replenish=parseInt(value.trim())
 			},
@@ -1173,6 +1188,16 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.$http.post('/CageData/nurture.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
+					if(!res.data){
+						uni.showToast({
+							title: '无权限操作',
+							icon: 'none'
+						})
+						setTimeout(()=>{
+							uni.navigateBack()
+						},1500)
+						return false
+					}
 					if(query){
 						console.log(query)
 						this.queryData.num=res.data[query.blockName][query.cageName].survival
@@ -1211,6 +1236,16 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.$http.post('/CageData/Feipeng.html',{uid:this.userInfo.id})
 				.then((res)=>{
 					console.log(res)
+					if(!res.data){
+						uni.showToast({
+							title: '无权限操作',
+							icon: 'none'
+						})
+						setTimeout(()=>{
+							uni.navigateBack()
+						},1500)
+						return false
+					}
 					console.log(query)
 					if(query && !query.text){
 					
@@ -1282,7 +1317,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 		onLoad({query}) {
 			console.log(query,'query')
 			if(query&&JSON.parse(query).cage_id&&!JSON.parse(query).type_name){
-				console.log('123456789')
+				// console.log('123456789')
 				console.log(JSON.parse(query))
 				this.queryData = JSON.parse(query)
 				this.dataForm.cage_id=this.queryData.cage_id

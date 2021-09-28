@@ -4,7 +4,7 @@
 			{{newsDetails.title}}
 		</view>
 		<view class="news_detail_time">{{newsDetails.creatime}}</view>
-		<view class="news_detail_content" id="news_detail_content" ref="content" v-html="newsDetails.content">
+		<view class="news_detail_content" id="news_detail_content" ref="content" v-html="content">
 		
 		</view>
 		<!-- <view class="news_detail_image">
@@ -18,7 +18,8 @@
 		data() {
 			return {
 				newsId:'',
-				newsDetails:''
+				newsDetails:'',
+				content:'',
 			}
 		},
 		methods: {
@@ -27,12 +28,13 @@
 				this.$http.post('/Rank/newsDetails.html',{newsid:this.newsId})
 				.then((res)=>{
 					console.log(res)
+					this.content= res.data[0].content.replace(/\<img/gi, '<img style="max-width:100%;height:auto" ');
 					this.newsDetails =res.data[0]
 					// uni.showToast({
 					// 	title: 'message',
 					// 	icon: 'none'
 					// })
-					this.$refs.content.appendChild(res.data[0].content)
+					// this.$refs.content.appendChild(res.data[0].content)
 					// document.querySelector('#news_detail_content').innerHTML= res.data[0].content
 					console.log(this.newsDetails)
 				}).catch((err)=>{

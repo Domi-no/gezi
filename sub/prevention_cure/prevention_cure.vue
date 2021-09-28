@@ -85,7 +85,7 @@
 				console.log(this.dataForm.page,'PAGE1')
 		        this.dataForm.page += 1
 				console.log(this.dataForm.page,'PAGE')
-		        this.getPigeonSkill()
+		        this.getPreventionCure()
 		  }
 		},
 		created() {

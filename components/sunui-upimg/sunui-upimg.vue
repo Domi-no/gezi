@@ -147,11 +147,12 @@ export default {
 						res.tempFiles[i]['upload_percent'] = 0;
 						
 						_self.upload_before_list.push(res.tempFiles[i]);
-						src.push(res.tempFilePaths[0]) 
+						// src.push(res.tempFilePaths[0]) 
 					}
 					console.log(src)
 					_self.upload_cache = res.tempFilePaths;
 					console.log(_self.upload_cache)
+					_self.$emit('getSrc',_self.upload_cache)
 					_self.upload(_self.upload_auto);
 					
 				},
@@ -183,10 +184,13 @@ export default {
 			});
 		},
 		removeImage(idx) {
+			
 			let _self = this;
 			_self.upload_before_list.splice(idx, 1);
 			_self.upload_cache_list.splice(idx, 1);
 			_self.upload_len = _self.upload_before_list.length;
+			_self.$emit('getSrc',_self.upload_before_list)
+			// console.log(_self.upload_before_list,_self.upload_cache_list)
 			_self.emit();
 		},
 		emit() {
@@ -238,7 +242,7 @@ const upload = function(options) {
 		console.log(options)
 		let url = options.url,
 		_self = options._self,
-		path = src[0],
+		path = options.path,
 		name = options.name,
 		// data = options.data,
 		extra = options.extra,

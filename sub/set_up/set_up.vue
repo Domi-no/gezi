@@ -80,7 +80,7 @@
 				this.isShowTips=true
 			},
 			closeModal(){
-				
+				this.show = false
 			},
 			getEditionData(){
 				

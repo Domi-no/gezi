@@ -293,14 +293,14 @@
 				// 	console.log(value,this.userInfo.DealtWith[value])
 				// 	this.powerList.push({title:value,children:this.userInfo.DealtWith[value]})
 				// })
-				console.log(this.userInfo.DealtWith)
+				
 			},
 			getBannerData() {
 				this.$http.post('/Rank/Banner.html', {
 						position: 2
 					})
 					.then((res) => {
-						console.log(res)
+						
 						this.bannerList = res.data
 					}).catch((err) => {
 						console.log(err)
