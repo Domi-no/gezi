@@ -22,9 +22,9 @@ const common = {
 	getters: {},
 	mutations: {
 		[types.SET_USER_INFO](state, payload) {
-			console.log(payload);
+			// console.log(payload);
 			state.userInfo = payload
-			console.log(state.userInfo)
+			// console.log(state.userInfo)
 			setSession(sessionType.USER_INFO, payload)
 		},
 		// 设置微信code
@@ -37,7 +37,7 @@ const common = {
 			commit
 		}, payload) {
 			return new Promise((resolve, reject) => {
-				console.log(222, payload);
+				// console.log(222, payload);
 				commit(types.SET_USER_INFO, payload);
 				resolve()
 			})

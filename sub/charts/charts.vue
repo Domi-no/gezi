@@ -34,7 +34,7 @@
 					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{chartData.sum||0}}枚</text><text>平均：{{chartData.all||0}}枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData"
+					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData" :opts="{yAxis:{data:[{max:5}]}}"
 					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"
 					 @getIndex="getIndex" />
 					<view class="timeClass">
@@ -52,7 +52,7 @@
 					<view class="qiun-title-dot-light">鸽蛋产量<text>(单位：枚)</text><text class="u_title_right"><text>共计：{{chartData.sum||0}}枚</text><text>平均：{{chartData.all||0}}枚</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData"
+					<qiun-data-charts style="width: 100%;" canvasId="dsfgdgads123adeerwaer2adfgh" type="column" :chartData="chartData" :opts="{yAxis:{data:[{max:5}]}}"
 					 :errorShow="false" :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="gedankey"
 					 :tooltipShow="false" />
 					<view class="timeClass">
@@ -69,7 +69,7 @@
 					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum||0}}只</text><text>平均：{{rgColumn.all||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false"
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false" :opts="{yAxis:{data:[{max:5}]}}"
 					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey" @getIndex="getIndex" />
 					<view class="timeClass">
 						{{currentName}}
@@ -86,7 +86,7 @@
 					<view class="qiun-title-dot-light">乳鸽产量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{rgColumn.sum||0}}只</text><text>平均：{{rgColumn.all||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false"
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="rugeclid" :chartData="rgColumn" :errorShow="false" :opts="{yAxis:{data:[{max:5}]}}"
 					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="rugeclidkey" :tooltipShow="false" />
 					<view class="timeClass">
 						{{currentName}}
@@ -103,7 +103,7 @@
 				</view>
 				<view class="qiun-charts">
 					<!-- <canvas canvasId="canvasColumn" id="canvasColumn" type="2d" class="charts" @tap="tap($event,'canvasColumn')"/> -->
-					<qiun-data-charts style="width: 100%;" type="column" canvasId="tonggeclid" :chartData="tgColumn" :errorShow="false"
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="tonggeclid" :chartData="tgColumn" :errorShow="false" :opts="{yAxis:{data:[{max:5}]}}"
 					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="tonggeclkey" />
 					<view class="timeClass">
 						{{currentName}}
@@ -118,7 +118,7 @@
 					<view class="qiun-title-dot-light">死淘量<text>(单位：只)</text><text class="u_title_right"><text>共计：{{stColumn.sum||0}}只</text><text>平均：{{stColumn.all||0}}只</text></text></view>
 				</view>
 				<view class="qiun-charts">
-					<qiun-data-charts style="width: 100%;" type="column" canvasId="sitaoliangid" :chartData="stColumn" :errorShow="false"
+					<qiun-data-charts style="width: 100%;" type="column" canvasId="sitaoliangid" :chartData="stColumn" :errorShow="false" :opts="{yAxis:{data:[{max:5}]}}"
 					 :canvas2d="true" background="none" :ontouch="true" :inScrollView="true" key="sitaoliangkey" />
 					<view class="timeClass">
 						{{currentName}}
@@ -175,6 +175,7 @@
 				end_time: '',
 				sta_time: '',
 				gdColumn: {},
+				 gdColumnOpts:{yAxis:{data:[{tofix:2}]}},
 				cccdata: {
 
 					"categories": [
@@ -406,7 +407,7 @@
 						}
 						this.chartData = JSON.parse(JSON.stringify(obj))
 
-
+						console.log(obj)
 						this.rgColumn = {
 							all: res.data['乳鸽'].all,
 							sum: res.data['乳鸽'].sum,

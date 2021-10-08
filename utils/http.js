@@ -14,7 +14,7 @@ methods.forEach(method => {
 	request[method] = (url, params, extra = {}) =>
 		new Promise((resolve, reject) => {
 			let userInfo = getSession(sessionType.USER_INFO)
-			console.log(store.state.user.userInfo.token,'用户信息');
+			// console.log(store.state.user.userInfo.token,'用户信息');
 			let {
 				title = "请稍后..",
 					showLoading = true,
@@ -43,7 +43,7 @@ methods.forEach(method => {
 			// http://192.168.0.100
 			// http://jx.onlylove.top
 			uni.request({
-					url: 'https://jx.onlylove.top/' + url,
+					url: 'http://47.95.0.20:666/' + url,
 					header: headers,
 					data: {
 						uid:userInfo.id||store.state.user.userInfo.id||'',
@@ -55,7 +55,7 @@ methods.forEach(method => {
 					uni.hideLoading();
 					
 					let [err, res] = chunk;
-					console.log(chunk)
+					// console.log(chunk)
 					if (res.data) {
 						let {
 							code,

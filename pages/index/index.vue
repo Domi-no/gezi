@@ -88,7 +88,7 @@
 						console.log(res)
 						console.log('条码类型：' + res.scanType);
 						console.log('条码内容：' + res.result);
-						;
+						
 						if(res.result){
 							uni.navigateTo({
 								url:'../../sub/scan_code/scan_code?id=' + res.result

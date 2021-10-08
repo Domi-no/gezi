@@ -1,6 +1,46 @@
 <script>
+	import {
+		sessionType,
+		getSession
+	} from '@/utils/session';
 	export default {
+		data:function(){
+			return{
+				token:'',
+				userInfo:''
+			}
+		},
 		onLaunch: function() {
+			
+			this.token = uni.getStorageSync('storage_key');
+			this.userInfo=uni.getStorageSync('userInfo')
+			
+			if(this.userInfo){
+				this.$store.dispatch('handleUserInfo', JSON.parse(this.userInfo)).then(() => {})
+			}
+			
+			if(this.token){
+				uni.reLaunch({
+					url: '/pages/index/index',
+					success: () => {
+						// #ifdef  H5 || APP-PLUS
+						plus.navigator.closeSplashscreen();
+						// #endif
+					}
+				});
+			}else{
+				uni.reLaunch({
+					url: "/pages/login/login",
+					success: () => {
+						// #ifdef  H5 || APP-PLUS
+						 plus.navigator.closeSplashscreen();
+						// #endif
+					   
+				    }
+				});
+			}
+			
+			
 		},
 		onShow: function() {
 		},

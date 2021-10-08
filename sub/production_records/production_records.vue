@@ -180,7 +180,7 @@
 				this.pCShow=false
 			},
 			toChangeRecords(type,data){
-				console.log(data)
+				
 				const {cage_id,groupNumber,warehouseNumber,time}=this
 				const queryData = {
 					name:type,
@@ -188,8 +188,12 @@
 					warehouseNumber,
 					cage_id,
 					time,
-					...data
+					changetext:this.pQueryData.changetext,
+					...data,
+					
 				}
+				// console.log(queryData)
+				// return false
 				uni.navigateTo({
 					url:'/sub/production_warehouse_change/production_warehouse_change?query='+JSON.stringify(queryData)
 				})
@@ -255,7 +259,7 @@
 				const {cage_id,userInfo:{id:uid}} = this
 				this.$http.post('/CageData/record.html',{uid,cage_id})
 				.then((res)=>{
-					// console.log(res)
+					console.log(res)
 					
 					this.recordsData=res.data
 					this.isShow=true
@@ -293,16 +297,24 @@
 		},
 		onLoad({query}) {
 			
-			console.log(query)
+			console.log(JSON.parse(query))
 			if( query && JSON.parse(query).cage_id){
+				console.log(111)
 				this.queryData = JSON.parse(query)
 				this.cage_id = this.queryData.cage_id
 				this.groupNumber = this.queryData.blockName
-				this.warehouseNumber = this.queryData.cageName
+				this.warehouseNumber = this.queryData.cage_id
 				this.getRecordData()
 			}else if(query && JSON.parse(query).text){
+				
+				
 				// console.log(JSON.parse(query))
 				this.pQueryData = JSON.parse(query)
+				console.log(this.pQueryData)
+				this.groupNumber = JSON.parse(query).name
+			}else if(query && JSON.parse(query).changetext){
+				this.pQueryData = JSON.parse(query)
+				console.log(this.pQueryData)
 				this.groupNumber = JSON.parse(query).name
 			}
 		}

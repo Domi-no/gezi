@@ -388,7 +388,7 @@ module.exports = {
 			"axisLineColor": "#CCCCCC",
 			"calibration": false,
 			"fontColor": "#666666",
-			"fontSize": 10,
+			"fontSize": 8,
 			"rotateLabel": true,
 			"itemCount": 7,
 			"boundaryGap": "center",

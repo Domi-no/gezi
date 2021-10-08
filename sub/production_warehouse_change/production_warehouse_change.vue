@@ -796,7 +796,7 @@
 		<!-- 保存按钮 -->
 		<view class="" style="height: 398rpx;">
 			<view class="records_save_btn" @click="saveRecord">
-				保存
+				{{submitText}}
 			</view>
 		</view>
 		<neil-modal 
@@ -922,6 +922,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				},
 				changeNumber:null,
 				dataForm:{
+					typeUpOrAdd:0,
 					cage_id:null,
 					time:null,
 					dove_type:null,
@@ -956,6 +957,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				isGetFrequencyData:false,
 				isChoice:false,
 				pqueryData:'',
+				submitText:'保存'
 				
 			};
 		},
@@ -978,7 +980,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.pCShow=false
 			},
 			saveBtn(e){
-				console.log(e)
+				console.log(this.dataForm.cage_id)
 				if(!this.dataForm.cage_id && this.queryData.name == "飞棚仓"){
 					uni.showToast({
 						title: '请选择仓号',
@@ -1095,6 +1097,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.queryData.ageday=e.item.ageday
 				console.log(this.dataForm.cage_id)
 				this.getFrequencyData()
+				this.getUpRecord()
 			},
 			otherWNPopupShow(){
 				if(this.isChoice || this.pqueryData.id){
@@ -1154,16 +1157,18 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.dataForm.added_wit=parseInt(value.trim())
 			},
 			getFrequencyData(){
-				console.log(this.dataForm,'getFrequencyData')
+				// console.log(this.dataForm,'getFrequencyData')
 				if(this.dataForm.dove_type && this.dataForm.cage_id&& !this.isGetFrequencyData){
 					
 					this.$http.post('/CageData/frequency.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type})
 					.then((res)=>{
-						if(res.data.frequency){
+						if(res.data.frequency||res.data.frequency == 0){
 							
 							this.changeNumber=res.data.frequency
+							if(this.submitText=='修改'){
+								this.isShowTipModal=true
+							}
 							
-							this.isShowTipModal=true
 						}
 						
 						this.isGetFrequencyData=true
@@ -1201,17 +1206,20 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					if(query){
 						console.log(query)
 						this.queryData.num=res.data[query.blockName][query.cageName].survival
-						
+					
 						this.queryData.ageday=res.data[query.blockName][query.cageName].ageday
+						
 						this.dataForm.cage_id=res.data[query.blockName][query.cageName].cage_id
+						
 					}
+					console.log(222222222222222222222)
 					this.nurtureData=[]
+					
 					Object.keys(res.data).forEach((value, index)=>{
 						
 						this.nurtureData.push({name:value,children:[]})
 						Object.keys(res.data[value]).forEach((valu, inde)=>{
-							
-						
+
 						this.nurtureData[index].children.push({name:valu,cage_id:res.data[value][valu].cage_id,num:res.data[value][valu].survival,ageday:res.data[value][valu].ageday,text:res.data[value][valu].text})
 							
 						});
@@ -1233,9 +1241,10 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				})
 			},
 			getFeipengData(query){
+				
 				this.$http.post('/CageData/Feipeng.html',{uid:this.userInfo.id})
 				.then((res)=>{
-					console.log(res)
+					// console.log(res)
 					if(!res.data){
 						uni.showToast({
 							title: '无权限操作',
@@ -1246,16 +1255,16 @@ color: #151515;padding:0rpx 0 50rpx 0"
 						},1500)
 						return false
 					}
-					console.log(query)
+					
 					if(query && !query.text){
 					
 						this.queryData.num=res.data[query.blockName]['鸽笼'].survival
-						
+						// this.queryData.num=res.data[query.blockName]['鸽笼'].survival
 						this.queryData.ageday=res.data[query.blockName]['鸽笼'].ageday
 						this.dataForm.cage_id=res.data[query.blockName]['鸽笼'].cage_id
 					}else if(query && query.text){
+						// console.log(132465)
 						this.queryData.num=res.data[query.name]['鸽笼'].survival
-						
 						this.queryData.ageday=res.data[query.name]['鸽笼'].ageday
 						this.dataForm.cage_id=res.data[query.name]['鸽笼'].cage_id
 					}
@@ -1273,18 +1282,40 @@ color: #151515;padding:0rpx 0 50rpx 0"
 						
 					});
 					
-					console.log(this.nurtureData)
+					// console.log(this.nurtureData)
 					if(this.pqueryData.id){
-						console.log(this.pqueryData)
+						// console.log(this.pqueryData)
 						this.nurtureData.forEach((i,idx)=>{
-							console.log(i)
+							// console.log(i)
 							if(this.pqueryData.name === i.name){
 								this.otherGelongList=i.children
 							}
 						})
 					}
 				}).catch((err)=>{
-					console.log(err)
+					// console.log(err)
+				})
+			},
+			// 获取记录详情数据
+			getUpRecord(){
+				this.$http.post('/CageData/UpRecord.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type,time:this.changeTime})
+				.then((res)=>{
+					console.log(res)
+					this.dataForm={
+						...this.dataForm,...res.data
+					}
+					// console.log(this.dataForm)
+					if(res.code == 400){
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						})
+						// setTimeout(()=>{
+						// 	uni.navigateBack()
+						// },1500)
+					}
+				}).catch((err)=>{
+					// console.log(err)
 				})
 			}
 			
@@ -1298,7 +1329,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 		
 		onShow() {
 			this.getFrequencyData()
-			console.log(this.changeNumber,'changenumber')
+			// console.log(this.changeNumber,'changenumber')
 			this.getToday()
 			if(this.queryData.name==='飞棚仓'){
 				
@@ -1315,46 +1346,65 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			
 		},
 		onLoad({query}) {
-			console.log(query,'query')
+			
 			if(query&&JSON.parse(query).cage_id&&!JSON.parse(query).type_name){
-				// console.log('123456789')
-				console.log(JSON.parse(query))
+				console.log(JSON.parse(query),'query')
 				this.queryData = JSON.parse(query)
 				this.dataForm.cage_id=this.queryData.cage_id
 				this.dataForm.uid=this.userInfo.id
 				this.dataForm.dove_type=this.queryData.name
-				console.log(query)
+				
 				// this.dataForm.dove_type && this.dataForm.cage_id ? this.isShowTipModal=true :''
 				
 			}else if(query&&JSON.parse(query).type_name){
+				
 				this.queryData.name=JSON.parse(query).type_name
-				console.log(this.queryData,'13456')
+				// console.log(JSON.parse(query),'13456')
+				
 				if(JSON.parse(query).type_name === '飞棚仓'){
+					console.log('飞鹏仓管理',JSON.parse(query),11)
 					this.isChoice=true
 					this.pqueryData = JSON.parse(query)
+					console.log(this.pqueryData)
 					 JSON.parse(query).text ? this.dataForm.cage_id =  JSON.parse(query).cage_id  :''
 					 JSON.parse(query).text ? this.getFrequencyData():''
 					this.pqueryData.id = JSON.parse(query).id
 					JSON.parse(query).blockName?this.queryData.groupNumber=JSON.parse(query).blockName : this.queryData.groupNumber=JSON.parse(query).name
 					this.dataForm.dove_type='青年鸽'
+					
 					this.getFeipengData(JSON.parse(query))
 					
 				}else if(JSON.parse(query).type_name === '育雏仓'){
+					// console.log('育雏仓',JSON.parse(query))
+					
 					this.dataForm.dove_type='童鸽'
 					this.pqueryData = JSON.parse(query)
 					
 					JSON.parse(query).blockName ? this.isChoice=true :''
 					JSON.parse(query).blockName ? this.queryData.groupNumber=JSON.parse(query).blockName : this.queryData.groupNumber=JSON.parse(query).name
 					 JSON.parse(query).blockName ? this.queryData.warehouseNumber=JSON.parse(query).cageName :''
+					 console.log(JSON.parse(query))
 					this.getNurtureData(JSON.parse(query))
 					
 				};
 			}else{
-				console.log('22222222')
+				
 				this.queryData.name=JSON.parse(query)
 				this.queryData.name === '飞棚仓'? this.dataForm.dove_type='青年鸽' :''
 				this.queryData.name === '育雏仓'? this.dataForm.dove_type='童鸽' :''
 				console.log(this.queryData,'queryData')
+				
+			}
+			// console.log(JSON.parse(query))
+			if(JSON.parse(query).changetext == '修改记录'){
+				// console.log(JSON.parse(query))
+				this.changeTime=JSON.parse(query).time
+				this.submitText='修改'
+				this.dataForm.typeUpOrAdd=1
+				if(JSON.parse(query).type_name !== '育雏仓'){
+					this.getUpRecord()
+				}
+				
 			}
 		}
 	}

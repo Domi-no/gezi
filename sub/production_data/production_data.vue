@@ -11,9 +11,9 @@
 			</view>
 		</view>
 		<view class="pd_item" v-for="(item,idx) in dataList" :key="idx">
-		
+
 			<view class="">
-				<view class="pd_item_title"  @click="exhibitionHandler(idx,item.array)">
+				<view class="pd_item_title" @click="exhibitionHandler(idx,item.array)">
 					<view class="" style="display: flex">
 						<text class="pd_item_title_num">{{item.name}}</text>
 						<view class="" style="width: 185rpx;display: flex;overflow: hidden;">
@@ -26,15 +26,16 @@
 						</view>
 						<text class="pd_item_title_hl">耗料:</text>
 						<text style="font-size: 22rpx;">{{item.number === null ? 0 : item.number }}公斤</text>
-						
+
 					</view>
 					<image :src="expandItem[idx] ? zkicon[0] : zkicon[1]" :class="expandItem[idx]?'xzk':'yzk'"></image>
 				</view>
-				<view class="" v-show="expandItem[idx]" >
-					<view class="pd_item_content" v-for="(i,index) in item.array" :key="index" >
+				<view class="" v-show="expandItem[idx]">
+					<view class="pd_item_content" v-for="(i,index) in item.array" :key="index">
 						<view class="pd_pigeon_title">
 							<view class="pd_pigeon_title_left">
-								<text class="pd_pigeon_title_left_gz">{{i.alias}}</text><text class="pd_pigeon_title_left_jl">{{i.alias === '鸽蛋' ? '破损率' : '死亡率'}}:{{i.pct}}</text>
+								<text class="pd_pigeon_title_left_gz">{{i.alias}}</text><text
+									class="pd_pigeon_title_left_jl">{{i.alias === '鸽蛋' ? '破损率' : '死亡率'}}:{{i.pct}}</text>
 							</view>
 							<view class="pd_pigeon_title_right">
 								<text class="pd_pigeon_title_right_cl">{{i.alias === '鸽蛋' ? '产蛋' : '存栏'}}</text>
@@ -49,44 +50,52 @@
 							</view>
 							<view class="pd_pigeon_bt_state pd_r_mr">
 								<view class="pd_pigeon_bt_state_text longText">
-									<text v-if="i.alias === '种鸽'">转出</text><text v-if="i.alias === '鸽蛋'">入库</text><text v-if="i.alias === '乳鸽'">出售</text><text v-if="i.alias === '童鸽'||i.alias === '青年鸽'">转至飞棚</text>
+									<text v-if="i.alias === '种鸽'">转出</text><text v-if="i.alias === '鸽蛋'">入库</text><text
+										v-if="i.alias === '乳鸽'">出售</text><text
+										v-if="i.alias === '童鸽'||i.alias === '青年鸽'">转至飞棚</text>
 								</view>
-								<text class="pd_pigeon_bt_state_num">{{i.alias === '童鸽'||i.alias === '青年鸽' ? i.shift_to : i.getout}}</text>
+								<text
+									class="pd_pigeon_bt_state_num">{{i.alias === '童鸽'||i.alias === '青年鸽' ? i.shift_to : i.getout}}</text>
 							</view>
 							<view class="pd_pigeon_bt_state pd_l_mr">
 								<view class="pd_pigeon_bt_state_text">
 									<text class="text_m">{{i.alias === '鸽蛋' ? '臭蛋' : '死亡'}}</text>
 								</view><text class="pd_pigeon_bt_state_num">{{i.death}}</text>
 							</view>
-							<view class="pd_pigeon_bt_state pd_r_mr" v-if="i.alias === '种鸽' || i.alias === '鸽蛋'||i.alias === '乳鸽'">
+							<view class="pd_pigeon_bt_state pd_r_mr"
+								v-if="i.alias === '种鸽' || i.alias === '鸽蛋'||i.alias === '乳鸽'">
 								<view class="pd_pigeon_bt_state_text longText">
-									<text v-if="i.alias === '种鸽'">新增</text><text v-if="i.alias === '鸽蛋'">转入孵化机</text><text v-if="i.alias === '乳鸽'">孵化机转入</text>
+									<text v-if="i.alias === '种鸽'">新增</text><text
+										v-if="i.alias === '鸽蛋'">转入孵化机</text><text v-if="i.alias === '乳鸽'">孵化机转入</text>
 								</view>
-								<text class="pd_pigeon_bt_state_num">{{ i.alias === '种鸽' ? i.addSum :i.alias === '鸽蛋'? i.shift_to : i.hatch}}</text>
+								<text
+									class="pd_pigeon_bt_state_num">{{ i.alias === '种鸽' ? i.addSum :i.alias === '鸽蛋'? i.shift_to : i.hatch}}</text>
 							</view>
 						</view>
 					</view>
 					<view class="pd_bt">
 						<view class="">
-							
+
 						</view>
-						<view class="" v-if="item.text === '今日未记录'" >
+						<view class="" v-if="item.text === '今日未记录'">
 							<text @click="toRecordPage(item)">今日未记录&nbsp;＞</text>
 						</view>
-						<view class="change_recordBtn" v-else >
-							
-							<!-- <view >修改记录</view> -->
+						<view class="change_recordBtn" v-else>
+
+							<view @click="toRecordPage(item)" v-if="time==today">修改记录</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		
-		<lb-picker ref="pD_time" mode="dateSelector"  :level="3" radius="20rpx" confirm-color="#377BE4" @confirm='pD_time'>
-					 <view slot="confirm-text" >完成</view>
+
+		<lb-picker ref="pD_time" mode="dateSelector" :level="3" radius="20rpx" confirm-color="#377BE4"
+			@confirm='pD_time'>
+			<view slot="confirm-text">完成</view>
 		</lb-picker>
-		<lb-picker ref="pDWarehouseChange" :list="list" :props="myProps" radius="20rpx" confirm-color="#377BE4" @confirm='pDWarehouseChange'>
-					 <view slot="confirm-text" >完成</view>
+		<lb-picker ref="pDWarehouseChange" :list="list" :props="myProps" radius="20rpx" confirm-color="#377BE4"
+			@confirm='pDWarehouseChange'>
+			<view slot="confirm-text">完成</view>
 		</lb-picker>
 	</view>
 </template>
@@ -98,106 +107,121 @@
 	} from 'vuex'
 	export default {
 		components: {
-		     LbPicker
-		   },
+			LbPicker
+		},
 		data() {
 			return {
-				list:[],
-				expandItem:[],
-				record:false,
-				index:'',
-				zkicon:['../../static/report/bt_zk.png','../../static/report/report_zk.png'],
-				today:'',
-				block_type:0,
-				type_name:'所有仓',
-				dataList:[],
-				myProps:{
-					label:'type_name',
-					value:'block_type'
+				list: [],
+				expandItem: [],
+				record: false,
+				index: '',
+				zkicon: ['../../static/report/bt_zk.png', '../../static/report/report_zk.png'],
+				today: '',
+				block_type: 0,
+				type_name: '所有仓',
+				dataList: [],
+				myProps: {
+					label: 'type_name',
+					value: 'block_type'
 				}
 			}
 		},
 		methods: {
-			exhibitionHandler(idx,array) {
+			exhibitionHandler(idx, array) {
 				// console.log(array)
 				// if(array.length === 0){
 				// 	return false
 				// }
-				this.expandItem[idx]===true?  this.$set(this.expandItem,idx,false) : this.$set(this.expandItem,idx,true)
+				this.expandItem[idx] === true ? this.$set(this.expandItem, idx, false) : this.$set(this.expandItem, idx,
+					true)
 				console.log(this.expandItem)
-				
+
 			},
-			pD_time(e){
+			pD_time(e) {
 				console.log(e.value)
-				this.today=e.value
+				this.today = e.value
 				this.getProducitionData()
 			},
-			pDWarehouseChange(e){
+			pDWarehouseChange(e) {
 				console.log(e)
-				this.type_name=e.item.type_name
-				this.block_type=e.item.block_type
+				this.type_name = e.item.type_name
+				this.block_type = e.item.block_type
 				console.log(this.block_type)
 				this.getProducitionData()
 			},
-			showPDTimePopup(){
+			showPDTimePopup() {
 				this.$refs.pD_time.show()
 			},
-			showPDWarehousePopup(){
+			showPDWarehousePopup() {
 				this.$refs.pDWarehouseChange.show()
 			},
-			getToday(){
+			getToday() {
 				let Dates = new Date();
-				 let Y = Dates.getFullYear();
-				 let M = Dates.getMonth() + 1;
-				 let D = Dates.getDate();
-				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
-				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
-				this.today=times
-					
+				let Y = Dates.getFullYear();
+				let M = Dates.getMonth() + 1;
+				let D = Dates.getDate();
+				let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
+				// this.drugUseForm.time_m = M < 10?  '0'+ M : M
+				this.today = times
+				this.time = times
+
 			},
-			getProducitionData(){
-				this.$http.post('/CageData/getData.html',{uid:this.userInfo.id,time:this.today,block_type:this.block_type})
-				.then((res)=>{
-					console.log(res)
-					this.dataList=res.data
-					console.log(this.dataList)
-				}).catch((err)=>{
-					console.log(err)
-				})
-			},
-			getTypeBlock(){
-				this.$http.post('/Grain/typeBlock.html',{uid:this.userInfo.id})
-				.then((res)=>{
-					console.log(res)
-					this.list=res.data
-				}).catch((err)=>{
-					console.log(err)
-				})
-			},
-			toRecordPage(i){
-				console.log(i)
-				
-				// return false
-				
-				if(i.type_name === '生产仓'){
-					uni.navigateTo({
-						url:'/sub/production_records/production_records?query=' + JSON.stringify(i)
+			getProducitionData() {
+				this.$http.post('/CageData/getData.html', {
+						uid: this.userInfo.id,
+						time: this.today,
+						block_type: this.block_type
 					})
-				}else{
+					.then((res) => {
+						console.log(res)
+						this.dataList = res.data
+						console.log(this.dataList)
+					}).catch((err) => {
+						console.log(err)
+					})
+			},
+			getTypeBlock() {
+				this.$http.post('/Grain/typeBlock.html', {
+						uid: this.userInfo.id
+					})
+					.then((res) => {
+						console.log(res)
+						this.list = res.data
+					}).catch((err) => {
+						console.log(err)
+					})
+			},
+			toRecordPage(i) {
+				i.changetext= i.text,
+				i.time=this.time,
+				// delete i.text;
+				console.log(i)
+			// return false
+				if (i.type_name === '生产仓') {
 					uni.navigateTo({
-						url:'/sub/production_warehouse_change/production_warehouse_change?query=' + JSON.stringify(i)
+						url: '/sub/production_records/production_records?query=' + JSON.stringify(i)
+					})
+				} else {
+					uni.navigateTo({
+						url: '/sub/production_warehouse_change/production_warehouse_change?query=' + JSON.stringify(i)
 					})
 				}
-				
+
 			},
 			
 			
+			
+
 		},
-		computed:{
+		onBackPress(e) {
+			console.log('返回')
+			this.getProducitionData()
+		},
+		computed: {
 			...mapState({
 				userInfo: (state) => state.user.userInfo
 			}),
-			
+
 		},
 		created() {
 			this.getToday()
@@ -213,6 +237,7 @@
 		min-height: calc(100vh);
 		font-weight: 500;
 		padding-bottom: 108rpx;
+
 		.pd_title {
 			height: 88rpx;
 			display: flex;
@@ -237,11 +262,12 @@
 			.pd_title_right {
 				min-width: 93rpx;
 				display: flex;
+
 				// justify-content: space-between;
 				text {
 					font-size: 24rpx;
 					color: #979797;
-					
+
 				}
 
 				image {
@@ -251,15 +277,18 @@
 				}
 			}
 		}
-		.pd_splitLine{
+
+		.pd_splitLine {
 			background-color: #f4f6fa;
 			height: 20rpx;
 		}
+
 		.pd_item {
 			border-radius: 20rpx;
 			background-color: #fff;
 			overflow: hidden;
 			margin-top: 20rpx;
+
 			.pd_item_title {
 				height: 88rpx;
 				line-height: 88rpx;
@@ -267,10 +296,12 @@
 				border-bottom: 1rpx solid #f4f6fa;
 				display: flex;
 				justify-content: space-between;
-				view{
+
+				view {
 					padding: 0;
 					margin: 0;
 				}
+
 				.pd_item_title_num {
 					width: 140rpx;
 					font-size: 30rpx;
@@ -305,18 +336,21 @@
 				.pd_item_title_zl {
 					font-size: 22rpx;
 				}
-				image{
+
+				image {
 					position: relative;
 					right: 0;
 					top: 50%;
 					transform: translateY(-50%);
 				}
+
 				.yzk {
 					width: 12rpx;
 					height: 22rpx;
 					// margin-left: 64rpx;
 				}
-				.xzk{
+
+				.xzk {
 					width: 22rpx;
 					height: 12rpx;
 					// margin-left: 49rpx;
@@ -370,6 +404,7 @@
 					display: flex;
 					flex-wrap: wrap;
 					padding: 0 36rpx 0 11rpx;
+
 					.pd_pigeon_bt_state {
 						width: 284rpx;
 						font-size: 22rpx;
@@ -377,35 +412,36 @@
 						display: flex;
 						height: 51rpx;
 						line-height: 51rpx;
+
 						.pd_pigeon_bt_state_text {
 							min-width: 47rpx;
-						
+
 						}
-						.longText{
+
+						.longText {
 							width: 121rpx;
 							text-align: right;
 						}
+
 						.pd_pigeon_bt_state_num {
 							font-size: 30rpx;
 							font-weight: 400;
 							color: #343434;
 							margin-left: 15rpx;
-							
+
 						}
 					}
 
-					.pd_r_mr {
-						
-					}
+					.pd_r_mr {}
 
-					.pd_l_mr {
-						
-					}
+					.pd_l_mr {}
 				}
-				.pd_pigeon_bt:nth-child(2){
+
+				.pd_pigeon_bt:nth-child(2) {
 					margin-right: 0;
 				}
-				.pd_pigeon_bt:nth-child(4){
+
+				.pd_pigeon_bt:nth-child(4) {
 					margin-right: 0;
 				}
 
@@ -418,6 +454,7 @@
 				overflow: hidden;
 				display: flex;
 				justify-content: space-between;
+
 				button {
 					float: right;
 					width: 200rpx;
@@ -429,7 +466,8 @@
 					line-height: 70rpx;
 
 				}
-				.change_recordBtn{
+
+				.change_recordBtn {
 					width: 200rpx;
 					height: 70rpx;
 					background: #FFFFFF;
@@ -442,7 +480,8 @@
 					color: #377BE4;
 					// margin-top: 6rpx;
 				}
-				text{
+
+				text {
 					float: right;
 					line-height: 93rpx;
 					font-size: 30rpx;

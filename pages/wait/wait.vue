@@ -314,7 +314,7 @@
 
 		},
 		created() {
-			this.showList()
+			// this.showList()
 			this.getBannerData()
 		}
 	}

@@ -7,7 +7,7 @@ export const getSession = (type) => {
 	uni.getStorage({
 		key: type,
 		success: (res) => {
-			console.log(res);
+			// console.log(res);
 			data =JSON.parse(res.data)
 			
 		}

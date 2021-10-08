@@ -74,7 +74,9 @@
 							title: message ,
 							icon: 'none'
 						})
-						this.$store.dispatch('handleUserInfo',{...data,uphone:this.userInfo.phone,upassword:this.userInfo.password}).then(() => {})
+						uni.setStorageSync('storage_key',data.token)
+						uni.setStorageSync('userInfo', JSON.stringify(data))
+						this.$store.dispatch('handleUserInfo',{...data}).then(() => {})
 						setTimeout(()=>{
 							uni.navigateTo({
 								url: '/pages/index/index'

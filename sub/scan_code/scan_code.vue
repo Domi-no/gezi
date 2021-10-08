@@ -11,7 +11,7 @@
 		<view class="scan_code_wNBox">
 			<view :class="{ scan_code_wNItem:true,currentClass:item.cage_id === cage_id}" v-for="(item,index) in scanCodeData.array" @click="currentBox(index,item)" :key="index">
 				<view class="scan_codeHeader">
-					<image src="../../static/home/scancode.png" mode=""></image><view>{{item.blockName}}</view>
+					<image src="../../static/home/scancode.png" mode=""></image><view>{{item.cage_id}}</view>
 				</view>
 				<view class="scan_codeDetailsBox">
 						<view class="">
@@ -56,6 +56,7 @@
 		},
 		methods: {
 			currentBox(idx,item){
+				console.log(item)
 				this.cage_id=item.cage_id
 				this.queryData=item
 				console.log(this.cage_id)
@@ -77,6 +78,7 @@
 				
 			},
 			getScanCodeData(){
+				console.log(this.id)
 				this.$http.post('/Rank/ScanCode.html',{uid:this.userInfo.id,cages:this.id})
 				.then((res)=>{
 					if(res.code == 200){

@@ -68,44 +68,47 @@ import {
 			},
 			
 			cSubBtn(){
-				let pages = getCurrentPages();
-				let prevPage = pages[ pages.length - 2 ];
-				switch(this.tfDataForm.death){
-					case '种鸽' :
-					prevPage.$vm.breedingPigeonData= this.tfDataForm;
-					break;
-					case '臭蛋' :
-					prevPage.$vm.badEggData= this.tfDataForm;
-					break;
-					case '乳鸽' :
-					prevPage.$vm.squabData= this.tfDataForm;
-					break;
-					case '童鸽' :
-					prevPage.$vm.childPigeonData= this.tfDataForm;
-					break;
-					case '青年鸽' :
-					prevPage.$vm.youngPigeonData= this.tfDataForm;
-					break;
+				if(this.isSub){
+					let pages = getCurrentPages();
+					let prevPage = pages[ pages.length - 2 ];
+					switch(this.tfDataForm.death){
+						case '种鸽' :
+						prevPage.$vm.breedingPigeonData= this.tfDataForm;
+						break;
+						case '臭蛋' :
+						prevPage.$vm.badEggData= this.tfDataForm;
+						break;
+						case '乳鸽' :
+						prevPage.$vm.squabData= this.tfDataForm;
+						break;
+						case '童鸽' :
+						prevPage.$vm.childPigeonData= this.tfDataForm;
+						break;
+						case '青年鸽' :
+						prevPage.$vm.youngPigeonData= this.tfDataForm;
+						break;
+					}
+					console.log(this.tfDataForm)
+					this.$http.post('/Sale/defusing.html', {uid: this.userInfo.id,...this.tfDataForm})
+					.then((res) => {
+							console.log(res)
+							if(res.code == 200){
+								// uni.showToast({
+								// 	title:'提交成功',
+								// 	icon: 'none'
+								// })
+								uni.navigateBack({
+								    delta: 1
+								});
+							}
+							
+						}).catch((err) => {
+							
+					})
+					
+								
 				}
-				console.log(this.tfDataForm)
-				this.$http.post('/Sale/defusing.html', {uid: this.userInfo.id,...this.tfDataForm})
-				.then((res) => {
-						console.log(res)
-						if(res.code == 200){
-							// uni.showToast({
-							// 	title:'提交成功',
-							// 	icon: 'none'
-							// })
-							uni.navigateBack({
-							    delta: 1
-							});
-						}
-						
-					}).catch((err) => {
-						
-				})
 				
-			
 			}
 		},
 		computed:{
