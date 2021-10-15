@@ -5,13 +5,13 @@
 				<text>当前仓号</text><text>{{scanCodeData.type_name}}</text>
 			</view>
 			<view class="">
-				<text>日期</text><text>2020-12-12</text>
+				<text>日期</text><text>{{today}}</text>
 			</view>
 		</view>
 		<view class="scan_code_wNBox">
 			<view :class="{ scan_code_wNItem:true,currentClass:item.cage_id === cage_id}" v-for="(item,index) in scanCodeData.array" @click="currentBox(index,item)" :key="index">
 				<view class="scan_codeHeader">
-					<image src="../../static/home/scancode.png" mode=""></image><view>{{item.cage_id}}</view>
+					<image src="../../static/home/scancode.png" mode=""></image><view>{{item.cageName}}</view>
 				</view>
 				<view class="scan_codeDetailsBox">
 						<view class="">
@@ -56,11 +56,13 @@
 		},
 		methods: {
 			currentBox(idx,item){
+				this.isSub=true
 				console.log(item)
 				this.cage_id=item.cage_id
 				this.queryData=item
+				this.queryData.time=this.today
 				console.log(this.cage_id)
-				this.isSub=true
+				
 			},
 			toRecordPage(){
 				console.log(this.cage_id)

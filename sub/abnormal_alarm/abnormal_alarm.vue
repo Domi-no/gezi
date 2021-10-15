@@ -11,7 +11,7 @@
 				<view class="alert_content" v-for="(i,idx) in item.data" :key="idx">
 					<view class="a_containe_detail" v-for="(ite,inde) in i.chData" :key="inde">
 						<view class="a_containe_detail_bc" v-if="ite.glData['种鸽需补足']">
-							<text>种鸽需补充</text><text>{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
+							<text>种鸽需补充</text><text>仓号{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
 						</view>
 						<view class="a_containe_detail_bc" v-if="ite.glData['无产能异常']" >
 							<text>无产能异常</text><text>{{ite.glData['无产能异常'].block_name}}</text><text>鸽笼编号：{{ite.glData['无产能异常'].name}}</text><text></text>
@@ -20,10 +20,10 @@
 							<text>死精蛋异常</text><text>{{ite.glData['死精蛋异常'].block_name}}</text><text>鸽笼编号：{{ite.glData['死精蛋异常'].name}}</text><text></text>
 						</view>
 						<view class="a_containe_detail_bc" v-if="ite.glData['病残率异常']" >
-							<text>病残率异常</text><text>{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
+							<text>病残率异常</text><text>仓号{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
 						</view>
 						<view class="a_containe_detail_bc" v-if="ite.glData['死淘率异常']" >
-							<text>死淘率异常</text><text>{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
+							<text>死淘率异常</text><text>仓号{{i.chName}}</text><text>鸽笼编号：{{ite.glName}}</text><text></text>
 						</view>
 						<view class="a_containe_detail_st">
 							<view  class="a_containe_detail_st_gz" v-if="ite.glData['死淘率异常']" >
@@ -91,7 +91,7 @@
 					});
 					
 				
-					
+					console.log(this.alarmList)
 				}).catch((err) => {
 						
 				})

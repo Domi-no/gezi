@@ -4,13 +4,13 @@
 			<view class="info_box">
 				<view class="info_left">
 					<view class="info_imageBox">
-						<image :src="userInfo.avatar" mode=""></image>
+						<image :src="user.avatar" mode=""></image>
 					</view>
 					<view class="info_nameBox" @click="log">
 						<view class="name">
-							{{userInfo.nick_name}}
+							{{user.user_name}}
 						</view>
-						<view>饲养员</view>
+						<view style="font-size: 26rpx;">{{user.name}}</view>
 					</view>
 				</view>
 				<view class="info_work">
@@ -84,6 +84,9 @@
 			},
 			type:{
 				type:String
+			},
+			user:{
+				type:Object
 			}
 		},
 		data() {
@@ -121,7 +124,7 @@
 			})
 		},
 		created() {
-			
+			console.log(this.user)
 		},
 		
 		
@@ -143,9 +146,9 @@
 			display: flex;
 			justify-content: space-between;
 			.info_left{
-				width: 370rpx;
+				min-width: 370rpx;
 				display: flex;
-				justify-content: space-between;
+				// justify-content: space-between;
 				
 				.info_imageBox{
 					width: 128rpx;
@@ -159,11 +162,12 @@
 					}
 				}
 				.info_nameBox{
-					width: 210rpx;
+					min-width: 210rpx;
 					padding-top: 15rpx;
 					color: #fff;
+					margin-left: 20rpx;
 					.name{
-						font-size: 42rpx;
+						font-size: 32rpx;
 						font-weight: bold;
 						
 					}
@@ -176,7 +180,7 @@
 				}
 			}
 			.info_work{
-				width: 186rpx;
+				min-width: 186rpx;
 				height: 70rpx;
 				background: rgba(0,0,0,0.1);
 				// opacity: 0.1;

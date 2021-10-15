@@ -87,7 +87,7 @@
 			</view>
 		</view>
 		<view :class="{wifiClock:true,clockColor:!clockInfo.Punch.entry}">
-			<image v-if="clockInfo.Punch.entry"  src="../../static/daiban/zdwz.png" mode=""></image><image v-else src="../../static/daiban/wdk.png" style="width:24rpx;height:24rpx;" mode=""></image>{{clockInfo.Punch.entry?'已进入':'未进入'}}打卡范围：{{clockInfo.userInfo.firm_name}}WIFI
+			<image v-if="clockInfo.Punch.entry"  src="../../static/daiban/zdwz.png" mode=""></image><image v-else src="../../static/daiban/wdk.png" style="width:24rpx;height:24rpx;" mode=""></image>{{clockInfo.Punch.entry?'已进入':'未进入'}}打卡范围：{{clockInfo.userInfo.firm_name}}
 		</view>
 	</view>
 </template>

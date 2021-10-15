@@ -812,7 +812,7 @@
 font-weight: bold;
 color: #151515;padding:0rpx 0 50rpx 0"
 >
-				确定提交日记录？
+				数据有变更，确认提交吗？
 			</view>
 		</neil-modal>
 		<neil-modal
@@ -841,11 +841,11 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			<view class="" style="padding-bottom: 50rpx;"  >
 				<view class="" v-if="subAlarmData[0]">
 					<view class="warningBox" style="" v-if="subAlarmData[0].data[0].chData[0].glData['种鸽需补足']">
-						<text style="width:148rpx;color: #E64329;">种鸽需补足</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="" >编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+						<text style="width:148rpx;color: #E64329;">种鸽需补足</text><text style="min-width: 123rpx;">仓号{{subAlarmData[0].data[0].chName}}</text><text style="" >编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 					</view>
 					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['死淘率异常']">
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
-							<text style="width: 148rpx;color: #E64329;">死淘率异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+							<text style="width: 148rpx;color: #E64329;">死淘率异常</text><text style="min-width: 123rpx;">仓号{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
 						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['死淘率异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['死淘率异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['死淘率异常'].death}}只</text>
@@ -854,7 +854,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					
 					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['无产能异常']">死
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
-							<text style="width: 148rpx;color: #E64329;">无产能异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+							<text style="width: 148rpx;color: #E64329;">无产能异常</text><text style="min-width: 123rpx;">仓号{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
 						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['无产能异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['无产能异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['无产能异常'].death}}只</text>
@@ -862,7 +862,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					</view>
 					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['病残率异常']">
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
-							<text style="width: 148rpx;color: #E64329;">病残率异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+							<text style="width: 148rpx;color: #E64329;">病残率异常</text><text style="min-width: 123rpx;">仓号{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
 						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['病残率异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['病残率异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['病残率异常'].death}}只</text>
@@ -870,7 +870,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 					</view>
 					<view class="" v-if="subAlarmData[0].data[0].chData[0].glData['无精蛋异常']">
 						<view class="warningBox" style="flex;margin-top: 10rpx;">
-							<text style="width: 148rpx;color: #E64329;">无精蛋异常</text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
+							<text style="width: 148rpx;color: #E64329;">无精蛋异常</text><text style="min-width: 123rpx;">仓号{{subAlarmData[0].data[0].chName}}</text><text style="">编号：{{subAlarmData[0].data[0].chData[0].glName}}</text>
 						</view>
 						<view class="warningBox" style="margin-top: 5rpx;"  >
 							<text style="width:148rpx;"></text><text style="min-width: 123rpx;">{{subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].alias}}</text><text style="">{{'死淘率'+subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].ratio}}</text><text style="margin-left: 20rpx;">{{subAlarmData[0].data[0].chData[0].glData['无精蛋异常'].death}}只</text>
@@ -883,7 +883,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 		<lb-picker ref="pRWarehouse"   :list="nurtureData"  :props="myProps" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
-		<lb-picker ref="gelongbianhao" :list="otherGelongList" radius="20rpx" :props="myProps" confirm-color="#377BE4" @confirm='gelongChange'>
+		<lb-picker ref="gelongbianhao" :list="otherGelongList" radius="20rpx" :loading="true" :props="myProps" confirm-color="#377BE4" @confirm='gelongChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
 	</view>
@@ -980,7 +980,8 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				this.pCShow=false
 			},
 			saveBtn(e){
-				console.log(this.dataForm.cage_id)
+				console.log(this.dataForm)
+				// return false
 				if(!this.dataForm.cage_id && this.queryData.name == "飞棚仓"){
 					uni.showToast({
 						title: '请选择仓号',
@@ -1010,7 +1011,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 										
 								Object.keys(res.data.data[value][val]).forEach((valu, inde)=>{
 									this.subAlarmData[index].data[ind].chData.push({glName:valu,glData:res.data.data[value][val][valu]})
-									
+									console.log(res.data.data[value][val][valu])
 								});
 							});
 						});
@@ -1298,6 +1299,7 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			},
 			// 获取记录详情数据
 			getUpRecord(){
+				console.log(this.changeTime)
 				this.$http.post('/CageData/UpRecord.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type,time:this.changeTime})
 				.then((res)=>{
 					console.log(res)
@@ -1317,6 +1319,23 @@ color: #151515;padding:0rpx 0 50rpx 0"
 				}).catch((err)=>{
 					// console.log(err)
 				})
+			},
+			//判断录入还是修改数据接口
+			getUpOrAdd(){
+				this.$http.post('/CageData/UpOrAdd.html',{uid:this.userInfo.id,cage_id:this.dataForm.cage_id,dove_type:this.dataForm.dove_type,typeUpOrAdd:this.dataForm.typeUpOrAdd})
+				.then((res)=>{
+					console.log(res)
+					if(res.code == 200){
+						this.dataForm.typeUpOrAdd = 0
+						this.submitText='保存'
+					}else{
+						this.dataForm.typeUpOrAdd = 1
+						this.submitText='修改'
+						this.getUpRecord()
+					}
+				}).catch((err)=>{
+					// console.log(err)
+				})
 			}
 			
 		},
@@ -1332,18 +1351,15 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			// console.log(this.changeNumber,'changenumber')
 			this.getToday()
 			if(this.queryData.name==='飞棚仓'){
-				
 				this.getFeipengData()
-				
 			}else if(this.queryData.name ==='育雏仓'){
 					this.getNurtureData()
-					
 			}
 		},
 		
 		created() {
 			// this.getFrequencyData()
-			
+			this.getUpOrAdd()
 		},
 		onLoad({query}) {
 			
@@ -1398,14 +1414,15 @@ color: #151515;padding:0rpx 0 50rpx 0"
 			// console.log(JSON.parse(query))
 			if(JSON.parse(query).changetext == '修改记录'){
 				// console.log(JSON.parse(query))
-				this.changeTime=JSON.parse(query).time
-				this.submitText='修改'
-				this.dataForm.typeUpOrAdd=1
-				if(JSON.parse(query).type_name !== '育雏仓'){
-					this.getUpRecord()
-				}
+				
+				// this.submitText='修改'
+				// this.dataForm.typeUpOrAdd=1
+				// if(JSON.parse(query).type_name !== '育雏仓'){
+				// 	this.getUpRecord()
+				// }
 				
 			}
+			this.changeTime=JSON.parse(query).time
 		}
 	}
 </script>

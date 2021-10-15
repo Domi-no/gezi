@@ -40,10 +40,12 @@ methods.forEach(method => {
 				});
 
 			// 开始发送请求
-			// http://192.168.0.100
-			// http://jx.onlylove.top
+			// 线上地址
+			// http://47.95.0.20:666/
+			// 测试服地址
+			// https://jx.onlylove.top/
 			uni.request({
-					url: 'http://47.95.0.20:666/' + url,
+					url: 'https://jx.onlylove.top/' + url,
 					header: headers,
 					data: {
 						uid:userInfo.id||store.state.user.userInfo.id||'',

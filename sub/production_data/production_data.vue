@@ -15,7 +15,7 @@
 			<view class="">
 				<view class="pd_item_title" @click="exhibitionHandler(idx,item.array)">
 					<view class="" style="display: flex">
-						<text class="pd_item_title_num">{{item.name}}</text>
+						<text class="pd_item_title_num">仓号{{item.name}}</text>
 						<view class="" style="width: 185rpx;display: flex;overflow: hidden;">
 							<view class="pd_item_title_syy">饲养员:</view>
 							<view class="pd_item_title_syy_mz">{{item.user_name}}</view>
@@ -223,10 +223,13 @@
 			}),
 
 		},
-		created() {
+		onShow() {
 			this.getToday()
 			this.getProducitionData()
 			this.getTypeBlock()
+		},
+		created() {
+			
 		}
 	}
 </script>
@@ -312,11 +315,18 @@
 					font-size: 22rpx;
 					// font-weight: 400;
 					color: #979797;
+					min-width: 82rpx;
 				}
 
 				.pd_item_title_syy_mz {
-					overflow: hidden;
+					
 					font-size: 22rpx;
+					display: -webkit-box;
+					overflow: hidden;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;  
 				}
 
 				.pd_item_title_hg {

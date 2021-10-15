@@ -93,10 +93,10 @@
 				</view>
 			</view>
 		</view>
-		<lb-picker ref="pRWarehouseChange"   :list="list"  :props="myProps" radius="20rpx" confirm-color="#377BE4" @confirm='pRWarehouseChange'>
+		<lb-picker ref="pRWarehouseChange"   :list="list"  :props="myProps" radius="20rpx" confirm-color="#377BE4"  @confirm='pRWarehouseChange'>
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
-		<lb-picker ref="gelong" :list="gelongList" radius="20rpx" :props="myProps" confirm-color="#377BE4" @confirm='gelongChange'>
+		<lb-picker ref="gelong" :list="gelongList" radius="20rpx" :props="myProps" confirm-color="#377BE4" @confirm='gelongChange' @show="gelongPopupShow">
 					 <view slot="confirm-text" >完成</view>
 		</lb-picker>
 		<!-- pickerView -->
@@ -154,6 +154,13 @@
 			};
 		},
 		methods: {
+			gelongPopupShow(){
+				console.log('弹框显示',new Date().getTime())
+				
+				setTimeout(()=>{
+					uni.hideLoading();
+				},400)
+			},
 			// dialog
 			closeM() {
 				this.show = false
@@ -171,10 +178,18 @@
 				
 			},
 			gelongShow(){
+				// console.log(this.gelongList)
 				if(this.queryData.cage_id){
 					return false
 				}
+				uni.showLoading({
+					title:"请稍后..",
+					mask: true
+				});
+				console.log('选择鸽笼',new Date().getTime())
+				
 				this.$refs.gelong.show()
+				
 			},
 			pigeonCageClose(){
 				this.pCShow=false
@@ -239,7 +254,7 @@
 						
 					});
 					
-					console.log(this.list)
+					// console.log(this.list)
 					
 					if(this.pQueryData.id){
 						console.log(this.pQueryData)
@@ -259,11 +274,11 @@
 				const {cage_id,userInfo:{id:uid}} = this
 				this.$http.post('/CageData/record.html',{uid,cage_id})
 				.then((res)=>{
-					console.log(res)
+					// console.log(res)
 					
 					this.recordsData=res.data
 					this.isShow=true
-					console.log(this.recordsData)
+					// console.log(this.recordsData)
 				}).catch((err)=>{
 					// console.log(err)
 				})
@@ -389,7 +404,7 @@
 						display: flex;
 						flex-direction: column;
 						justify-content: space-between;
-						width: 234rpx;
+						min-width: 234rpx;
 						text:nth-child(1) {
 							font-size: 36rpx;
 							color: #151515;

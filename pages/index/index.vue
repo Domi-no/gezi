@@ -22,7 +22,7 @@
 			<home v-if="id=== 0"></home>
 			<cage v-else-if="id === 1" :calendarList="calendarList"></cage>
 			<wait v-else-if="id === 3"></wait>
-			<my v-else-if="id === 4" :unread="unread" :type="type"></my>
+			<my v-else-if="id === 4" :unread="unread" :type="type" :user="user"></my>
 		</scroll-view>
 		<view class="tabBar">
 			<view class="" v-for="(item,idx) in tabIcon" @click="change(idx)" :key="idx">
@@ -77,6 +77,7 @@
 				calendarList:[],
 				time:'',
 				type:'',
+				user:{},
 			}
 		},
 		onLoad() {
@@ -172,6 +173,27 @@
 				
 				
 			},
+			getuserInfo(){
+				this.$http.post('/Punch/userInfo.html',{uid:this.userInfo.id})
+				.then((res)=>{
+					if(res.code == 200){
+						
+						
+						this.user=res.data
+						
+					}else{
+						uni.showToast({
+							title: res.message,
+							icon: 'none'
+						})
+					}
+					
+					
+					
+				}).catch((err)=>{
+					console.log(err)
+				})
+			}
 		},
 		computed:{
 			...mapState({
@@ -191,12 +213,14 @@
 			this.getUnreadData()
 			this.getCalendarData()
 			this.getClockTypeData()
+			this.getuserInfo()
 		},
 		onShow() {
 			
 			if(this.id === 4){
 				this.getUnreadData()
 				this.getClockTypeData()
+				this.getuserInfo()
 			}
 			if(this.id === 1){
 				this.getCalendarData()

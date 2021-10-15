@@ -40,7 +40,7 @@
 							<view class="_pigeon_type_top_left_zg">{{i.alias}}</view>
 							<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
 						</view>
-						<view class="_pigeon_type_top_right">
+						<view class="_pigeon_type_top_right" v-show="today===time">
 							<text class="_pigeon_type_top_right_save">存栏</text>
 							<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
 						</view>
@@ -76,7 +76,7 @@
 							<view class="_pigeon_type_top_left_zg">鸽蛋</view>
 							<view class="_pigeon_type_top_left_mortality">破损率：{{i.pct}}</view>
 						</view>
-						<view class="_pigeon_type_top_right">
+						<view class="_pigeon_type_top_right" v-show="today===time">
 							<text class="_pigeon_type_top_right_save">存栏</text>
 							<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
 						</view>
@@ -112,7 +112,7 @@
 							<view class="_pigeon_type_top_left_zg">乳鸽</view>
 							<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
 						</view>
-						<view class="_pigeon_type_top_right">
+						<view class="_pigeon_type_top_right" v-show="today===time">
 							<text class="_pigeon_type_top_right_save">存栏</text>
 							<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
 						</view>
@@ -148,7 +148,7 @@
 							<view class="_pigeon_type_top_left_zg">童鸽</view>
 							<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
 						</view>
-						<view class="_pigeon_type_top_right">
+						<view class="_pigeon_type_top_right" v-show="today===time">
 							<text class="_pigeon_type_top_right_save">存栏</text>
 							<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
 						</view>
@@ -181,7 +181,7 @@
 							<view class="_pigeon_type_top_left_mortality">死亡率：{{i.pct}}</view>
 						</view>
 						<view class="_pigeon_type_top_right">
-							<text class="_pigeon_type_top_right_save">存栏</text>
+							<text class="_pigeon_type_top_right_save" v-show="today===time">存栏</text>
 							<text class="_pigeon_type_top_right_num">{{i.survival}}</text>
 						</view>
 					</view>
@@ -278,6 +278,7 @@
 					}
 				],
 				time:'',
+				today:'',
 				// calendarList:[]
 			}
 		},
@@ -310,6 +311,7 @@
 				 let times = Y + (M < 10 ? "-0" : "-") + M + (D < 10 ? "-0" : "-") + D;
 				 // this.drugUseForm.time_m = M < 10?  '0'+ M : M
 				 this.time=times
+				 this.today=times
 				
 				
 			},
