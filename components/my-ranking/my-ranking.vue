@@ -77,7 +77,7 @@
 			border-bottom: 2rpx solid #e4e5e9;
 
 			.w_number {
-				width:182rpx ;
+				min-width:182rpx ;
 				font-size: 28rpx;
 				display: flex;
 				// justify-content: space-between;

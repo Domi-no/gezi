@@ -309,6 +309,12 @@
 					width: 140rpx;
 					font-size: 30rpx;
 					color: #151515;
+					display: -webkit-box;
+					overflow: hidden;
+					word-break: break-all;
+					text-overflow: ellipsis;
+					-webkit-box-orient: vertical;
+					-webkit-line-clamp: 1;
 				}
 
 				.pd_item_title_syy {

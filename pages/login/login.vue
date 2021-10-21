@@ -40,9 +40,28 @@
 					// #ifdef  MP-WEIXIN
 					type:300,
 					// #endif
-				}
+					
+				},
+				backButtonPress:0
 			}
 		},
+		
+		onBackPress(options) {  
+						this.backButtonPress++;
+						console.log(this.backButtonPress)
+						if (this.backButtonPress > 1) { 
+							
+							plus.runtime.quit();
+						} else {
+							
+							plus.nativeUI.toast('再按一次退出应用');
+							// plus.runtime.quit();
+						} 
+						setTimeout(function() {
+							this.backButtonPress = 0;
+						}, 1000);
+						return true;
+		}, 
 		methods: {
 			forgetPassword(){
 				if(this.cForget=true){

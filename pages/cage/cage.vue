@@ -337,6 +337,7 @@
 			this.getToday()
 			// this.getCageData()
 			// this.getCalendarData()
+			console.log(this.calendarList)
 		},
 		onShow() {
 			console.log('onshow')

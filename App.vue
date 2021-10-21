@@ -18,8 +18,18 @@
 			if(this.userInfo){
 				this.$store.dispatch('handleUserInfo', JSON.parse(this.userInfo)).then(() => {})
 			}
+			// #ifdef  APP-PLUS
+			plus.runtime.getProperty(plus.runtime.appid,(wgtinfo)=>{
+			     console.log(JSON.stringify(wgtinfo));
+			     console.log("b版本好好",wgtinfo.version);//应用版本号
+				// this.versionNumber=wgtinfo.version
+				uni.setStorageSync("versionNumber", wgtinfo.version);
+			})
 			
+			// #endif
+			console.log(uni.getStorageSync('storage_key'))
 			if(this.token){
+			
 				uni.reLaunch({
 					url: '/pages/index/index',
 					success: () => {
@@ -29,6 +39,7 @@
 					}
 				});
 			}else{
+				
 				uni.reLaunch({
 					url: "/pages/login/login",
 					success: () => {

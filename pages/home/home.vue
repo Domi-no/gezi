@@ -201,8 +201,6 @@
 		created() {
 			this.next()
 			this.getHomeSale()
-			
-			
 		}
 	}
 </script>

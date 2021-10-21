@@ -180,6 +180,7 @@
 						
 						
 						this.user=res.data
+						console.log(user)
 						
 					}else{
 						uni.showToast({
@@ -225,6 +226,9 @@
 			if(this.id === 1){
 				this.getCalendarData()
 			}
+		},
+		created() {
+			// this.id=0
 		}
 		
 	}

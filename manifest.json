@@ -2,8 +2,8 @@
     "name" : "智慧养鸽",
     "appid" : "__UNI__B512BA6",
     "description" : "",
-    "versionName" : "1.0.0",
-    "versionCode" : "100",
+    "versionName" : "1.0.3",
+    "versionCode" : 103,
     "transformPx" : false,
     "app-plus" : {
         "compatible" : {

@@ -20,15 +20,7 @@
 				}
 			}
 		},
-		{
-			"path": "pages/home/home",
-			"style": {
-				"navigationBarTitleText": "",
-				"enablePullDownRefresh": false
 		
-			}
-		
-		},
 		{
 			"path": "pages/login/login",
 			"style": {
@@ -37,6 +29,15 @@
 				"app-plus": {
 					"titleNView": false
 				}
+			}
+		
+		},
+		{
+			"path": "pages/home/home",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
+		
 			}
 		
 		},{
